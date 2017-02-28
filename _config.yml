@@ -4,7 +4,7 @@ SEOTitle: BIG SING' Blog
 header-img: img/post-bg-rwd.jpg
 email: @bigsinger
 description: "你不必等到非常厉害，才敢开始；你需要开始，才会变得非常厉害！"
-keyword: "BY, BY Blog, 柏荧的博客, bigsinger, 邱柏荧, iOS, Apple, iPhone"
+keyword: "大星星的博客, bigsinger, Android"
 url: "https://pythonstar.github.io/"          # your host, for absolute URL
 baseurl: ""      # for example, '/blog' if your blog hosted on 'host/blog'
 
@@ -18,10 +18,9 @@ sidebar-avatar: img/avatar-by.jpg      # use absolute URL, seeing it's used in b
 
 # SNS settings
 RSS: false
-# weibo_username:     bigsinger
+weibo_username:     BIGSINGER
 zhihu_username:     bigsinger
 github_username:    bigsinger
-facebook_username:  baiying.qiu.7
 jianshu_username:   e71990ada2fd
 #twitter_username:   bigsinger
 
