@@ -12,12 +12,9 @@ baseurl: ""                             # for example, '/blog' if your blog host
 
 # SNS settings
 RSS: false
-weibo_username:     bigsinger
+weibo_username:     6060639246
 zhihu_username:     bigsinger
 github_username:    bigsinger
-#twitter_username:  bigsinger
-facebook_username:  bigsinger
-# linkedin_username:  firstname-lastname-idxxxx
 
 
 
@@ -71,7 +68,7 @@ ga_domain: bigsinger.github.io
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
 sidebar-about-description: "你不必等到非常厉害，才敢开始；你需要开始，才会变得非常厉害！"
-sidebar-avatar: /img/avatar-hux.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
+sidebar-avatar: /img/avatar-by.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
 
