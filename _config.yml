@@ -59,8 +59,8 @@ duoshuo_share: true                     # set to false if you want to use Commen
 
 
 # Analytics settings
-Baidu Analytics 
-ba_track_id: '24c3ff4d689065ec20ac12a29940a732'
+# Baidu Analytics 
+ba_track_id: 24c3ff4d689065ec20ac12a29940a732
 
 # Google Analytics
 ga_track_id: 'UA-xxx-1'            # Format: UA-xxxxxx-xx
