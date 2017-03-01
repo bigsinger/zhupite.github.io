@@ -1,11 +1,12 @@
 ---
 layout:     post
 title:      使用AndroidStudio编译NDK的方法及错误解决方案
+subtitle:   
 date:     2017-03-01
 author:   BIGSINGER
 catalog: true
 tags: 
-    - Android
+- Android
 ---
 
 
