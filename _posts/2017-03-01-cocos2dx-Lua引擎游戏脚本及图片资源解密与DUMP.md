@@ -1,4 +1,4 @@
-﻿---
+---
 layout:     post
 title:      cocos2dx-Lua引擎游戏脚本及图片资源解密与DUMP
 date:       2017-03-01
