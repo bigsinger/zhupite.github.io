@@ -2,7 +2,7 @@
 layout:     post
 title:      Python编码unicode Gbk Utf8字符集转换的正确姿势
 date:     2017-02-27
-author:   BIGSING
+author:   BIGSINGER
 catalog: true
 tags: 
     - Python
