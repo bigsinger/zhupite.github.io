@@ -1,11 +1,11 @@
-﻿---
+---
 layout:     post
 title:      基于Xposed和Substrate的通用性SO注入
 date:       2017-03-01
 author:     BIGSINGER
 catalog: true
 tags:
-	- Android
+- Android
 ---
 
 
