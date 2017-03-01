@@ -1,11 +1,11 @@
-﻿---
+---
 layout:     post
 title:      如何快速定位Android APP中的关键函数？
 date:       2017-02-28
 author:     BIGSINGER
 catalog: true
 tags:
-	- Android
+- Android
 ---
 
 
