@@ -1,4 +1,4 @@
-﻿---
+---
 layout:     post
 title:      使用AndroidStudio编译NDK的方法及错误解决方案
 date:     2017-03-01
