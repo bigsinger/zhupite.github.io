@@ -1,4 +1,4 @@
-# Site settings
+﻿# Site settings
 title: BIGSINGER Blog
 SEOTitle: 大星哥的博客 | BIGSINGER Blog
 header-img: img/home-bg.jpg
@@ -99,7 +99,7 @@ friends: [
         title: "大星星的博客园",
         href: "http://www.cnblogs.com/daxingxing/"
     },{
-        title: "BIGSINGER的自留地",
-        href: "https://bigsinger.github.io/"
+        title: "BIGSINGER的GITHUB",
+        href: "https://github.com/bigsinger"
     }
 ]
