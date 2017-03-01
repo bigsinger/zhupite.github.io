@@ -9,13 +9,11 @@ url: "https://bigsinger.github.io"              # your host, for absolute URL
 baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
 
 
-
 # SNS settings
 RSS: false
-weibo_username:     6060639246
-zhihu_username:     bigsinger
-github_username:    bigsinger
-
+zhihu_username: bigsinger
+github_username: bigsinger
+weibo_username: 6060639246
 
 
 # Build settings
