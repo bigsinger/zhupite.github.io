@@ -1,4 +1,4 @@
-﻿---
+---
 layout:     post
 title:      Python库beautifulsoup的安装与使用
 date:     2017-03-01
