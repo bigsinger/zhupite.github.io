@@ -1,7 +1,9 @@
 ---
 layout:     post
 title:      基于Xposed和Substrate的通用性SO注入
-category: Android
+category: 	android
+tags:		[android]
+date:		2017-03-01
 description: 
 ---
 

@@ -1,7 +1,9 @@
 ---
 layout:     post
 title:      unity3d引擎的游戏的脚本DUMP及HOOK方案优化
-category: Android
+category: android
+tags:		[android]
+date:		2017-03-01
 description: 
 ---
 
