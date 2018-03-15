@@ -17,6 +17,7 @@ all_categories: [
 ["iot", "物联网","/posts/iot.html"],
 ["read", "读书笔记","/posts/read.html"], 
 ["other", "杂记","/posts/other.html"],
+["duilib", "DUILIB","/posts/duilib.html"],
 ["about", "关于","/about.html"]
 ]
 
