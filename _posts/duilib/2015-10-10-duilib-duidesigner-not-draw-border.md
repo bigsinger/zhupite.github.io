@@ -6,7 +6,8 @@ tags:		[duilib,ui,duidesigner]
 date:		2015-10-10
 ---
 
-默认效果如左图，想修改为右图：
+默认效果如上图，想修改为下图：
+
 ![img](http://img.blog.csdn.net/20151010164141042)
 
 ![img](http://img.blog.csdn.net/20151010164150649)
