@@ -1,7 +1,7 @@
 ---
 layout:     post
-category: 	"duilib"
-title:      DuiDesigner控件Label无法设置文本对齐属性的BUG解决方案
+category:	"duilib"
+title:      "DuiDesigner控件Label无法设置文本对齐属性的BUG解决方案"
 tags:		[duilib,ui,duidesigner]
 date:		2015-10-10
 ---
