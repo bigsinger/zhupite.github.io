@@ -1,7 +1,9 @@
 ---
 layout:     post
 title:      使用selenium库制作自动提交表单的脚本
-category: Python
+category: 	python
+tags:		[python,selenium]
+date:		2017-03-01
 description: 
 ---
 
