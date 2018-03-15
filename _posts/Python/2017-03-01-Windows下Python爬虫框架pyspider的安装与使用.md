@@ -1,8 +1,7 @@
 ---
 layout:     post
 title:      Windows下Python爬虫框架pyspider的安装与使用
-category: Python
-description: 
+category: python
 ---
 
 ## 1、安装

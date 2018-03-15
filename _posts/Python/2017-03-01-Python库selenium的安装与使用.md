@@ -1,8 +1,7 @@
 ---
 layout:     post
 title:      Python库selenium的安装与使用
-category: Python
-description: 
+category: python
 ---
 
 下载：[selenium 3\.0\.2 : Python Package Index](https://pypi.python.org/pypi/selenium#downloads)

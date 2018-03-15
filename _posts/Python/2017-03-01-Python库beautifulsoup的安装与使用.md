@@ -1,8 +1,7 @@
 ---
 layout:     post
 title:      Python库beautifulsoup的安装与使用
-category: Python
-description: 
+category: python
 ---
 
 在[Python Extension Packages for Windows](http://www.lfd.uci.edu/~gohlke/pythonlibs/)

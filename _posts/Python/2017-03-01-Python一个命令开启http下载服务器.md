@@ -1,8 +1,7 @@
 ---
 layout:     post
 title:      Python一个命令开启http下载服务器
-category: Python
-description: 
+category: python
 ---
 
 - 下载并安装Python

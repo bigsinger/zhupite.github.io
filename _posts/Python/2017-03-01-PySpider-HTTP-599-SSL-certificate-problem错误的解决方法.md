@@ -1,8 +1,7 @@
 ---
 layout:     post
 title:      PySpider HTTP 599 SSL certificate problem错误的解决方法
-category: Python
-description: 
+category: python
 ---
 
 错误信息：
