@@ -1,9 +1,8 @@
 ---
 layout: 	post
 category:	"duilib"
-title:		
+title:		DUILIB的消息处理HandleMessage
 tags:		[duilib,ui]
-date:	2015-10-20	
 ---
 
 duilib还提供了另外一种响应的方法，即消息映射**DUI_BEGIN_MESSAGE_MAP**，可以将**DUI_MSGTYPE_CLICK**消息映射到指定的函数（比如OnClick），这和在Notify判断msg.sType是一样的效果，具体请参见duilib的RichListDemo。

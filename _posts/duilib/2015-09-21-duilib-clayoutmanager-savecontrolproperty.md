@@ -3,7 +3,6 @@ layout: 	post
 category:	"duilib"
 title:		关于duilib的CLayoutManager::SaveControlProperty代码
 tags:		[duilib,ui]
-date:		
 ---
 
 ```C
