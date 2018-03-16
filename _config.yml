@@ -18,6 +18,7 @@ all_categories: [
 ["read", "读书笔记","/posts/read.html"], 
 ["other", "杂记","/posts/other.html"],
 ["duilib", "DUILIB","/posts/duilib.html"],
+["lua", "Lua","/posts/lua.html"],
 ["about", "关于","/about.html"]
 ]
 
