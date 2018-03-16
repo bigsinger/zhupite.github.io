@@ -3,7 +3,6 @@ layout: 	post
 category:	"duilib"
 title:		duilib保存属性的代码CLayoutManager::SaveProperties
 tags:		[duilib,ui]
-date:		2015-09-28
 ---
 
 ```
