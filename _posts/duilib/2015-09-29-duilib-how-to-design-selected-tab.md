@@ -3,7 +3,7 @@ layout:     post
 category: 	"duilib"
 title:      "DUILIB界面设计技巧：如何设计可切换的TAB页面"
 tags:		[duilib,ui]
-date:		2015-10-10
+date:		2015-09-29
 ---
 
 如图所示的窗口TAB页面如何设计呢？

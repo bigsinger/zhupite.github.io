@@ -35,6 +35,8 @@ m_uTextStyle(DT_VCENTER | DT_CENTER | DT_SINGLELINE), m_dwTextColor(0), m_iFont(
 但是后面的改造有点复杂。。。。
 后来看到树控件是支持checkbox的：
 
+![img](http://img.my.csdn.net/uploads/201803/16/1521168496_7879.png)
+
 在xml里找到关于checkbox的属性：checkboxattr，搜索源代码：
 ```
 voidCTreeNodeUI::SetAttribute( LPCTSTR pstrName, LPCTSTR pstrValue )
@@ -55,6 +57,8 @@ voidCTreeNodeUI::SetAttribute( LPCTSTR pstrName, LPCTSTR pstrValue )
 
 修改好后：
 
+![img](http://img.my.csdn.net/uploads/201803/16/1521168725_5491.png)
+
 发现checkbox在最前面了，因为我们在基类CListContainerElementUI的构造函数中，最先添加的checkbox。
 在派生类中先移除之，后添加：
 ```
@@ -65,6 +69,7 @@ voidCTreeNodeUI::SetAttribute( LPCTSTR pstrName, LPCTSTR pstrValue )
   m_pHoriz->Add(pItemButton);
 ```
 运行崩溃：
+
 
 我们看移除函数：
 ```

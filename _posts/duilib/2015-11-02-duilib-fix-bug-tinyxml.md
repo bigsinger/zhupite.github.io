@@ -7,7 +7,9 @@ date:		2015-11-02
 ---
 
 以RichListRes为例，用修改后的DuiDesigner重新载入xml皮肤配置文件，稍作修改并撤销然后保存，为的是重新保存xml文件，运行RichListRes工程会崩溃。
+
 然后发现DuiDesigner用的是tinyxml保存的xml，而加载的时候用的是CMarkup，以至于以为是两者操作xml的不同导致的问题，当时差点就要把这两者的操作改为同一个库了。实际上这是不可取的，毕竟工作量太大了。然后用DuiDesigner关闭当前xml并重新载入，发现也不能正常显示了。
+
 通过SVN找BUG：DuiDesigner修改前后的xml通过svn进行对比，并逐块恢复，最终定位到导致出错的xml代码：
 
 原：
