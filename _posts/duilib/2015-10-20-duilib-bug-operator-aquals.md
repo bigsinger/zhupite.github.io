@@ -3,6 +3,7 @@ layout: 	post
 category:	"duilib"
 title:		duilib中判断是否相等和等于号重载的一个BUG
 tags:		[duilib,ui]
+date:	2015-10-20
 ---
 
 CDuiString的bug (重温了一下 Effective C++，发现这就是条款24所指出的问题，看来读书百遍不如写代码一遍啊)
