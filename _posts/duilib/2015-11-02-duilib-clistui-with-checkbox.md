@@ -69,7 +69,7 @@ voidCTreeNodeUI::SetAttribute( LPCTSTR pstrName, LPCTSTR pstrValue )
   m_pHoriz->Add(pItemButton);
 ```
 运行崩溃：
-
+![](http://wx4.sinaimg.cn/mw690/006C9P7Ugy1fpeimo83ijj30d009nt8v.jpg)
 
 我们看移除函数：
 ```
