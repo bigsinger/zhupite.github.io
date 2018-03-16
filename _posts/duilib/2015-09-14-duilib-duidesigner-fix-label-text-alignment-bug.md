@@ -3,7 +3,6 @@ layout:     post
 category:	"duilib"
 title:      "DuiDesigner控件Label无法设置文本对齐属性的BUG解决方案"
 tags:		[duilib,ui,duidesigner]
-date:		2015-10-10
 ---
 
 
@@ -117,7 +116,7 @@ void CRenderEngine::DrawText(HDC hDC, CPaintManagerUI* pManager, RECT& rc, LPCTS
     ::SelectObject(hDC, hOldFont);
 }
 ```
-文字对齐属性主要取决于m_uTextStyle，在CLabelUI的源码中搜索m_uTextStyle的引用，找到SetAttribute函数：
+文字对齐属性主要取决于**m_uTextStyle**，在CLabelUI的源码中搜索m_uTextStyle的引用，找到SetAttribute函数：
 ```
  void CLabelUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
     {
@@ -176,7 +175,7 @@ void CUIProperties::ShowLabelProperty(CControlUI* pControl)
  elseif(uStyle&DT_BOTTOM)
   strStyle=_T("Bottom");
 ```
-==注意看处理左对齐的代码逻辑，由于DT_LEFT被定义为0x00000000，因此uStyle&DT_LEFT恒不为真，这也就是为什么设置不了文字左对齐的原因。==修改的逻辑如下：
+**注意看处理左对齐的代码逻辑，由于DT_LEFT被定义为0x00000000，因此uStyle&DT_LEFT恒不为真，这也就是为什么设置不了文字左对齐的原因。** 修改的逻辑如下：
 ```
  void CUIProperties::ShowLabelProperty(CControlUI* pControl)
 {
@@ -229,9 +228,10 @@ if( uTextStyle==0 ) tstrAlgin = _T("left");
 
 完成以上代码修改后，重新编译并运行DuiDesigner即可。
 
-新的问题：
+### 新的问题：
 我们回到上面的CLabelUI::SetAttribute看，发现里面有一个vcenter属性，属性的设置是又外部属性编辑器中发生改变时调用的，但是编辑器中并没有提供vcenter属性：
 
+![](http://wx2.sinaimg.cn/mw690/006C9P7Ugy1fpelltgau3j309003bq2r.jpg)
 
 而且保存的时候有一个wrap属性：
 ```
@@ -239,7 +239,7 @@ if( uTextStyle==0 ) tstrAlgin = _T("left");
         tstrAlgin += _T("wrap");
 ```
 
-产生原因：
+### 产生原因：
 
 duilib核心库作者一直在维护，但是duidesigner后面没有再维护了，甚至被作者从开源库中删除了，甚至悲剧。所以满足不了需求了，后面修改一下。
 先梳理一下实现效果：
@@ -247,171 +247,172 @@ duilib核心库作者一直在维护，但是duidesigner后面没有再维护了
 //DT_CENTER存在时不能有left和right，DT_VCENTER存在时不能有top和bottom
 DT_WORDBREAK属性也考虑一下，继续设计成wrap属性，并增加一个none属性，表述没有任何风格。
 
-兼容性考虑：
+### 兼容性考虑：
 新的设计要兼容老的选项，而代码中处理属性的时候是使用_tcsstr来判断一个属性例如left或top字符串是否存在，存在则添加上对应的风格，因此新的属性应该至少满足让旧版查询到字符串即可。
 
-修改步骤：
+### 修改步骤：
 1. 选择属性时设置对应的风格：CLabelUI::SetAttribute，DT_LEFT、DT_TOP值为0，处理位操作比较麻烦，穷举方式处理。
 2. 编辑器初始化时（CUIProperties::InitPropList）Align的选项修改为：LeftVCenter,RightVCenter,Center,TopCenter,BottomCenter,LeftTop,LeftBottom,RightTop,RightBottom,Wrap,None，默认使用LeftVCenter。这种设计可以让老版代码识别。
 3. 属性保存的时候CLayoutManager::SaveLabelProperty，CLayoutManager::SaveListHeaderItemProperty
 4. 点击控件时，显示属性CUIProperties::ShowLabelProperty。
 
 
-编辑器初始化时：
+### 编辑器初始化时：
 ```
-    //Label
+//Label
 #pragma region Label
-    pPropUI=new CMFCPropertyGridProperty(_T("Label"),classLabel);
+pPropUI=new CMFCPropertyGridProperty(_T("Label"),classLabel);
 
-    //align
-    pProp=new CMFCPropertyGridProperty(_T("Align"),_T("Center"),_T("指示文本的对齐方式"),tagAlign);
-    pProp->AddOption(_T("Center"));
-    pProp->AddOption(_T("Left"));
-    pProp->AddOption(_T("Right"));
-    pProp->AddOption(_T("Top"));
-    pProp->AddOption(_T("Bottom"));
-    pProp->AllowEdit(TRUE);
-    pPropUI->AddSubItem(pProp);
+//align
+pProp=new CMFCPropertyGridProperty(_T("Align"),_T("Center"),_T("指示文本的对齐方式"),tagAlign);
+pProp->AddOption(_T("Center"));
+pProp->AddOption(_T("Left"));
+pProp->AddOption(_T("Right"));
+pProp->AddOption(_T("Top"));
+pProp->AddOption(_T("Bottom"));
+pProp->AllowEdit(TRUE);
+pPropUI->AddSubItem(pProp);
 ```
 修改为：
 ```
-    //align
-    pProp=new CMFCPropertyGridProperty(_T("Align"),_T("LeftVCenter"),_T("指示文本的对齐方式"),tagAlign);
-    pProp->AddOption(_T("LeftVCenter"));
-    pProp->AddOption(_T("RightVCenter"));
-    pProp->AddOption(_T("Center"));
-    pProp->AddOption(_T("TopCenter"));
-    pProp->AddOption(_T("BottomCenter"));
-    pProp->AddOption(_T("LeftTop"));
-    pProp->AddOption(_T("LeftBottom"));
-    pProp->AddOption(_T("RightTop"));
-    pProp->AddOption(_T("RightBottom"));
-    pProp->AddOption(_T("Wrap"));
-    pProp->AddOption(_T("None"));
-    pProp->AllowEdit(FALSE);
-    pPropUI->AddSubItem(pProp);
+//align
+pProp=new CMFCPropertyGridProperty(_T("Align"),_T("LeftVCenter"),_T("指示文本的对齐方式"),tagAlign);
+pProp->AddOption(_T("LeftVCenter"));
+pProp->AddOption(_T("RightVCenter"));
+pProp->AddOption(_T("Center"));
+pProp->AddOption(_T("TopCenter"));
+pProp->AddOption(_T("BottomCenter"));
+pProp->AddOption(_T("LeftTop"));
+pProp->AddOption(_T("LeftBottom"));
+pProp->AddOption(_T("RightTop"));
+pProp->AddOption(_T("RightBottom"));
+pProp->AddOption(_T("Wrap"));
+pProp->AddOption(_T("None"));
+pProp->AllowEdit(FALSE);
+pPropUI->AddSubItem(pProp);
 ```
+
+![](http://wx2.sinaimg.cn/mw690/006C9P7Ugy1fpellt3oi8j3085063gli.jpg)
 
 属性保存时：
 ```
 CLayoutManager::SaveLabelProperty：
-    std::wstring tstrAlgin;
-    UINT uTextStyle = pLabelUI->GetTextStyle();
-    uTextStyle &= ~(DT_SINGLELINE);
+std::wstring tstrAlgin;
+UINT uTextStyle = pLabelUI->GetTextStyle();
+uTextStyle &= ~(DT_SINGLELINE);
 
-    if( uTextStyle == (DT_LEFT | DT_VCENTER) ) {
-        tstrAlgin = _T("leftvcenter");
-    }else if ( uTextStyle == (DT_RIGHT | DT_VCENTER) ) {
-        tstrAlgin = _T("rightvcenter");
-    }else if ( uTextStyle == (DT_CENTER | DT_VCENTER) ) {
-        tstrAlgin = _T("center");
-    }else if ( uTextStyle == (DT_CENTER | DT_TOP) ) {
-        tstrAlgin = _T("topcenter");
-    }else if ( uTextStyle == (DT_CENTER | DT_BOTTOM) ) {
-        tstrAlgin = _T("bottomcenter");
-    }else if ( uTextStyle == (DT_LEFT | DT_TOP) ) {
-        tstrAlgin = _T("lefttop");
-    }else if ( uTextStyle == (DT_LEFT | DT_BOTTOM) ) {
-        tstrAlgin = _T("leftbottom");
-    }else if ( uTextStyle == (DT_RIGHT | DT_TOP) ) {
-        tstrAlgin = _T("righttop");
-    }else if ( uTextStyle == (DT_RIGHT | DT_BOTTOM) ) {
-        tstrAlgin = _T("rightbottom");
-    }else if ( uTextStyle == DT_WORDBREAK ) {
-        tstrAlgin = _T("wrap");
-    }else{
-        tstrAlgin = _T("");
-    }
+if( uTextStyle == (DT_LEFT | DT_VCENTER) ) {
+    tstrAlgin = _T("leftvcenter");
+}else if ( uTextStyle == (DT_RIGHT | DT_VCENTER) ) {
+    tstrAlgin = _T("rightvcenter");
+}else if ( uTextStyle == (DT_CENTER | DT_VCENTER) ) {
+    tstrAlgin = _T("center");
+}else if ( uTextStyle == (DT_CENTER | DT_TOP) ) {
+    tstrAlgin = _T("topcenter");
+}else if ( uTextStyle == (DT_CENTER | DT_BOTTOM) ) {
+    tstrAlgin = _T("bottomcenter");
+}else if ( uTextStyle == (DT_LEFT | DT_TOP) ) {
+    tstrAlgin = _T("lefttop");
+}else if ( uTextStyle == (DT_LEFT | DT_BOTTOM) ) {
+    tstrAlgin = _T("leftbottom");
+}else if ( uTextStyle == (DT_RIGHT | DT_TOP) ) {
+    tstrAlgin = _T("righttop");
+}else if ( uTextStyle == (DT_RIGHT | DT_BOTTOM) ) {
+    tstrAlgin = _T("rightbottom");
+}else if ( uTextStyle == DT_WORDBREAK ) {
+    tstrAlgin = _T("wrap");
+}else{
+    tstrAlgin = _T("");
+}
 ```
 还有一处用到了Label：CLayoutManager::SaveListHeaderItemProperty：
 ```
 std::wstring tstrAlgin;
-    UINT uTextStyle = pListHeaderItemUI->GetTextStyle();
-    uTextStyle &= ~(DT_SINGLELINE);
+UINT uTextStyle = pListHeaderItemUI->GetTextStyle();
+uTextStyle &= ~(DT_SINGLELINE);
 
-    if( uTextStyle == (DT_LEFT | DT_VCENTER) ) {
-        tstrAlgin = _T("leftvcenter");
-    }else if ( uTextStyle == (DT_RIGHT | DT_VCENTER) ) {
-        tstrAlgin = _T("rightvcenter");
-    }else if ( uTextStyle == (DT_CENTER | DT_VCENTER) ) {
-        tstrAlgin = _T("center");
-    }else if ( uTextStyle == (DT_CENTER | DT_TOP) ) {
-        tstrAlgin = _T("topcenter");
-    }else if ( uTextStyle == (DT_CENTER | DT_BOTTOM) ) {
-        tstrAlgin = _T("bottomcenter");
-    }else if ( uTextStyle == (DT_LEFT | DT_TOP) ) {
-        tstrAlgin = _T("lefttop");
-    }else if ( uTextStyle == (DT_LEFT | DT_BOTTOM) ) {
-        tstrAlgin = _T("leftbottom");
-    }else if ( uTextStyle == (DT_RIGHT | DT_TOP) ) {
-        tstrAlgin = _T("righttop");
-    }else if ( uTextStyle == (DT_RIGHT | DT_BOTTOM) ) {
-        tstrAlgin = _T("rightbottom");
-    }else if ( uTextStyle == DT_WORDBREAK ) {
-        tstrAlgin = _T("wrap");
-    }else{
-        tstrAlgin = _T("");
-    }
-
+if( uTextStyle == (DT_LEFT | DT_VCENTER) ) {
+    tstrAlgin = _T("leftvcenter");
+}else if ( uTextStyle == (DT_RIGHT | DT_VCENTER) ) {
+    tstrAlgin = _T("rightvcenter");
+}else if ( uTextStyle == (DT_CENTER | DT_VCENTER) ) {
+    tstrAlgin = _T("center");
+}else if ( uTextStyle == (DT_CENTER | DT_TOP) ) {
+    tstrAlgin = _T("topcenter");
+}else if ( uTextStyle == (DT_CENTER | DT_BOTTOM) ) {
+    tstrAlgin = _T("bottomcenter");
+}else if ( uTextStyle == (DT_LEFT | DT_TOP) ) {
+    tstrAlgin = _T("lefttop");
+}else if ( uTextStyle == (DT_LEFT | DT_BOTTOM) ) {
+    tstrAlgin = _T("leftbottom");
+}else if ( uTextStyle == (DT_RIGHT | DT_TOP) ) {
+    tstrAlgin = _T("righttop");
+}else if ( uTextStyle == (DT_RIGHT | DT_BOTTOM) ) {
+    tstrAlgin = _T("rightbottom");
+}else if ( uTextStyle == DT_WORDBREAK ) {
+    tstrAlgin = _T("wrap");
+}else{
+    tstrAlgin = _T("");
+}
 ```
 编辑器中显示控件属性：
 ```
 CUIProperties::ShowLabelProperty：
 CString strStyle;
-    UINT uTextStyle=pLabel->GetTextStyle();
-    uTextStyle &= ~(DT_SINGLELINE);
+UINT uTextStyle=pLabel->GetTextStyle();
+uTextStyle &= ~(DT_SINGLELINE);
 
-    if( uTextStyle == (DT_LEFT | DT_VCENTER) ) {
-        strStyle = _T("LeftVCenter");
-    }else if ( uTextStyle == (DT_RIGHT | DT_VCENTER) ) {
-        strStyle = _T("RightVCenter");
-    }else if ( uTextStyle == (DT_CENTER | DT_VCENTER) ) {
-        strStyle = _T("Center");
-    }else if ( uTextStyle == (DT_CENTER | DT_TOP) ) {
-        strStyle = _T("TopCenter");
-    }else if ( uTextStyle == (DT_CENTER | DT_BOTTOM) ) {
-        strStyle = _T("BottomCenter");
-    }else if ( uTextStyle == (DT_LEFT | DT_TOP) ) {
-        strStyle = _T("LeftTop");
-    }else if ( uTextStyle == (DT_LEFT | DT_BOTTOM) ) {
-        strStyle = _T("LeftBottom");
-    }else if ( uTextStyle == (DT_RIGHT | DT_TOP) ) {
-        strStyle = _T("RightYop");
-    }else if ( uTextStyle == (DT_RIGHT | DT_BOTTOM) ) {
-        strStyle = _T("RightBottom");
-    }else if ( uTextStyle == DT_WORDBREAK ) {
-        strStyle = _T("Wrap");
-    }else{
-        strStyle = _T("None");
-    }
+if( uTextStyle == (DT_LEFT | DT_VCENTER) ) {
+    strStyle = _T("LeftVCenter");
+}else if ( uTextStyle == (DT_RIGHT | DT_VCENTER) ) {
+    strStyle = _T("RightVCenter");
+}else if ( uTextStyle == (DT_CENTER | DT_VCENTER) ) {
+    strStyle = _T("Center");
+}else if ( uTextStyle == (DT_CENTER | DT_TOP) ) {
+    strStyle = _T("TopCenter");
+}else if ( uTextStyle == (DT_CENTER | DT_BOTTOM) ) {
+    strStyle = _T("BottomCenter");
+}else if ( uTextStyle == (DT_LEFT | DT_TOP) ) {
+    strStyle = _T("LeftTop");
+}else if ( uTextStyle == (DT_LEFT | DT_BOTTOM) ) {
+    strStyle = _T("LeftBottom");
+}else if ( uTextStyle == (DT_RIGHT | DT_TOP) ) {
+    strStyle = _T("RightYop");
+}else if ( uTextStyle == (DT_RIGHT | DT_BOTTOM) ) {
+    strStyle = _T("RightBottom");
+}else if ( uTextStyle == DT_WORDBREAK ) {
+    strStyle = _T("Wrap");
+}else{
+    strStyle = _T("None");
+}
 ```
 
 设置控件属性：
 ```
 CLabelUI::SetAttribute：
 if( _tcscmp(pstrValue, _T("leftvcenter")) == 0 ) {
-                m_uTextStyle = DT_LEFT | DT_VCENTER | DT_SINGLELINE;
-            }else if ( _tcscmp(pstrValue, _T("rightvcenter")) == 0 ) {
-                m_uTextStyle = DT_RIGHT | DT_VCENTER | DT_SINGLELINE;
-            }else if ( _tcscmp(pstrValue, _T("center")) == 0 ) {
-                m_uTextStyle = DT_CENTER | DT_VCENTER | DT_SINGLELINE;
-            }else if ( _tcscmp(pstrValue, _T("topcenter")) == 0 ) {
-                m_uTextStyle = DT_CENTER | DT_TOP | DT_SINGLELINE;
-            }else if ( _tcscmp(pstrValue, _T("bottomcenter")) == 0 ) {
-                m_uTextStyle = DT_CENTER | DT_BOTTOM | DT_SINGLELINE;
-            }else if ( _tcscmp(pstrValue, _T("lefttop")) == 0 ) {
-                m_uTextStyle = DT_LEFT | DT_TOP | DT_SINGLELINE;
-            }else if ( _tcscmp(pstrValue, _T("leftbottom")) == 0 ) {
-                m_uTextStyle = DT_LEFT | DT_BOTTOM | DT_SINGLELINE;
-            }else if ( _tcscmp(pstrValue, _T("righttop")) == 0 ) {
-                m_uTextStyle = DT_RIGHT | DT_TOP | DT_SINGLELINE;
-            }else if ( _tcscmp(pstrValue, _T("rightbottom")) == 0 ) {
-                m_uTextStyle = DT_RIGHT | DT_BOTTOM | DT_SINGLELINE;
-            }else if ( _tcscmp(pstrValue, _T("wrap")) == 0 ) {
-                m_uTextStyle = DT_WORDBREAK;
-            }else if ( _tcscmp(pstrValue, _T("none")) == 0 ) {
-                m_uTextStyle = 0x10000000;
-            }else{
-                m_uTextStyle = 0;
-            }
+    m_uTextStyle = DT_LEFT | DT_VCENTER | DT_SINGLELINE;
+}else if ( _tcscmp(pstrValue, _T("rightvcenter")) == 0 ) {
+    m_uTextStyle = DT_RIGHT | DT_VCENTER | DT_SINGLELINE;
+}else if ( _tcscmp(pstrValue, _T("center")) == 0 ) {
+    m_uTextStyle = DT_CENTER | DT_VCENTER | DT_SINGLELINE;
+}else if ( _tcscmp(pstrValue, _T("topcenter")) == 0 ) {
+    m_uTextStyle = DT_CENTER | DT_TOP | DT_SINGLELINE;
+}else if ( _tcscmp(pstrValue, _T("bottomcenter")) == 0 ) {
+    m_uTextStyle = DT_CENTER | DT_BOTTOM | DT_SINGLELINE;
+}else if ( _tcscmp(pstrValue, _T("lefttop")) == 0 ) {
+    m_uTextStyle = DT_LEFT | DT_TOP | DT_SINGLELINE;
+}else if ( _tcscmp(pstrValue, _T("leftbottom")) == 0 ) {
+    m_uTextStyle = DT_LEFT | DT_BOTTOM | DT_SINGLELINE;
+}else if ( _tcscmp(pstrValue, _T("righttop")) == 0 ) {
+    m_uTextStyle = DT_RIGHT | DT_TOP | DT_SINGLELINE;
+}else if ( _tcscmp(pstrValue, _T("rightbottom")) == 0 ) {
+    m_uTextStyle = DT_RIGHT | DT_BOTTOM | DT_SINGLELINE;
+}else if ( _tcscmp(pstrValue, _T("wrap")) == 0 ) {
+    m_uTextStyle = DT_WORDBREAK;
+}else if ( _tcscmp(pstrValue, _T("none")) == 0 ) {
+    m_uTextStyle = 0x10000000;
+}else{
+    m_uTextStyle = 0;
+}
 ```
