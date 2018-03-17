@@ -1,7 +1,7 @@
 ---
 layout:		post
 category:	"program"
-title:		"Windows64位下系统文件提示找不到"
+title:		"C++加载透明PNG图片作为菜单图标显示"
 tags:		[c++]
 ---
 
