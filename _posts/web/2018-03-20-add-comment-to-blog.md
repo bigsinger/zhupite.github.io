@@ -1,8 +1,8 @@
 ---
 layout:		post
-category:	"program"
+category:	"web"
 title:		"为GitHubPages博客添加评论系统"
-tags:		[]
+tags:		[web,blog]
 ---
 
 参考：[Gitment：使用 GitHub Issues 搭建评论系统 \| I'm Sun](https://imsun.net/posts/gitment-introduction/)
