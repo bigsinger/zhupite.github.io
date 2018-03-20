@@ -1,1 +1,15 @@
-请修改_includes/comment.html添加评论代码。
+<div id="container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: 'location.href',
+  owner: 'bigsinger',
+  repo: 'https://github.com/bigsinger/commentofzhupite',
+  oauth: {
+    client_id: '75ae7c080c16673756d6',
+    client_secret: '9792dc439aa9281ce21590fdb0f668bc98b9faf8',
+  },
+})
+gitment.render('container')
+</script>
