@@ -1,4 +1,4 @@
-﻿---
+---
 layout:		post
 category:	"program"
 title:		"AndroidStudio快捷键大全配置VisualStudio快捷键一致"
@@ -6,7 +6,7 @@ tags:		[]
 ---
 
 
-快捷键    | 功能 | VisualStudio
+快捷键    | 功能 | VisualStudio2017
 ---|---|---
 CTRL + J | 显示所有代码补全的关键词。| 
 SHIFT + F6 | 重命名| 编辑 重命名
@@ -59,6 +59,17 @@ CTRL + Shift + ↑↓ | 把一个方法整体上移或下移。
 必须设置的：
 - 代码片段管理器：[VS中如何添加自定义代码片段——偷懒小技巧](http://blog.csdn.net/guo13313/article/details/50608080)
 - 工具-选项-C#或者C/C++-格式设置-缩进+新行
+
+## 老版本的VisualStudio修改
+如vs2008可以修改以下配置：
+
+- SHIFT + F11	打开显示所有书签列表	视图.书签窗口
+- F11	添加普通书签、删除任意书签	编辑.切换书签	
+- CTRL + ALT + ←		视图.向前定位
+- CTRL + ALT + ←		视图.向后定位
+- CTRL + B		VAssistX.GotoImplementation  
+- ALT + F7	VAssistX.FindReferences  
+- SHIFT + F6		VAssistX.RefactorRename
 
 在vs中修改完快捷键后，选择菜单[工具]-[导入导出设置]把配置好的设置导出备份，如果以后需要重装还能导入继续使用。从此之后常用的快捷键基本上可以跟AndroidStudio保持一致，不用记那么多快捷键了。
  
