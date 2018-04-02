@@ -21,7 +21,7 @@ all_categories: [
 ["lua", "Lua","/posts/lua.html"],
 ["js", "JavaScript","/posts/js.html"],
 ["myjob", "工作","/posts/myjob.html"],
-["job", "职位招聘（网易内推）","/posts/job.html"],
+["job", "职位内推","/posts/job.html"],
 ["about", "关于","/about.html"]
 ]
 
