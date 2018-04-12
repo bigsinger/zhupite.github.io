@@ -37,6 +37,4 @@ title: "关于：About"
 ```
 
 ### 联系方式
-微博: <https://weibo.com/6060639246>  
-GitHub: <https://github.com/bigsinger>  
-
+微博: <https://weibo.com/6060639246>
