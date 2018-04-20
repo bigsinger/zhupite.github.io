@@ -125,7 +125,7 @@ Call Stack (most recent call first):
   cmake/modules/AddLLVM.cmake:1354 (add_lit_target)
   test/CMakeLists.txt:157 (add_lit_testsuite)
 ```
-找到所有有关Hello工程的CMakeLists.txt和LLVMBuild.txt，把关于对Hello的行注释掉或去掉。
+llvm/test/CMakeLists.txt中删除LLVMHello，如果出现类似的错误，就找到所有有关Hello工程的CMakeLists.txt和LLVMBuild.txt，把关于对Hello的行注释掉或去掉。
 
 ## 错误5
 ```
