@@ -1,7 +1,7 @@
 ---
 layout:		post
 category:	"program"
-title:		"LLVM在Windows下使用VisualStudio2017编译pass"
+title:		"LLVM在Windows下使用VisualStudio2017添加编译自定义pass"
 tags:		[llvm]
 ---
 
@@ -307,3 +307,25 @@ opt.exe -help
 ……
 ```
 说明自定义的pass已经被编译进opt里啦。
+
+# 原理解读
+上面代码中并没有看到函数**initializeMyPassPass**的定义，这个是由宏**INITIALIZE_PASS**自动生成的。
+```
+INITIALIZE_PASS(MyPass, "mypass", "Print all function names", false, false)
+```
+可以参见**INITIALIZE_PASS**宏定义：
+```
+#define INITIALIZE_PASS(passName, arg, name, cfg, analysis)                    \
+  static void *initialize##passName##PassOnce(PassRegistry &Registry) {        \
+    PassInfo *PI = new PassInfo(                                               \
+        name, arg, &passName::ID,                                              \
+        PassInfo::NormalCtor_t(callDefaultCtor<passName>), cfg, analysis);     \
+    Registry.registerPass(*PI, true);                                          \
+    return PI;                                                                 \
+  }                                                                            \
+  static llvm::once_flag Initialize##passName##PassFlag;                       \
+  void llvm::initialize##passName##Pass(PassRegistry &Registry) {              \
+    llvm::call_once(Initialize##passName##PassFlag,                            \
+                    initialize##passName##PassOnce, std::ref(Registry));       \
+  }
+```
