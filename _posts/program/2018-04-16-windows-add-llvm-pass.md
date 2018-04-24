@@ -247,6 +247,9 @@ add_llvm_library( LLVMCustom
 #ifndef LLVM_CUSTOM_H
 #define LLVM_CUSTOM_H
 
+#include "llvm/Pass.h"
+
+
 namespace llvm {
 
 FunctionPass *createMyPassPass(bool flag);
