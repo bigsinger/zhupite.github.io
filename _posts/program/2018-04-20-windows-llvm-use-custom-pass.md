@@ -1,4 +1,4 @@
-﻿---
+---
 layout:		post
 category:	"program"
 title:		"LLVM在Windows下用opt调用自定义pass"
@@ -387,4 +387,9 @@ _vsprintf_l
 _vsnprintf_l
 __local_stdio_printf_options
 _vfprintf_l
+```
+
+# 使用clang时开启该pass：
+```
+clang.exe -mllvm -mypass example.c -o example.exe
 ```

@@ -160,7 +160,7 @@ void LLVMInitializeCustom(LLVMPassRegistryRef R) {
 在llvm/lib/Transforms目录下创建一个Custom文件夹，这里存放要自定义的pass，创建一个MyPass.cpp，内容如下：
 ```
 #define DEBUG_TYPE "mypass"
-#include "llvm/Function.h"
+#include "llvm/IR/Function.h"
 #include "llvm/Pass.h"
 #include "llvm/Transforms/Custom.h"
 #include "llvm/Support/raw_ostream.h"
@@ -168,8 +168,11 @@ using namespace llvm;
 
 namespace {
   struct MyPass : public FunctionPass {
+	  bool m_flag;
     static char ID;
-    MyPass() : FunctionPass(ID) {
+	MyPass() : MyPass(ID) { m_flag = false; }
+	MyPass(bool flag) : FunctionPass(ID) {
+		this->m_flag = flag;
       initializeMyPassPass(*PassRegistry::getPassRegistry());
     }
 
@@ -177,19 +180,22 @@ namespace {
      * Just print the function name 
      */
     bool runOnFunction(Function &F) {
-      bool Changed = false;
-      errs().write_escaped(F.getName()) << "\n";
-      return Changed;
+		bool Changed = false;
+		if (m_flag == false) {
+			return Changed;
+		}
+
+		errs().write_escaped(F.getName()) << "\n";
+		return Changed;
     }
   };
 }
 
 char MyPass::ID = 0;
-INITIALIZE_PASS(MyPass, "mypass", "Print all function names",
-                false, false)
+INITIALIZE_PASS(MyPass, "mypass", "Print all function names", false, false)
 
-FunctionPass *llvm::createMyPassPass() {
-  return new MyPass();
+FunctionPass *llvm::createMyPassPass(bool flag) {
+  return new MyPass(flag);
 }
 ```
 
@@ -200,14 +206,15 @@ FunctionPass *llvm::createMyPassPass() {
 #include "llvm/InitializePasses.h"
 #include "llvm/PassRegistry.h"
 
+
 using namespace llvm;
 
-/// initializeCustom - Initialize all passes in the Custom library
+// initializeCustom - Initialize all passes in the Custom library
 void llvm::initializeCustom(PassRegistry &Registry) {
   initializeMyPassPass(Registry);
 }
 
-/// LLVMInitializeCustom - C binding for initializeCustom.
+// LLVMInitializeCustom - C binding for initializeCustom.
 void LLVMInitializeCustom(LLVMPassRegistryRef R) {
 	initializeCustom(*unwrap(R));
 }
@@ -242,7 +249,7 @@ add_llvm_library( LLVMCustom
 
 namespace llvm {
 
-FunctionPass *createMyPassPass();
+FunctionPass *createMyPassPass(bool flag);
 
 }
 
@@ -260,7 +267,7 @@ void initializeMyPassPass(PassRegistry&);
 #include "llvm/Transforms/Custom.h"
 
 // This part must reside in the constructor of struct ForcePassLinking
-(void) llvm::createMyPassPass();
+(void) llvm::createMyPassPass(true);
 ```
 
 ## 步骤4 修改各种LLVMBuild.txt和CMakeLists.txt
@@ -308,7 +315,7 @@ opt.exe -help
 ```
 说明自定义的pass已经被编译进opt里啦。
 
-# 原理解读
+## 原理解读
 上面代码中并没有看到函数**initializeMyPassPass**的定义，这个是由宏**INITIALIZE_PASS**自动生成的。
 ```
 INITIALIZE_PASS(MyPass, "mypass", "Print all function names", false, false)
@@ -328,4 +335,32 @@ INITIALIZE_PASS(MyPass, "mypass", "Print all function names", false, false)
     llvm::call_once(Initialize##passName##PassFlag,                            \
                     initialize##passName##PassOnce, std::ref(Registry));       \
   }
+```
+
+# 集成到CLANG
+完成上面的步骤，可以把pass集成到opt中，但是如果使用clang的话是没有这些功能的，所以仍需要做些处理。
+- llvm/lib/Transforms/IPO/PassManagerBuilder.cpp
+
+```
+#include "llvm/Transforms/Custom.h"
+
+static cl::opt<bool>
+MyPass("mypass", cl::init(false), cl::Hidden,
+	cl::ZeroOrMore, cl::desc("Print all function names"));
+```
+在PassManagerBuilder::populateModulePassManager函数中添加：
+```
+MPM.add(createMyPassPass(MyPass));
+```
+这里设计的是一个开关，当用户使用了-mllvm -mypass参数的时候，MyPass为true，相当于启用了该pass。
+
+- llvm/lib/Transforms/IPO/LLVMBuild.txt添加Custom
+- llvm/lib/Target/X86/LLVMBuild.txt添加Custom
+
+
+最后记住用CMkaeGUI重新生成一下解决方案，然后VisualStudio只编译clang模块即可。
+
+使用clang时开启该pass：
+```
+clang.exe -mllvm -mypass example.c -o example.exe
 ```
