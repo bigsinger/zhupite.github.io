@@ -53,6 +53,7 @@ GitHub上下载参考源码的这些.h文件：
 #include "StringObfuscation.h"
 #include "Flattening.h"
 #include "BogusControlFlow.h"
+#include "llvm/IR/LegacyPassManager.h"
 
 namespace llvm {
 	// 在里面创建其他多个pass
