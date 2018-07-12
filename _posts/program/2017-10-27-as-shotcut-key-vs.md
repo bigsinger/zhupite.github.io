@@ -20,6 +20,7 @@ CTRL + ALT + ← | 定位到上一个浏览过的位置。| 视图 向后导航
 CTRL + ALT + → | 定位到下一个浏览过的位置。| 视图 向前导航
 按住ALT 然后鼠标选择 | 出现大光标多处选择，批量编辑，不要太爽。| 
 CTRL + SHIFT + ALT + L | 格式化代码 | CTRL + K, CTRL +D
+CTRL + ALT + Home | 切换到相关联的文件。例如在Activity中可以切换到与其关联的resourcexml文件和AndroidManifest.xml（或点击类声明处前面的图标：Related XML File），在xml中可切换到与其关联的Activity文件（或点击前面的小图标c：Related Context Java File）。| CTRL + K, CTRL + O 编辑器上下文菜单.代码窗口.切换标题代码文件
 CTRL + F12 | 打开文件结构预览窗口，实用。| 
 ALT + F1 | 显示帮助导航，常用的：Project View、File Structure、Show in Explorer| 
 CTRL + P | 显示函数原型| 
@@ -41,7 +42,6 @@ CTRL + SHIFT + F | 在所有文件中查找，但是实测该快捷键容易被�
 CTRL + SHIFT + BackSpace | 定位到上一个编辑过的位置。
 ALT + ↑↓ | 在类的不同方法或者内部类之间跳转。
 CTRL + 点击TAB | 打开菜单后再点击文件可以定位文件位置。
-CTRL + ALT + Home | 切换到相关联的文件。例如在Activity中可以切换到与其关联的resourcexml文件和AndroidManifest.xml（或点击类声明处前面的图标：Related XML File），在xml中可切换到与其关联的Activity文件（或点击前面的小图标c：Related Context Java File）。
 Esc | 返回到编辑器
 Shift + Esc | 关闭当前窗口并返回到编辑器
 CTRL + SHIFT + INSERT | 自动插入一些代码，不信你按按看。
