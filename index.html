@@ -2,6 +2,11 @@
 layout: index
 title: "你不必等到非常厉害，才敢开始；你需要开始，才会变得非常厉害！"
 ---
+{% if page.paginator %}
+  {% assign paginator = page.paginator %}
+{% endif %}
+
+<!-- ad -->
 
 <!-- Loop output paged posts -->
 {% for post in paginator.posts %}
@@ -21,24 +26,44 @@ title: "你不必等到非常厉害，才敢开始；你需要开始，才会变
 {% endfor %}
 
 <!-- Pager indicator -->
-<ul class="pager">
-  {% if paginator.previous_page %} {% if paginator.previous_page == 1 %}
-  <li class="previous">
-    <a href="/">
-      &larr; 上一页
-    </a>
+<div style="margin:0px auto;text-align: center">
+{% if paginator.total_pages > 1 %}
+<ul class="pagination">
+  {% if paginator.previous_page %}
+  <li>
+    <a href="{{ category_path | append : paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&laquo; Prev</a>
   </li>
   {% else %}
-  <li class="previous">
-    <a href="/posts/page{{ paginator.previous_page }}/index.html">
-      &larr; 上一页
-    </a>
+  <li>
+    <span>&laquo; Prev</span>
   </li>
-  {% endif %} {% endif %} {% if paginator.next_page %}
-  <li class="next">
-    <a href="/posts/page{{ paginator.next_page }}/index.html">
-      下一页 &rarr;
-    </a>
+  {% endif %}
+
+  {% for page in (1..paginator.total_pages) %}
+    {% if page == paginator.page %}
+    <li class="active">
+      <span>{{ page }}</span>
+    </li>
+    {% elsif page == 1 %}
+    <li>
+      <a href="{{ '/index.html' | prepend: site.baseurl | replace: '//', '/' }}">{{ page }}</a>
+    </li>
+    {% else %}
+    <li>
+      <a href="{{ site.paginate_path | append : '.html' | prepend: site.baseurl | replace: ':num', page }}">{{ page }}</a>
+    </li>
+    {% endif %}
+  {% endfor %}
+
+  {% if paginator.next_page %}
+   <li>
+    <a href="{{ paginator.next_page_path | append : '.html' | prepend: site.baseurl | replace: '//', '/' }}">Next &raquo;</a>
+   </li>
+  {% else %}
+  <li>
+    <span>Next &raquo;</span>
   </li>
   {% endif %}
 </ul>
+{% endif %}
+</div>
