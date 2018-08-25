@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="description" content="{{ page.description }} - {{ site.name }}" />
-    <title>{{ page.title }} - {{ site.name }}</title>
+    <title>标签：{{ page.title }} - {{ site.name }}</title>
     <!-- Bootstrap Core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet"/>
     <!-- Custom CSS -->
@@ -64,11 +64,25 @@
           <!-- Navi -->
           <div class="post_frame">
             <div class="post_navi">
-              <a href="/">首页</a>&nbsp;>&nbsp;
+              <a href="/">首页</a>&nbsp;>&nbsp;<a href="{{ page.url }}.html">{{ page.title }}</a>&nbsp;>&nbsp;
               <span class="post_navi_span">列表</span>
             </div>
             <div style="padding:10px">
-              {{ content }}
+				{% for post in page.posts %}
+					<h2>
+					  <a href="{{ post.url }}">
+						{{ post.title }}
+					  </a> 
+					  <div class="post-date">
+						<span class="glyphicon glyphicon-time"></span>
+						{{ post.date | date:"%Y-%m-%d" }}
+					  </div>
+					</h2>
+					<hr>
+					{{ post.excerpt }}
+						<p><h3><a href="{{ post.url }}">阅读全文 &raquo;</a></h3></p>
+					<hr>
+				{% endfor %}
             </div>
           </div>
         </div>
@@ -88,8 +102,8 @@
           <div class="well-ad">
             {% include adsense_336x280.html %} 
           </div>
-          
-          <!-- Blog Recent Well -->
+
+		      <!-- Blog Recent Well -->
           <div class="well">
             <h4>
               最新文章
@@ -98,16 +112,16 @@
                     {% include recent_posts.html %} 
             </div>
           </div>		  
-
-		     <!-- Blog Links Well -->
+          
+		      <!-- Blog Links Well -->
           <div class="well">
             <h4>
               友情链接
-			  <div class="linkme">
-				<a href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=w7SqraWqsa6DsrLtoKyu" target="_blank">
-					<span class="linkme_span">交换链接</span>
-				</a>
-			  </div>
+            <div class="linkme">
+            <a href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=w7SqraWqsa6DsrLtoKyu" target="_blank">
+              <span class="linkme_span">交换链接</span>
+            </a>
+            </div>
             </h4>
             {% include friendlinks.html %} 
           </div>

@@ -1,11 +1,24 @@
+{% if page.paginator %}
+  {% assign paginator = page.paginator %}
+  {% assign category_path = page.title | append:'/' %}
+{% endif %}
+
+{% for cat in site.all_categories %}
+  {% if page.title == cat[0] %}
+    {% assign category_name = cat[1] %}
+    {% assign category_link = cat[2] %}
+  {% endif %}
+{% endfor %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="{{ page.title }} - {{ site.name }} - 作者:{{ site.author }}"/>
-    <title>{% for cat in site.all_categories %}{% if page.category == cat[0] %}栏目：{{cat[1]}} - {{ site.name }}{% endif %}{% endfor %}</title>
+    <meta name="description" content="{{ page.description }} - {{ site.name }}" />
+
+    <title>栏目：{{ category_name }} - {{ site.name }}</title>
     <!-- Bootstrap Core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet"/>
     <!-- Custom CSS -->
@@ -24,6 +37,7 @@
     <script src="/js/jquery-1.11.0.js"> </script>
     <!-- Bootstrap Core JavaScript -->
     <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/tongji.js"></script>
   </head>
   
   <body>
@@ -60,44 +74,109 @@
       <div class="row">
         <!-- Blog Entries Column -->
         <div class="col-md-8">
-			<!-- Navi -->
-			{% for cat in site.all_categories %}{% if page.category == cat[0] %}<a href="/">首页</a>&nbsp;>&nbsp;<a href="{{cat[2]}}">{{cat[1]}}</a>&nbsp;>&nbsp;列表{% endif %}{% endfor %}
-			<!-- List -->
-			<ul class="list-unstyled">
-			{% for post in site.categories[page.category] %}
-			  {% capture y %}{{post.date | date:"%Y"}}{% endcapture %}
-			  {% if year != y %}
-				{% assign year = y %}
-				<h2>{{ post.date | date: '%Y' }}</h2> 
-			  {% endif %}
-			  <li>
-				<h4><span>{{ post.date | date:"%Y-%m-%d" }}</span>&raquo;
-				<a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></h4>
-			  </li> 
-			{% endfor %}
-			</ul>
+          <!-- Navi -->
+          <div class="post_frame">
+            <div class="post_navi">
+              <a href="/">首页</a>&nbsp;>&nbsp;
+              <a href="{{ catgory_link }}">{{ category_name }}</a>&nbsp;>&nbsp;
+              <span class="post_navi_span">列表</span>
+            </div>
+            <div style="padding:10px">
+<!-- Loop output paged posts -->
+
+{% for post in paginator.posts %}
+<h2>
+  <a href="{{ post.url }}">
+    {{ post.title }}
+  </a> 
+  <div class="post-date">
+	<span class="glyphicon glyphicon-time"></span>
+	{{ post.date | date:"%Y-%m-%d" }}
+  </div>
+</h2>
+<hr>
+{{ post.excerpt }}
+	<p><h3><a href="{{ post.url }}">阅读全文 &raquo;</a></h3></p>
+<hr>
+{% endfor %}
+
+<!-- Pager indicator -->
+<div style="margin:0px auto;text-align: center">
+{% if paginator.total_pages > 1 %}
+<ul class="pagination">
+  {% if paginator.previous_page %}
+  <li>
+    {% if paginator.previous_page >1 %} 
+      {% assign appendix = '.html' %}
+    {% else %}
+      {% assign appendix = 'index.html' %}
+    {% endif %}
+    <a href="{{ category_path | append : paginator.previous_page_path | append : appendix| prepend: site.baseurl | replace: '//', '/' }}">&laquo; Prev</a>
+  </li>
+  {% else %}
+  <li>
+    <span>&laquo; Prev</span>
+  </li>
+  {% endif %}
+
+  {% for page in (1..paginator.total_pages) %}
+    {% if page == paginator.page %}
+    <li class="active">
+      <span>{{ page }}</span>
+    </li>
+    {% elsif page == 1 %}
+    <li>
+      <a href="{{ category_path | append : '/index.html' | prepend: site.baseurl | replace: '//', '/' }}">{{ page }}</a>
+    </li>
+    {% else %}
+    <li>
+      <a href="{{ category_path | append : site.paginate_path | append : '.html' | prepend: site.baseurl | replace: ':num', page }}">{{ page }}</a>
+    </li>
+    {% endif %}
+  {% endfor %}
+
+  {% if paginator.next_page %}
+   <li>
+    <a href="{{ category_path | append : paginator.next_page_path | append : '.html' | prepend: site.baseurl | replace: '//', '/' }}">Next &raquo;</a>
+   </li>
+  {% else %}
+  <li>
+    <span>Next &raquo;</span>
+  </li>
+  {% endif %}
+</ul>
+{% endif %}
+</div>
+            </div>
+          </div>
         </div>
         <!-- Blog Sidebar Widgets Column -->
         <div class="col-md-4">
-          <!-- Blog Categories Well -->
+          <!-- Side Widget Well -->
           <div class="well">
             <h4>
-              栏目分类
+              推荐链接
             </h4>
-            <div class="row">
-              {% include categories.html %} 
+			      <div class="row">
+            {% include recommend_link.html %} 
             </div>
-            <!-- /.row -->
           </div>
-		  <!-- Blog Recent Well -->
+
+          <!-- Side Widget Well -->
+          <div class="well-ad">
+            {% include adsense_336x280.html %} 
+          </div>
+
+		     <!-- Blog Recent Well -->
           <div class="well">
             <h4>
               最新文章
             </h4>
-			<div class="row">
-              {% include recent_posts.html %} 
-			</div>
-          </div>
+            <div class="row">
+                    {% include recent_posts.html %} 
+            </div>
+          </div>		  
+
         </div>
       </div>
       <!-- /.row -->
@@ -114,6 +193,6 @@
       </footer>
     </div>
     <!-- /.container -->
+    {% include spider.html %} 
   </body>
-
 </html>
