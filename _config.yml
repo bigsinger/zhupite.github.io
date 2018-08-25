@@ -10,24 +10,24 @@ name: "朱皮特个人博客"
 url: http://www.zhupite.com
 domain: www.zhupite.com
 all_categories: [
-["android", "Android开发","/posts/android.html"], 
-["program", "软件编程","/posts/program.html"],
-["web", "Web建站","/posts/web.html"], 
-["python", "Python","/posts/python.html"],
-["iot", "物联网","/posts/iot.html"],
-["read", "读书笔记","/posts/read.html"], 
-["other", "杂记","/posts/other.html"],
-["duilib", "DUILIB","/posts/duilib.html"],
-["lua", "Lua","/posts/lua.html"],
-["js", "JavaScript","/posts/js.html"],
-["myjob", "工作","/posts/myjob.html"],
-["job", "职位内推","/posts/job.html"],
-["about", "关于","/about.html"]
+    ["android", "Android开发","/posts/android.html"], 
+    ["program", "软件编程","/posts/program.html"],
+    ["web", "Web建站","/posts/web.html"], 
+    ["python", "Python","/posts/python.html"],
+    ["iot", "物联网","/posts/iot.html"],
+    ["read", "读书笔记","/posts/read.html"], 
+    ["other", "杂记","/posts/other.html"],
+    ["duilib", "DUILIB","/posts/duilib.html"],
+    ["lua", "Lua","/posts/lua.html"],
+    ["js", "JavaScript","/posts/js.html"],
+    ["myjob", "工作","/posts/myjob.html"],
+    ["job", "职位内推","/posts/job.html"],
+    ["about", "关于","/about.html"]
 ]
 
 paginate: 8
 paginate_path: "posts/page:num"
-timezone: America/Los_Angeles
+timezone: Asia/Shanghai
 
 collections:
   docs:
