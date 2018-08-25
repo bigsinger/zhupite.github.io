@@ -1,6 +1,6 @@
 markdown: kramdown
 highlighter: rouge
-permalink: /posts/:title.html
+permalink: /:categories/:title.html 
 excerpt_separator: "<!-- more -->"
 
 github: zhupite

@@ -2,14 +2,44 @@
 layout: page
 title: Tags
 ---
-<svg class="cloud" style="width:95%;height:450px">
+<svg class="cloud" style="width:95%;height:600px">
     <g></g>
 </svg>
 <div class="tag_posts">
 </div>
 
-<script src="{{ '/js/d3.js' | prepend: site.baseurl }}"></script>
-<script src="{{ '/js/d3.layout.cloud.js' | prepend: site.baseurl }}"></script>
+<!--
+<div>
+{% for tag in site.tags %} 
+	<a name="{{ tag[0] }}"></a><h3>{{ tag[0] }}({{ tag[1].size }})</h3>
+	<ul>
+	{% for post in tag[1] %}
+		<li><span>{{ post.date | date:"%Y-%m-%d" }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
+	{% endfor %}
+	</ul>
+{% endfor %}
+</div>
+
+//tag js
+{% for tag in site.tags %}
+    {
+        tag: '{{ tag[0] }}',
+        freq: {{ tag[1].size }},
+        posts: [
+            {% for post in tag[1] %}
+                {
+                    title: '{{ post.title }}',
+                    url: '{{ BASE_PATH }}{{ post.url }}',
+                    date: '{{ post.date | date: "%Y-%m-%d" }}'
+                },
+            {% endfor %}
+        ]
+    },
+{% endfor %}
+-->
+
+<script src="{{ '/js/d3.js' }}"></script>
+<script src="{{ '/js/d3.layout.cloud.js' }}"></script>
 
 <script>
     var tags = [
@@ -18,18 +48,11 @@ title: Tags
                 tag: '{{ tag[0] }}',
                 freq: {{ tag[1].size }},
                 posts: [
-                    {% for post in tag[1] %}
-                        {
-                            title: '{{ post.title }}',
-                            url: '{{ BASE_PATH }}{{ post.url }}',
-                            date: '{{ post.date | date: "%Y-%m-%d" }}'
-                        },
-                    {% endfor %}
                 ]
             },
         {% endfor %}
     ];
-    var minSize = 24, maxSize = 48;
+    var minSize = 24, maxSize = 60;
     var minFreq = 1;
     var maxFreq = tags.reduce(function(memo, tag) {
         if (tag.freq > memo) {
@@ -94,7 +117,8 @@ title: Tags
                 d3.select(this).style('opacity', '1');
             })
             .on('click', function(d) {
-                showPosts(d.text);
+                //showPosts(d.text);
+                window.location.href='/tag/'+d.text+'.html';
             });
     }
     
