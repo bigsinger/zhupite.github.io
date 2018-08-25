@@ -7,6 +7,7 @@ github: zhupite
 author: "朱皮特"
 email: pushebp#163.com
 name: "朱皮特个人博客"
+baseurl: /
 url: http://www.zhupite.com
 domain: www.zhupite.com
 all_categories: [
@@ -25,13 +26,21 @@ all_categories: [
     ["about", "关于","/about.html"]
 ]
 
-paginate: 8
-paginate_path: "posts/page:num"
-timezone: Asia/Shanghai
+paginate: 10 
+paginate_path: "index_:num"
+
+index_layout: "index.html"
+category_layout: "_layouts/category.html"
+tag_layout: "_layouts/tag.html"
+
+#不使用gems库中的jekyll-paginate-category
+#使用基于jekyll-paginate改写的的栏目分页插件，所以jekyll-paginate还需要用上。
+#gems: [jekyll-paginate,jekyll-paginate-category]
+gems: [jekyll-paginate]
 
 collections:
   docs:
     output: true
 
-gems:
- - jekyll-paginate
+copyright: []
+timezone: Asia/Shanghai
