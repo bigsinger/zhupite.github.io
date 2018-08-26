@@ -7,7 +7,7 @@
 
 # Site settings
 title: 朱皮特的博客
-brief-intro: 自由驰骋
+brief-intro: 自由的飞翔
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://www.zhupite.com" # the base hostname & protocol for your site
 
