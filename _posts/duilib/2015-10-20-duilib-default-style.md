@@ -13,7 +13,7 @@ date:	2015-10-20
 给<Window>节点添加一个Default节点即可，其中name属性填写控件的名字，value属性添加控件的属性的值，不过需要将双引号【"】换成【&quot;】，单引号【'】换成【&apos;】,单引号也可以不转换。
 
 XML如下（由于标题栏基本不再变化，所以**后面的教程将省略<!-- 标题栏区 -->那一段XML）**：
-```
+```xml
 <Window size="800,600" mininfo="600,400" caption="0,0,0,32" sizebox="4,4,4,4">
     <Default name="Button" value="  height=&quot;25&quot; width=&quot;60&quot; normalimage=&quot;file=&apos;BtnStyle\XP\button_nor.png&apos;&quot; hotimage=&quot;file=&apos;BtnStyle\XP\button_over.png&apos;&quot; pushedimage=&quot;file=&apos;BtnStyle\XP\button_down.png&apos;&quot; focusedimage=&quot;file=&apos;BtnStyle\XP\button_focus.png&apos;&quot; " />
     <VerticalLayout bkcolor="#FFF0F0F0" bkcolor2="#FFAAAAA0">
