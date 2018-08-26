@@ -1,0 +1,47 @@
+markdown: kramdown
+highlighter: rouge
+permalink: /:categories/:title.html 
+excerpt_separator: "<!-- more -->"
+
+github: zhupite
+author: "朱皮特"
+email: pushebp#163.com
+name: "朱皮特个人博客"
+baseurl: /
+url: http://www.zhupite.com
+domain: www.zhupite.com
+all_categories: [
+    ["android", "Android开发","/android/index.html"], 
+    ["program", "软件编程","/program/index.html"],
+    ["web", "Web建站","/web/index.html"], 
+    ["python", "Python","/python/index.html"],
+    ["iot", "物联网","/iot/index.html"],
+    ["read", "读书笔记","/read/index.html"], 
+    ["other", "杂记","/other/index.html"],
+    ["duilib", "DUILIB","/duilib/index.html"],
+    ["lua", "Lua","/lua/index.html"],
+    ["js", "JavaScript","/js/index.html"],
+    ["myjob", "工作","/myjob/index.html"],
+    ["job", "职位内推","/job/index.html"],
+    ["about", "存档","/archives.html"],
+    ["about", "关于","/about.html"]
+]
+
+paginate: 10 
+paginate_path: "index_:num"
+
+index_layout: "index.html"
+category_layout: "_layouts/category.html"
+tag_layout: "_layouts/tag.html"
+
+#不使用gems库中的jekyll-paginate-category
+#使用基于jekyll-paginate改写的的栏目分页插件，所以jekyll-paginate还需要用上。
+#gems: [jekyll-paginate,jekyll-paginate-category]
+gems: [jekyll-paginate]
+
+collections:
+  docs:
+    output: true
+
+copyright: []
+timezone: Asia/Shanghai
