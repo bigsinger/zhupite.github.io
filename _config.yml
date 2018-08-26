@@ -11,8 +11,8 @@ brief-intro: 自由驰骋
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://www.zhupite.com" # the base hostname & protocol for your site
 
-# permalink: /:categories/:title.html
-permalink: /:year/:month/:day/:title/
+permalink: /:categories/:title.html
+# permalink: /:year/:month/:day/:title/
 
 # other links
 twitter_username: 
