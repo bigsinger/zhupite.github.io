@@ -40,13 +40,11 @@ baidu_tongji_id: 532449feb93e6d90c237be4598eea769
 
 # Build settings
 markdown: kramdown
+highlighter: rouge
 
-kramdown:
-  input: GFM
-  syntax_highlighter: rouge
-
-# port
-# port: 1234
+# kramdown:
+#   input: GFM
+#   syntax_highlighter: rouge
 
 # url
 category_dir: category/
