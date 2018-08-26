@@ -6,17 +6,17 @@ tags:		[android]
 ---
 
 
-## 一、常见原因
+# 一、常见原因
 - lib库不同目录下的SO文件参差不齐。
 - lib库目录下的SO不符合相应的CPU架构。
 - 64-bit下使用System.load加载SO（正确方法是使用System.loadLibrary）。
 - java代码混淆导致。
 - 注册方式不对，或函数已经被其他类注册。
 
-## 二、常见错误现象
+# 二、常见错误现象
 
 ### 1、Android NDK 运行错误：java.lang.UnsatisfiedLinkError: Couldn't load XXX from loader dalvik.system.PathClassLoader xxx findLibrary returned null
-```
+```java
 18:45:52.320  10741-10741/com.example.hellojni E/AndroidRuntime﹕ FATAL EXCEPTION: main
 Process: com.example.hellojni, PID: 10741
 java.lang.UnsatisfiedLinkError: Couldn't load hello-jni from loader dalvik.system.PathClassLoader[DexPathList[[zip file "/data/app/com.example.hellojni-1.apk"],nativeLibraryDirectories=[/data/app-lib/com.example.hellojni-1, /vendor/lib, /system/lib]]]: findLibrary returned null
@@ -45,7 +45,7 @@ java.lang.UnsatisfiedLinkError: Couldn't load hello-jni from loader dalvik.syste
 
 
 ### 3、Android NDK UnsatisfiedLinkError: dlopen failed: empty/missing DT_HASH in "libxxxx.so" (built with --hash-style=gnu?)
-```
+```java
 java.lang.UnsatisfiedLinkError: dlopen failed: empty/missing DT_HASH in "cpplibrary.so" (built with --hash-style=gnu?)
    at java.lang.Runtime.loadLibrary(Runtime.java:365)
    at java.lang.System.loadLibrary(System.java:526)
@@ -56,7 +56,7 @@ java.lang.UnsatisfiedLinkError: dlopen failed: empty/missing DT_HASH in "cpplibr
 
 
 
-## 三、常见出错原因及解决方案
+# 三、常见出错原因及解决方案
 
 ### 1、java代码混淆导致
 由于Native层需要注册到java层函数，如果java层对应的类名和函数名在打包的时候被混淆了，肯定是会出现异常的。此类问题比较定位解决，但是也比较容易忘记。解决办法就是在proguard混淆时keep掉对应的类和函数。
@@ -104,13 +104,13 @@ So the first workaround is using System.loadLibrary() instead of System.load().
 有一种组合错误，就是APK的lib库打的参差不齐，又在64-bit下使用System.load加载SO。
 有一个APP在MX5（android5.0.1）下出现了以下异常：
 
-```
+```java
 Caused by: java.lang.UnsatisfiedLinkError: dlopen failed: "/data/data/com.xxx.pris/app_lib/libPDEEngine.so" is 32-bit instead of 64-bit
 ```
 首先可以大致知道这是一个64位的机器，查看机器信息，确实是arm64-v8a。首先就是看APK的lib目录打的对不对，果然
 armeabi下有12个SO，而armeabi-v7a下却只有11个SO。但是他们使用了Relinker来尝试安全加载SO来降低UnsatisfiedLinkError的异常。
 
-```
+```java
 public static void loadLibrary(final Context context, final String library) {
 if (context == null) {
     throw new IllegalArgumentException("Given context is null");
@@ -140,12 +140,12 @@ System.load(workaroundFile.getAbsolutePath());
 可以看出，如果因为SO打的参差不齐导致了APK在安装的时候SO就已经有遗漏的没有被安装进lib的加载目录。那么System.loadLibrary的时候便会有异常，然后代码尝试解压并释放所需要的SO文件，但是这个时候只能通过System.load来加载了，又由于当前是arm64-v8a的机器，所以就出现了[Use 32\-bit jni libraries on 64\-bit android \- Stack Overflow](http://stackoverflow.com/questions/27186243/use-32-bit-jni-libraries-on-64-bit-android)的问题。
 
 
-## 四、总结
+# 四、总结
 如果问题出现时可以尝试通过以上的几种方法来排查，如果有其他没有罗列的情形可以继续收集整理。
 如果想要规避以上的问题，**最好的办法就是打好打全相应CPU架构的SO文件。**
 
 
-## 五、参考
+# 五、参考
 - [动态链接库加载原理及HotFix方案介绍 \- DEV CLUB](http://dev.qq.com/topic/57bec216d81f2415515d3e9c)
 - [安装APK时SO库的选择策略\-\-网易实践者社区](http://ks.netease.com/blog?id=2178)
 - [The Perils of Loading Native Libraries on Android – Keepsafe Engineering – Medium](https://medium.com/keepsafe-engineering/the-perils-of-loading-native-libraries-on-android-befa49dce2db)
