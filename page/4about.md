@@ -11,13 +11,11 @@ type: page
 
 ## 关于我
 
-<iframe src="https://githubbadge.appspot.com/gaohaoyang?s=1" style="border: 0;height: 142px;width: 200px;overflow: hidden;" frameBorder="0"></iframe>
+<iframe src="https://githubbadge.appspot.com/bigsinger?s=1" style="border: 0;height: 142px;width: 200px;overflow: hidden;" frameBorder="0"></iframe>
 
-就职于阿里巴巴集团天猫事业部，前端开发工程师，花名川轼。
+就职于。。。
 
-主要兴趣集中在前端开发，大前端的概念深入我心。将更多的业务逻辑放在前端中，这很有趣。同时，将自己构想的内容实现出来，这种感觉很愉快。
-
-热爱美好的事物，热爱摇滚乐，组过乐队，卖过唱。
+主要兴趣。。。
 
 
 ```
