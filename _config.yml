@@ -14,16 +14,16 @@ url: "https://www.zhupite.com" # the base hostname & protocol for your site
 permalink: /:categories/:title.html 
 
 # other links
-twitter_username: gaohaoyang126
-facebook_username: gaohaoyang.water
+twitter_username: 
+facebook_username: 
 github_username:  bigsinger
 email: pushebp#163.com
-weibo_username: BIGSINGER
+weibo_username: 6060639246
 zhihu_username: bigsinger
-linkedIn_username: gaohaoyang
+linkedIn_username: 
 dribbble_username:
 
-description_footer: 本站记录我前端之旅的沿途风景！
+description_footer: 本站记录编程思想生活感言
 
 # comments
 # two ways to comment, only choose one, and use your own short name
