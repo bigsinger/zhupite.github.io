@@ -1,0 +1,17 @@
+  <div id="git_comment" style="margin:0px 10px"></div>
+  <script src="/comment/gitment.browser.js"></script>
+  <script>
+    var clientId = '75ae7c080c16673756d6'
+    var clientSecret = '9792dc439aa9281ce21590fdb0f668bc98b9faf8'
+    var gitment = new Gitment({
+      id: window.location.pathname,
+      owner: 'bigsinger',
+      repo: 'commentofzhupite',
+      oauth: {
+        client_id: clientId,
+        client_secret: clientSecret,
+      },
+    })
+
+    gitment.render('git_comment')
+  </script>
