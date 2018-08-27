@@ -13,7 +13,8 @@ layout: default
 
             <div class="label-card">
                 {% if page.author %}<i class="fa fa-user"></i>{{ page.author }}
-				{% elif site.author.name %}<i class="fa fa-user"></i>{{ site.author.name }}
+				{% else %}
+					{% if site.author.name %}<i class="fa fa-user"></i>{{ site.author.name }}{% endif %}
                 {% endif %}
             </div>
 
