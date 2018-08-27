@@ -7,7 +7,6 @@
 
 # Site settings
 title: 朱皮特的博客
-author_default: 朱皮特
 brief-intro: 自由的飞翔
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://www.zhupite.com" # the base hostname & protocol for your site
@@ -26,6 +25,9 @@ linkedIn_username:
 dribbble_username:
 
 description_footer: 本站记录编程思想生活感言
+
+author:
+  name: 朱皮特
 
 # comments
 # two ways to comment, only choose one, and use your own short name
