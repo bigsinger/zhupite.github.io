@@ -1,6 +1,6 @@
 ---
 layout:		post
-category:	"program"
+category:	"llvm"
 title:		"Windows下LLVM6.0集成并编译OLLVM中的Obfuscator的各个pass"
 tags:		[llvm]
 ---

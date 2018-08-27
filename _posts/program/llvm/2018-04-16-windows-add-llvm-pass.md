@@ -1,6 +1,6 @@
 ---
 layout:		post
-category:	"program"
+category:	"llvm"
 title:		"LLVM在Windows下使用VisualStudio2017添加编译自定义pass"
 tags:		[llvm]
 ---

@@ -1,6 +1,6 @@
 ﻿---
 layout:		post
-category:	"program"
+category:	"llvm"
 title:		"Windows下的LLVM之把pass抽离到DLL中"
 tags:		[llvm]
 ---

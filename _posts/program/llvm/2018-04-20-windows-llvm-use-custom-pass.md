@@ -1,6 +1,6 @@
 ---
 layout:		post
-category:	"program"
+category:	"llvm"
 title:		"LLVM在Windows下用opt调用自定义pass"
 tags:		[llvm]
 ---

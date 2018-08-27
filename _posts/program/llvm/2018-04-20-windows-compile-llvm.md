@@ -1,7 +1,7 @@
 ﻿---
 layout:		post
-category:	"program"
-title:		"Windows下CMake编译VisualStudio2017工程项目"
+category:	"llvm"
+title:		"Windows下CMake生成LLVM的VisualStudio2017项目并编译"
 tags:		[llvm]
 ---
 1. 下载以下三个源码包：
