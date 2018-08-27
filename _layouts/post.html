@@ -28,6 +28,10 @@ layout: default
             <div class="label-card">
             {% include tag.html %}
             </div>
+			
+			<div class="label-card">
+                <i class="fa fa-paper-plane"></i>阅读量：<span id="busuanzi_value_page_pv"></span>
+            </div>
 
         </div>
         <hr>
@@ -103,3 +107,4 @@ layout: default
 }());
 </script>
 <script src="{{ "/js/pageContent.js " | prepend: site.baseurl }}" charset="utf-8"></script>
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
