@@ -62,7 +62,10 @@ tags:		[python]
 -[re 正则表达式](./python-re.html)
 
 # 文件与IO
-
+- [Python文件操作](./python-file.html)
+- [Python操作CSV文件](./python-csv.html)
+- [字符串IO模拟文件io.StringIO() 和 io.BytesIO()](./python-stringio-bytesio.html)
+- [文件遍历](./python-glob.html)
 
 # 元编程
 
