@@ -33,7 +33,7 @@ tags:		[python]
 
 ```
 
-# 日期时间
+# [日期时间](./python-datetime.html)
 
 # 函数
 # 闭包
