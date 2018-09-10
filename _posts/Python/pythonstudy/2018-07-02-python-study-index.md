@@ -35,7 +35,7 @@ tags:		[python]
 
 # [日期时间](./python-datetime.html)
 
-# 函数
+# [函数](./python-function.html)
 # 闭包
 # 内置函数
 # 字符串和文本

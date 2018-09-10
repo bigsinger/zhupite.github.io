@@ -1,7 +1,7 @@
 ---
 layout:		post
 category:	"python"
-title:		"Python速查资料"
+title:		"Python日期时间"
 tags:		[python]
 ---
 - Content
