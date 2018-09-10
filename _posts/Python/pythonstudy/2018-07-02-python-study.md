@@ -8,31 +8,27 @@ tags:		[python]
 {:toc}
 
 # 基本数据结构和操作
-### [any all](./python-any-all.html)
-### 二八十六进制数
-### 生成器表达式
-### 对象深拷贝
-### 不定数量的变量
+1. [any all](./python-any-all.html)
+1. [二八十六进制数](./python-0b0o0x.html)
+1. [生成器表达式](./python-generator.html)
+1. [对象深拷贝](./python-deepcopy.html)
+1. [不定数量的变量](./python-var-arg.html)
+1. [队列deque](./python-deque.html)
+1. [删除相同元素并保持顺序](./python-deque.html)
+1. [堆heapq与最大最小N个元素](./python-heapq.html)
+1. [堆实现的优先级队列](./python-heapq.html)
+1. [defaultdict多值字典](./python-defaultdict.html)
+1. [OrderedDict](./python-ordereddict.html)
+1. [字典最大最小元素](./python-dict.html)
+1. [字典的键集合值集合](./python-dict.html)
+1. [切片slice](./python-slice.html)
+1. [出现频率最高的元素](./python-counter.html)
+1. [字典元素排序](./python-sorted.html)
+1. 不支持原生比较对象的排序：使用lambda表达式或者operator.attrgetter
+1. [过滤序列元素](./python-filt-item.html)
+1. [namedtuple命名元组结构体](./python-namedtuple.html)
+1. [random随机数](./python-random.html)
 
-### 队列deque
-### 堆heapq与最大最小N个元素
-### 堆实现的优先级队列
-### defaultdict多值字典
-### OrderedDict 
-### 字典最大最小元素
-### 字典的键集合值集合
-### 删除相同元素并保持顺序
-### 切片slice
-### 出现频率最高的元素
-### 字典元素排序
-### 不支持原生比较对象的排序
-### 过滤序列元素
-#### 列表推导
-#### 生成器表达式
-#### filter
-#### itertools.compress
-### namedtuple命名元组结构体
-### random随机数
 ```python
 
 ```

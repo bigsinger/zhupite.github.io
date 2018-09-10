@@ -21,5 +21,5 @@ else:
     print('Sorry, no python.')
 
 if any(name.endswith(('.c', '.h')) for name in listdir(dirname)):
-	...
+    ...
 ```
