@@ -54,9 +54,11 @@ tags:		[python]
 - [字符串查找与匹配](./python-string-find.html)
 - [字符串替换](./python-string.replace.html)
 - [网页字符串的转义与反转义](./python-escape.html)
+- 可参考Python核心编程附录部分
 
 # 正则表达式
--[re 正则表达式](./python-re.html)
+- [re 正则表达式](./python-re.html)
+- 可参考Python核心编程第一章节内容
 
 # 文件与IO
 - [Python文件操作](./python-file.html)
@@ -119,9 +121,18 @@ tags:		[python]
 
 # [数据库](./python-database.html)
 
+# [Microsoft Office 编程](./python-office.html)
+
+# [扩展Python](./python-c.html)
+
+# [Web 客户端和服务器](./python-web.html)
+
+# [云计算](./python-cloud.html)
 
 # 数据分析
 
+# 其他
+- Jython
 
 # 参考
 - [Python Cookbook 3rd Edition Documentation — python3\-cookbook 3\.0\.0 文档](https://python3-cookbook.readthedocs.io/zh_CN/latest/)
