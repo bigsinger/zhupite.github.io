@@ -37,6 +37,7 @@ tags:		[python]
 
 # [函数](./python-function.html)
 # 闭包
+
 # 内置函数
 - [zip](./python-zip.html)
 - [map](./python-map.html)
@@ -46,13 +47,39 @@ tags:		[python]
 - [groupby分组](./python-groupby.html)
 - [mix和max](./python-min-max.html)
 - [divmod](./python-divmod.html)
+
 # 字符串和文本
+- [字符串格式化和对齐](./python-format.html)
+- [Unicode字符串](./python-unicode.html)
+- [join 字符串连接](./python-join.html)
+- [split 字符串分割](./python-split.html)
+- [strip 删除字符串两端不需要的字符](./python-strip.html)
+- [字符串查找与匹配](./python-string-find.html)
+- [字符串替换](./python-string.replace.html)
+- [网页字符串的转义与反转义](./python-escape.html)
+
 # 正则表达式
+-[re 正则表达式](./python-re.html)
+
 # 文件与IO
+
+
 # 元编程
+
+
 # 网络
+
+
 # 线程
+
+
 # 经验技巧
+
+
 # 数据库
+
+
 # 数据分析
+
+
 # 参考
