@@ -38,6 +38,14 @@ tags:		[python]
 # [函数](./python-function.html)
 # 闭包
 # 内置函数
+- [zip](./python-zip.html)
+- [map](./python-map.html)
+- [hasattr](./python-hasattr.html)
+- [getattr](./python-getattr.html)
+- [operator.attrgetter](./python-attrgetter.html)
+- [groupby分组](./python-groupby.html)
+- [mix和max](./python-min-max.html)
+- [divmod](./python-divmod.html)
 # 字符串和文本
 # 正则表达式
 # 文件与IO

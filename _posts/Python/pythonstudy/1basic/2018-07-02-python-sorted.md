@@ -38,3 +38,6 @@ min(rows, key=itemgetter('uid'))
 max(rows, key=itemgetter('uid'))
 # {'fname': 'Big', 'lname': 'Jones', 'uid': 1004}
 ```
+
+
+关联：[operator.attrgetter](./python-attrgetter.html)
