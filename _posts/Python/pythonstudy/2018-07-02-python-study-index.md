@@ -103,6 +103,8 @@ tags:		[python]
 - 本地线程存储
 - 线程池
 
+# [GUI编程](./python-gui.html)
+
 # [经验技巧](./python-snippet.html)
 - 日志
 - 常量
@@ -115,7 +117,7 @@ tags:		[python]
 - 实现接口效果
 - 快捷键
 
-# 数据库
+# [数据库](./python-database.html)
 
 
 # 数据分析

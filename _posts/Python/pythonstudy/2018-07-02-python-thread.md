@@ -7,6 +7,25 @@ tags:		[python]
 - Content
 {:toc}
 
+推荐使用更高级别的 threading 模块，而不使用 thread 模块。 threading 模块更加先进，有更好的线程支持，并且 thread 模块中的一些属性会和 threading 模块有冲突。
+
+另一个原因是低级别的 thread 模块拥有的同步原语很少（实际上只有一个），而 threading模块则有很多。
+
+避免使用 thread 模块的另一个原因是它对于进程何时退出没有控制。当主线程结束时，所有其他线程也都强制结束，不会发出警告或者进行适当的清理。如前所述，至少threading 模块能确保重要的子线程在进程退出前结束
+
+threading 模块提供了更高级别、功能更全面的线程管理。使用 Queue 模块，用户可以创建一个队列数据结构，用于在多线程之间进行共享。
+
+# threading 模块的对象
+- **Thread** 表示一个执行线程的对象
+- **Lock** 锁原语对象（和 thread 模块中的锁一样）
+- **RLock** 可重入锁对象，使单一线程可以（再次）获得已持有的锁（递归锁）
+- **Condition** 条件变量对象，使得一个线程等待另一个线程满足特定的“条件”，比如改变状态或某个数据值
+- **Event** 条件变量的通用版本，任意数量的线程等待某个事件的发生，在该事件发生后所有线程将被激活
+- **Semaphore** 为线程间共享的有限资源提供了一个“计数器”，如果没有可用资源时会被阻塞
+- **BoundedSemaphore** 与 Semaphore 相似，不过它不允许超过初始值
+- **Timer** 与Thread相似，不过它要在运行前等待一段时间
+- **Barrier**① 创建一个“障碍”，必须达到指定数量的线程后才可以继续
+
 # 启动线程
 ```python
 # Code to execute in an independent thread
@@ -21,6 +40,39 @@ def countdown(n):
 from threading import Thread
 t = Thread(target=countdown, args=(10,))
 t.start()
+```
+
+# 多线程
+通常来说，多线程是一个好东西。不过，由于 Python 的 GIL 的限制，多线程更适合于 I/O 密集型应用（I/O 释放了 GIL，可以允许更多的并发），而不是计算密集型应用。对于后一种情况而言，为了实现更好的并行性，你需要使用多进程，以便让 CPU 的其他内核来执行。
+
+## subprocess
+这是派生进程的主要替代方案，可以单纯地执行任务，或者通过标准文件（stdin、 stdout、stderr）进行进程间通信。该模块自 Python 2.4 版本起引入。
+
+## multiprocessing
+该模块自 Python 2.6 版本起引入，允许为多核或多 CPU 派生进程，其接口与 threading模块非常相似。该模块同样也包括在共享任务的进程间传输数据的多种方式。
+
+## concurrent.futures 
+这是一个新的高级库，它只在“任务”级别进行操作，也就是说，你不再需要过分关注同步和线程/进程的管理了。你只需要指定一个给定了“worker”数量的线程/进程池，提交任务，然后整理结果。该模块自 Python 3.2 版本起引入。
+
+
+# 线程池
+```python
+from concurrent.futures import ThreadPoolExecutor
+import urllib.request
+
+def fetch_url(url):
+    u = urllib.request.urlopen(url)
+    data = u.read()
+    return data
+
+pool = ThreadPoolExecutor(10)
+# Submit work to the pool
+a = pool.submit(fetch_url, 'http://www.python.org')
+b = pool.submit(fetch_url, 'http://www.pypy.org')
+
+# Get the results back
+x = a.result()
+y = b.result()
 ```
 
 # 循环停止变量
@@ -69,6 +121,23 @@ class IOTask:
 ```
 
 # Thread派生类
+threading 模块的 Thread 类是主要的执行对象。
+- name 线程名
+- ident 线程的标识符
+- daemon 布尔标志，表示这个线程是否是守护线程
+
+
+- \_init\_(group=None, tatget=None, name=None, args=(),
+kwargs ={}, verbose=None, daemon=None) 实例化一个线程对象，需要有一个可调用的 target，以及其参数 args
+或 kwargs。还可以传递 name 或 group 参数，不过后者还未实现。此
+外 ， verbose 标 志 也 是 可 接 受 的。 而 daemon 的 值 将 会 设定
+thread.daemon 属性/标志
+- start() 开始执行该线程
+- run() 定义线程功能的方法（通常在子类中被应用开发者重写）
+- join (timeout=None) 直至启动的线程终止之前一直挂起；除非给出了 timeout（秒），否则
+会一直阻塞
+
+
 ```python
 from threading import Thread
 
@@ -448,22 +517,11 @@ if __name__ == '__main__':
     t2.join()
 ```
 
-# 线程池
-```python
-from concurrent.futures import ThreadPoolExecutor
-import urllib.request
 
-def fetch_url(url):
-    u = urllib.request.urlopen(url)
-    data = u.read()
-    return data
+# 守护线程
+threading 模块支持守护线程，其工作方式是：守护线程一般是一个等待客户端请求服务的服务器。如果没有客户端请求，守护线程就是空闲的。如果把一个线程设置为守护线程，就表示这个线程是不重要的，进程退出时不需要等待这个线程执行完成。
 
-pool = ThreadPoolExecutor(10)
-# Submit work to the pool
-a = pool.submit(fetch_url, 'http://www.python.org')
-b = pool.submit(fetch_url, 'http://www.pypy.org')
+如果主线程准备退出时，不需要等待某些子线程完成，就可以为这些子线程设置守护线程标记。该标记值为真时，表示该线程是不重要的，或者说该线程只是用来等待客户端请求而不做任何其他事情。
 
-# Get the results back
-x = a.result()
-y = b.result()
-```
+要将一个线程设置为守护线程，需要在启动线程之前执行如下赋值语句：thread.daemon = True。同样，要检
+查线程的守护状态，也只需要检查这个值即可。一个新的子线程会继承父线程的守护标记。整个 Python 程序（可以解读为：主线程）将在所有非守护线程退出之后才退出，换句话说，就是没有剩下存活的非守护线程时。
