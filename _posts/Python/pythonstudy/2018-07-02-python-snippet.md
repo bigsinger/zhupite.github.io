@@ -222,6 +222,61 @@ import sys
 sys.stderr.write('It failed!\n')
 raise SystemExit(1)
 ```
+
+# 实现接口效果
+可以利用类的重载来实现一个简单的效果，例如基类有一个get_name函数，要求派生类必须各自设置自己的名称，基类不允许被调用，也即**实现类似接口的效果**。那么可以这样实现:
+```python
+class ITask:
+    def __init__(self):
+        self.onInit()
+        pass
+
+    def __del__(self):
+        # logging.info("释放资源：" + self.getName())
+        pass
+
+    def getName(self):
+        logging.error(self.getName() + '派生类未实现函数' + get_crrent_fnction_name())
+        assert None
+
+    def onInit(self):
+        logging.error(self.getName() + '派生类未实现函数' + get_crrent_fnction_name())
+        assert None
+
+    def work(self, param):
+        start_time = time.time()
+        logging.info("开始执行: [%s]", self.getName())
+        self.onBeforeWork(param)
+        self.onWork(param)
+        self.onAfterWork(param)
+        end_time = time.time()
+        logging.info("执行完成: [%s] 耗时: %.2f s", self.getName(), end_time -  start_time)
+
+    def release(self):
+        self.onRelease()
+
+    def onBeforeWork(self, param):
+        logging.error(self.getName() + '派生类未实现函数' + get_crrent_fnction_name())
+        assert None
+
+    def onWork(self, param):
+        logging.error(self.getName() + '派生类未实现函数' + get_crrent_fnction_name())
+        assert None
+
+    def onAfterWork(self, param):
+        logging.error(self.getName() + '派生类未实现函数' + get_crrent_fnction_name())
+        assert None
+
+    def onRelease(self):
+        logging.error(self.getName() + '派生类未实现函数' + get_crrent_fnction_name())
+        assert None
+```
+如果派生类忘记实现强制要求的函数，则运行时会触发断言，这样就相当于显示提醒设计者必须为派生类实现相应函数。
+
+这个方法我在[FlowPy](https://github.com/bigsinger/FlowPy)中有使用，参见：https://github.com/bigsinger/FlowPy/blob/master/FlowPy/Flow/ITask.py
+
+更高级的用法可以参见[元编程](./python-meta.html)：强制派生类的重载函数与基类保持一致
+ 
 # 快捷键
 - 历史粘贴板	Ctrl + Shift + V
 - 任意搜索	两次Shift
