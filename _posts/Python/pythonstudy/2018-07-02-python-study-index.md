@@ -29,9 +29,6 @@ tags:		[python]
 1. [namedtuple命名元组结构体](./python-namedtuple.html)
 1. [random随机数](./python-random.html)
 
-```python
-
-```
 
 # [日期时间](./python-datetime.html)
 
@@ -67,17 +64,55 @@ tags:		[python]
 - [字符串IO模拟文件io.StringIO() 和 io.BytesIO()](./python-stringio-bytesio.html)
 - [文件遍历](./python-glob.html)
 
-# 元编程
+# [元编程](./python-meta.html)
+- [元编程](./python-meta.html)
+- 装饰器
+- 参数类型检查的装饰器
+- 属性装饰器
+- 为函数增加参数的装饰器
+- 装饰类并打印其行为
+- 元类创建单示例类、缓存类
+- 按定义顺序使用类的属性 主要用于序列化
+- 监控类的定义
+- 使用元类对编程进行规范
+- 强制派生类的重载函数与基类保持一致
+- 自定义with上下文管理器
 
+# [网络](./python-net.html)
+- [网络操作](./python-net.html)
+- urllib.request
+- http.client
+- socketserver
+- socket
 
-# 网络
+# [线程](./python-thread.html)
+- [线程](./python-thread.html)
+- 启动线程
+- 循环停止变量
+- 超时轮询
+- Thread派生类
+- Event
+- Condition
+- Semaphore
+- 线程间通信
+- 通知消费者结束
+- task_done() 和 joi()
+- 防止生产者生产过快造成资源耗尽
+- 加锁Lock
+- 限定并发量
+- 本地线程存储
+- 线程池
 
-
-# 线程
-
-
-# 经验技巧
-
+# [经验技巧](./python-snippet.html)
+- 日志
+- 常量
+- 参数解析
+- 配置文件configparser
+- 路径管理器
+- 脚本模板
+- 打开网页
+- 终止程序并给出错误信息
+- 快捷键
 
 # 数据库
 
@@ -86,3 +121,10 @@ tags:		[python]
 
 
 # 参考
+- [Python Cookbook 3rd Edition Documentation — python3\-cookbook 3\.0\.0 文档](https://python3-cookbook.readthedocs.io/zh_CN/latest/)
+- [python 代码分享 \- 代码片段](http://www.phpxs.com/code/python/)
+- [Python 基础教程 \| 菜鸟教程](http://www.runoob.com/python/python-tutorial.html)
+
+```python
+
+```
