@@ -7,6 +7,11 @@ tags:		[python]
 - Content
 {:toc}
 
+# web结构
+- 前端程序：HTML、CSS、JS
+- 后台程序：Python、PHP、JSP……
+- 数据库：MySQL、MongoDB 
+
 # Web 应用：客户端/服务器计算
 
 Web 应用遵循前面反复提到的客户端/服务器架构。这里说的 Web 客户端是浏览器，即允许用户在万维网上查询文档的应用程序。另一边是 Web 服务器端，指的是运行在信息提供商的主机上的进程。这些服务器等待客户端和及其文档请求，进行相应的处理，并返回相关的数据。正如大多数客户端/服务器系统中的服务器端一样， Web 服务器端“永远”运行。图9-1 展示了 Web 应用的惯用流程。这里，用户运行 Web 客户端程序（如浏览器），连接因特网上任意位置的 Web 服务器来获取数据。
@@ -69,6 +74,28 @@ prot_sch://net_loc/path;params?query#fra
 
 对于 Web 框架开发者，问题就更加突出了，由于需要给予用户最大的灵活性。如果不想强迫他们开发多版本的应用，就必须为所有服务器解决方案提供接口，以此来让更多的用户采用你的框架。这个困境看起来绝不是 Python 的风格，就导致了 Web 服务器网类接口（WebServer Gateway Interface， WSGI）标准的建立。
 
+## 搭建一个简单的web服务
+cd F:\PycharmProjects\test
+
+例如在F:\PycharmProjects\test目录下创建cgi-bin目录，在cgi-bin创建一个webs.py文件：
+```python
+import cgi,cgitb
+
+form1 = cgi.FieldStorage()
+
+name = form1.getvalue('name')
+
+print 'Content-type:text/html\n\n'
+print 'hello ' + name
+```
+打开命令行：
+cd F:\PycharmProjects\test
+执行**python -m CGIHTTPServer 8081**
+
+服务器开启后，在浏览器中输入：
+http://localhost:8081/cgi-bin/webs.py?name=1
+
+
 ## 	WSGI
 WSGI 不是服务器，也不是用于与程序交互的 API，更不是真实的代码，而只是定义的一个接口。 WSGI 规范作为 PEP 333 于 2003 年创建，用于处理日益增多的不同 Web 框架、Web 服务器，及其他调用方式（如纯 CGI、服务器 API、外部进程）。
 
@@ -105,3 +132,4 @@ Web 开发除了像上一章那样全部从头写起，还可以在其他人已�
 
 ## Django
 Django 自称是“**能够很好地应对应用上线期限的 Web 框架**”。
+

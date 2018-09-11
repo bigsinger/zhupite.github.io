@@ -38,3 +38,29 @@ Web 和社交服务的流行趋势会导致产生大量的数据，并且/或者
 有很多此类数据库可以进行选择，不过它们的类型并不完全相同。单就非关系数据库而言，就有对象数据库、键-值对存储、文档存储（或者数据存储）、图形数据库、表格数据库、列/可扩展记录/宽列数据库、多值数据库等很多种类。本章结尾会给出一些链接来帮助你对 NoSQL 进行进一步研究。在本书写作时，有一个非常流行的文档存储非关系数据库叫做 **MongoDB**。
 
 尽管 Python 中有很多 MongoDB 驱动程序，不过其中最正式的一个是 **pymongo**。
+
+# 常用数据库操作代码
+## pymysql判断数据库表是否存在
+```Python
+def table_exists(self, connect, table_name):
+    '''
+    功能：判断表是否存在
+    :param connect: 数据库连接
+    :param table_name: 表名
+    :return: 如果存在返回True，不存在返回False
+    '''
+    found = False
+    sql = "show tables;"
+    cursor = connect.cursor()
+    cursor.execute(sql)
+    tables = cursor.fetchall()
+    connect.commit()
+    cursor.close()
+
+    # (('table1',), ('table2',), ..., ('tablen',))
+    for t in tables:
+        if t[0] == table_name:
+            found = True
+            break
+    return found
+```

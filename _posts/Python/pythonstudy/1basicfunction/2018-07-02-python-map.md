@@ -42,3 +42,7 @@ NL =list(map(str,L))
 print(NL)
 
 ```
+
+## 参考
+- [python map函数 \- 超级学渣渣 \- 博客园](http://www.cnblogs.com/superxuezhazha/p/5714970.html)
+- 

@@ -138,6 +138,7 @@ tags:		[python]
 - [Python Cookbook 3rd Edition Documentation — python3\-cookbook 3\.0\.0 文档](https://python3-cookbook.readthedocs.io/zh_CN/latest/)
 - [python 代码分享 \- 代码片段](http://www.phpxs.com/code/python/)
 - [Python 基础教程 \| 菜鸟教程](http://www.runoob.com/python/python-tutorial.html)
+- [\[翻译整理\]stackoverflow python 百问](http://www.wklken.me/posts/2013/07/20/python-stackoverflow-vote-top.html#_2)
 
 ```python
 

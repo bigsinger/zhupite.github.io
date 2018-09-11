@@ -53,3 +53,49 @@ E:\CloudMusic\黄龄 - 痒.mp3
 E:\CloudMusic\MV\Coldplay - Viva La Vida.mp4
 '''
 ```
+
+## 应用举例
+## 对单个文件或目录下文件进行解密处理的模板代码
+
+```python
+# coding: utf-8
+
+import os
+import sys
+import star
+
+def decode_file(inFile, outFile):
+    inBuff = bytearray(star.read(inFile))
+    n = len(inBuff)
+    outBuff = bytearray(n)
+    for i in range(0, n):
+        outBuff[i] = (~(inBuff[i] ^ 0x15)) &0xff
+    star.write(outFile, outBuff)
+
+#批量处理
+@star.logtimewithname(u"解密")
+def decode_folder(inPath, outPath):
+    count = 0
+    for path, d, filelist in os.walk(inPath):
+        for filename in filelist:
+            _, exts = os.path.splitext(filename)
+            if exts in ['.lua', '.png']:
+                inFile = os.path.join(path, filename)
+                decode_file(inFile, inFile)
+            count += 1
+    print u"共处理 " + str(count) + u" 个文件"
+
+if __name__=='__main__':
+    if len(sys.argv) < 2:
+        print u'输入文件夹路径或单个文件路径'
+    else:
+        filepath = sys.argv[1]
+        # win下命令行参数为gbk编码
+        filepath = filepath.decode('gbk', 'ignore')
+        print filepath
+        if os.path.isdir(filepath):
+            decode_folder(filepath, filepath)
+        else:
+            decode_file(filepath, filepath)
+    os.system('pause')
+```
