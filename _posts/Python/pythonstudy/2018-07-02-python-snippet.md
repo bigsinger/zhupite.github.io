@@ -1,7 +1,7 @@
 ---
 layout:		post
 category:	"python"
-title:		"Python正则表达式"
+title:		"Python常用代码片段收集"
 tags:		[python]
 ---
 - Content
