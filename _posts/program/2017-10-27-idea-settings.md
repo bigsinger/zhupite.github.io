@@ -1,13 +1,21 @@
 ---
 layout:		post
 category:	"program"
-title:		"AndroidStudio快捷键大全配置VisualStudio快捷键一致"
+title:		"IntelliJ IDEA高效开发必知必会"
 tags:		[]
 ---
 
+# 快捷键
+AndroidStudio快捷键大全配置VisualStudio快捷键一致，如果电脑安装的软件按键有占用的时候，先干掉，特别是输入法，否则会影响开发效率。
+
+以下列举一些常用的，更多的快捷键可以参考：
+- [IntelliJ\-IDEA\-Tutorial/keymap\-introduce\.md at newMaster · tengj/IntelliJ\-IDEA\-Tutorial](https://github.com/tengj/IntelliJ-IDEA-Tutorial/blob/newMaster/keymap-introduce.md)
+- [Android Studio 小技巧/快捷键 合集](https://yq.aliyun.com/articles/225908?utm_content=m_33084)
 
 快捷键    | 功能 | VisualStudio2017
 ---|---|---
+CTRL + ALT + S | 打开Settings| 
+Alt + Enter | 智能辅助| 
 CTRL + J | 显示所有代码补全的关键词。| 
 SHIFT + F6 | 重命名| 编辑 重命名
 ALT + F7 | 查找引用| 查找引用
@@ -76,5 +84,45 @@ CTRL + Shift + ↑↓ | 把一个方法整体上移或下移。
 在vs中修改完快捷键后，选择菜单[工具]-[导入导出设置]把配置好的设置导出备份，如果以后需要重装还能导入继续使用。从此之后常用的快捷键基本上可以跟AndroidStudio保持一致，不用记那么多快捷键了。
  
 
-### 参考
-- [Android Studio 小技巧/快捷键 合集\-博客\-云栖社区\-阿里云](https://yq.aliyun.com/articles/225908?utm_content=m_33084)
+# 视觉效果
+主要是字体大小的设置，默认的字体太小了。
+- Appearance font size调为14较合适
+- Editor font size 调为18较合适
+
+# 代码提示设置
+## 代码完成设置大小写不敏感
+Editor->General->Code Completion，MatchCase勾选去掉。
+
+## Live Templates 
+对于常用的代码语句或者片段，考虑增加进去，提高效率。
+[官网Live Templates](https://www.jetbrains.com/idea/help/live-templates.html)
+
+例如可以把St（默认提示为String）修改为s，或者st。
+
+## File and Code Templates
+这个不多说了，看着配置即可。
+
+# Postfix Completion
+Editor->General->Postfix Completion，这个功能要多熟悉使用，提高开发效率的。
+
+# 插件
+很多AndroidStudio的插件做的特别棒，很大程度上能提高开发效率，有必要安装和熟悉使用一些插件工具。
+
+## 插件推荐
+
+|插件名称    |插件介绍      |官网地址        |
+|:-----------------|:----------|:--------------|
+|IDE Features Trainer|IntelliJ IDEA 官方出的学习辅助插件|<https://plugins.jetbrains.com/plugin/8554?pr=idea>|
+|Key promoter|快捷键提示|<https://plugins.jetbrains.com/plugin/4455?pr=idea>|
+|Grep Console|自定义设置控制台输出颜色|<https://plugins.jetbrains.com/idea/plugin/7125-grep-console>|
+|String Manipulation|驼峰式命名和下划线命名交替变化|<https://plugins.jetbrains.com/plugin/2162?pr=idea>|
+|CheckStyle-IDEA|代码规范检查|<https://plugins.jetbrains.com/plugin/1065?pr=idea>|
+|FindBugs-IDEA|潜在 Bug 检查|<https://plugins.jetbrains.com/plugin/3847?pr=idea>|
+|MetricsReloaded|代码复杂度检查|<https://plugins.jetbrains.com/plugin/93?pr=idea>|
+|Statistic|代码统计|<https://plugins.jetbrains.com/plugin/4509?pr=idea>|
+|JRebel Plugin|热部署|<https://plugins.jetbrains.com/plugin/?id=4441>|
+|CodeGlance|在编辑代码最右侧，显示一块代码小地图|<https://plugins.jetbrains.com/plugin/7275?pr=idea>|
+|GsonFormat|把 JSON 字符串直接实例化成类|<https://plugins.jetbrains.com/plugin/7654?pr=idea>|
+|MultiMarkdown|书写 Markdown 文章|<https://plugins.jetbrains.com/plugin/7896?pr=idea>|
+|Jindent-Source Code Formatter|自定义类、方法、doc、变量注释模板|<http://plugins.jetbrains.com/plugin/2170?pr=idea>|
+|ECTranslation|翻译插件|<https://github.com/Skykai521/ECTranslation/releases>|
