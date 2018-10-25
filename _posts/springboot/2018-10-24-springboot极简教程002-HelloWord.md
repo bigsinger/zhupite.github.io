@@ -41,3 +41,5 @@ public class HelloController {
 ```none
 hello world
 ```
+
+添加注解相当于做了一个配置，用来添加一个页面URL的转向，使得在访问http://localhost:8080/ 或 http://localhost:8080/index时能够调用到HelloController的index函数，进而可以输出字符串hello world。
