@@ -14,6 +14,8 @@ tags:		[]
 
 JdbcTemplate API文档：[JdbcTemplate \(Spring Framework 5\.1\.2\.RELEASE API\)](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/jdbc/core/JdbcTemplate.html)
 
+参考：[Spring Boot干货系列：（八）数据存储篇\-SQL关系型数据库之JdbcTemplate的使用](http://tengj.top/2017/04/13/springboot8/)
+
 **特点**
 - 速度快，对比其它的ORM框架而言，JDBC的方式无异于是最快的
 - 配置简单，Spring自家出品，几乎没有额外配置
