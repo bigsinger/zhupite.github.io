@@ -7,7 +7,7 @@ tags:		[]
 - Content
 {:toc}
 
-MyBatis的XML配置方式没有纯手动配置过，XML完全写不好，特别是在刚入门的时候，因此不建议直接从这个角度入手，及时要考虑学习，可以先通过自动生成器的方式入手，然后结合自动生成器生成的XML文件来学习。
+MyBatis的XML配置方式没有纯手动配置过，XML完全写不好，特别是在刚入门的时候，因此不建议直接从这个角度入手，即使要考虑学习，可以先通过自动生成器的方式入手，然后参考自动生成器生成的XML文件来学习。
 
 然而，MyBatis官方推荐XML方式，所以还是说一说。
 
@@ -169,9 +169,9 @@ insert into student(student_id, name, age, sex, birthday) value(2018005, "Mark",
 </generatorConfiguration>
 ```
 配置文件指定：
-- javaModelGenerator中指定自动生成model到包com.example.usemybatis.dao.model下
-- javaClientGenerator指定自动生成的实体操作类到包com.example.usemybatis.dao.mapper下
-- sqlMapGenerator指定mapper（实体操作类）的xml映射文件生成到src/main/resources目录下的mapper下
+- **javaModelGenerator**中指定自动生成model到包com.example.usemybatis.dao.model下
+- **javaClientGenerator**指定自动生成的实体操作类到包com.example.usemybatis.dao.mapper下
+- **sqlMapGenerator**指定mapper（实体操作类）的xml映射文件生成到src/main/resources目录下的mapper下
 
 # 运行generator
 
