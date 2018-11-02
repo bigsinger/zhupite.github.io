@@ -54,15 +54,16 @@ public class ServletInitializer extends SpringBootServletInitializer {
 # 导出war包
 - IDEA菜单：Build->Build Artifacts->helloworld:war->Build
 - 选择右侧侧边栏的【Maven Projects】->Plugins->war->war:war
+
 测试发现**第一种方法靠谱一些**，第二种方法打出的包不会立即更新代码，也即打出的包还是老的，有点坑爹。
 
-编译成功后，会在项目目录下生成一个**target**目录，target目录下有一个war包，例如：helloworld-0.0.1-SNAPSHOT.war
+编译成功后，会在项目目录下生成一个**target**目录，target目录下有一个war包，例如：**helloworld-0.0.1-SNAPSHOT.war**
 
 # 部署
 ## Windows上部署
 运行Tomcat，Tomcat会自动监控webapps目录下的文件，如果有新的war包，会自动解压。
 
-我们把编译导出的war包（例如上面的helloworld-0.0.1-SNAPSHOT.war）重命名为helloworld.war，然后复制到tomcat的webapps目录下，此时可以观察tomcat的服务会监控到webapps目录下文件的变化，自动将新复制进来的helloworld.war解压并初始化，解压目录为war的同名目录，例如这里是：helloworld。
+我们把编译导出的war包（例如上面的helloworld-0.0.1-SNAPSHOT.war）重命名为helloworld.war，然后复制到tomcat的webapps目录下，此时可以观察tomcat的服务会监控到webapps目录下文件的变化，自动将新复制进来的helloworld.war解压并初始化，解压目录为war的同名目录，例如这里是：**helloworld**。
 
 如果没有出错则会观察到tomcat控制台输出以下日志：
 ```
@@ -77,11 +78,11 @@ public class ServletInitializer extends SpringBootServletInitializer {
 当然还有其他类似URL映射的信息等，和在IDEA中直接运行起来输出的日志类似，说明服务部署成功了。
 
 ## 访问
-在浏览器中访问时，需要注意的是，由于tomcat自动解压缩出了一个目录，例如上面的helloworld.war解压目录为helloworld，那么在浏览器中要这样访问：
+在浏览器中访问时，需要注意的是，由于tomcat自动解压缩出了一个目录，例如上面的helloworld.war解压目录为**helloworld**，那么在浏览器中要这样访问：
 ```xml
 http://localhost:8080/目录名/原URL映射地址
 ```
-上面的helloworld示例的访问链接是：
+上面的**helloworld**示例的访问链接是：
 ```xml
 http://localhost:8080/helloworld/
 http://localhost:8080/helloworld/index
@@ -94,7 +95,7 @@ http://localhost:8080/index
 ```
 现在多了一个目录，如何保持一致呢？
 
-可以利用tomcat的默认目录ROOT来配置，例如我们可以把helloworld-0.0.1-SNAPSHOT.war重命名为ROOT.war，然后复制到tomcat\webapps目录下，tomcat会自动解压出ROOT目录，如果没有出错的话就可以直接在浏览器中访问如下地址了：
+可以**利用tomcat的默认目录ROOT来配置**，例如我们可以把helloworld-0.0.1-SNAPSHOT.war重命名为**ROOT.war**，然后复制到**tomcat\webapps**目录下，tomcat会自动解压出ROOT目录，如果没有出错的话就可以直接在浏览器中访问如下地址了：
 ```xml
 http://localhost:8080/
 http://localhost:8080/index
