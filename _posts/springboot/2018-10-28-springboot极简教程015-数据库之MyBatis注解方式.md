@@ -184,3 +184,13 @@ public interface CourseMapper extends CommonMapper<Course> {
     }
 }
 ```
+
+# 注意
+接口不能被扫描到的话可以在Application中添加注解**@MapperScan**：
+```java
+@MapperScan(basePackages = "com.example.dao", markerInterface = CommonMapper.class)
+```
+不要使用**org.mybatis.spring.annotation.MapperScan**，而是：
+```java
+import tk.mybatis.spring.annotation.MapperScan;
+```
