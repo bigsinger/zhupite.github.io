@@ -1,7 +1,7 @@
 ﻿---
 layout:		post
 category:	"springboot"
-title:		"springboot极简教程013-数据库之MyBatis"
+title:		"springboot极简教程014-数据库之MyBatis"
 tags:		[]
 ---
 - Content

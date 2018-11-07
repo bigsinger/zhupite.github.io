@@ -12,7 +12,7 @@ MyBatis的XML配置方式没有纯手动配置过，XML完全写不好，特别�
 然而，MyBatis官方推荐XML方式，所以还是说一说。
 
 # MyBatis自动生成器介绍
-MyBatis操作数据库的方式介于JDBC与ORM之间，如果完全纯写SQL语句进行查询显得啰嗦枯燥，如果纯用ORM的话完全隔离了SQL语句又显得不习惯，MyBatis就介于这之间，使得仍然可以操作SQL语句又不至于那么麻烦。
+MyBatis操作数据库的方式介于JDBC与ORM之间，如果完全纯写SQL语句进行查询显得啰嗦枯燥，如果纯用ORM的话完全隔离了SQL语句又显得不习惯，而且很多复杂的查询ORM也很难实现，MyBatis就介于这之间，使得仍然可以操作SQL语句又不至于那么麻烦。
 
 一个可以拿出来说说的功能就是**自动生成器**：generator，可以根据已经存在的数据库表来**反向生成代码**，下面看看怎么使用。
 
@@ -452,6 +452,6 @@ public interface StudentMapper {
 可以看到，XML配置方式其实是比较复杂的，如果自动生成的实体操作类和XML文件不足以满足要求，还可以手动添加代码或XML内容。
 
 # Free MyBatis-plugin插件
-我前面说了，比较推荐注解方式而不是这种XML配置方式，一个很蹩脚之处就是需要在Java代码与XML配置文件之间来回跳转，感觉开发体验并不是很好。当然为了解决这个问题，IDEA有个插件：Free MyBatis-plugin，可以直接从Mapper文件与XML文件互相跳转。其实要我说问题并没有解决，只不过是更加方便地在Java代码与XML文件之间跳转罢了，这个设计思路有点类似于AndroidStudio在开发Android应用程序时，在Activity于layout.xml之间的关联跳转。
+我前面说了，比较推荐注解方式而不是这种XML配置方式，一个很蹩脚之处就是需要在Java代码与XML配置文件之间来回跳转，感觉开发体验并不是很好。当然为了解决这个问题，IDEA有个插件：Free MyBatis-plugin，可以直接从Mapper文件与XML文件互相跳转。其实要我说问题并没有解决，只不过是更加方便地在Java代码与XML文件之间跳转罢了，这个设计思路有点类似于AndroidStudio在开发Android应用程序时，在Activity与layout.xml之间的关联跳转。
 
 Free MyBatis-plugin插件安装后需要重启IDEA才能生效。
