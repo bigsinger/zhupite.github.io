@@ -19,6 +19,23 @@ public class MainApplication {
 }
 ```
 
+## 在bean配置文件中引用.properties文件
+```xml
+<!-- 加载数据资源属性文件 -->
+<context:property-placeholder location="classpath:application-dev.properties" ignore-unresolvable="true"/>
+```
+
+## 在bean配置文件中引用.yml文件
+```xml
+<context:annotation-config/>
+<bean id="yamlProperties" class="org.springframework.beans.factory.config.YamlPropertiesFactoryBean">
+    <property name="resources" value="classpath:application.yml"/>
+</bean>
+<context:property-placeholder properties-ref="yamlProperties"/>
+```
+测试发现，在IDEA中配置.yml文件的方式并不能让变量正确识别，所以还是用.properties文件的方式吧。
+
+
 # 几个注解理解
 - @Repository   ：对应存储层Bean
 - @Service   ：对应业务层Bean
