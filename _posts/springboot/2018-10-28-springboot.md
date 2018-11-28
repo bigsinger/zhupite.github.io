@@ -35,6 +35,30 @@ public class MainApplication {
 ```
 测试发现，在IDEA中配置.yml文件的方式并不能让变量正确识别，所以还是用.properties文件的方式吧。
 
+# Java代码使用bean
+
+参考：[使用@Configuration注解来代替Spring的bean配置](https://www.cnblogs.com/hujingwei/p/5360944.html)
+
+添加一个配置类：
+
+```java
+@Configuration
+public class AppBeanConfig {
+
+   @Bean(initMethod = "init", destroyMethod = "destory")
+   public AnotherClass createAnotherClass() {
+        AnotherClass obj = new AnotherClass();
+        return obj;
+    }
+}
+```
+
+使用时：
+```java
+ApplicationContext context = new AnnotationConfigApplicationContext(AppBeanConfig.class);
+AnotherClass obj = context.getBean(AnotherClass.class);
+```
+
 
 # 几个注解理解
 - @Repository   ：对应存储层Bean
