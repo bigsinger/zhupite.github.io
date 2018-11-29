@@ -8,6 +8,9 @@ tags:		[springboot]
 {:toc}
 
 # 添加导入bean配置文件
+
+使用xml配置bean的自动装配，可以参考：[二、Spring属性注入](https://blog.csdn.net/A15815635741/article/details/84196692)
+
 在Application里添加注解：
 ```java
 @ImportResource(locations = {"classpath:bean.xml"})
