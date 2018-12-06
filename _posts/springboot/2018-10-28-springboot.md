@@ -108,6 +108,14 @@ public class WebComponentConfig {
 }
 ```
 
+# SpringBoot操作数据库
+可以参考这篇：[SpringBoot 学习二：操作数据库](https://my.oschina.net/mengyuankan/blog/2209128)，讲解了：
+- 配置数据源
+- SpringBoot 整合 Mybatis
+- SpringBoot 整合 JdbcTemplate
+- SpringBoot 整合 Redis
+
+
 # SpringBoot使用freemarker
 ```xml
 <bean id="templateMerger"

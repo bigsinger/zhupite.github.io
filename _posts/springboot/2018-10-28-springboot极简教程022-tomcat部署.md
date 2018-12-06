@@ -7,7 +7,9 @@ tags:		[]
 - Content
 {:toc}
 
-Tomcat的安装此处忽略，可以网上搜索。
+Tomcat的安装此处忽略，可以网上搜索。参考：
+- [Windows安装配置Tomcat \- 临江仙卜算子的个人空间](https://my.oschina.net/ZhenyuanLiu/blog/1801629)
+- [【tomcat环境搭建】一台服务器上部署多个tomcat](https://www.cnblogs.com/tudou-22/p/9330875.html)
 
 以HelloWord这个项目为例（参见GitHub：https://github.com/bigsinger/spring_study/tree/master/L1HelloWorld）说明。
 
