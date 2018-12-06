@@ -1,7 +1,7 @@
 ﻿---
 layout:		post
 category:	"springboot"
-title:		"springboot"
+title:		"springboot汇总"
 tags:		[springboot]
 ---
 - Content
@@ -22,7 +22,7 @@ public class MainApplication {
 }
 ```
 
-## 在bean配置文件中引用.properties文件
+## 在xml配置文件中引用.properties文件
 ```xml
 <!-- 加载数据资源属性文件 -->
 <context:property-placeholder location="classpath:application-dev.properties" ignore-unresolvable="true"/>
@@ -107,3 +107,27 @@ public class WebComponentConfig {
     }
 }
 ```
+
+# SpringBoot使用freemarker
+```xml
+<bean id="templateMerger"
+    class="com.example.test.freemarker.TemplateMerger">
+    <property name="resource">
+        <value>/common/</value> <!--指定目录：webapp/common -->
+    </property>
+</bean>
+<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+    <property name="templateLoaderPath" value="/WEB-INF/views/" />
+    <property name="freemarkerSettings">
+       <props>
+           <!--用于解决前端报空指针问题-->
+           <prop key="classic_compatible">true</prop>
+            <prop key="defaultEncoding">UTF-8</prop>
+           <prop key="number_format">0</prop>
+       </props>
+   </property>
+</bean>
+```
+
+# SpringBoot部署tomcat
+[springboot极简教程022\-tomcat部署](https://www.zhupite.com/springboot/springboot%E6%9E%81%E7%AE%80%E6%95%99%E7%A8%8B022-tomcat%E9%83%A8%E7%BD%B2.html)
