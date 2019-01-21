@@ -9,11 +9,11 @@ tags:		[lua]
 
 # 一、使用module函数
 在Lua的开头文件中声明：
-```
+```lua
 module("ClassA", package.seeall)
 ```
 后面声明函数：
-```
+```lua
 function test()
 
 end
@@ -22,27 +22,27 @@ end
 
 # 二、利用表
 在Lua的开头文件中声明：
-```
+```lua
 ClassA = {}
 ```
 后面声明函数：
-```
+```lua
 function ClassA.test()  --注意是点
 
 end
 ```
 或者：
-```
+```lua
 function test()
 
 end
 ```
 
-```
+```lua
 ClassA.test = test
 ```
 或者
-```
+```lua
 ClassA = {
     test = test,
     create = create,
