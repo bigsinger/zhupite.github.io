@@ -49,7 +49,7 @@ public:
     int        m_nHeight;
 ```
 函数实现（注意成员变量的初始化）：
-```
+```c
 int CControlUI::GetAnchorMode() {
     return m_nAnchorMode;
 }
@@ -60,7 +60,7 @@ void CControlUI::SetAnchorMode(int nAnchorMode) {
 ```
 把属性相关的先改掉。
 修改属性时：
-```
+```c
 LRESULT CPropertiesWnd::OnUIPropChanged(WPARAM wp, LPARAM lp) {
     CMFCPropertyGridProperty* pProp = (CMFCPropertyGridProperty *)lp;
     SetUIValue(pProp, pProp->GetData());
@@ -69,7 +69,7 @@ LRESULT CPropertiesWnd::OnUIPropChanged(WPARAM wp, LPARAM lp) {
 }
 ```
 进而追踪：
-```
+```c
 CPropertiesWnd::SetUIValue
 pControl->SetAttribute(strName,strNewVal);
 CControlUI::SetAttribute
@@ -84,7 +84,7 @@ elseif( _tcscmp(pstrName, _T("relativepos")) == 0 ) {
 }
 ```
 修改为：
-```
+```c
 elseif( _tcscmp(pstrName, _T("anchor")) == 0 ) {
     LPTSTR pstr = NULL;
     int nAnchorMode = _tcstol(pstrValue, &pstr, 10);
@@ -92,7 +92,7 @@ elseif( _tcscmp(pstrName, _T("anchor")) == 0 ) {
 }
 ```
 保存属性时的代码：
-```
+```c
 CLayoutManager::SaveSkinFile
 CLayoutManager::SaveProperties
 CLayoutManager::SaveControlProperty
@@ -104,14 +104,14 @@ if(relativePos.bRelative)
 }
 ```
 修改为（0的时候就不保存了，还可以减小xml的体积）：
-```
+```c
 int nAnchorMode = pControl->GetAnchorMode();
 if ( nAnchorMode > 0 ) {
     pNode->SetAttribute("anchor", nAnchorMode);
 }
 ```
 属性编辑器的初始化代码：
-```
+```c
 pValueList = new CMFCPropertyGridProperty(_T("RelativePos"),tagRelativePos,TRUE);//relativepos
 pProp=new CMFCPropertyGridProperty(_T("MoveX"),(_variant_t)(LONG)0,_T("控件的水平位移"));
 pValueList->AddSubItem(pProp);
@@ -124,12 +124,12 @@ pValueList->AddSubItem(pProp);
 pPropUI->AddSubItem(pValueList);
 ```
 修改为：
-```
+```c
 pProp=new CMFCPropertyGridProperty(_T("Anchor"),(_variant_t)(LONG)0,_T("控件相对位置"),tagAnchor);
 pPropUI->AddSubItem(pProp);
 ```
 属性显示：
-```
+```c
 //relativepos
 TRelativePosUI posRelative=pControl->GetRelativePos();
 pValueList=pPropControl->GetSubItem(tagRelativePos-tagControl);
@@ -144,7 +144,7 @@ pValueList->GetSubItem(3)->SetOriginalValue((_variant_t)(LONG)posRelative.nZoomY
 ```
     
 修改为：
-```
+```c
 //anchor
 pPropControl->GetSubItem(tagAnchor-tagControl)->SetValue((_variant_t)(LONG)pControl->GetAnchorMode());
 pPropControl->GetSubItem(tagAnchor-tagControl)->SetOriginalValue((_variant_t)(LONG)pControl->GetAnchorMode());
@@ -161,7 +161,7 @@ SetPos和SetFloatPos（实际上Float属性在引入了锚的概念后也可以�
 
 
 例如在资源编辑时，拖动控件：
-```
+```c
 CUIDesignerView::OnLButtonDown
 CMultiUITracker::Track
 CMultiUITracker::MultiTrackHandle
@@ -178,7 +178,7 @@ CContainerUI::SetFloatPos
 偷巧的一点：因为在DuiDesigner中手动修改的控件坐标都认定为第一次设置，也就是bInitedData为TRUE，在成功编译duilib后再单独编译DuiDesigner，凡是出现错误的地方一律添加缺失的参数，基本上都是TRUE。
 
 尤其是CUIDesignerView被加载的时候：
-```
+```c
 CUIDesignerView::OnInitialUpdate()
 CLayoutManager::Init
 CWindowUI::SetInitSize
@@ -187,7 +187,7 @@ CControlUI::SetPos
 ```
 
 最后修改的函数如下：
-```
+```c
 void CControlUI::SetPos(RECT rc, BOOL bInitedData)
 {
     if( rc.right < rc.left ) rc.right = rc.left;
@@ -268,7 +268,7 @@ void CControlUI::SetPos(RECT rc, BOOL bInitedData)
 可以看出问题来了，也就是value值的部分是用的单引号而非双引号，导致后面CMarkup解析出错。下面就要排查tinyxml在保存文件时候的代码逻辑。
 
 在CLayoutManager::SaveSkinFile函数中找到以下代码：
-```
+```c
 const CStdStringPtrMap& defaultAttrHash = m_Manager.GetDefaultAttribultes();
  if(defaultAttrHash.GetSize() > 0)
  {
@@ -291,7 +291,7 @@ const CStdStringPtrMap& defaultAttrHash = m_Manager.GetDefaultAttribultes();
  }
 ```
 也正是保存上面那段xml代码的地方。一直跟进到value被保存的代码：
-```
+```c
 void TiXmlAttribute::Print( FILE* cfile, int/*depth*/, TIXML_STRING* str ) const
 {
  TIXML_STRING n, v;
@@ -318,11 +318,11 @@ void TiXmlAttribute::Print( FILE* cfile, int/*depth*/, TIXML_STRING* str ) const
 }
 ```
 从这里就能发现问题了，EncodeString会把value处理一次，会把字符串里面出现的引号给转义掉生成新的v，后面的代码：
-```
+```c
 if (value.find ('\"') == TIXML_STRING::npos)
 ```
 是有bug的，应该是用v比较而不是用value比较，所以就被添加了单引号进去。后来想起，tinyxml被我用最新版的代码替换过一次，可以通过svn恢复：
-```
+```c
 void TiXmlAttribute::Print( FILE* cfile, int/*depth*/, TIXML_STRING* str ) const
 {
     TIXML_STRING n, v;
@@ -344,7 +344,7 @@ void TiXmlAttribute::Print( FILE* cfile, int/*depth*/, TIXML_STRING* str ) const
 解决掉上述问题后继续，在duilib里面作为父容器的有：CContainerUI、CHorizontalLayoutUI、CVerticalLayoutUI、CTileLayoutUI、CTabLayoutUI、CChildLayoutUI等。后面的几个layout均派生自CContainerUI。
 
 这里修改下CContainerUI的SetPos：
-```
+```c
 void CContainerUI::SetPos(RECT rc, BOOL bInitedData)
 {
     CControlUI::SetPos(rc, bInitedData);

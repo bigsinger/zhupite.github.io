@@ -6,24 +6,24 @@ tags:		[duilib,ui]
 ---
 
 ### 方式一：
-```
+```xml
 <ActiveX name="web" clsid="{8856F961-340A-11D0-A96B-00C04FD705A2}" delaycreate="false" />
 ```
 这个方法更通用，也可以创建其他ActiveX控件，但是如果指定要创建浏览器的话不建议这么做，被坑了N多年。
 
 ### 方式二：
-```
+```xml
 <WebBrowserEx name="web" clsid="{8856F961-340A-11D0-A96B-00C04FD705A2}" delaycreate="true" homepage="www.xxx.com" autonavi="true"/>
 ```
 推荐该方法，主要参考：[HackerJLY/CPP\_JS\_Inter\_Call\_In\_DuiLib: CPP\_JS\_Inter\_Call\_In\_DuiLib, IE WebBrowser](https://github.com/HackerJLY/CPP_JS_Inter_Call_In_DuiLib)
 
 ### 方法三：
 自定义节点的办法，例如在pageTab1.xml皮肤文件里添加一个自定义名称的节点：
-```
+```xml
 <web />
 ```
 然后重载函数CreateControl：
-```
+```c
 CControlUI* CMainWnd::CreateControl(LPCTSTR pstrClass)
 {
 	if (_tcscmp(pstrClass, _T("pageTab1")) == 0) {
@@ -36,7 +36,7 @@ CControlUI* CMainWnd::CreateControl(LPCTSTR pstrClass)
 }
 ```
 假设web是
-```
+```c
 class CDialogBuilderCallbackOfPageXXX1UI : IDialogBuilderCallback
 {
 public:

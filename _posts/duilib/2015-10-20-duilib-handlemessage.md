@@ -8,7 +8,7 @@ tags:		[duilib,ui]
 duilib还提供了另外一种响应的方法，即消息映射**DUI_BEGIN_MESSAGE_MAP**，可以将**DUI_MSGTYPE_CLICK**消息映射到指定的函数（比如OnClick），这和在Notify判断msg.sType是一样的效果，具体请参见duilib的RichListDemo。
     
 先看看下面几段代码：
-```
+```c
 DUI_BEGIN_MESSAGE_MAP(CPage1, CNotifyPump)
     DUI_ON_MSGTYPE(DUI_MSGTYPE_CLICK,OnClick)
     DUI_ON_MSGTYPE(DUI_MSGTYPE_SELECTCHANGED,OnSelectChanged)
@@ -16,7 +16,7 @@ DUI_BEGIN_MESSAGE_MAP(CPage1, CNotifyPump)
 DUI_END_MESSAGE_MAP()
 ```
 
-```
+```c
 LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     LRESULT lRes = 0;
@@ -34,7 +34,7 @@ LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 }
 ```
 
-```
+```c
 void Notify(TNotifyUI& msg)
 {
     if( msg.sType == _T("windowinit") )

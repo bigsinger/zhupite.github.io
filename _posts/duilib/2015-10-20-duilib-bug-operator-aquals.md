@@ -8,12 +8,12 @@ tags:		[duilib,ui]
 CDuiString的bug (重温了一下 Effective C++，发现这就是条款24所指出的问题，看来读书百遍不如写代码一遍啊)
 
 在Notify处理消息时会有很多if语句，我通常喜欢把常量放在双等号前面，变量放在后面，比如：
-```
+```c
 if( _T("click") ==  msg.sType ) {
 }
 ```
 但是却发现并没有进到这个if里，调试发现，将常量调到前面时，并没有进入到CDuiString重载的 == 函数里面，所以这里必须将常量放到后面。
-```
+```c
 if( msg.sType == _T("click") ) {
     }
 ```
@@ -21,14 +21,14 @@ if( msg.sType == _T("click") ) {
 这个bug的原因是因为将常量放在前面时，并没有调用CDuiString重载的 == 函数，而是调用了CDuiString重载的 ()函数，然后用系统自带的==函数做比较，而系统自己的 == 函数只是比较两个指针的首地址是否相等。
 
 _T("click") 的首地址指向的是一块临时变量，而msg.sType 是返回了CDuiString里面那个字符串的指针，很显然这两个指针地址是不相等的，所以我们只能把它放在前面，或者直接调用_tcscmp：
-```
+```c
 if( ! _tcscmp( _T("click"), msg.sType) ) {
     }
 ```
 
 当然，如果要解决这个bug，就要重载多个 == 操作符，    由于CDuiString是将 == 函数作为成员函数重载的，所以只有CDuiString对象在操作符左边时，才会调用这个重载函数，如果想要CDuiString对象在右边时也能调用重载的 == 函数，那么必须将重载操作符放到外部。
 
-```
+```c
 class UILIB_API CDuiString
 {
 public:
@@ -100,7 +100,7 @@ protected:
 ```
 
 
-```
+```c
 void Notify(TNotifyUI& msg)
 {
     if( _T("click") ==  msg.sType ) {

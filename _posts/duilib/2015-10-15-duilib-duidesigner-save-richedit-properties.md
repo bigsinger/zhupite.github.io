@@ -9,7 +9,7 @@ date:		2015-10-15
 当资源中有RichEdit时，无论怎么样修改其属性，最终保存时并不会被写到XML中去，仅仅是一个节点：<RichEdit />，属性一概没有保存。
 
 通过动态跟踪xml保存的调用过程，定位到函数：CLayoutManager::SaveProperties：
-```
+```c
 switch(pExtended->nClass)
     {case classControl:
         SaveControlProperty(pControl, pNode);
@@ -75,7 +75,7 @@ switch(pExtended->nClass)
     }
 ```
 其中并没有处理对RichEdit的保存，问题就出现在这里，考虑增加一个函数SaveRichEditProperty，关键还要动态跟踪出RichEdit的pExtended->nClas是多少，动态发现是100。这些枚举值被定义在stdafx.h头文件中：
-```
+```c
 //UI classenum UIClass
 {
     classPointer=100,
@@ -109,7 +109,7 @@ switch(pExtended->nClass)
 };
 ```
 100刚好等于classPointer，其实不太好，为了不影响后面的改动，暂时改为：
-```
+```c
 //UI classenum UIClass
 {
     classPointer=100,
@@ -145,7 +145,7 @@ switch(pExtended->nClass)
 ```
 
 CLayoutManager::SaveProperties中增加：
-```
+```c
  case classRichEdit:
         {
             if ( strClass.Compare(DUI_CTR_RICHEDIT)==0 ) {
@@ -155,7 +155,7 @@ CLayoutManager::SaveProperties中增加：
         break;
 ```
 并实现SaveRichEditProperty：
-```
+```c
 void CLayoutManager::SaveRichEditProperty(CControlUI* pControl, TiXmlElement* pNode)
 {
  SaveControlProperty(pControl, pNode);

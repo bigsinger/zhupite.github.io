@@ -11,7 +11,7 @@ tags:		[duilib,ui,duidesigner]
 MFC的单（多）文档设计不熟悉，页面激活状态不知道应该如何设置，这里从最熟悉的消息开始，重点看分析方法。
 
 DuiDesigner是支持文件拖放的，如果拖放进多个文件，势必是最后一次的视图是激活状态，如果再拖进去之前的某一个相同文件进去，那么之前的那个视图就会被选中并处于激活状态。资源布局文件拖放进来时的逻辑比较好分析，很快便定位到函数CMainFrame::OnDropFiles，它最终调用的是CWinApp::OpenDocumentFile：
-```
+```c
 CDocument* CWinApp::OpenDocumentFile(LPCTSTR lpszFileName)
 {
     ENSURE_VALID(m_pDocManager);
@@ -19,7 +19,7 @@ CDocument* CWinApp::OpenDocumentFile(LPCTSTR lpszFileName)
 }
 ```
 它又调用了CDocManager::OpenDocumentFile：
-```
+```c
 CDocument* CDocManager::OpenDocumentFile(LPCTSTR lpszFileName)
 {
     if (lpszFileName == NULL)
@@ -108,13 +108,13 @@ CDocument* CDocManager::OpenDocumentFile(LPCTSTR lpszFileName)
 可以看出，当打开的文件是同一个时，匹配到CDocTemplate::yesAlreadyOpen，文档不再打开，而是找到该文档对应的视图的父窗口并激活之。需要注意的是两处红色部分的代码，其中CFrameWnd * pFrame对应的是所打开的文档对应的那个视图所在的窗口，动态跟踪时发现这个窗口的类型是CChildFrame，而CFrameWnd * pAppFrame的类型是CMainFrame。
 
 这里继续查看CChildFrame的定义，并无过多代码，它是从CMDIChildWndEx派生而来（CMDIChildWndEx又从CMDIChildWnd派生），那么继续追踪CMDIChildWndEx，找到函数OnMDIActivate，查看其代码，有一处调用：CMDIChildWnd::OnMDIActivate，再打开该函数继续查看，找到代码：
-```
+```c
 CView* pActiveView = GetActiveView();
     if (!bActivate && pActiveView != NULL)
         pActiveView->OnActivateView(FALSE, pActiveView, pActiveView);
 ```
 参考OnActivateView的声明：
-```
+```c
 protected:
     // Activation
 virtual void OnActivateView(BOOL bActivate, CView* pActivateView,
@@ -122,7 +122,7 @@ virtual void OnActivateView(BOOL bActivate, CView* pActivateView,
     virtual void OnActivateFrame(UINT nState, CFrameWnd* pFrameWnd);
 ```
 发现都是虚函数，刚好可以在CUIDesignerView中进行重载使用，这里使用OnActivateView函数，新增加函数：
-```
+```c
 void CUIDesignerView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView)
 {
     if ( bActivate ) {
@@ -145,7 +145,7 @@ void CUIDesignerView::OnActivateView(BOOL bActivate, CView* pActivateView, CView
 使用pActivateView->GetParentFrame()->SendMessage(WM_CLOSE)关闭的好处是如果当前文档被修改还有一次保存的机会：是否保存对 xxx.xml 的更改？
 
 后来发现函数CUIDesignerView::OnActivated，但是在里面实现逻辑效果没有在CUIDesignerView::OnActivateView中好。
-```
+```c
 void CUIDesignerView::OnActivated()
 {
     g_pPropertiesWnd->ShowProperty(m_MultiTracker.GetFocused());
@@ -154,7 +154,7 @@ void CUIDesignerView::OnActivated()
 ```
 
 文档的修改时间初始化是在：**CUIDesignerView::OnInitialUpdate()**，添加代码：
-```
+```c
 //////////////////////////////////////////////////////////////////////////
 //打开时先获取文件最后修改时间，后面视图激活时如果发现文件修改时间变化则重新载入 
 CFileStatus status;
@@ -184,7 +184,7 @@ void CUIDesignerView::SaveSkinFile(LPCTSTR pstrPathName)
 
 ### 排查过程：
 手型鼠标是跟view的setcursor有关的，所以对CUIDesignerView::OnSetCursor下断，动态跟踪时找到：
-```
+```c
 CMultiUITracker::SetCursor
 
 CUITracker::SetCursor
@@ -193,7 +193,7 @@ ENSURE(nHandle < _countof(m_hCursors));
 ::SetCursor(m_hCursors[nHandle]);
 ```
 发现句柄均为空，说明初始化的时候就没成功，搜索m_hCursors定位到初始化代码：
-```
+```c
 // Note: all track cursors must live in same module
 HINSTANCE hInst = AfxFindResourceHandle(
     ATL_MAKEINTRESOURCE(AFX_IDC_TRACK4WAY), ATL_RT_GROUP_CURSOR);
@@ -214,7 +214,7 @@ LoadCursor找不到相应的资源，从这里也可以看出图标是从DLL里�
 崩溃堆栈比较复杂，不是很好排查，只能靠经验来猜测。
 1. BUG是改出来，所以需要审查改动的几处代码。
 2. 崩溃定位在失活相关的代码，因此可以大致猜测出跟CUIDesignerView::OnActivateView中添加的：
-```
+```c
 pActivateView->GetParentFrame()->SendMessage(WM_CLOSE); 
 AfxGetApp()->OpenDocumentFile(strFilePath);
 ```
@@ -222,11 +222,11 @@ AfxGetApp()->OpenDocumentFile(strFilePath);
 
 ### 解决办法：
 让OnActivateView执行完毕，通过PostMessage发送自定义消息给视图，视图接收到消息后再处理关闭与重新打开的操作，修改为：
-```
+```c
 pActivateView->PostMessage(WM_RELOADDOCUMENTFILE, 0, (LPARAM)pActivateView->GetParentFrame());
 ```
 消息处理函数：
-```
+```c
 LRESULT CUIDesignerView::OnReloadDocumentFile(WPARAM wParam, LPARAM lParam)
 {
     CFrameWnd *pWnd = (CFrameWnd *)lParam;

@@ -5,7 +5,8 @@ title:		关于duilib控件richedit的appendmsg
 tags:		[duilib,ui]
 date:		2015-10-27
 ---
-```C
+
+```c
     if (m_logOutCtrl == NULL) return;
 
     int lines = m_logOutCtrl->GetLineCount();
@@ -44,6 +45,4 @@ date:		2015-10-27
     m_logOutCtrl->SetParaFormat(pf);
 
     m_logOutCtrl->EndDown();
-
-
 ```

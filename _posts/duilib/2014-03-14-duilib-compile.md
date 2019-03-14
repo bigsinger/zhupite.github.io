@@ -27,7 +27,7 @@ date:		2014-03-14
 
 **解决方案：**
 在StdAfx.h头文件中添加包含：
-```
+```c
 #include <rpcsal.h>
 ```
 注意这个文件在DirectX\Include目录中，因此需要在工程属性的C++目录中设置这个包含目录。
@@ -39,7 +39,7 @@ date:		2014-03-14
 
 **解决方案：**
 在StdAfx.cpp文件中添加库文件：
-```
+```c
 #pragma comment (lib , "atls.lib" )
 ```
 

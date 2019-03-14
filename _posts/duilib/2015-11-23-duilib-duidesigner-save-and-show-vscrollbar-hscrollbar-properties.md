@@ -7,7 +7,9 @@ date:		2015-11-23
 ---
 
 1、显示：**CUIProperties::ShowContainerProperty**
-```修改为：
+
+修改为：
+```c
 //hscrollbar
 pPropContainer->GetSubItem(tagHScrollBar-tagContainer)->SetValue((_variant_t)(pContainer->GetHorizontalScrollBar()==NULL?false:true));
 pPropContainer->GetSubItem(tagHScrollBar-tagContainer)->SetOriginalValue((_variant_t)(pContainer->GetHorizontalScrollBar()==NULL?false:true));
@@ -19,7 +21,7 @@ pPropContainer->GetSubItem(tagVScrollBar-tagContainer)->SetOriginalValue((_varia
 
 2、保存：**CLayoutManager::SaveControlProperty**
 增加：
-```
+```c
 CContainerUI* pContainer=static_cast<CContainerUI*>(pControl->GetInterface(_T("Container")));
     if ( pContainer!=NULL ) {
         if ( pContainer->GetHorizontalScrollBar()!=NULL ) {

@@ -5,7 +5,7 @@ title:		关于duilib的CLayoutManager::SaveControlProperty代码
 tags:		[duilib,ui]
 ---
 
-```C
+```c
 void CLayoutManager::SaveControlProperty(CControlUI* pControl, TiXmlElement* pNode)
 {
  TCHAR szBuf[MAX_PATH] = {0};

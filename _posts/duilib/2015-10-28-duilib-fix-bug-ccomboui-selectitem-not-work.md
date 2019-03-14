@@ -7,7 +7,7 @@ date:		2015-10-28
 ---
 
 动态跟进CComboUI::SelectItem：
-```C
+```c
 bool CComboUI::SelectItem(int iIndex, bool bTakeFocus)
 {
     if( m_pWindow != NULL ) m_pWindow->Close();
@@ -37,7 +37,7 @@ bool CComboUI::SelectItem(int iIndex, bool bTakeFocus)
 }
 ```
 跟进IsVisible：
-```
+```c
 bool CControlUI::IsVisible() const
 {
     return m_bVisible && m_bInternVisible;
@@ -45,7 +45,7 @@ bool CControlUI::IsVisible() const
 ```
 发现m_bInternVisible为false。
 在向CComboUI添加元素时会调用Add:
-```
+```c
 bool CContainerUI::Add(CControlUI* pControl)
 {
     if( pControl == NULL) return false;
@@ -57,7 +57,7 @@ bool CContainerUI::Add(CControlUI* pControl)
 }
 ```
 整个界面使用了Tab，Tab在显示一页的时候其他页面是隐藏的，那么它所有的子控件也都设置了隐藏：
-```
+```c
 bool CTabLayoutUI::Add(CControlUI* pControl)
 {
     bool ret = CContainerUI::Add(pControl);

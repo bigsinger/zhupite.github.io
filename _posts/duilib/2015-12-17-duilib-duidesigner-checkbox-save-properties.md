@@ -11,22 +11,22 @@ date:   2015-12-17
 1. stdafx.h中enum UIClass枚举增加：**classCheckBox**，并引用命名空间：**using DuiLib::CCheckBoxUI;**
 
 2. stdafx.cpp中**gGetUIClass**增加：
-```C
+```c
 if( _tcscmp(pstrClass, _T("CheckBoxUI")) == 0 )
     nClass=classCheckBox;
 
 ```
 3. LayoutManager.cpp函数**CLayoutManager::NewUI**增加：
-```C
-    case classCheckBox:
-        pControl=new CCheckBoxUI;
-        pExtended->nClass=classCheckBox;
-        pControl->SetFloat(true);
-        break;
+```c
+case classCheckBox:
+	pControl=new CCheckBoxUI;
+	pExtended->nClass=classCheckBox;
+	pControl->SetFloat(true);
+	break;
 ```
 
 函数**CLayoutManager::SaveOptionProperty**修改为：
-```C
+```c
 void CLayoutManager::SaveOptionProperty(CControlUI* pControl, TiXmlElement* pNode)
 {
     SaveButtonProperty(pControl, pNode);
@@ -53,7 +53,7 @@ void CLayoutManager::SaveOptionProperty(CControlUI* pControl, TiXmlElement* pNod
 
 
 函数**CLayoutManager::SaveProperties**，增加：
-```
+```c
 case classOption:
 case classCheckBox:
     SaveOptionProperty(pControl, pNode);

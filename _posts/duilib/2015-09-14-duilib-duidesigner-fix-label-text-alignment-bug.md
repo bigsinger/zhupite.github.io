@@ -11,15 +11,15 @@ tags:		[duilib,ui,duidesigner]
 3. 另外添加了左对齐和右对齐文本显示属性默认纵向居中的逻辑，便于编排控件
 
 首先解决文字绘制不支持左对齐的BUG，因为文字属于绘制逻辑实现的，所以我们先从视图的绘制开始找起。
-```
+```c
 void CUIDesignerView::OnDraw(CDC* pDrawDC)
 ```
 找到这一行：
-```
+```c
 m_LayoutManager.Draw(&hCloneDC);
 ```
 这个就是布局的绘制逻辑：
-```
+```c
 void CLayoutManager::Draw(CDC* pDC)
 {
  CSize szForm = GetForm()->GetInitSize();
@@ -35,7 +35,7 @@ void CLayoutManager::Draw(CDC* pDC)
 }
 ```
 再继续看：
-```
+```c
  void CControlUI::DoPaint(HDC hDC, const RECT& rcPaint)
 {
     if( !::IntersectRect(&m_rcPaint, &rcPaint, &m_rcItem) ) return;
@@ -59,52 +59,52 @@ void CLayoutManager::Draw(CDC* pDC)
 }
 ```
 再跟进函数PaintText：
-```
- void CControlUI::PaintText(HDC hDC)
+```c
+void CControlUI::PaintText(HDC hDC)
 {
     return;
 }
 ```
 是一个空函数，一定是基类的虚函数，具体绘制实现在派生类对应的函数中，这里是为了解决按钮和label控件的文字绘制对齐问题，所以这里直接查看CLabelUI（CButtonUI继承自CLabelUI）的PaintText函数：
-```
- void CLabelUI::PaintText(HDC hDC)
-    {
-        if( m_dwTextColor == 0 ) m_dwTextColor = m_pManager->GetDefaultFontColor();
-        if( m_dwDisabledTextColor == 0 ) m_dwDisabledTextColor = m_pManager->GetDefaultDisabledColor();
+```c
+void CLabelUI::PaintText(HDC hDC)
+{
+	if( m_dwTextColor == 0 ) m_dwTextColor = m_pManager->GetDefaultFontColor();
+	if( m_dwDisabledTextColor == 0 ) m_dwDisabledTextColor = m_pManager->GetDefaultDisabledColor();
 
-        RECT rc = m_rcItem;
-        rc.left += m_rcTextPadding.left;
-        rc.right -= m_rcTextPadding.right;
-        rc.top += m_rcTextPadding.top;
-        rc.bottom -= m_rcTextPadding.bottom;
+	RECT rc = m_rcItem;
+	rc.left += m_rcTextPadding.left;
+	rc.right -= m_rcTextPadding.right;
+	rc.top += m_rcTextPadding.top;
+	rc.bottom -= m_rcTextPadding.bottom;
 
-        if(!GetEnabledEffect())
-        {
-            if( m_sText.IsEmpty() ) return;
-            int nLinks = 0;
-            if( IsEnabled() ) {
-                if( m_bShowHtml )
-                    CRenderEngine::DrawHtmlText(hDC, m_pManager, rc, m_sText, m_dwTextColor, \
-                    NULL, NULL, nLinks, DT_SINGLELINE | m_uTextStyle);
-                else CRenderEngine::DrawText(hDC, m_pManager, rc, m_sText, m_dwTextColor, \
-                    m_iFont, DT_SINGLELINE |m_uTextStyle);
-            }
-            else {
-                if( m_bShowHtml )
-                    CRenderEngine::DrawHtmlText(hDC, m_pManager, rc, m_sText, m_dwDisabledTextColor, \
-                    NULL, NULL, nLinks, DT_SINGLELINE | m_uTextStyle);
-                else CRenderEngine::DrawText(hDC, m_pManager, rc, m_sText, m_dwDisabledTextColor, \
-                    m_iFont, DT_SINGLELINE |m_uTextStyle);
-            }
-        }
-        else
-        {
-            ……
-        }
+	if(!GetEnabledEffect())
+	{
+		if( m_sText.IsEmpty() ) return;
+		int nLinks = 0;
+		if( IsEnabled() ) {
+			if( m_bShowHtml )
+				CRenderEngine::DrawHtmlText(hDC, m_pManager, rc, m_sText, m_dwTextColor, \
+				NULL, NULL, nLinks, DT_SINGLELINE | m_uTextStyle);
+			else CRenderEngine::DrawText(hDC, m_pManager, rc, m_sText, m_dwTextColor, \
+				m_iFont, DT_SINGLELINE |m_uTextStyle);
+		}
+		else {
+			if( m_bShowHtml )
+				CRenderEngine::DrawHtmlText(hDC, m_pManager, rc, m_sText, m_dwDisabledTextColor, \
+				NULL, NULL, nLinks, DT_SINGLELINE | m_uTextStyle);
+			else CRenderEngine::DrawText(hDC, m_pManager, rc, m_sText, m_dwDisabledTextColor, \
+				m_iFont, DT_SINGLELINE |m_uTextStyle);
+		}
+	}
+	else
+	{
+		……
+	}
 }   
 ```     
 CRenderEngine::DrawText最后是调用API函数DrawText绘制的文本：
-```
+```c
 void CRenderEngine::DrawText(HDC hDC, CPaintManagerUI* pManager, RECT& rc, LPCTSTR pstrText, DWORD dwTextColor, int iFont, UINT uStyle)
 {
     ASSERT(::GetObjectType(hDC)==OBJ_DC || ::GetObjectType(hDC)==OBJ_MEMDC);
@@ -117,39 +117,39 @@ void CRenderEngine::DrawText(HDC hDC, CPaintManagerUI* pManager, RECT& rc, LPCTS
 }
 ```
 文字对齐属性主要取决于**m_uTextStyle**，在CLabelUI的源码中搜索m_uTextStyle的引用，找到SetAttribute函数：
-```
- void CLabelUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
-    {
-        if( _tcscmp(pstrName, _T("align")) == 0 ) {
+```c
+void CLabelUI::SetAttribute(LPCTSTR pstrName, LPCTSTR pstrValue)
+{
+	if( _tcscmp(pstrName, _T("align")) == 0 ) {
 if( _tcsstr(pstrValue, _T("left")) != NULL ) {
-                m_uTextStyle &= ~(DT_CENTER | DT_RIGHT | DT_VCENTER | DT_SINGLELINE);
-                m_uTextStyle |= DT_LEFT;
-            }if( _tcsstr(pstrValue, _T("center")) != NULL ) {
-                m_uTextStyle &= ~(DT_LEFT | DT_RIGHT );
-                m_uTextStyle |= DT_CENTER;
-            }
- if( _tcsstr(pstrValue, _T("right")) != NULL ) {
-                m_uTextStyle &= ~(DT_LEFT | DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-                m_uTextStyle |= DT_RIGHT;
-            }if( _tcsstr(pstrValue, _T("top")) != NULL ) {
-                m_uTextStyle &= ~(DT_BOTTOM | DT_VCENTER | DT_VCENTER);
-                m_uTextStyle |= (DT_TOP | DT_SINGLELINE);
-            }
-            if( _tcsstr(pstrValue, _T("vcenter")) != NULL ) {
-                m_uTextStyle &= ~(DT_TOP | DT_BOTTOM );            
-                m_uTextStyle |= (DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-            }
-            if( _tcsstr(pstrValue, _T("bottom")) != NULL ) {
-                m_uTextStyle &= ~(DT_TOP | DT_VCENTER | DT_VCENTER);
-                m_uTextStyle |= (DT_BOTTOM | DT_SINGLELINE);
-            }
-        }
+			m_uTextStyle &= ~(DT_CENTER | DT_RIGHT | DT_VCENTER | DT_SINGLELINE);
+			m_uTextStyle |= DT_LEFT;
+		}if( _tcsstr(pstrValue, _T("center")) != NULL ) {
+			m_uTextStyle &= ~(DT_LEFT | DT_RIGHT );
+			m_uTextStyle |= DT_CENTER;
+		}
+if( _tcsstr(pstrValue, _T("right")) != NULL ) {
+			m_uTextStyle &= ~(DT_LEFT | DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+			m_uTextStyle |= DT_RIGHT;
+		}if( _tcsstr(pstrValue, _T("top")) != NULL ) {
+			m_uTextStyle &= ~(DT_BOTTOM | DT_VCENTER | DT_VCENTER);
+			m_uTextStyle |= (DT_TOP | DT_SINGLELINE);
+		}
+		if( _tcsstr(pstrValue, _T("vcenter")) != NULL ) {
+			m_uTextStyle &= ~(DT_TOP | DT_BOTTOM );            
+			m_uTextStyle |= (DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+		}
+		if( _tcsstr(pstrValue, _T("bottom")) != NULL ) {
+			m_uTextStyle &= ~(DT_TOP | DT_VCENTER | DT_VCENTER);
+			m_uTextStyle |= (DT_BOTTOM | DT_SINGLELINE);
+		}
+	}
 ```
 
 
 
 现在再来解决问题1，属性的显示是在CUIProperties::ShowLabelProperty中实现的：
-```
+```c
 void CUIProperties::ShowLabelProperty(CControlUI* pControl)
 {
  ShowControlProperty(pControl);
@@ -176,7 +176,7 @@ void CUIProperties::ShowLabelProperty(CControlUI* pControl)
   strStyle=_T("Bottom");
 ```
 **注意看处理左对齐的代码逻辑，由于DT_LEFT被定义为0x00000000，因此uStyle&DT_LEFT恒不为真，这也就是为什么设置不了文字左对齐的原因。** 修改的逻辑如下：
-```
+```c
  void CUIProperties::ShowLabelProperty(CControlUI* pControl)
 {
  ShowControlProperty(pControl);
@@ -204,11 +204,11 @@ void CUIProperties::ShowLabelProperty(CControlUI* pControl)
 ```
 至此，在资源编辑器中便可以设置文本对齐属性了，但是修改完成后保存发现属性并未保存成功，继续排查。
 布局文件最终保存为xml文件，因此肯定会使用到xml的操作，而工程中使用了tinyxml，因此通过搜索tinyxml文档类的引用最终找到保存布局文件的函数：CLayoutManager::SaveSkinFile，它会在最后调用：
-```
+```c
  SaveProperties(pForm->GetItemAt(0), pNode->ToElement());
 ```
 我们看CLayoutManager::SaveProperties：
-```
+```c
  void CLayoutManager::SaveProperties(CControlUI* pControl, TiXmlElement* pParentNode
 ……
   case classLabel:
@@ -218,11 +218,11 @@ void CUIProperties::ShowLabelProperty(CControlUI* pControl)
 ……
 ```
 继续查看CLayoutManager::SaveLabelProperty，向下找到代码：
-```
+```c
 if(uTextStyle & DT_LEFT) tstrAlgin = _T("left");
 ```
 仍然是犯了相同的错误，代码应该修改为：
-```
+```c
 if( uTextStyle==0 ) tstrAlgin = _T("left");
 ```
 
@@ -234,9 +234,9 @@ if( uTextStyle==0 ) tstrAlgin = _T("left");
 ![](http://wx2.sinaimg.cn/mw690/006C9P7Ugy1fpelltgau3j309003bq2r.jpg)
 
 而且保存的时候有一个wrap属性：
-```
-    if(uTextStyle & DT_WORDBREAK)
-        tstrAlgin += _T("wrap");
+```c
+if(uTextStyle & DT_WORDBREAK)
+	tstrAlgin += _T("wrap");
 ```
 
 ### 产生原因：
@@ -258,7 +258,7 @@ DT_WORDBREAK属性也考虑一下，继续设计成wrap属性，并增加一个n
 
 
 ### 编辑器初始化时：
-```
+```c
 //Label
 #pragma region Label
 pPropUI=new CMFCPropertyGridProperty(_T("Label"),classLabel);
@@ -295,7 +295,7 @@ pPropUI->AddSubItem(pProp);
 ![](http://wx2.sinaimg.cn/mw690/006C9P7Ugy1fpellt3oi8j3085063gli.jpg)
 
 属性保存时：
-```
+```c
 CLayoutManager::SaveLabelProperty：
 std::wstring tstrAlgin;
 UINT uTextStyle = pLabelUI->GetTextStyle();
@@ -326,7 +326,7 @@ if( uTextStyle == (DT_LEFT | DT_VCENTER) ) {
 }
 ```
 还有一处用到了Label：CLayoutManager::SaveListHeaderItemProperty：
-```
+```c
 std::wstring tstrAlgin;
 UINT uTextStyle = pListHeaderItemUI->GetTextStyle();
 uTextStyle &= ~(DT_SINGLELINE);
@@ -356,7 +356,7 @@ if( uTextStyle == (DT_LEFT | DT_VCENTER) ) {
 }
 ```
 编辑器中显示控件属性：
-```
+```c
 CUIProperties::ShowLabelProperty：
 CString strStyle;
 UINT uTextStyle=pLabel->GetTextStyle();
@@ -388,7 +388,7 @@ if( uTextStyle == (DT_LEFT | DT_VCENTER) ) {
 ```
 
 设置控件属性：
-```
+```c
 CLabelUI::SetAttribute：
 if( _tcscmp(pstrValue, _T("leftvcenter")) == 0 ) {
     m_uTextStyle = DT_LEFT | DT_VCENTER | DT_SINGLELINE;

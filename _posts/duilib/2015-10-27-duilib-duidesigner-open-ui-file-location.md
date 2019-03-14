@@ -7,7 +7,7 @@ date:		2015-10-27
 ---
 
 经常使用VisualStudio，习惯使用该功能：打开并选择对应的文档，但是DuiDesigner只是打开文件夹，并不选中对应的文档：
-```C
+```c
 void CUIDesignerDoc::OnMdiOpenFullPath()
 {
     if(m_strPathName.IsEmpty())
@@ -24,7 +24,7 @@ void CUIDesignerDoc::OnMdiOpenFullPath()
 }
 ```
 修改为：
-```C
+```c
 void CUIDesignerDoc::OnMdiOpenFullPath()
 {
     if(m_strPathName.IsEmpty())

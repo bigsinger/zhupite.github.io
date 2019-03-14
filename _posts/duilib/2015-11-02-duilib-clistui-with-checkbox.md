@@ -10,12 +10,12 @@ date:		2015-11-02
 
 注意：
 此处需要将内嵌控件的ListHeaderItem 添加一个inset属性，控制内嵌的控件不要铺满整个ListHeaderItem ，否则表头拖动不了，如：
-```
+```xml
 ListHeaderItem text="" inset="1,0,1,0"
 ```
 
 这个注意其实很容易被遗忘，而且duidisigner并不会把inset属性给保存到xml里去，这里用代码内置进去，在CListHeaderItemUI的构造函数里添加代码：
-```
+```c
  CListHeaderItemUI::CListHeaderItemUI() : m_bDragable(true), m_uButtonState(0), m_iSepWidth(4),
 m_uTextStyle(DT_VCENTER | DT_CENTER | DT_SINGLELINE), m_dwTextColor(0), m_iFont(-1), m_bShowHtml(false)
 {
@@ -38,7 +38,7 @@ m_uTextStyle(DT_VCENTER | DT_CENTER | DT_SINGLELINE), m_dwTextColor(0), m_iFont(
 ![img](http://img.my.csdn.net/uploads/201803/16/1521168496_7879.png)
 
 在xml里找到关于checkbox的属性：checkboxattr，搜索源代码：
-```
+```c
 voidCTreeNodeUI::SetAttribute( LPCTSTR pstrName, LPCTSTR pstrValue )
     {
         if(_tcscmp(pstrName, _T("text")) == 0 )
@@ -61,18 +61,18 @@ voidCTreeNodeUI::SetAttribute( LPCTSTR pstrName, LPCTSTR pstrValue )
 
 发现checkbox在最前面了，因为我们在基类CListContainerElementUI的构造函数中，最先添加的checkbox。
 在派生类中先移除之，后添加：
-```
-  m_pHoriz->Remove(m_pCheckBox);
-  m_pHoriz->Add(pDottedLine);
-  m_pHoriz->Add(pFolderButton);
-  m_pHoriz->Add(m_pCheckBox);
-  m_pHoriz->Add(pItemButton);
+```c
+m_pHoriz->Remove(m_pCheckBox);
+m_pHoriz->Add(pDottedLine);
+m_pHoriz->Add(pFolderButton);
+m_pHoriz->Add(m_pCheckBox);
+m_pHoriz->Add(pItemButton);
 ```
 运行崩溃：
 ![](http://wx4.sinaimg.cn/mw690/006C9P7Ugy1fpeimo83ijj30d009nt8v.jpg)
 
 我们看移除函数：
-```
+```c
 bool CContainerUI::Remove(CControlUI* pControl)
     {
         if( pControl == NULL) returnfalse;
@@ -101,23 +101,23 @@ void CControlUI::NeedUpdate()
 remove函数会导致控件被刷新，所以在移除前先设置不可见，移除后再设置回去。
 
 原代码：
-```
-        pHoriz->Add(pDottedLine);
-        pHoriz->Add(pFolderButton);
-        pHoriz->Add(pCheckBox);
-        pHoriz->Add(pItemButton);
-        Add(pHoriz);
+```c
+pHoriz->Add(pDottedLine);
+pHoriz->Add(pFolderButton);
+pHoriz->Add(pCheckBox);
+pHoriz->Add(pItemButton);
+Add(pHoriz);
 ```
 修改后：
-```
+```c
 bool bVisible = m_pHoriz->IsVisible();    //保存bool bAutoDestroy = m_pHoriz->IsAutoDestroy();
-        m_pHoriz->SetVisible(false);
-        m_pHoriz->SetAutoDestroy(false);
-        m_pHoriz->Remove(m_pCheckBox);
-        m_pHoriz->SetAutoDestroy(bAutoDestroy);//设置回之前的状态
-        m_pHoriz->SetVisible(bVisible);            
-        m_pHoriz->Add(pDottedLine);
-        m_pHoriz->Add(pFolderButton);
-        m_pHoriz->Add(m_pCheckBox);
-        m_pHoriz->Add(pItemButton);
+m_pHoriz->SetVisible(false);
+m_pHoriz->SetAutoDestroy(false);
+m_pHoriz->Remove(m_pCheckBox);
+m_pHoriz->SetAutoDestroy(bAutoDestroy);//设置回之前的状态
+m_pHoriz->SetVisible(bVisible);            
+m_pHoriz->Add(pDottedLine);
+m_pHoriz->Add(pFolderButton);
+m_pHoriz->Add(m_pCheckBox);
+m_pHoriz->Add(pItemButton);
 ```

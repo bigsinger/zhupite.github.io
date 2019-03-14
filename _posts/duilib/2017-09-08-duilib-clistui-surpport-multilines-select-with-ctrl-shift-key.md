@@ -27,7 +27,7 @@ shift+左键,主要有4中情况
 
 # 二、代码修改
 UIList.cpp将Select修改如下：
-```
+```c
 bool CListElementUI::Select(bool bSelect, bool bCallback)
 {
     BOOL bShift = (GetKeyState(VK_SHIFT) & 0x8000);
@@ -60,7 +60,7 @@ bool CListElementUI::Select(bool bSelect, bool bCallback)
 }
 ```
 添加hot函数：
-```
+```c
 bool CListElementUI::Hot(bool bHot)
 {
     if (!IsEnabled()) return false;
@@ -80,7 +80,7 @@ bool CListElementUI::Hot(bool bHot)
 }
 ```
 修改SelectItem函数的实现：
-```
+```c
 bool CListUI::SelectItem(int iIndex, bool bTakeFocus)
 {
     BOOL bCtrl = (GetKeyState(VK_CONTROL) & 0x8000);
@@ -140,7 +140,7 @@ bool CListUI::SelectItem(int iIndex, bool bTakeFocus)
 }
 ```
 添加下面的函数：
-```
+```c
 bool CListUI::SelectRange(int iIndex, bool bTakeFocus)
 {
     int i = 0;
@@ -211,32 +211,32 @@ bool CListUI::SelectRange(int iIndex, bool bTakeFocus)
 ```
 
   ● UIList.h在class IListOwnerUI中添加虚函数：
-```
+```c
 virtual bool SelectRange(int iIndex, bool bTakeFocus = false) = 0;//@xdrt81y@20140218@支持shift多选
 ```
 
 在class IListItemUI中替换select函数的声明：
-```
+```c
 virtual bool Select(bool bSelect = true, bool bCallback = true) = 0;
 ```
 
 在class UILIB_API CListUI中添加函数声明：
-```
+```c
 bool SelectRange(int iIndex, bool bTakeFocus = false);//@xdrt81y@20140218@支持shift多选
 ```
 
 在class UILIB_API CListElementUI中修改函数声明：
-```
+```c
 bool Select(bool bSelect = true, bool bCallback = true);
 ```
 
 在class UILIB_API CListContainerElementUI中修改声明：
-```
+```c
 bool Select(bool bSelect = true, bool bCallback = true);
 ```
 
   ● UICombo.cpp添加函数实现：
-```
+```c
 bool CComboUI::SelectRange(int iIndex, bool bTakeFocus)
 {
     return true;
@@ -244,6 +244,6 @@ bool CComboUI::SelectRange(int iIndex, bool bTakeFocus)
 ```
 
   ● UICombo.h添加函数声明：
-```
+```c
 bool SelectRange(int iIndex, bool bTakeFocus = false);//@xdrt81y@20140218
 ```
