@@ -22,6 +22,9 @@ String.prototype.trim = function() {
 }
 ```
 
+# 字符串扩展
+使用String.prototype扩展，扩展示例参考：[javascript字符串函数汇总\_基础知识\_脚本之家](https://www.jb51.net/article/75937.htm)
+
 # 字符相关
 
 ## charAt(index)
@@ -129,8 +132,52 @@ console.log(str.substr(2))          //返回cdefg
 console.log(str.substr(-2, 4))      //返回fg，目标长度较大的话，以实际截取的长度为准
 ```
 
-https://www.cnblogs.com/lanyueff/p/5443147.html
-https://www.jb51.net/article/75937.htm
+# 字符串替换
+## replace(regexp/substr, replacement)
+replace()方法用来进行字符串替换操作，它可以接收两个参数，前者为被替换的子字符串（可以是正则），后者为用来替换的文本。
+
+如果第一个参数传入的是子字符串或是没有进行全局匹配的正则表达式，那么replace()方法将只进行一次替换（即替换最前面的），返回经过一次替换后的结果字符串。
+```js
+var str = 'abcdeabcde';
+console.log(str.replace('a', 'A'));     //Abcdeabcde
+console.log(str.replace(/a/, 'A'));     //Abcdeabcde
+```
+
+如果第一个参数传入的全局匹配的正则表达式，那么replace()将会对符合条件的子字符串进行多次替换，最后返回经过多次替换的结果字符串。
+```js
+var str = 'abcdeabcdeABCDE';
+console.log(str.replace(/a/g, 'A'));    //返回AbcdeAbcdeABCDE
+console.log(str.replace(/a/gi, '$'));   //返回$bcde$bcde$BCDE
+```
+
+
+# 字符串分割
+## split(separator, howmany)
+
+split()方法用于把一个字符串分割成字符串数组。第一个参数separator表示分割位置(参考符)，第二个参数howmany表示返回数组的允许最大长度(一般情况下不设置)。
+```js
+var str = 'a|b|c|d|e';
+console.log(str.split('|'));        //返回["a", "b", "c", "d", "e"]
+console.log(str.split('|', 3));     //返回["a", "b", "c"]
+console.log(str.split(''));         //返回["a", "|", "b", "|", "c", "|", "d", "|", "e"]
+```
+
+也可以用正则来进行分割
+```js
+var str = 'a1b2c3d4e';
+console.log(str.split(/\d/));       //返回["a", "b", "c", "d", "e"]
+```
+
+# 大小写转换
+- toLowerCase
+- toUpperCase
+
+toLowerCase()方法可以把字符串中的大写字母转换为小写，toUpperCase()方法可以把字符串中的小写字母转换为大写。
+```js
+var str = 'JavaScript';
+console.log(str.toLowerCase());     //返回javascript
+console.log(str.toUpperCase());     //返回JAVASCRIPT
+```
 
 # 静态方法
 ## fromCharCode(num1, num2, ..., numN)
