@@ -43,7 +43,8 @@ type: page
 - PHP
 - Linux
 
-想了解我的编程生涯可以参考这个：[IT十年逐浪而行](https://www.zhupite.com/other/it10year.html)
+### 编程生涯
+想了解我的编程生涯可以看这个：[IT十年逐浪而行](https://www.zhupite.com/other/it10year.html)
 
 ### 联系方式
 - 微博: <https://weibo.com/6060639246>
