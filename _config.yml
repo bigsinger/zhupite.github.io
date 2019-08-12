@@ -29,9 +29,6 @@ description_footer: 本站记录编程思想生活感言
 author:
   name: 朱皮特
 
-# Search
-search: true
-
 # comments
 # two ways to comment, only choose one, and use your own short name
 # 两种评论插件，选一个就好了，使用自己的 short_name
