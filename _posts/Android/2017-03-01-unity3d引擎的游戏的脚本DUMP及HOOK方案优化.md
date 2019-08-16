@@ -39,7 +39,7 @@ description:
 
 而且这个mono并不是通过java层代码加载的，因此我们之前的xposed通过HOOK Runtime的load及loadLibrary是无法拦截mono的加载的（之前分析cocos的时候是通过拦截game这个so加载的时候注入的SO）。
 
-```
+```java
 //当目标SO加载时再注入
 private void hookLoadSharedLibrary(final XC_LoadPackage.LoadPackageParam lpparam, final String hostSoName) {
     if (TextUtils.isEmpty(hostSoName) == true) {
@@ -97,7 +97,7 @@ private void hookLoadSharedLibrary(final XC_LoadPackage.LoadPackageParam lpparam
 
 ## 解决办法
 - **问题一**：注入SO由于过早地被加载到目标进程，在JNI_OnLoad中动态获取目标APP的包名会失效。下面代码中getPackagePath的是获取/data/data/com.youzu.android.snsgz类似路径的。
-```
+```c
 extern "C" jint JNI_OnLoad(JavaVM* vm, void* reserved)  
 {
 	JNIEnv* env = NULL;
@@ -118,7 +118,7 @@ extern "C" jint JNI_OnLoad(JavaVM* vm, void* reserved)
 }
 ```
 **解决办法**：先缓存一个JNIEnv指针，记录路径是否获取成功的状态。等到后面保存文件的时候再判断一下，如果之前没有成功获取到路径，那么在保存文件之前获取一下即可。
-```
+```c
 string getNextFilePath(const char *fileExt) {
 	char buff[100] = {0};
 	++g_nCount;
@@ -134,7 +134,7 @@ string getNextFilePath(const char *fileExt) {
 - **问题二**：dlopen被HOOK，自己的代码需要调用dlopen的时候需谨慎，以免进入死循环。
 
 **解决办法**：缓存目标SO的句柄，后期直接使用，规避对dlopen的调用或者调用olddlopen。参考：[如何hook dlopen和dlsym底层函数](http://blog.csdn.net/zhuanshenai/article/details/51752582)
-```
+```c
 void* (*olddlopen)(const char* filename, int myflags) = NULL;
 void* newdlopen(const char* filename, int myflags) {
 	LOGD("the dlopen name =: %s",filename);
@@ -203,7 +203,8 @@ bool hookU3D() {
 
 - IDA里分别查看两个函数的地址，并记下偏移差：001E1888 - 00190A7C = 50E0C 
 - 代码先获取mono_image_open_from_data_with_name的地址，再加上偏移差（50E0C），然后进行HOOK
-```
+
+```c
 int (*mono_image_open_from_data_with_name_orig)(char *data, int data_len, int a3, int a4, int a5, int a6, char a7, int a8) = NULL;
 int mono_image_open_from_data_with_name_mod(char *data, int data_len, int a3, int a4, int a5, int a6, char a7, int a8) {
 	LOGD("[dumplua] mono_image_open_from_data_with_name, len: %d, buff: %s", data_len, data);
