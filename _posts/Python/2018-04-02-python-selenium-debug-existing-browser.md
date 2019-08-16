@@ -21,18 +21,18 @@ tags:		[python,selenium]
 
 2. Python代码：
 
-```
+```python
 from selenium import webdriver
 from selenium.webdriver import ChromeOptions
 
 options = ChromeOptions()
 options.debugger_address = "127.0.0.1:" + '8888'
 browser = webdriver.Chrome(executable_path="C:\Program Files (x86)\Google\Chrome\Application\chromedriver.exe", chrome_options=options)
-# browser.get("http://www.xxx.com")
+# browser.get("www.zhupite.com")
 ```
-如果网址http://www.xxx.com 之前有登录过，这个时候默认是已登录状态，不会要求输入账号密码的，省就省在这一步。
+如果网址 www.zhupite.com 之前有登录过，这个时候默认是已登录状态，不会要求输入账号密码的，省就省在这一步。
 
-因为第一步启动了一个开放了调试端口为8888的Chrome浏览器，这里直接使用选项debugger_address来配置，后面Selenium打开的新窗口就是直接在这个开放了调试端口的浏览器中操作了。
+因为第一步启动了一个开放了调试端口为8888的Chrome浏览器，这里直接使用选项**debugger_address**来配置，后面Selenium打开的新窗口就是直接在这个开放了调试端口的浏览器中操作了。
 
 ### 参考
 更多选项可以参考：[38、Selenium 之订制启动Chrome的选项（Options）](https://blog.csdn.net/duzilonglove/article/details/78517429)
