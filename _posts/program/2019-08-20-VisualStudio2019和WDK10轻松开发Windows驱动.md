@@ -25,9 +25,10 @@ https://docs.microsoft.com/zh-cn/windows-hardware/drivers/download-the-wdk
 安装时一路默认，最后勾选为VisualStudio安装扩展开发插件，这样VS2019启动后会有扩展插件可以直接使用，在VS2019菜单：扩展-driver里。
 
 ## VS2019创建驱动项目
-- 打开VS2019，新建项目，搜索**KMDF**，选择“Kernel Mode Driver, Empty(KMDF)”的空项目。
-- 修改项目属性。Driver Settings - General - Target OS Version 如果需要选择Windows7/Windows8/Windows8.1，则下面的Target Platform需要选择Desktop，如果是Windows 10 or higher则Desktop和Universal都可以选择。
+- 打开VS2019，新建项目，搜索**KMDF**，选择**“Kernel Mode Driver, Empty(KMDF)”**的空项目。
+- 修改项目属性。**Driver Settings** - **General** - **Target OS Version** 如果需要选择**Windows7/Windows8/Windows8.1**，则下面的**Target Platform**需要选择**Desktop**，如果是**Windows 10 or higher**则**Desktop**和**Universal**都可以选择。
 - 在项目的Source Files下新建一个.c文件：main.c，内容如下：
+
 ```c
 #include <ntddk.h>
 #include <wdf.h>
@@ -93,17 +94,19 @@ KmdfHelloWorldEvtDeviceAdd(
 ## 驱动调试
 ### Dbgview捕获kernel日志
 - 新建一个.reg文件，内容如下：
+
 ```
 Windows Registry Editor Version 5.00
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Debug Print Filter] 
 "DEFAULT"=dword:0000000f
 ```
+
 双击导入。
-- Dbgview以管理员身份运行，勾选菜单Capture-Capture Kernel和Enable VerBose Kernel Output
-- 关闭驱动签名验证（否则在驱动加载时系统会弹框：Windows要求已数字签名的驱动程序）。管理员身份运行CMD，输入：bcdedit/set testsigning on
-- 重启生效，系统左下角会出现“测试模式”的水印，说明生效，可以对系统做个快照方便下次继续使用。
-- 下载InstDrv驱动加载工具，以管理员身份运行，选择对应的sys驱动文件，安装、启动。
+- **Dbgview**以管理员身份运行，勾选菜单**Capture** - **Capture Kernel**和**Enable VerBose Kernel Output**
+- 关闭驱动签名验证（否则在驱动加载时系统会弹框：Windows要求已数字签名的驱动程序）。管理员身份运行CMD，输入：**bcdedit/set testsigning on**
+- 重启生效，系统左下角会出现**“测试模式”**的水印，说明生效，可以对系统做个快照方便下次继续使用。
+- 下载**InstDrv**驱动加载工具，以管理员身份运行，选择对应的sys驱动文件，安装、启动。
 - Dbgview中会看到日志输出：KmdfHelloWorld: DriverEntry
 
 ## 驱动加载工具
