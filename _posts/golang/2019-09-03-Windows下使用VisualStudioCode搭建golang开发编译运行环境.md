@@ -90,4 +90,17 @@ func main() {
 在运行go的时候，VSCode右下角会有提示安装依赖的插件，点击“Install All”即可，期间可能会由于被墙的原因出现失败，可以多试几次。
 
 
+## 编译成可执行程序
+可以直接在**TERMINAL**终端运行go build命令：
+
+```
+go build
+```
+
+如果需要单独编译某go文件可以：
+
+```
+go build -v -o hello.exe hello.go
+```
+
 
