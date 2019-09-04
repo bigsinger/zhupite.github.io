@@ -13,6 +13,8 @@ tags:		[golang,VSCode]
 ## 下载安装go
 [golang](https://golang.google.cn/)，例如我本地安装在：D:\Go，那么GOROOT就是：D:\Go
 
+如果被墙的话可以从这里下载：[GO语言中文网](https://studygolang.com/dl)
+
 ## VSCode配置
 首先选定一个golang的工作目录，例如我的是：F:\svnlocal\temp\study_go，也即作为golang的开发目录。
 
@@ -102,5 +104,19 @@ go build
 ```
 go build -v -o hello.exe hello.go
 ```
+
+## VSCode快捷键
+- 格式化代码：Shift + Alt + F 
+- 显示函数列表：Ctrl + Shift + O
+- 自动生成单元测试文件：Ctrl + Shift + P，然后选择：“Go: Generate Unit Tests For File”
+
+## 参考
+- [Golang错误和异常处理的正确姿势](https://www.jianshu.com/p/f30da01eea97)
+- [Go语言中的Array、Slice、Map、Set和Struct解析](https://www.jianshu.com/p/247ba63ad8db)
+- [go语言的time包](https://my.oschina.net/u/943306/blog/149395)
+- [Go语言时间处理](http://kiritor.github.io/2015/04/15/Go%E8%AF%AD%E8%A8%80%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86/)
+- [go语言的bytes\.buffer \- waynehu的个人空间 \- OSCHINA](https://my.oschina.net/u/943306/blog/127981)
+- [Golang\-字符串操作处理包\-Strings](http://www.nljb.net/default/Golang-%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C%E5%A4%84%E7%90%86%E5%8C%85-Strings/)
+
 
 
