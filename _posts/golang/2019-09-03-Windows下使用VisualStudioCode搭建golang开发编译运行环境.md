@@ -40,8 +40,12 @@ func main() {
 ### 配置GOROOT和GOPATH
 在VSCode中，需要配置一下GOROOT和GOPATH，等于是需要告诉VSCode你的golang安装目录和开发工作目录在哪里。
 
-有两种办法：
-- 修改lauch.json配置
+由于go在安装的时候默认设置了一个系统环境变量GOPATH，是在USER目录下：%USERPROFILE%\go，可以修改一下。
+
+有几种办法：
+- 修改系统环境变量，这个是全局修改，一劳永逸。
+- set命令修改，只对当前终端会话有效，重新打开新的终端需要重新修改，比较麻烦。如：set GOPATH=F:/svnlocal/temp/study_go
+- 修改lauch.json配置：只对当前工程有效。
 - 修改setting.json配置
 
 #### lauch.json配置
@@ -92,6 +96,14 @@ func main() {
 在运行go的时候，VSCode右下角会有提示安装依赖的插件，点击“Install All”即可，期间可能会由于被墙的原因出现失败，可以多试几次。
 
 
+## 下载GitHub模块
+使用**go get**命令，例如：
+
+```
+go get github.com/op/go-logging
+go get github.com/shell909090/goproxy
+```
+
 ## 编译成可执行程序
 可以直接在**TERMINAL**终端运行go build命令：
 
@@ -104,6 +116,17 @@ go build
 ```
 go build -v -o hello.exe hello.go
 ```
+
+### 交叉编译跨平台可执行程序
+在**TERMINAL**终端下先设置env，例如：
+
+```
+SET GOOS=linux
+SET GOARCH=arm
+```
+
+然后再执行**go build**，查看env可以通过命令：**go env**
+
 
 ## VSCode快捷键
 - 格式化代码：Shift + Alt + F 
