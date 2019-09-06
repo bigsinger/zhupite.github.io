@@ -15,9 +15,35 @@ tags:		[golang,VSCode]
 
 如果被墙的话可以从这里下载：[GO语言中文网](https://studygolang.com/dl)
 
+## go项目结构
+### 适合个人开发者
+
+![](http://p1.pstatp.com/large/pgc-image/49dee181bb954532bbb1653306433e4a)
+
+### 目前流行的项目结构
+
+![](http://p9.pstatp.com/large/pgc-image/bcedcf8d3f6945adbb8365e0ea6aaf26)
+
+###  适合企业开发者
+
+![](http://p3.pstatp.com/large/pgc-image/6face645ed5347ccabcf8a145ab186f2)
+
+## 下载GitHub模块
+使用**go get**命令，例如：
+
+```
+go get github.com/op/go-logging
+go get github.com/shell909090/goproxy
+```
+
 ## VSCode配置
+
 首先选定一个golang的工作目录，例如我的是：F:\svnlocal\temp\study_go，也即作为golang的开发目录。
 
+### 中文语言界面
+运行VSCode，点击左侧工具栏的“Extensions”按钮，搜索“chinese”找到简体中文语言包，安装，重启后vscode会自动编程中文语言了。
+
+### 安装go扩展插件
 运行VSCode，点击左侧工具栏的“Extensions”按钮，搜索“go”安装。
 
 选择菜单File-Open Folder打开该目录，然后新建一个hello.go文件，编写以下代码：
@@ -96,14 +122,6 @@ func main() {
 在运行go的时候，VSCode右下角会有提示安装依赖的插件，点击“Install All”即可，期间可能会由于被墙的原因出现失败，可以多试几次。
 
 
-## 下载GitHub模块
-使用**go get**命令，例如：
-
-```
-go get github.com/op/go-logging
-go get github.com/shell909090/goproxy
-```
-
 ## 编译成可执行程序
 可以直接在**TERMINAL**终端运行go build命令：
 
@@ -117,15 +135,45 @@ go build
 go build -v -o hello.exe hello.go
 ```
 
-### 交叉编译跨平台可执行程序
-在**TERMINAL**终端下先设置env，例如：
+### 跨平台交叉编译可执行程序
+在**TERMINAL**终端下先设置env，然后再执行**go build**，查看env可以通过命令：**go env**
+
+#### Windows下编译Android平台可执行程序
 
 ```
 SET GOOS=linux
 SET GOARCH=arm
 ```
 
-然后再执行**go build**，查看env可以通过命令：**go env**
+#### Windows下编译Linux平台可执行程序
+
+```
+SET CGO_ENABLED=0 	// 禁用CGO
+SET GOOS=linux 		// 目标平台是linux
+SET GOARCH=amd64 	// 目标处理器架构是amd64
+```
+
+#### Windows下编译Mac平台64位可执行程序
+```
+SET CGO_ENABLED=0
+SET GOOS=darwin
+SET GOARCH=amd64
+go build
+```
+
+#### Linux下编译Mac和Windows平台64位可执行程序
+
+```
+CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build
+CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build
+```
+
+#### Mac下编译Linux和Windows平台64位可执行程序
+
+```
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build
+CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build
+```
 
 
 ## VSCode快捷键
@@ -140,6 +188,6 @@ SET GOARCH=arm
 - [Go语言时间处理](http://kiritor.github.io/2015/04/15/Go%E8%AF%AD%E8%A8%80%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86/)
 - [go语言的bytes\.buffer \- waynehu的个人空间 \- OSCHINA](https://my.oschina.net/u/943306/blog/127981)
 - [Golang\-字符串操作处理包\-Strings](http://www.nljb.net/default/Golang-%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C%E5%A4%84%E7%90%86%E5%8C%85-Strings/)
-
+- 一步一步从零搭建Go语言开发环境 Go语言中文网
 
 
