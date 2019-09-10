@@ -103,6 +103,22 @@ console.log(str.match(/h/g));   //返回null
 console.log(str.match(/\d/g));  //返回["1", "2", "3", "4", "5"]
 ```
 
+## includes
+includes() 方法用于检查字符串是否包含指定的字符串或字符。
+```js
+var mystring = "Hello, welcome to edureka";
+var n = mystring.includes("edureka");
+//output: True
+```js
+
+## endsWith
+endsWith()函数检查字符串是否以指定的字符串或字符结束。
+
+## startsWith
+endsWith()函数检查字符串是否以指定的字符串或字符开始。
+
+
+
 # 截取子串
 ## substring(start, end)
 substring()是最常用到的字符串截取方法，它可以接收两个参数(参数不能为负值)，分别是要截取的**开始位置**和**结束位置**，它将返回一个新的字符串，其内容是从**[start, end)**的所有字符。若结束参数(end)省略，则表示从start位置一直截取到最后。
@@ -150,7 +166,6 @@ console.log(str.replace(/a/g, 'A'));    //返回AbcdeAbcdeABCDE
 console.log(str.replace(/a/gi, '$'));   //返回$bcde$bcde$BCDE
 ```
 
-
 # 字符串分割
 ## split(separator, howmany)
 
@@ -182,3 +197,35 @@ console.log(str.toUpperCase());     //返回JAVASCRIPT
 # 静态方法
 ## fromCharCode(num1, num2, ..., numN)
 
+# 其他
+## concat
+concat() 方法用于连接两个或多个字符串，此方法不改变现有的字符串，返回拼接后的新的字符串。
+```js
+var message="Sam"
+var final=message.concat(" is a"," hopeless romantic.")
+```
+
+## repeat
+repeat() 构造并返回一个新字符串，该字符串包含被连接在一起的指定数量的字符串的副本。
+```js
+var string = "Welcome to Edureka";
+string.repeat(2);
+//output: Welcome to Edureka Welcome to Edureka
+```
+
+## valueOf
+valueOf() 方法返回一个String对象的原始值（primitive value），该值等同于String.prototype.toString()。
+```js
+var mystr = "Hello World!";
+var res = mystr.valueOf();
+//output: Hello World!
+```
+
+## trim
+trim()方法会从一个字符串的两端删除空白字符。在这个上下文中的空白字符是所有的空白字符 (space, tab, no-break space 等) 以及所有行终止符字符（如 LF，CR）
+
+类似的函数还有：
+- trimStart
+- trimEnd
+- trimLeft
+- trimRight
