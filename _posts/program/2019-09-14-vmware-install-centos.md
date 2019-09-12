@@ -124,6 +124,16 @@ sudo rpm -ivh /home/xxx/google-chrome-stable-xxx.rpm --nodeps
 
 注意：试了很多个方法都没有用是因为**/usr/lib64/fcitx/fcitx-sogoupinyin.so**的文件属性有问题，网上的很多教程都没有提到这点。
 
+## 安装开发环境
+### 安装Python3
+CentOS系统自带了python2.7.5，因为yum会用到python2，所以不能删除。参考：[CentOS7安装python3和pip3](https://blog.csdn.net/boling_cavalry/article/details/96572311)
+
+### 安装pycharm
+参考：
+- http://d0o0bz.cn/2019/03/installing-pycharm-on-centos/
+- [Centos7安装Pycharm并添加环境变量至桌面](https://blog.csdn.net/hannah_zh/article/details/92677122)
+
+
 ## 常用命令
 #### 下载
 wget http://xxx.tar.xz
