@@ -106,15 +106,23 @@ sudo rpm -ivh /home/xxx/google-chrome-stable-xxx.rpm --nodeps
 ### 安装搜狗输入法
 注意不要卸载ibus，如果没有注意同时卸载掉的依赖包的话，会导致系统黑屏且无法进入图形界面。
 
-参考：[CentOS7\.4安装sogou输入法](https://blog.csdn.net/longzhizhui926/article/details/83188118)
+参考：[CentOS7\.4安装sogou输入法](https://blog.csdn.net/longzhizhui926/article/details/83188118)、[CentOS7\.6中安装使用fcitx框架](https://my.oschina.net/u/4188728/blog/3094172)
 
+- 单独卸载ibus软件(以下为root权限)：**rpm -e --nodeps ibus**
+- 安装epel库源：**yum -y install epel-release**
+- 安装fcitx：**yum -y install fcitx fcitx-pinyin fcitx-configtool**
+- 设置fcitx为自启动项：在内置应用**Tweaks**里->**Startup Application**添加**fcitx**为自启动项
+- 如果遇到配置自启动后开关机时间过长：修改重启或关机时 systemd 等待 fcitx 进程的时长，默认是 90 秒，我们可以把它改为最多只等待 10 秒，就会起到快速重启或关机不再长时间等待的效果了。具体是修改**/etc/systemd/system.conf**文件，将其中的 **DefaultTimeoutStopSec=90s** 这一行前面的 # 去掉，然后将其赋值改为 10s 保存即可。
 - 由于sougou输入法的Linux安装包只有deb的，没有rpm包，所以需要借助alien进行转换，需要事先安装下alien。
-- 安装依赖软件：yum install qtwebkit fcitx-libs -y
+- 安装依赖软件：**yum install qtwebkit fcitx-libs -y**
 - 下载：[搜狗输入法 for linux](https://pinyin.sogou.com/linux/?r=pinyin)
 - deb包转换成rpm包：alien -r sogoupinyin_xxx.deb
 - 安装：rpm -ivh sogoupinyin_xxx.rpm
 - 提示与filesystem包冲突，可以使用–force命令安装：rpm -ivh --force sogoupinyin_xxx.rpm
+- 检查目录下**/usr/lib64/fcitx/fcitx-sogoupinyin.so**是否存在，不存在则从**/usr/lib/x86_64-linux-gnu/fcitx/fcitx-sogoupinyin.so**下复制一份。
+- 检查目录下**/usr/lib64/fcitx/fcitx-sogoupinyin.so**的文件属性，默认是有问题的，需要**chmod 755**修改一下，重启系统即可。
 
+注意：试了很多个方法都没有用是因为**/usr/lib64/fcitx/fcitx-sogoupinyin.so**的文件属性有问题，网上的很多教程都没有提到这点。
 
 ## 常用命令
 #### 下载
