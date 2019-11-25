@@ -1,7 +1,7 @@
 ---
 layout: page
 title: 工具
-permalink: /about/
+permalink: /tools/
 icon: th-list
 type: page
 ---
