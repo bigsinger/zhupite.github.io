@@ -71,10 +71,10 @@ type: page
 - [md5解密 MD5在线解密 破解md5](https://pmd5.com/)
 - [免费md5解密,md5在线查询破解,XMD5](https://www.xmd5.com/)
 
-#安全检测
+# 安全检测
 
 ## 网站检测
-- [百度安全指数 - 综合互联网安全服务平台|免费安全检测|在线漏洞检测|恶意内容检测|网站综合安全检测|网站安全评分](https://bsi.baidu.com/)
+- [百度安全指数-网站安全评分](https://bsi.baidu.com/)
 - [网站体检_网站安全检测_站长工具_网站支持_百度搜索资源平台](https://ziyuan.baidu.com/safe/index)
 - [百度WebShell扫描](https://scanner.baidu.com/#/pages/intro)
 - [urlscan](https://urlscan.io/)
