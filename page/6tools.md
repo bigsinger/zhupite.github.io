@@ -46,6 +46,7 @@ type: page
 - [jadx](https://github.com/skylot/jadx)
 - [jd-gui](http://www.funduc.com)
 - [Luyten](https://github.com/deathmarine/Luyten)
+- [AppMon](https://github.com/dpnishant/appmon)
 
 # 十六进制工具
 - [WinHex](https://www.x-ways.net/winhex/)
