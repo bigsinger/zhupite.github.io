@@ -40,6 +40,13 @@ type: page
 
 # 查找替换
 - [Search and Replace](http://www.funduc.com) 
+- [Piriform Recuva文件恢复工具](https://www.ccleaner.com/recuva)
+
+# 多媒体工具
+- [JPNGmin图片批量压缩工具](https://www.52pojie.cn/thread-1058942-1-7.html)
+- [Moo0 视频裁剪器 (免费) - 最快的"无损"视频切割机](https://zhs.moo0.com/?top=https://zhs.moo0.com/software/VideoCutter/)
+- [Camtasia Studio 9汉化版](https://www.52pojie.cn/thread-1063685-1-2.html)
+
 
 # Android逆向工具
 - [APKmenuTOOL - 安卓右键工具](https://github.com/bigsinger/APKmenuTOOL)
