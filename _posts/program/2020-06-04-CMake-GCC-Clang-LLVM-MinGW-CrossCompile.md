@@ -1,7 +1,7 @@
 ﻿---
 layout:		post
 category:	"program"
-title:		"CMake、CMakeLists.txt、GCC、Clang、LLVM、MinGW、交叉编译、CLion"
+title:		"CMake、CMakeLists.txt、GCC、Clang、LLVM、MinGW、交叉编译"
 tags:		[c++]
 ---
 - Content
@@ -129,20 +129,6 @@ LLVM（**Low Level Virtual Machine**），是以 BSD 许可来开发的开源的
 
 
 
-# CLion
-
-因为MinGW-w64只有命令行方式，使用起来比较麻烦，开发效率很低。可以使用jetbrain强大的IDE工具 CLion 结合使用，具体方法如下。
-
-
-
-首先下载并安装MinGW-w64，方法参考前面章节。
-
-在CLion中打开菜单： File | Settings | Build, Execution, Deployment | **Toolchains**，
-
-![](https://intellij-support.jetbrains.com/hc/user_images/iHmhND9ptdWQ9hxYZH0xEQ.png)
-
-
-
 # 交叉编译
 
 ​	交叉编译是在一个平台上生成另一个平台上的可执行代码。**同一个体系结构可以运行不同的操作系统；同样，同一个操作系统也可以在不同的体系结构上运行。
@@ -180,6 +166,8 @@ LLVM（**Low Level Virtual Machine**），是以 BSD 许可来开发的开源的
 
 
 
+
+
 ### 其他参考：
 
 [Clion 交叉编译配置 - 简书](https://www.jianshu.com/p/bf903adc0c1b)
@@ -190,4 +178,27 @@ LLVM（**Low Level Virtual Machine**），是以 BSD 许可来开发的开源的
 
 [交叉编译环境_linux 交叉编译环境_arm-linux交叉编译环境 - 云+社区 - 腾讯云](https://cloud.tencent.com/developer/information/%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83)
 
+
+
+# IDE对编译工具的支持
+
+## CLion
+
+因为MinGW-w64只有命令行方式，使用起来比较麻烦，开发效率很低。可以使用jetbrain强大的IDE工具 CLion 结合使用，具体方法如下。
+
+
+
+首先下载并安装MinGW-w64，方法参考前面章节。
+
+在CLion中打开菜单： File | Settings | Build, Execution, Deployment | **Toolchains**，
+
+![](https://intellij-support.jetbrains.com/hc/user_images/iHmhND9ptdWQ9hxYZH0xEQ.png)
+
+
+
+
+
+## VisualStudio
+
+自VisualStudio2017开始，VisualStudio也支持对CMake项目的打开了，也就是不必用CMakeGUI转换工程了，参考：[VS2019直接编译cmake项目](https://blog.csdn.net/v759291707/article/details/104270896)，微软官方文档：[Visual Studio 中的 CMake 项目 | Microsoft Docs](https://docs.microsoft.com/zh-cn/cpp/build/cmake-projects-in-visual-studio?view=vs-2019)
 
