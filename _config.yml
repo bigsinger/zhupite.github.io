@@ -2,16 +2,16 @@
 #   Main Configs   #
 # ---------------- #
 baseurl:
-url: https://mazhuang.org
+url: https://zhupite.com
 date_format: "ordinal"
-title: 码志
-subtitle: "公众号：闷骚的程序员"
-description: "马壮的个人博客，公众号：闷骚的程序员"
-keywords: 码志, Zhuang Ma, mzlogin, mazhuang, 闷骚的程序员
+title: 朱皮特的烂笔头
+subtitle: "自由的飞翔"
+description: "你不必等到非常厉害，才敢开始；你需要开始，才会变得非常厉害！"
+keywords: 朱皮特, 程序员
 timezone: Asia/Shanghai
 encoding: "utf-8"
 side_bar_repo_limit: 5
-repository: mzlogin/mzlogin.github.io
+repository: bigsinger/bigsinger.github.io
 # 对 css 和 js 资源的 cdn 加速配置
 cdn:
     jsdelivr:
@@ -38,12 +38,12 @@ highlight_theme: github
 # ---------------- #
 #      Author      #
 # ---------------- #
-author: Zhuang Ma
+author: zhupite
 organization: 
 organization_url: 
-github_username: mzlogin
-location: Wuhan, China
-email: chumpma@gmail.com
+github_username: bigsinger
+location: Hangzhou, China
+email: pushebp#163.com
 
 # ---------------- #
 #    Navigation    #
@@ -93,7 +93,8 @@ paginate: 10
 lsi: false
 quiet: false
 excerpt_separator: "\n\n"
-permalink: /:year/:month/:day/:title/
+permalink: /:categories/:title.html
+#permalink: /:year/:month/:day/:title/
 plugins:
     - jekyll-github-metadata
     - rouge
@@ -141,7 +142,7 @@ simple_jekyll_search:
     # 是否支持全文搜索
     fulltext: false
     # 最多显示多少条搜索结果
-    limit: 10
+    limit: 20
 
 # ---------------- #
 #      Google      #
