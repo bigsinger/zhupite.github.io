@@ -9,7 +9,7 @@ tags:		[android]
 
 ## 引用zxing库
 build.gradle的dependencies里添加：
-```
+```groovy
 implementation('com.journeyapps:zxing-android-embedded:3.6.0') { transitive = false }
 implementation('com.google.zxing:core:3.3.0') {
 	exclude module: 'support-v13'

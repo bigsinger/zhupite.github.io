@@ -28,7 +28,7 @@ description:
 
 ### 注入器SO（loader）层
 HOOK dlopen的代码如下，参考：[如何hook dlopen和dlsym底层函数](http://blog.csdn.net/zhuanshenai/article/details/51752582)
-```
+```c
 
 Tdlopen olddlopen = NULL;
 void* newdlopen(const char* filename, int myflags) {
@@ -125,7 +125,7 @@ extern "C" jint JNI_OnLoad(JavaVM* vm, void* reserved)
 
 ### HOOK SO层
 由于loader层传递的信息足够多，很多可以直接使用，因此主要在on_dlopen中完成HOOK处理。
-```
+```c
 /************************************************************************/
 /* 
 该函数可能会被调用多次，所以要记录初始化标志，HOOK过了就不要再HOOK了。
@@ -162,7 +162,7 @@ extern "C" void on_dlopen(const char* libname, void *handle, JNIEnv *env, const 
 ```
 
 U3D引擎的HOOK：
-```
+```c
 //hook mono_image_open_from_data_with_name
 int (*mono_image_open_from_data_with_name_orig)(char *data, int data_len, int need_copy, void *status, int refonly, const char *name) = NULL;
 int mono_image_open_from_data_with_name_mod(char *data, int data_len, int need_copy, void *status, int refonly, const char *name) {
@@ -204,7 +204,7 @@ bool hookU3D(void *handlelibMonoSo, Tdlopen olddlopen) {
 ```
 
 cocos的HOOK：
-```
+```c
 //orig function copy
 int (*luaL_loadbuffer_orig)(void *L, const char *buff, int size, const char *name) = NULL;
 

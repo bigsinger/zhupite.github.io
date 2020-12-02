@@ -39,11 +39,11 @@ EXPORT _ZN7cocos2d10CCLuaStack14lua_loadbufferEP9lua_StatePKciS4_
 最后再调用：**luaL_loadbuffer**
 
 因此可以直接对**luaL_loadbuffer**进行HOOK，进而DUMP出Lua脚本，网上搜索函数声明：
-```
+```c
 int luaL_loadbuffer (lua_State *L, const char *buff, size_t sz, const char *name);
 ```
 进而实现HOOK代码：
-```
+```c
 //orig function copy
 int (*luaL_loadbuffer_orig)(void *L, const char *buff, int size, const char *name) = NULL;
 
@@ -117,14 +117,14 @@ void hook() {
               pri
 01-05 19:29:27.679 13191-13215/? D/SUBSTRATEHOOK: [dumplua] luaL_loadbuffer name: upgrade.AntiAddictionLayer lua: LJ-
 01-05 19:29:27.679 13191-13215/? D/SUBSTRATEHOOK: [dumplua] luaL_loadbuffer name: upgrade.ComSdkUtils lua: LJA
-01-05 19:29:27.684 13191-13215/? D/SUBSTRATEHOOK: [dumplua] luaL_loadbuffer name: upgrade.config lua: LJ�	
+01-05 19:29:27.684 13191-13215/? D/SUBSTRATEHOOK: [dumplua] luaL_loadbuffer name: upgrade.config lua: LJ?	
 01-05 19:29:27.684 13191-13215/? D/SUBSTRATEHOOK: [dumplua] luaL_loadbuffer name: upgrade.ConfigLayer lua: LJ]
-01-05 19:29:27.684 13191-13215/? D/SUBSTRATEHOOK: [dumplua] luaL_loadbuffer name: upgrade.EffectNode_Upgrade lua: LJ�
+01-05 19:29:27.684 13191-13215/? D/SUBSTRATEHOOK: [dumplua] luaL_loadbuffer name: upgrade.EffectNode_Upgrade lua: LJ?
 01-05 19:29:27.684 13191-13215/? D/SUBSTRATEHOOK: [dumplua] luaL_loadbuffer name: upgrade.ErrMsgBox lua: LJP
-01-05 19:29:27.684 13191-13215/? D/SUBSTRATEHOOK: [dumplua] luaL_loadbuffer name: upgrade.game lua: LJ�
-01-05 19:29:27.684 13191-13215/? D/SUBSTRATEHOOK: [dumplua] luaL_loadbuffer name: upgrade.NativeCallUtils lua: LJ�
-01-05 19:29:27.684 13191-13215/? D/SUBSTRATEHOOK: [dumplua] luaL_loadbuffer name: upgrade.NativeProxy lua: LJ�
-01-05 19:29:27.684 13191-13215/? D/SUBSTRATEHOOK: [dumplua] luaL_loadbuffer name: upgrade.Patcher lua: LJ�
+01-05 19:29:27.684 13191-13215/? D/SUBSTRATEHOOK: [dumplua] luaL_loadbuffer name: upgrade.game lua: LJ?
+01-05 19:29:27.684 13191-13215/? D/SUBSTRATEHOOK: [dumplua] luaL_loadbuffer name: upgrade.NativeCallUtils lua: LJ?
+01-05 19:29:27.684 13191-13215/? D/SUBSTRATEHOOK: [dumplua] luaL_loadbuffer name: upgrade.NativeProxy lua: LJ?
+01-05 19:29:27.684 13191-13215/? D/SUBSTRATEHOOK: [dumplua] luaL_loadbuffer name: upgrade.Patcher lua: LJ?
 01-05 19:29:27.689 13191-13215/? D/SUBSTRATEHOOK: [dumplua] luaL_loadbuffer name: upgrade.SplashLayer lua: LJ-
 01-05 19:29:27.689 13191-13215/? D/SUBSTRATEHOOK: [dumplua] luaL_loadbuffer name: upgrade.upgrade lua: LJ6
 ```
@@ -135,7 +135,7 @@ void hook() {
 主要函数： cocos2d::CCImage::**initWithImageFile调用** cocos2d::CCImage::**initWithImageData**
 
 但是IDA分析发现**initWithImageData**会调用**cocos2d::extra::CCCrypto::decryptXXTEA**和**cocos2d::extra::CCCrypto::decryptUF**进行解密，最后再加载图片资源。以下是initWithImageData部分代码：
-```
+```c
 if ( s )
   {
     v12 = (unsigned __int8 *)strlen(s);
@@ -164,7 +164,7 @@ if ( s )
 
 也即会调用cocos2d::extra::CCCrypto::decryptXXTEA和cocos2d::extra::CCCrypto::decryptUF进行解密操作。我们看下**cocos2d::extra::CCCrypto::decryptUF**这个函数，通过IDA的F5插件，并不断修改变量名可以获得一个比较清晰的C代码。
 
-```
+```c
 int __fastcall cocos2d::extra::CCCrypto::decryptUF(cocos2d::extra::CCCrypto *pInBuff, int nlen, int a3, int *pOutLen, int *name)
 {
   cocos2d::extra::CCCrypto *pInBuff2; // r5@1
@@ -238,7 +238,7 @@ int __fastcall cocos2d::extra::CCCrypto::decryptUF(cocos2d::extra::CCCrypto *pIn
 其实看到这里应该也是比较容易逆向分析出解密的算法的，应该说比较简单，可以直接写一个脚本来解密assets里的资源。但是为了保证通用性，还是写HOOK代码比较好。
 
 本来分析以为最终都会调用_initWithWebpData、_initWithJpgData、_initWithBpgData、_initWithPngData、_initWithTiffData、_initWithRawData这些函数的，但是实际上分别HOOK后并没有被拦截，所以最后还是HOOK了下**cocos2d::extra::CCCrypto::decryptUF**。
-```
+```c
 static string g_strDataPath;
 static int g_nCount = 1;
 
@@ -288,7 +288,7 @@ void hook() {
 
 ```
 我这里图方便把所有解密的数据都DUMP为/data/data/packagename/cache目录下扩展名为PNG的文件了，最后通过脚本从手机中批量提取出解密后的文件：
-```
+```python
 #coding:utf-8
 import os
 

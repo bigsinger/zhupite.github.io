@@ -70,7 +70,7 @@ AndroidStudio还是非常慢的，长时间处于这种状态：
 app和hellojni均为JNIDemo下的两个Module，这里把hellojni作为生成so库的NDK开发层，把app作为调用so库的APK引用开发层。
 
 在hellojni模块的src/main下创建jni目录，并在jni目录下新建文件main.cpp，代码如下：
-```
+```c++
 #include <stdio.h>
 #include <stdlib.h>
 #include <jni.h>
@@ -175,12 +175,12 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved)
 这里只导出一个msg函数打印传递进来的字符串，仅作测试。再在jni目录下新建一个empty.cpp文件，内容为空，这个是为了解决NDK的bug所作的，以防编译出错。
 
 打开local.properties，设置正确的SDK路径和NDK路径：
-```
+```bash
 sdk.dir=D\:/adt20131030/sdk
 ndk.dir=D\:/ndk
 ```
 打开项目gradle/wrapper目录下的gradle-wrapper.properties文件，修改：
-```
+```bash
 #Wed Apr 10 15:27:10 PDT 2013
 distributionBase=GRADLE_USER_HOME
 distributionPath=wrapper/dists
@@ -189,7 +189,7 @@ zipStorePath=wrapper/dists
 distributionUrl=http\://services.gradle.org/distributions/gradle-1.9-all.zip
 ```
 为：
-```
+```bash
 #Wed Apr 10 15:27:10 PDT 2013
 distributionBase=GRADLE_USER_HOME
 distributionPath=wrapper/dists
@@ -198,7 +198,7 @@ zipStorePath=wrapper/dists
 distributionUrl=http\://services.gradle.org/distributions/gradle-1.10-all.zip
 ```
 并打开项目根目录下的build.gradle文件，修改：
-```
+```groovy
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
@@ -216,7 +216,7 @@ allprojects {
 }
 ```
 为（指定使用gradle1.10则修改为0.9.+，指定使用gradle1.11则修改为0.9.2）：
-```
+```groovy
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
@@ -235,6 +235,7 @@ allprojects {
 ```
 **解释：**
 参考[New Build System \- Android Studio Project Site](http://tools.android.com/tech-docs/new-build-system)知道
+
 ```
 0.7.0
 Requires Gradle 1.9
@@ -249,7 +250,7 @@ Using Gradle 1.11 requires Android Studio 0.5.0
 如果配置的是0.7.+则默认使用gradle1.9，如果设置为0.9.+则默认使用gradle1.10。
 
 另外还需要注意的是gradle1.9下没有buildTypes标签，需要将debug、release标签直接放在android标签内，在gradle1.10下debug、release需要放在buildTypes标签内，buildTypes在android内。这里hellojni配置的build.gradle文件内容如下：
-```
+```groovy
 assert gradle.gradleVersion >= "1.10"
 
 apply plugin: 'android-library'
@@ -324,7 +325,7 @@ dependencies {
 ![](http://img.blog.csdn.net/20160331135123739)
 
 注意这里的Android.mk文件每次编译都会重新由工具自动生成，而非手动编辑的，我觉得这一点设计就比较差劲。例如如果想要使用log输出函数__android_log_print，需要添加“LOCAL_LDLIBS :=  -llog”，则在build.gradle文件中添加如下的配置：
-```
+```groovy
 debug {
     ndk {
         ldLibs "log"
@@ -332,7 +333,6 @@ debug {
 }
 ```
 由gradle根据配置再去生成Android.mk文件，最后再调用ndk进行编译。
-
 
 右键工程选择Open Module Settings，选择Modules-app，打开Dependencies选项卡点击“+”号，选择Module dependency，在打开的对话框中选择hellojni。
 ![](http://img.blog.csdn.net/20160331135126676)
@@ -343,17 +343,17 @@ debug {
 ## 调用native函数：
 
 APP项目中，在MainActivity类中声明native函数：
-```
+```java
 public native void msg(String str);
 ```
 并添加静态代码加载hellojni库：
-```
+```java
 static {
     System.loadLibrary("hellojni");
 }
 ```
 在MainActivity::onCreate中调用native函数打印一句log：
-```
+```java
 @Override
 protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -363,7 +363,7 @@ protected void onCreate(Bundle savedInstanceState) {
 ```
 
 还需要将hellojni生成的so库文件打包进APK，仍需要配置build.gradle文件，添加：
-```
+```groovy
 task copyNativeLibs(type: Copy) {
     from fileTree(dir: '../hellojni/build/ndk/arm/debug/lib', include: 'armeabi/*.so') into 'build/lib'
 }
@@ -432,14 +432,14 @@ Run gradle tasks to get a list of available tasks. Run with --stacktrace option 
 
 ### 解决方案：
 在android{ }中添加：
-```
+```groovy
     productFlavors{
         arm {
         }
     }
 ```
 若有类似错误可以参考加入相应的标签：
-```
+```groovy
     productFlavors {
         x86 {
             versionCode Integer.parseInt("6" + defaultConfig.versionCode)
