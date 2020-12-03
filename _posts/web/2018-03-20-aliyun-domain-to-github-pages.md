@@ -5,7 +5,7 @@ title:		"GitHub Pages博客网站绑定阿里云域名"
 tags:		[web,blog]
 ---
 
-本文介绍如何把阿里云域名解析到GitHub Pages博客网站，例如我的博客小站：https://zhupite.com/，建站过程参见：[使用GitHub搭建个人博客 \- 朱皮特的烂笔头](http://www.zhupite.com/posts/readme.html)。
+本文介绍如何把阿里云域名解析到GitHub Pages博客网站，例如我的博客小站：https://zhupite.com/，建站过程参见：[使用GitHub搭建个人博客 \- 朱皮特的烂笔头](./readme.html)。
 
 
 
