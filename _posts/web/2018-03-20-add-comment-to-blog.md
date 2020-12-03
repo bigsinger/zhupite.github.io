@@ -32,7 +32,7 @@ tags:		[web,blog]
 
 
 ## 3. 博客添加评论代码
-我这里使用的是 [mzlogin.github.io: Jekyll Themes / GitHub Pages 博客模板](https://github.com/mzlogin/mzlogin.github.io) 模板，建站过程参见：[使用GitHub搭建个人博客 \- 朱皮特个人博客](http://www.zhupite.com/posts/readme.html)。
+我这里使用的是 [mzlogin.github.io: Jekyll Themes / GitHub Pages 博客模板](https://github.com/mzlogin/mzlogin.github.io) 模板，建站过程参见：[使用GitHub搭建个人博客 \- 朱皮特个人博客](./readme.html)。
 
 按要求，需要修改 **_config.yml** 配置文件，替换对应的 **clientID**和**clientSecret** 即可，然后提交GitHub。
 
