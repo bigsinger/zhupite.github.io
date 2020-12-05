@@ -7,7 +7,7 @@ tags:		[c++]
 - Content
 {:toc}
 
-源码及效果图见GitHub：https://github.com/bigsinger/Farm
+源码及效果图见GitHub：[cocos制作的农场游戏demo源码 一个cocos2dxC++版本 一个cocos creator版本](https://github.com/bigsinger/Farm)
 
 起因是要做游戏保护，需要了解游戏引擎并创建demo进行自测使用。于是先从比较简单的cocos了解，由于本人对Lua脚本比较熟悉，而且手头有一些从其他游戏里扒出来的资源和Lua脚本，想着可以复用，所以打算从cocos2dx-lua开始着手。
 
