@@ -17,7 +17,7 @@ http://dl.google.com/android/ndk/android-ndk-r8e-windows-x86.zip
 
 这里以D:\ndk\samples\hello-jni为例，打开D:\ndk\samples\hello-jni\jni\hello-jni.c查看代码：
 
-```
+```c
 /*
  * Copyright (C) 2009 The Android Open Source Project
  *
@@ -65,12 +65,14 @@ Java_com_example_hellojni_HelloJni_stringFromJNI( JNIEnv* env,
 
 然后执行命令：D:\ndk\ndk-build.cmd（如果设置过环境变量则直接使用ndk-build.cmd）来编译hello-jni，如果没有错误会输出：
 
+```
 Gdbserver   : [arm-linux-androideabi-4.6] libs/armeabi/gdbserver
 
 Gdbsetup    : libs/armeabi/gdb.setup
 "Compile thumb : hello-jni <= hello-jni.c
 SharedLibrary : libhello-jni.so
 Install    : libhello-jni.so => libs/armeabi/libhello-jni.so
+```
 
 ![img]()
 
@@ -84,7 +86,7 @@ Install    : libhello-jni.so => libs/armeabi/libhello-jni.so
 
 在此包下添加一个HelloJni.java，
 
-```
+```java
 package com.example.hellojni;
 
 public class HelloJni {
@@ -105,7 +107,7 @@ public class HelloJni {
 
 MainActivity.java修改为：
 
-```
+```java
 package com.example.hellojni;
 
 import android.os.Bundle;
