@@ -1,11 +1,10 @@
 ---
-layout:     post
-title:      使用AndroidStudio编译NDK的方法及错误解决方案
-category: android
-tags:		[android]
-date:		2017-03-01
-description: 
+layout:		post
+category:	"android"
+title:		"使用AndroidStudio编译NDK的方法及错误解决方案"
+tags:		[android,AndroidStudio,ndk]
 ---
+
 
 
 **2015年12月14日更新：**
@@ -70,7 +69,7 @@ AndroidStudio还是非常慢的，长时间处于这种状态：
 app和hellojni均为JNIDemo下的两个Module，这里把hellojni作为生成so库的NDK开发层，把app作为调用so库的APK引用开发层。
 
 在hellojni模块的src/main下创建jni目录，并在jni目录下新建文件main.cpp，代码如下：
-```c++
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <jni.h>
@@ -175,12 +174,12 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved)
 这里只导出一个msg函数打印传递进来的字符串，仅作测试。再在jni目录下新建一个empty.cpp文件，内容为空，这个是为了解决NDK的bug所作的，以防编译出错。
 
 打开local.properties，设置正确的SDK路径和NDK路径：
-```bash
+```
 sdk.dir=D\:/adt20131030/sdk
 ndk.dir=D\:/ndk
 ```
 打开项目gradle/wrapper目录下的gradle-wrapper.properties文件，修改：
-```bash
+```
 #Wed Apr 10 15:27:10 PDT 2013
 distributionBase=GRADLE_USER_HOME
 distributionPath=wrapper/dists
@@ -189,7 +188,7 @@ zipStorePath=wrapper/dists
 distributionUrl=http\://services.gradle.org/distributions/gradle-1.9-all.zip
 ```
 为：
-```bash
+```
 #Wed Apr 10 15:27:10 PDT 2013
 distributionBase=GRADLE_USER_HOME
 distributionPath=wrapper/dists
@@ -235,7 +234,6 @@ allprojects {
 ```
 **解释：**
 参考[New Build System \- Android Studio Project Site](http://tools.android.com/tech-docs/new-build-system)知道
-
 ```
 0.7.0
 Requires Gradle 1.9

@@ -5,7 +5,7 @@ title:		"C++加载透明PNG图片作为菜单图标显示"
 tags:		[c++]
 ---
 
-```C
+```c++
 HBITMAP LoadImageFromResource(UINT nResourceId, LPCTSTR pszResourceName/* = "PNG"*/)  
 {  
     HBITMAP hBitmap = NULL;  
