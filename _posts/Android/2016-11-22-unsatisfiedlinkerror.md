@@ -6,13 +6,18 @@ tags:		[android]
 ---
 * content
 {:toc}
+想必很多开发者和我们一样，遇到过许多UnsatisfiedLinkError的困难，着实令人头疼，现在总结一下，希望能帮助更多的人。
+
+
 
 # 一、常见原因
+
 - lib库不同目录下的SO文件参差不齐。
 - lib库目录下的SO不符合相应的CPU架构。
-- 64-bit下使用System.load加载SO（正确方法是使用System.loadLibrary）。
+- 64-bit下使用System.load加载SO：”lib_xyz.so” is 32-bit instead of 64-bit（正确方法是使用System.loadLibrary）。
 - java代码混淆导致。
 - 注册方式不对，或函数已经被其他类注册。
+- empty/missing DT_HASH in “libxxxx.so” (built with –hash-style=gnu?)
 
 # 二、常见错误现象
 
@@ -85,7 +90,7 @@ java.lang.UnsatisfiedLinkError: dlopen failed: empty/missing DT_HASH in "cpplibr
 1、只保留lib下的一个目录足够（armeabi或armeabi-v7a保留一个），其他目录全部不用配置。
 
 2、如果想继续多配置几个CPU架构的lib目录，那就全部配置齐全。实际上有时候很难做到，特别是当需要使用三方库的SO的时候，往往并不那么容易找的齐全。由于全部打齐全会对APK的体积有增加，所以还是推荐第一种方案。
-  
+
 ### 3、lib库目录下的SO不符合相应的CPU架构
 同上面的问题差不多，有些APK包打出来，同时配置了armeabi和arm64-v8，但是却在arm64-v8放置了某个或多个armeabi版本的SO，那么在APP运行的时候就会报类似的错误："lib_xyz.so" is 32-bit instead of 64-bit
 
