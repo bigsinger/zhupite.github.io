@@ -41,19 +41,19 @@ SDKManager由于谷歌被墙的原因更新的时候特别慢，而且有时会�
 
 第一次使用androidstudio需要设置下AndroidSDK路径：Configure--ProjectDefaults--ProjectStructure
 
-![img](C:\Users\hzzhuxingxing\AppData\Local\YNote\data\pushebp@163.com\95f487df452e4a55b2a64edfad4dc641\untitle.png)
+![img](..\..\images\95f487df452e4a55b2a64edfad4dc641\untitle.png)
 
-![img](C:\Users\hzzhuxingxing\AppData\Local\YNote\data\pushebp@163.com\5e3c74ed094a4f9d984daa54e9e8956b\untitle.png)
+![img](..\..\images\5e3c74ed094a4f9d984daa54e9e8956b\untitle.png)
 
-![img](C:\Users\hzzhuxingxing\AppData\Local\YNote\data\pushebp@163.com\552b638afba3459396e409183712ed96\untitle.png)
+![img](..\..\images\552b638afba3459396e409183712ed96\untitle.png)
 
-![img](C:\Users\hzzhuxingxing\AppData\Local\YNote\data\pushebp@163.com\b03c8edeb48b4648b16c34c0c7b6cda4\untitle.png)
+![img](..\..\images\b03c8edeb48b4648b16c34c0c7b6cda4\untitle.png)
 
 窗口预览：
 
-![img](C:\Users\hzzhuxingxing\AppData\Local\YNote\data\pushebp@163.com\ab838107122249ca8262e050207c3eb6\untitle.png)
+![img](..\..\images\ab838107122249ca8262e050207c3eb6\untitle.png)
 
-![img](C:\Users\hzzhuxingxing\AppData\Local\YNote\data\pushebp@163.com\cea7bb588b6f4a85b749b89ec50225a5\untitle.png)
+![img](..\..\images\cea7bb588b6f4a85b749b89ec50225a5\untitle.png)
 
 [使用IntelliJ IDEA开发前的基本设置，有助于提高开发效率](./using-idea-develop-android-app.html)
 

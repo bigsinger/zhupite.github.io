@@ -1,7 +1,7 @@
 ---
 layout:		post
 category:	"android"
-title:		"Android主流HOOK框架介绍与应用--游戏破解游戏外挂的必杀技 XML"
+title:		"Android主流HOOK框架介绍与应用--游戏破解游戏外挂的必杀技"
 tags:		[Android,hook,frida,substrate,xposed]
 ---
 
@@ -14,14 +14,14 @@ tags:		[Android,hook,frida,substrate,xposed]
 #  前言
 
  使用HOOK方案主要是在分析的时候会经常用到，虽然二次打包重新修改代码也可以做到，但是一方面效率低，另一方面如果APP有校验的逻辑就需要进一步绕过，总体还是比较费时费力。所以，通过动态HOOK的方式可以不用直接修改APP文件，也比较方便。下面就分别介绍下比较成熟的几个HOOK框架及其应用：**XPOSED**，**frida**，**substrate**。
- 
+
 
 # XPOSED
 
   本节介绍的是XPOSED框架的使用，XPOSED的安装器替换安卓系统的app_process文件，从而实现对系统的接管，通过回调模块的方式来达到不用修改APK就能改变其表现行为的目的。该框架比较成熟，对应的模块也非常多，常用的还有模拟地理位置，伪装手机设备信息等，脑洞是非常之大，基本上能想到的都能做到。由于篇幅限制这里介绍一个简短而实用的案例，其他模块可以参考XPOSED官网的模块列表。
 
  
- 
+
 
  **场景：** 大妈的烦恼！
 
@@ -57,7 +57,7 @@ findAndHookMethod("com.tencent.mm.sdk.platformtools.be", lpparam.classLoader, "t
  给大妈选择了最大的点数，大妈顺利逃过一劫，从此又可以愉快地跳广场舞了。
 
  
- 
+
 
   官网： http://repo.xposed.info/
 
@@ -66,17 +66,17 @@ findAndHookMethod("com.tencent.mm.sdk.platformtools.be", lpparam.classLoader, "t
   某信的APK安装包并没有进行加壳保护，虽然做过代码混淆处理，但是还是能够反编译，而且即使混效果上面的代码逻辑也能看得懂。
 
  
- 
+
 
 # frida
 
   本节介绍的是frida框架，frida这个HOOK框架主要使用Python和javascript脚本编写，所以兼容性和移植性都很好，可以适用于多种平台，最重要的是不用每次都重启手机。官网： http://www.frida.re/ ，里面介绍了安装步骤，参考Android下的例子可以很快上手： http://www.frida.re/docs/examples/android/ 。
- 
+
 
  **场景：** 厉害了我的蛇！
 
   最近比较魔性的一款手游“贪吃蛇大作战”，就连很少玩游戏的朋友也开始玩起来了。自己也体验玩了几局，发现有些“玩家”操作都异常的快速和灵敏，总是被他们撞死。心想这些玩家不会是用了辅助工具了吧，当看到那些原地打转速度非常快而且轨迹非常之圆，心中就更加确定真人肯定无法达到这种操作（事后分析才知道是机器人玩家）。于是打算分析下，刚好最近同事推荐了frida这个HOOK框架，正好可以拿来练练手。
- 
+
 
   游戏初始化函数initEntity：
 
@@ -124,7 +124,7 @@ public static SnakeInfo creatSnakeSelf(String paramString, int paramInt, MultiNo
  HOOK后运行游戏，蛇的身体在开始游戏时就非常长啦。
 
  
- 
+
 
   后面再实现无敌模式，通过游戏结束函数（onGameOver）逆向分析，寻找一个比较巧妙又比较方便HOOK的函数，最终找到了 **doSnakeDie** 这个函数：
 
@@ -156,7 +156,7 @@ private void doSnakeDie(final SnakeInfo snakeInfo, final SnakeInfo snakeInfo2) {
   所以，还需要在creatSnakeSelf调用时保存下创建的自己的蛇对象。当然通过函数的逻辑可以看出机器人蛇与玩家的蛇不同之处就是变量isSnakeAi，如果不想保存creatSnakeSelf创建的蛇对象，直接通过isSnakeAi来判断也是可以的，后面一并给出相应地做法。
 
  
- 
+
 
   记下所要用到的类与函数：
 
@@ -241,14 +241,14 @@ sys.stdin.read()
 ![img](https://img-blog.csdn.net/20170213135503121?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYXNtY3Zj/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
 
  
- 
+
 
   通过上面的分析也可以看出，该游戏没有加壳保护也没有进行代码混淆，所以很容易就被秒破了。
 
  
- 
 
- 
+
+
  
 
 # substrate
@@ -256,7 +256,7 @@ sys.stdin.read()
   上面介绍的两个HOOK场景皆是在java代码层做的HOOK，而且通常都会有一些限制。例如，XPOSED框架的限制是必须要求连带安装XPOSED installer，对应的模块功能才能起效果，而frida则需要配合PC终端操作。而这里介绍的substrate方式，主要是在JNI层做HOOK，而且实现出的应用可以单独使用。
 
  
- 
+
 
  **场景：** 叉叉助手的加速器！
 
@@ -265,14 +265,14 @@ sys.stdin.read()
 ![img](https://img-blog.csdn.net/20170213135517785?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYXNtY3Zj/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
 
  
- 
+
 
  后来就从这个叉叉助手模拟实现了一个可以任意注入插件的方法：
 
 ![img](https://img-blog.csdn.net/20170213135530809?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYXNtY3Zj/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
 
  
- 
+
 
  通过逆向分析叉叉助手来看它的实现原理：使用inject工具把so注入到zygote中，并利用libsubstrate.so的功能来实现对关键函数的HOOK。首先对使用MSJavaHookMethod对handleBindApplication进行HOOK来拦截APP的启动，在拦截函数中判断启动的APP是否是要拦截的APP，如果不是则放行，如果是则通过MSJavaHookClassLoad来HOOK目标APP中Activity的类加载，并在拦截函数中再HOOK Activity的onCreate函数，在onCreate的拦截函数中动态加载插件APK，并调用插件的init函数。
 
@@ -321,7 +321,7 @@ mInit.invoke(null, param.thisObject, plugSoPath);
  官网： http://www.cydiasubstrate.com/
 
  
- 
+
 
 # **总结**
 
@@ -342,7 +342,7 @@ mInit.invoke(null, param.thisObject, plugSoPath);
  3）、独立性较差，需要依赖XPOSED installer，不易单独分发。
 
  
- 
+
 
 ##  **2、substrate**
 
@@ -359,7 +359,7 @@ mInit.invoke(null, param.thisObject, plugSoPath);
  2）、开发效率较低，成本较高。
 
  
- 
+
 
 ##  **3、frida**
 
@@ -380,6 +380,6 @@ mInit.invoke(null, param.thisObject, plugSoPath);
  2）、该工具配合PC终端使用，更适合专业者，不利于分发给用户使用。
 
  
- 
+
 
  综上的案例也可以看出游戏保护刻不容缓，叉叉助手能做到这么成熟的地步主要是因为现在的手游保护力度较弱。
