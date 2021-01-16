@@ -1,6 +1,6 @@
 ﻿---
 layout:		post
-category:	"other"
+category:	"program"
 title:		"在Windows上使用Hyper-V"
 tags:		[]
 ---
