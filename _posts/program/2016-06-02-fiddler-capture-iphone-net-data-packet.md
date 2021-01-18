@@ -1,6 +1,6 @@
 ﻿---
 layout:		post
-category:	"other"
+category:	"program"
 title:		"使用Fiddler对iPhone苹果手机的应用进行网络数据抓包分析"
 tags:		[fiddler,iPhone]
 ---

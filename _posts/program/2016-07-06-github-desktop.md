@@ -1,6 +1,6 @@
 ﻿---
 layout:		post
-category:	"other"
+category:	"program"
 title:		"推荐GitHub Desktop（GitHub桌面版）操作GitHub代码很方便，鼠标点点即可"
 tags:		[GitHub,git]
 ---
