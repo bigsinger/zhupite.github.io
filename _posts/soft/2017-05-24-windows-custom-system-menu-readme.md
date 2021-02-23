@@ -1,6 +1,6 @@
 ﻿---
 layout:		post
-category:	"program"
+category:	"soft"
 title:		"Windows自定义系统右键菜单工具-使用说明"
 tags:		[]
 ---

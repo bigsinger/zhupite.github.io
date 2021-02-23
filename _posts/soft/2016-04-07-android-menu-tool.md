@@ -1,6 +1,6 @@
 ---
 layout:		post
-category:	"android"
+category:	"soft"
 title:		"安卓右键工具1.2 - 安卓开发与分析者的利器"
 tags:		[Android]
 ---

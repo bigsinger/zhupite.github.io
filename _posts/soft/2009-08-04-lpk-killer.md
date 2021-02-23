@@ -1,8 +1,8 @@
 ﻿---
 layout:		post
-category:	"program"
+category:	"soft"
 title:		"lpk专杀工具，usp10专杀工具（lpk.dll，usp10.dll）"
-tags:		[]
+tags:		[lpk,usp10]
 ---
 - Content
 {:toc}
