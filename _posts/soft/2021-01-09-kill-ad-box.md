@@ -2,7 +2,7 @@
 layout:		post
 category:	"soft"
 title:		"Windows电脑广告弹窗怎么去掉？一招教你彻底根治流氓弹窗"
-tags:		[广告弹框,流氓弹窗]
+tags:		[]
 ---
 - Content
 {:toc}
