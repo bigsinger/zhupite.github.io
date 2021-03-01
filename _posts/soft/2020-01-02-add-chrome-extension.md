@@ -20,6 +20,7 @@ tags:		[]
 
 - GitHub上搜索，可以下载打包好的crx扩展文件，也可以下载源码文件，然后通过开发者模式进行安装，详见后面的步骤。
 - 其他插件网站上搜索下载插件，下载的是crx插件包，详见后面的安装方法，推荐的三方插件网站：
+  - [Crx4Chrome - Download CRX for Chrome Apps & Extensions](https://www.crx4chrome.com/)
   - [极简插件](https://chrome.zzzmh.cn/)
 
 
