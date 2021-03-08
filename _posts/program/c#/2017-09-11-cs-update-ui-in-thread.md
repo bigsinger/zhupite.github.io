@@ -38,6 +38,14 @@ private void ThreadMethod() {
 
 # 线程通知更新UI
 
+不能在工作线程里直接修改界面UI，否则会崩溃，出现类似的错误：
+
+```
+必须在与 DependencyObject 相同的线程上创建 DependencySource
+```
+
+
+
 - 结合lambda表达式，代码会简洁一些。
 - WPF中使用：Application.Current.Dispatcher.BeginInvoke
 - winform中使用SynchronizationContext的Post或Send
