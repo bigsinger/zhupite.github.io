@@ -5,7 +5,7 @@ title:		"C#读写XML"
 tags:		[c#]
 ---
 
-```
+```c#
 string filename = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, FILENAME_OPTIONS);
 XmlDocument xmlDoc = new XmlDocument();
 XmlNode root = null;

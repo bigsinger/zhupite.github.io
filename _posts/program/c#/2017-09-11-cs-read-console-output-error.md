@@ -5,7 +5,7 @@ title:		"C#读取命令行（控制台）进程的输出和错误"
 tags:		[c#]
 ---
 
-```
+```c#
 //Process.StandardOutput使用注意事项 http://blog.csdn.net/zhangweixing0/article/details/7356841
 private void runCmd(string toolFile, string args)
 {
