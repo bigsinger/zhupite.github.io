@@ -1,6 +1,6 @@
 ﻿---
 layout:		post
-category:	"program"
+category:	"soft"
 title:		"Fiddler拦截Chrome谷歌浏览器HTTPS协议网络数据的配置方法"
 tags:		[fiddler]
 ---
