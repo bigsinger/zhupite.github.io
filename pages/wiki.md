@@ -1,14 +1,18 @@
 ---
 layout: page
-title: Wiki
+title: 求职内推
 description: 人越学越觉得自己无知
-keywords: 维基, Wiki
+keywords: 求职内推, job
 comments: false
-menu: 维基
+menu: 求职内推
 permalink: /wiki/
 ---
 
-> 记多少命令和快捷键会让脑袋爆炸呢？
+# 定期更新，长期有效，欢迎上传简历
+
+- 猛戳链接：[网易招聘内部职位推荐-上传简历就有机会](https://zhupite.com/job/nejobs.html)
+
+
 
 <ul class="listing">
 {% for wiki in site.wiki %}
