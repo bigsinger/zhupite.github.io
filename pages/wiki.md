@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 求职内推
+title: 求职内推，上传简历就有机会
 description: 人越学越觉得自己无知
 keywords: 求职内推, job
 comments: false
@@ -10,7 +10,7 @@ permalink: /wiki/
 
 # 定期更新，长期有效，欢迎上传简历
 
-- 猛戳链接：[网易招聘内部职位推荐-上传简历就有机会](https://zhupite.com/job/nejobs.html)
+- 猛戳链接：[网易招聘内部职位推荐](https://zhupite.com/job/nejobs.html)
 
 
 
