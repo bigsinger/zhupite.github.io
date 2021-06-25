@@ -246,7 +246,7 @@ public void onClick(View v) {
         webView.loadUrl(js);//void(0);
     } else if (id == R.id.btnNextBook) {
         currentPlayBookIndex++;
-        if (currentPlayBookIndex >= bobiBookIds.length) {
+        if (currentPlayBookIndex >= demoBookIds.length) {
             currentPlayBookIndex = 0;
         }
         int bookId = demoBookIds[currentPlayBookIndex];
