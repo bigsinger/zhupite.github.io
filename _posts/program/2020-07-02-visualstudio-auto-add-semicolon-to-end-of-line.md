@@ -2,7 +2,7 @@
 layout:		post
 category:	"program"
 title:		"VisualStudio自动在代码行末尾添加分号"
-tags:		[c++]
+tags:		[]
 ---
 - Content
 {:toc}
