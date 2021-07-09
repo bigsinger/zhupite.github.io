@@ -1,7 +1,7 @@
 ﻿---
 layout:		post
 category:	"JavaScript"
-title:		"electron"
+title:		"JavaScript获取网页点击时候的元素信息"
 tags:		[JavaScript]
 ---
 - Content
