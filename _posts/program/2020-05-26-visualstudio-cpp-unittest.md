@@ -20,7 +20,9 @@ VisualStudio自带的有一个C++本机单元测试，其框架主要原理是�
 
 ![](https://docs.microsoft.com/zh-cn/visualstudio/test/media/vs-2019/cpp-new-test-project-vs2019.png?view=vs-2019)
 
-具体可以参考微软官方介绍：[编写适用于 C/C++ 的单元测试 - Visual Studio | Microsoft Docs](https://docs.microsoft.com/zh-cn/visualstudio/test/writing-unit-tests-for-c-cpp?view=vs-2019)
+
+
+具体可以参考微软官方介绍：[编写适用于 C/C++ 的单元测试 - Visual Studio Microsoft Docs](https://docs.microsoft.com/zh-cn/visualstudio/test/writing-unit-tests-for-c-cpp?view=vs-2019)
 
 测试发现对于简单的demo小程序没有什么问题，但是对于半路接入单元测试的复杂点的项目就暴露了各种问题（当然最好在项目最初就接入单元测试）。
 
@@ -50,7 +52,7 @@ Failed to set up the execution context to run the test.
 
 ## 二、使用Google Test
 使用下来发现Google Test要简单的多，可以参考微软官方文档：
-[如何使用适用于 C++ 的 Google Test - Visual Studio | Microsoft Docs](https://docs.microsoft.com/zh-cn/visualstudio/test/how-to-use-google-test-for-cpp?view=vs-2019)
+[如何使用适用于 C++ 的 Google Test - Visual Studio Microsoft Docs](https://docs.microsoft.com/zh-cn/visualstudio/test/how-to-use-google-test-for-cpp?view=vs-2019)
 
 ![](https://docs.microsoft.com/zh-cn/visualstudio/test/media/cpp-google-component.png?view=vs-2019)
 
@@ -104,7 +106,7 @@ int main(int argc, char** argv) {
 
 
 ## 参考：
-- [编写适用于 C/C++ 的单元测试 - Visual Studio | Microsoft Docs](https://docs.microsoft.com/zh-cn/visualstudio/test/writing-unit-tests-for-c-cpp?view=vs-2019)
-- [编写 C++ DLL 单元测试 - Visual Studio | Microsoft Docs](https://docs.microsoft.com/zh-cn/visualstudio/test/how-to-write-unit-tests-for-cpp-dlls?view=vs-2019#sameProject)
-- [如何使用适用于 C++ 的 Google Test - Visual Studio | Microsoft Docs](https://docs.microsoft.com/zh-cn/visualstudio/test/how-to-use-google-test-for-cpp?view=vs-2019)
+- [编写适用于 C/C++ 的单元测试 - Visual Studio Microsoft Docs](https://docs.microsoft.com/zh-cn/visualstudio/test/writing-unit-tests-for-c-cpp?view=vs-2019)
+- [编写 C++ DLL 单元测试 - Visual Studio Microsoft Docs](https://docs.microsoft.com/zh-cn/visualstudio/test/how-to-write-unit-tests-for-cpp-dlls?view=vs-2019#sameProject)
+- [如何使用适用于 C++ 的 Google Test - Visual Studio Microsoft Docs](https://docs.microsoft.com/zh-cn/visualstudio/test/how-to-use-google-test-for-cpp?view=vs-2019)
 - [googletest/primer.md at master · google/googletest](https://github.com/google/googletest/blob/master/googletest/docs/primer.md)
