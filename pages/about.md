@@ -13,12 +13,18 @@ permalink: /about/
 
 80后，从事软件安全行业，对编程技术有很高热情，喜欢尝试各种编程技术和框架，喜欢用现有技术解决实际问题。
 
-- [个人作品](https://www.zhupite.com/demo/)
 - 我的编程生涯:[IT十年逐浪而行](https://www.zhupite.com/other/it10year.html)
 - [另附一个程序员的幽默段子](https://www.zhupite.com/other/joke.html)
 
 
-## 联系
+
+# 个人作品
+
+- 
+
+
+
+# 联系
 
 <ul>
 {% for website in site.data.social %}
@@ -33,10 +39,10 @@ permalink: /about/
 </ul>
 
 
-## Skill Keywords
+# Skill Keywords
 
 {% for skill in site.data.skills %}
-### {{ skill.name }}
+## {{ skill.name }}
 <div class="btn-inline">
 {% for keyword in skill.keywords %}
 <button class="btn btn-outline" type="button">{{ keyword }}</button>
