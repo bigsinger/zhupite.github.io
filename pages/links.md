@@ -32,13 +32,12 @@ permalink: /links/
 
 - [在线工具 - 你的工具箱](https://tool.lu/)
 - [百度指数](https://index.baidu.com/v2/index.html#/)
-- [百度移动统计|移动应用APP统计|android统计分析|iOS统计分析](https://mtj.baidu.com)
+- [百度移动统计 移动应用APP统计 android统计分析 iOS统计分析](https://mtj.baidu.com)
 - [域名Whois查询 - 站长之家](http://whois.chinaz.com/)
 
 # 技术类
 
 - [菜鸟教程](https://www.runoob.com/)
-- 
 - [Gitee - 基于 Git 的代码托管和研发协作平台](https://gitee.com/)
 - [OSCHINA - 中文开源技术交流社区](https://www.oschina.net/)
 - [iconfont-阿里巴巴矢量图标库](https://www.iconfont.cn/)
