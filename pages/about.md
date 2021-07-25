@@ -1,8 +1,8 @@
 ---
 layout: page
 title: About
-description: 打码改变世界
-keywords: Zhuang Ma, 马壮
+description: 朱皮特的烂笔头
+keywords: 
 comments: true
 menu: 关于
 permalink: /about/
@@ -13,7 +13,6 @@ permalink: /about/
 
 80后，从事软件安全行业，对编程技术有很高热情，喜欢尝试各种编程技术和框架，喜欢用现有技术解决实际问题。
 
-- 微博: <https://weibo.com/6060639246>
 - [个人作品](https://www.zhupite.com/demo/)
 - 我的编程生涯:[IT十年逐浪而行](https://www.zhupite.com/other/it10year.html)
 - [另附一个程序员的幽默段子](https://www.zhupite.com/other/joke.html)
@@ -28,7 +27,7 @@ permalink: /about/
 {% if site.url contains 'mazhuang.org' %}
 <li>
 微信公众号：<br />
-<img style="height:192px;width:192px;border:1px solid lightgrey;" src="{{ assets_base_url }}/assets/images/qrcode.jpg" alt="闷骚的程序员" />
+<img style="height:192px;width:192px;border:1px solid lightgrey;" src="{{ assets_base_url }}/assets/images/qrcode.jpg" alt="朱皮特的烂笔头" />
 </li>
 {% endif %}
 </ul>

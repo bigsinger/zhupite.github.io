@@ -1,75 +1,120 @@
-- name: 码志
-  url: http://mazhuang.org
+- name: GitHub
+  url: https://github.com/
   src: life
 
-- name: Connie 酱
-  url: https://connie99.github.io
+- name: ReadHub
+  url: https://www.readhub.cn/topics
   src: life
 
-- name: 只宁静不致远
-  url: http://zxning.github.io
+- name: CSDN
+  url: https://www.csdn.net/
   src: life
 
-- name: Blog Something
-  url: http://chenxiaoyoyo.github.io
+- name: 吾爱破解
+  url: https://www.52pojie.cn/
   src: life
 
-- name: 日新亭
-  url: http://www.fengerzh.com/
+- name: 简书
+  url: https://www.jianshu.com/
   src: life
 
-- name: wanandroid
-  url: http://www.wanandroid.com/
+- name: 无忧技术网51CTO
+  url: https://www.51cto.com/
   src: life
 
-- name: ZZY补完计划
-  url: https://zzycreate.github.io/
+- name: 掘金
+  url: https://juejin.cn/
   src: life
 
-- name: 村农
-  url: http://www.why-dong.com/
+- name: 博客园
+  url: https://www.cnblogs.com/
   src: life
 
-- name: 求生之路
-  url: http://blog.xiaolaoni.xin/
+- name: 无忧技术网51CTO
+  url: https://www.51cto.com/
   src: life
 
-- name: 王玉超
-  url: https://yuchao.wang/
-  src: life
-
-- name: 董小姐的草原
-  url: https://candy961.github.io/
-  src: life
-
-- name: 水寒的博客
-  url: https://dp2px.com
+- name: 阿里云
+  url: https://www.aliyun.com/
   src: www
 
-- name: 孙不服的博客
-  url: https://sunbufu.github.io/
+- name: 腾讯云
+  url: https://cloud.tencent.com/
   src: www
 
-- name: HwiLu's 博客
-  url: https://hwilu.github.io/
+- name: 华为云
+  url: https://www.huaweicloud.com/
   src: www
 
-- name: 有次博客
-  url: http://you.ci/
+- name: 百度云
+  url: https://cloud.baidu.com/
   src: www
 
-- name: 呓城之城
-  url: http://yicheng.zdyrs.com/
+- name: 360网络安全响应中心（360CERT）
+  url: https://cert.360.cn/report
   src: www
 
-- name: 秦大圣的博客
-  url: https://qinjisheng.top/
+- name: 杭州国际博览中心 展览计划
+  url: http://www.onezh.com/hall/plan_687.html
   src: www
 
-- name: 极客玩家大白
-  url: https://geekplayers.com/
+- name: 中国会展门户->国内展会->【浙江展会信息】
+  url: http://www.cnena.com/showroom/list_city.php?cityid=47
   src: www
 
-- name: 见字如面
-  url: https://hiwannz.com
+- name: 活动行
+  url: https://www.huodongxing.com/
   src: www
+
+- name: 活动家
+  url: http://www.41huiyi.com/business/
+  src: www
+
+- name: 人民网
+  url: http://www.people.com.cn/
+  src: www
+
+- name: 知乎
+  url: https://www.zhihu.com/
+  src: www
+
+- name: 电影天堂
+  url: https://www.dytt8.net/
+  src: www
+
+- name: 哔哩哔哩bilibili
+  url: https://www.bilibili.com/
+  src: www
+
+- name: 猫扑
+  url: https://www.mop.com/
+  src: www
+
+- name: 天涯社区
+  url: https://bbs.tianya.cn/
+  src: www
+
+- name: 豆瓣
+  url: https://www.douban.com/
+  src: www
+
+- name: 华军软件园
+  url: https://www.onlinedown.net/
+  src: www
+
+- name: 阿里妈妈
+  url: https://www.alimama.com/
+  src: www
+
+- name: 支付宝
+  url: https://www.alipay.com/
+  src: www
+
+- name: 中国铁路12306
+  url: https://www.12306.cn/index/
+  src: www
+
+
+
+
+
