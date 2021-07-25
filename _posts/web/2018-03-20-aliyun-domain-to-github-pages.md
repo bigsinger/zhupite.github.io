@@ -11,55 +11,63 @@ tags:		[web,blog]
 
 # 1、在阿里云控制台解析域名
 
+实际发现最好把一下解析方式都添加一下：CNAME，A，NS。
+
+设置的最终结果是这样的：
+
+![](https://img2020.cnblogs.com/blog/2103047/202008/2103047-20200814164249838-2040267843.png)
 
 
-## 方法一：CNAME（推荐）
+
+## 1.1 CNAME记录
 
 - 记录类型：CNAME
 - 主机记录：www
 - 解析线路：默认
-- 记录值：bigsinger.github.io
+- 记录值：zhupite.github.io
 - TTL：默认
 
 
 
-- 记录类型：CNAME
+## 1.2 A记录
 
-- 主机记录：@
+把以下几个GitHub的IP全部添加进去，不要只添加ping得的IP记录。
 
-- 解析线路：默认
-
-- 记录值：bigsinger.github.io
-
-- TTL：默认
-
-  
-
-## 方法二：A（不推荐）
-
-ping一下博客地址获取到IP地址，然后添加A记录。
-
-- 记录类型：A
-- 主机记录：www
-- 解析线路：默认
-- 记录值：IP
-- TTL：默认
-
-
+```
+185.199.108.153
+185.199.109.153
+185.199.110.153
+185.199.111.153
+```
 
 - 记录类型：A
 - 主机记录：@
 - 解析线路：默认
-- 记录值：IP
+- 记录值：就是上面的IP
 - TTL：默认
 
 
+
+## 1.3 NS记录
+
+把以下2个NameServer全部添加进去：
+
+```
+F1G1NS1.DNSPOD.NET
+F1G1NS2.DNSPOD.NET
+```
+
+- 记录类型：NS
+- 主机记录：@
+- 解析线路：默认
+- 记录值：就是上面的内容
+- TTL：默认
 
 
 
 # 2、在GitHub后台设置
 
-在作为博客的仓库（例如bigsinger.github.io）后台进行设置：Settings - GitHub Pages - Custom domain
+在作为博客的仓库（例如zhupite.github.io）后台进行设置：Settings - GitHub Pages - Custom domain
 
 输入：www.zhupite.com
 
@@ -82,4 +90,3 @@ zhupite.com
 
 
 实际测试发现没有这个CNAME文件也可以。
-
