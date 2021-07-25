@@ -44,7 +44,19 @@ tags:		[android]
 - 插件化框架 PMS AMS HOOK [tiann/understand-plugin-framework: demos to help understand plugin framwork](https://github.com/tiann/understand-plugin-framework)
 - [MobSF/Mobile-Security-Framework-MobSF: Mobile Security Framework (MobSF) is an automated, all-in-one mobile application (Android/iOS/Windows) pen-testing, malware analysis and security assessment framework capable of performing static and dynamic analysis.](https://github.com/MobSF/Mobile-Security-Framework-MobSF)
 
+# HOOK工具
 
+- [Frida](https://github.com/frida/)
+- Xposed
+- EDXposed
+- LSPosed：完全取代EDXposed
+- VirtualXposed
+- FakeXposed：Xposed隐藏器
+- [Cydia Substrate](http://www.cydiasubstrate.com/)
+- [Android-Inline-Hook](https://github.com/ele7enxxh/Android-Inline-Hook)
+- [objection: 📱 objection - runtime mobile exploration](https://github.com/sensepost/objection)
+- [xHook: 🔥 A PLT hook library for Android native ELF.](https://github.com/iqiyi/xhook)
+- 
 
 # 脱壳工具
 
@@ -58,18 +70,7 @@ tags:		[android]
 - [DexExtractor 用于破解邦邦加密的安卓dex文件提取器](https://github.com/lambdalang/DexExtractor)
 - 
 
-# HOOK工具
 
-- [Frida](https://github.com/frida/)
-- Xposed
-- EDXposed
-- VirtualXposed
-- FakeXposed：Xposed隐藏器
-- [Cydia Substrate](http://www.cydiasubstrate.com/)
-- [Android-Inline-Hook](https://github.com/ele7enxxh/Android-Inline-Hook)
-- [objection: 📱 objection - runtime mobile exploration](https://github.com/sensepost/objection)
-- [xHook: 🔥 A PLT hook library for Android native ELF.](https://github.com/iqiyi/xhook)
-- 
 
 # 抓包
 
