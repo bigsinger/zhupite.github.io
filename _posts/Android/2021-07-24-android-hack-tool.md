@@ -16,7 +16,7 @@ tags:		[android]
 - [界面布局分析 AndLayoutInspector](https://github.com/inckie/AndLayoutInspector)  C\# version of uiautomation tool
 - [AppMethodOrder](https://github.com/zjw-swun/AppMethodOrder)：:一个能让你了解所有函数调用顺序以及函数耗时的Android库（无需侵入式代码）
 - Python校验apk签名：[apk-signature-verify](https://github.com/shuxin/apk-signature-verify): jar Signature / APK Signature v2 verify with pure python (support rsa dsa ecdsa)
-- [AmBinaryEditor（AndroidManifest二进制修改工具介绍） | Ele7enxxh's Blog](http://ele7enxxh.com/AndroidManifest-Binary-Editor.html)
+- [AmBinaryEditor（AndroidManifest二进制修改工具介绍） Ele7enxxh's Blog](http://ele7enxxh.com/AndroidManifest-Binary-Editor.html)
 - [zylc369/AndroidManifestFix: 修复AndroidManifest.xml，用于修复AXML文件中属性名称缺失的问题。](https://github.com/zylc369/AndroidManifestFix)
 - [MT管理器](http://binmt.cc)
 - 
