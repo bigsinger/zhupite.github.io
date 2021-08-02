@@ -62,7 +62,6 @@ tags:		[android]
 
 - [BlackDex](https://github.com/CodingGay/BlackDex): BlackDex是一个运行在Android手机上的脱壳工具，支持5.0～12，无需依赖任何环境任何手机都可以使用，包括模拟器。只需几秒，即可对已安装包括未安装的APK进行脱壳。
 - [ApkPecker自动化DEX-VMP脱壳功能全新上线](https://mp.weixin.qq.com/s/ppnvwwd9k6hP_xK364ydfg)（腾讯科恩实验室），[ApkPecker脱壳服务FAQ](https://docs.qq.com/doc/DRmVBbWtHcmNPYWxO)，[ApkPecker](https://apkpecker.qq.com/)（面向攻击面的Android应用自动化检测系统）
-- 
 - [AUPK](https://bbs.pediy.com/thread-266716.htm)：基于Art虚拟机的脱壳机，[AUPK](https://github.com/FeJQ/AUPK)，[DexPatcher: 修复脱壳后的dex文件](https://github.com/FeJQ/DexPatcher)
 - [FRIDA-DEXDump: Fast search and dump dex on memory.](https://github.com/hluwa/FRIDA-DEXDump)
 - [frida-unpack: 基于Frida的脱壳工具](https://github.com/dstmath/frida-unpack)
