@@ -47,16 +47,28 @@ tags:		[android]
 # HOOK工具
 
 - [Frida](https://github.com/frida/)
+
 - Xposed
+
 - EDXposed
+
 - LSPosed：完全取代EDXposed
+
 - VirtualXposed
+
 - FakeXposed：Xposed隐藏器
+
 - [Cydia Substrate](http://www.cydiasubstrate.com/)
+
 - [Android-Inline-Hook](https://github.com/ele7enxxh/Android-Inline-Hook)
+
 - [objection: 📱 objection - runtime mobile exploration](https://github.com/sensepost/objection)
+
 - [xHook: 🔥 A PLT hook library for Android native ELF.](https://github.com/iqiyi/xhook)
-- 
+
+- [bytedance/bhook](https://github.com/bytedance/bhook)：bhook(aka ByteHook) 是一个针对 Android app 的 PLT hook 框架。
+
+  字节跳动的大多数 Android app 在线上使用了 bhook 作为 PLT hook 方案。
 
 # 脱壳工具
 
