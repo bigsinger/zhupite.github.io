@@ -77,6 +77,22 @@ tags:		[bilibili,哔哩哔哩,视频,视频下载]
 
 
 
+## BBDown
+
+[nilaoda/BBDown: Bilibili Downloader. 一款命令行式哔哩哔哩下载器.](https://github.com/nilaoda/BBDown)
+
+​	代码有点小乱，其实c#代码重构得好的话，写起来很顺心看起来也很赏心悦目，不过这不影响该软件是个很好的工具，还是要感谢作者分享。翻完了issue主要问题还是使用方面较多，其实如果不用命令行的方式，用GUI方式可以解决很多问题，用C#写界面其实也很快。
+
+
+
+​	在界面上可以提供一个初始化入口，在工具第一次运行的时候就自动进行一次检查，例如提示配置FFmpeg（当然也可以自动下载部署），可以解决很一大部门用户的环境配置问题。
+
+​	
+
+其实作者在回答这些最基础的环境配置和使用方式问题较多，如何改变使用方式可以很大程度减少这类问题，使用的用户会更加多。
+
+
+
 # m3u8视频源下载
 
 这个是我目前为止发现最为专业的下载方式，因此操作方法可能也会比较复杂一些，需要借助的工具：谷歌浏览器、[猫抓插件](https://chrome.google.com/webstore/detail/jfedfbgedapdagkghmgibemcoggfppbb) （谷歌打不开的话可以从GitHub下载： [猫抓 chrome媒体嗅探插件](https://github.com/xifangczy/cat-catch/releases)）、[m3u8 downloader](https://github.com/nilaoda/N_m3u8DL-CLI)。
