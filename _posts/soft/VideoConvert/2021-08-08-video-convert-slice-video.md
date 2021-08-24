@@ -15,7 +15,7 @@ tags:		[video,mp4,convert]
 
 
 
-那么如何快速把视频进行切割分段呢？并且按照等时间段剪切。这里介绍一种工具： [全能视频转换专家-转换任意格式视频](http://www.xcxzq.com/soft/videomaster.exe)，可以使用该软件进行剪切。
+那么如何快速把视频进行切割分段呢？并且按照等时间段剪切。这里介绍一种工具： [全能视频转换专家-转换任意格式视频](https://xcxzq.com/videomaster.htm)，可以使用该软件进行剪切。
 
 
 
