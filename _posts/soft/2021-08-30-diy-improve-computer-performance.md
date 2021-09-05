@@ -40,6 +40,22 @@ tags:		[diy,电脑性能]
 
 最终找到应该是这个型号：[Specs DELL XPS 8700 DDR3-SDRAM i5-4440 Desktop 4th gen Intel® Core™ i5 4 GB 1000 GB HDD Windows 8.1 PC Black PCs/Workstations (8700-D358)](https://icecat.biz/en/p/dell/8700-d358/xps-pcs-workstations-8700-32507161.html)
 
+```
+电脑型号：戴尔 XPS 8700 台式电脑
+操作系统：Windows 8.1 64位
+处理器：英特尔 第四代酷睿 i5-4440 @ 3.10GHz 四核
+主板：戴尔 0KWVT8 ( Lynx Point ) 
+内存：8 GB ( 海力士 DDR3 1600MHz )
+硬盘：希捷 ST1000DM003-1CH162
+显卡：AMD Radeon  R9 200 Series
+显示器：LG GSM59BD 27EA33 ( 27 英寸  )
+光驱：TSSTcorp DVD+-RW SH-216DB DVD刻录机
+声卡：瑞昱 ALC899 @ 英特尔 Lynx Point  高保真音频
+网卡：瑞昱 RTL8168/8111/8112 Gigabit Ethernet Controller / 戴尔
+网卡：Atheros AR9485 Wireless Network Adapter / 戴尔
+网卡：MOSART Semi. Mi Wireless Combo
+```
+
 
 也即：**Dell XPS 8700-D358**，找到中文信息参考：[【戴尔Studio XPS 8700 XPS8700-D358参数】DELL Studio XPS 8700 XPS8700-D358台式电脑参数_规格_性能_功能  ZOL中关村在线](https://detail.zol.com.cn/368/367165/param.shtml)
 
@@ -200,6 +216,8 @@ tags:		[diy,电脑性能]
 
 
 解决办法也比较简单，就是禁止该驱动的加载即可，就使用「Microsoft 基本显示适配器」（[Windows 10 上的 Microsoft 基本显示适配器](https://support.microsoft.com/zh-cn/windows/windows-10-%E4%B8%8A%E7%9A%84-microsoft-%E5%9F%BA%E6%9C%AC%E6%98%BE%E7%A4%BA%E9%80%82%E9%85%8D%E5%99%A8-fd1c777c-d4d5-f05a-edb1-0dc7031fd677)），禁止系统自动更新显卡驱动：[怎么禁止系统自动更新显卡驱动程序？](https://7dapi7.smartapps.baidu.com/pages/article/article?eid=90808022d1caa4bc91c80f8d)
+
+这里记录下该显卡驱动类GUID：{4d36e968-e325-11ce-bfc1-08002be10318}
 
 
 
