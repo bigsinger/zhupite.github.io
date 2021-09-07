@@ -35,7 +35,10 @@ zipStorePath=wrapper/dists
 zipStoreBase=GRADLE_USER_HOME
 ```
 
-替换distributionUrl为国内镜像，例如「腾讯gradle镜像」地址：https://mirrors.cloud.tencent.com/gradle/
+替换**distributionUrl**为国内镜像，例如
+
+- 「腾讯gradle镜像」地址：https://mirrors.cloud.tencent.com/gradle/
+- 
 
 ```
 #Thu Jun 24 17:20:33 CST 2021
@@ -44,5 +47,22 @@ distributionUrl=https\://mirrors.cloud.tencent.com/gradle/gradle-6.7.1-bin.zip
 distributionPath=wrapper/dists
 zipStorePath=wrapper/dists
 zipStoreBase=GRADLE_USER_HOME
+```
+
+
+
+# build.gradle替换google()和jcenter()
+
+```groovy
+google()
+jcenter()
+```
+
+替换为下面
+
+```groovy
+maven { url 'https://maven.aliyun.com/repository/google' }
+maven { url 'https://maven.aliyun.com/repository/jcenter' }
+maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
 ```
 
