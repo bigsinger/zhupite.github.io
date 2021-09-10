@@ -51,6 +51,14 @@ zipStoreBase=GRADLE_USER_HOME
 
 
 
+# Gradle  Could not GET https://dl.google.com/.../xxx.pom
+
+AndroidStudio设置里Http proxy 选择 No proxy 模式。
+
+修改gradle配置文件，找到C:\Users\userName\.gradle\gradle.properties 配置文件， 去掉多余的代理配置。
+
+
+
 # build.gradle替换google()和jcenter()
 
 ```groovy
