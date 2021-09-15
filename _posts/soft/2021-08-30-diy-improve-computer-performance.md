@@ -211,7 +211,7 @@ tags:		[diy,电脑性能]
 - [AMD Radeon™ R9 270 Drivers & Support](https://www.amd.com/zh-hans/support/graphics/amd-radeon-r9-series/amd-radeon-r9-200-series/amd-radeon-r9-270)
 - [AMD Radeon R9 270 显卡驱动程序 | 驱动程序详情 | Dell 中国](https://www.dell.com/support/home/zh-cn/drivers/driversdetails?driverid=c6gn4)
 
-驱动精灵和鲁大师检测出来的稳定版或公版显卡驱动，也都试过，也不行。
+驱动精灵和鲁大师检测出来的稳定版或公版显卡驱动，也都试过，也不行。网上也有类似的案例：[AMD Radeon R9 270 driver problem  AMD Community](https://community.amd.com/t5/graphics/amd-radeon-r9-270-driver-problem/td-p/413862)
 
 
 
