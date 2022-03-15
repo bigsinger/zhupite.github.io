@@ -1,6 +1,6 @@
 ﻿---
 layout:		post
-category:	"soft"
+category:	"sec"
 title:		"使用IDA修改一个字节实现微信消息防撤回"
 
 tags:		[微信,IDA]
@@ -83,7 +83,7 @@ xor eax, eax	;33 C0
 .text:10342BB9 EB 42                                         jmp     short loc_10342BFD
 ```
 
-搜索特征码（任意一个均可以）：
+IDA里搜索特征码（ALT + B， 任意一个均可以）：
 
 ```
 68 ?? 04 00 00 C6 00 02 89 70 08 
@@ -91,3 +91,5 @@ E8 ?? ?? ?? 00 83 C4 70  EB 42
 ```
 
 搜索到后，向下附近找一找test eax, eax。
+
+2022年3月15日验证3.6版本依然有效。
