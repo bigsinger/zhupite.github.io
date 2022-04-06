@@ -1,7 +1,7 @@
 ﻿---
 layout:		post
-category:	"android"
-title:		"Android黑客工具-安卓安全工具汇总"
+category:	"sec"
+title:		"Android安全工具-安卓安全工具汇总"
 tags:		[android]
 ---
 - Content
@@ -10,16 +10,35 @@ tags:		[android]
 
 
 
+# 安全审计
+
+| 名称       | 简介                                                         | 相关资料                                                 |
+| ---------- | ------------------------------------------------------------ | -------------------------------------------------------- |
+| virustotal |                                                              | https://www.virustotal.com/                              |
+| MobSF      | Mobile Security Framework (MobSF) is an automated, all-in-one mobile application (Android/iOS/Windows) pen-testing, malware analysis and security assessment framework capable of performing static and dynamic analysis. | https://github.com/MobSF/Mobile-Security-Framework-MobSF |
+| appmon     | 隐私检测、安全检测、HOOK函数调用、行为分析等可以借助这个框架 | [appmon](https://github.com/dpnishant/appmon)            |
+
+
+
 # 综合工具
 
-- [APKmenuTOOL - 安卓右键工具](https://github.com/bigsinger/APKmenuTOOL)
-- [界面布局分析 AndLayoutInspector](https://github.com/inckie/AndLayoutInspector)  C\# version of uiautomation tool
-- [AppMethodOrder](https://github.com/zjw-swun/AppMethodOrder)：:一个能让你了解所有函数调用顺序以及函数耗时的Android库（无需侵入式代码）
-- Python校验apk签名：[apk-signature-verify](https://github.com/shuxin/apk-signature-verify): jar Signature / APK Signature v2 verify with pure python (support rsa dsa ecdsa)
-- [AmBinaryEditor（AndroidManifest二进制修改工具介绍） Ele7enxxh's Blog](http://ele7enxxh.com/AndroidManifest-Binary-Editor.html)
-- [zylc369/AndroidManifestFix: 修复AndroidManifest.xml，用于修复AXML文件中属性名称缺失的问题。](https://github.com/zylc369/AndroidManifestFix)
-- [MT管理器](http://binmt.cc)
-- 
+| 名称                 | 简介                                                         | 相关资料                                                     |
+| -------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 安卓右键工具         | 集成到Windows系统菜单，右键操作安卓相关，方便快捷。          | [APKmenuTOOL - 安卓右键工具](https://github.com/bigsinger/APKmenuTOOL)、[CustomContextMenu: 自定义Windows系统右键菜单工具](https://github.com/bigsinger/CustomContextMenu) |
+| AndLayoutInspector   | 安卓界面布局获取分析工具（uiautomation tool），C#语言编写。  | [界面布局分析 AndLayoutInspector](https://github.com/inckie/AndLayoutInspector) |
+| AppMethodOrder       | 一个能让你了解所有函数调用顺序以及函数耗时的Android库（无需侵入式代码） | [AppMethodOrder](https://github.com/zjw-swun/AppMethodOrder) |
+| apk-signature-verify | Python校验apk签名，jar Signature / APK Signature v2 verify with pure python (support rsa dsa ecdsa) | [apk-signature-verify](https://github.com/shuxin/apk-signature-verify) |
+| AmBinaryEditor       | AndroidManifest二进制修改工具                                | [AmBinaryEditor（AndroidManifest二进制修改工具介绍）](http://ele7enxxh.com/AndroidManifest-Binary-Editor.html) |
+| MT管理器             | 文件管理、APK编辑功能，在手机上高效地进行各种文件操作以及修改安卓软件。 | [MT管理器](http://binmt.cc)                                  |
+| AndroidManifestFix   | AndroidManifest.xml文件修复工具。用于修复AXML文件中属性名称缺失的问题。 | https://github.com/zylc369/AndroidManifestFix                |
+| NP-Manager           | 超级混淆                                                     | https://github.com/githubXiaowangzi/NP-Manager               |
+| FreeProGuard         | Config proguard for common Android libraries.                | https://github.com/Blankj/FreeProGuard                       |
+| 太极                 | 多开器、虚拟空间                                             |                                                              |
+| VirtualApp           |                                                              |                                                              |
+| AssetStudio          | unity游戏破解工具：AssetStudio is a tool for exploring, extracting and exporting assets and assetbundles. | https://github.com/Perfare/AssetStudio                       |
+| r0capture            | 安卓应用层抓包通杀脚本                                       | https://github.com/r0ysue/r0capture                          |
+| StrandHogg 2.0       | New serious Android vulnerability                            | https://promon.co/resources/downloads/strandhogg-2-0-new-serious-android-vulnerability/ |
+| 安卓应用的安全和破解 | 一个汇总安卓安全的博客小站                                   | https://book.crifan.com/books/android_app_security_crack/website/ |
 
 
 
@@ -38,11 +57,7 @@ tags:		[android]
 - [GDA主页-中国首款交互式Android反编译器](http://www.gda.wiki:9090/)
 - [androguard/androguard: Reverse engineering, Malware and goodware analysis of Android applications)](https://github.com/androguard/androguard)
 
-# 框架
 
-- 隐私检测 安全检测 HOOK函数调用 行为分析等可以借助这个框架：[appmon](https://github.com/dpnishant/appmon)
-- 插件化框架 PMS AMS HOOK [tiann/understand-plugin-framework: demos to help understand plugin framwork](https://github.com/tiann/understand-plugin-framework)
-- [MobSF/Mobile-Security-Framework-MobSF: Mobile Security Framework (MobSF) is an automated, all-in-one mobile application (Android/iOS/Windows) pen-testing, malware analysis and security assessment framework capable of performing static and dynamic analysis.](https://github.com/MobSF/Mobile-Security-Framework-MobSF)
 
 # HOOK工具
 
@@ -66,9 +81,11 @@ tags:		[android]
 
 - [xHook: 🔥 A PLT hook library for Android native ELF.](https://github.com/iqiyi/xhook)
 
-- [bytedance/bhook](https://github.com/bytedance/bhook)：bhook(aka ByteHook) 是一个针对 Android app 的 PLT hook 框架。
+- [bytedance/bhook](https://github.com/bytedance/bhook)：bhook(aka ByteHook) 是一个针对 Android app 的 PLT hook 框架。字节跳动的大多数 Android app 在线上使用了 bhook 作为 PLT hook 方案。
 
-  字节跳动的大多数 Android app 在线上使用了 bhook 作为 PLT hook 方案。
+- 插件化框架 PMS AMS HOOK [tiann/understand-plugin-framework: demos to help understand plugin framwork](https://github.com/tiann/understand-plugin-framework)
+
+  
 
 # 脱壳工具
 
@@ -90,42 +107,3 @@ tags:		[android]
 - [FUPK3](https://github.com/F8LEFT/FUPK3): 演示视频https://pan.baidu.com/s/1HH_-TQGca1NLoSqzvOPB3Q 密码：izm3
 - [drizzleDumper](https://github.com/DrizzleRisk/drizzleDumper#drizzledumper): drizzleDumper是一款基于内存搜索的Android脱壳工具。
 - [DexHunter](https://github.com/zyq8709/DexHunter): General Automatic Unpacking Tool for Android Dex Files
-
-
-
-# 抓包
-
-- [r0capture: 安卓应用层抓包通杀脚本](https://github.com/r0ysue/r0capture)
-- 
-
-# 调试器
-
-- [AndBug: Android Debugging Library](https://github.com/swdunlop/AndBug) 在没有源代码的情况下，调试android上的java程序，支持断点、call stack查看、查看class、method等信息
-- [Android-OpenDebug: Make any application debuggable](https://github.com/iSECPartners/Android-OpenDebug) 是一个Cydia Substrate的插件，所以前提是要先安装Cydia Substrate，可以使得任何一个安卓程序可以被调试，就有了分析和破解的可能
-
-# 多开虚拟空间
-
-- 太极
-- VirtualApp
-- 
-
-# 混淆反混淆
-
-- [FreeProGuard](https://github.com/Blankj/FreeProGuard)  Config proguard for common Android libraries.
-- [NP-Manager](https://github.com/githubXiaowangzi/NP-Manager)：超级混淆
-- 
-
-# 游戏破解工具
-
-## unity
-
-- [Perfare/AssetStudio: AssetStudio is a tool for exploring, extracting and exporting assets and assetbundles\.](https://github.com/Perfare/AssetStudio)
-- 
-
-
-
-# 其他
-
-- [《安卓应用的安全和破解》](https://book.crifan.com/books/android_app_security_crack/website/) --持续更新..
-- strandhogg：[StrandHogg - Serious Android vulnerability | Promon](https://promon.co/security-news/strandhogg/)
-- 
