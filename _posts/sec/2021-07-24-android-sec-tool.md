@@ -28,7 +28,7 @@ tags:		[android]
 | AndLayoutInspector   | 安卓界面布局获取分析工具（uiautomation tool），C#语言编写。  | [界面布局分析 AndLayoutInspector](https://github.com/inckie/AndLayoutInspector) |
 | AppMethodOrder       | 一个能让你了解所有函数调用顺序以及函数耗时的Android库（无需侵入式代码） | [AppMethodOrder](https://github.com/zjw-swun/AppMethodOrder) |
 | apk-signature-verify | Python校验apk签名，jar Signature / APK Signature v2 verify with pure python (support rsa dsa ecdsa) | [apk-signature-verify](https://github.com/shuxin/apk-signature-verify) |
-| AmBinaryEditor       | AndroidManifest二进制修改工具                                | [AmBinaryEditor（AndroidManifest二进制修改工具介绍）](http://ele7enxxh.com/AndroidManifest-Binary-Editor.html) |
+| AmBinaryEditor       | AndroidManifest二进制修改工具。新增、修改、删除指定名字的tag或者该tag的attr | [AmBinaryEditor（AndroidManifest二进制修改工具介绍）](http://ele7enxxh.com/AndroidManifest-Binary-Editor.html)、[AndroidManifest二进制文件格式分析](https://bbs.pediy.com/thread-194206.htm) |
 | MT管理器             | 文件管理、APK编辑功能，在手机上高效地进行各种文件操作以及修改安卓软件。 | [MT管理器](http://binmt.cc)                                  |
 | AndroidManifestFix   | AndroidManifest.xml文件修复工具。用于修复AXML文件中属性名称缺失的问题。 | https://github.com/zylc369/AndroidManifestFix                |
 | NP-Manager           | 超级混淆                                                     | https://github.com/githubXiaowangzi/NP-Manager               |
