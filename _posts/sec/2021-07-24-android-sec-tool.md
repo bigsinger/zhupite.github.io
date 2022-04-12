@@ -10,13 +10,14 @@ tags:		[android]
 
 
 
-# 安全审计
+# 审计测试
 
-| 名称       | 简介                                                         | 相关资料                                                 |
-| ---------- | ------------------------------------------------------------ | -------------------------------------------------------- |
-| virustotal |                                                              | https://www.virustotal.com/                              |
-| MobSF      | Mobile Security Framework (MobSF) is an automated, all-in-one mobile application (Android/iOS/Windows) pen-testing, malware analysis and security assessment framework capable of performing static and dynamic analysis. | https://github.com/MobSF/Mobile-Security-Framework-MobSF |
-| appmon     | 隐私检测、安全检测、HOOK函数调用、行为分析等可以借助这个框架 | [appmon](https://github.com/dpnishant/appmon)            |
+| 名称       | 简介                                                         | 相关资料                                                     |
+| ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| virustotal |                                                              | https://www.virustotal.com/                                  |
+| MobSF      | Mobile Security Framework (MobSF) is an automated, all-in-one mobile application (Android/iOS/Windows) pen-testing, malware analysis and security assessment framework capable of performing static and dynamic analysis. | https://github.com/MobSF/Mobile-Security-Framework-MobSF     |
+| appmon     | 隐私检测、安全检测、HOOK函数调用、行为分析等可以借助这个框架 | [appmon](https://github.com/dpnishant/appmon)                |
+| Objection  | objection是基于Frida的一个工具,可以方便我们直接找出apk中需要HOOK的方法，还可以打印函数的参数、返回值以及栈调用等，是辅助编写Frida脚本的好工具。 | [Android APP渗透测试(2)-Objection](https://blog.csdn.net/qq_40827990/article/details/106347852) |
 
 
 
@@ -39,22 +40,31 @@ tags:		[android]
 | r0capture            | 安卓应用层抓包通杀脚本                                       | https://github.com/r0ysue/r0capture                          |
 | StrandHogg 2.0       | New serious Android vulnerability                            | https://promon.co/resources/downloads/strandhogg-2-0-new-serious-android-vulnerability/ |
 | 安卓应用的安全和破解 | 一个汇总安卓安全的博客小站                                   | https://book.crifan.com/books/android_app_security_crack/website/ |
+| radare2              | UNIX-like reverse engineering framework and command-line toolset。可以逆向分析dex/so/二进制等文件 | https://github.com/radareorg/radare2                         |
+|                      |                                                              |                                                              |
 
 
 
 # 反编译工具
 
-- [JEB Decompiler by PNF Software](https://www.pnfsoftware.com/)
-- [jadx: Dex to Java decompiler](https://github.com/skylot/jadx)
+| 名称           | 简介                                                         | 相关资料                                                     |
+| -------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| IDA            |                                                              | https://www.hex-rays.com/products/ida/news/ 、 https://www.hex-rays.com/products/ida/ 、 https://ida2020.org/ |
+| jadx           | Dex to Java decompiler                                       | [jadx: Dex to Java decompiler](https://github.com/skylot/jadx) |
+| JEB            |                                                              | https://www.pnfsoftware.com/                                 |
+| Apktool        | A tool for reverse engineering Android apk files             | https://github.com/iBotPeaches/Apktool                       |
+| smali/baksmali |                                                              | [smali: smali/baksmali](https://github.com/JesusFreke/smali) |
+| dex2jar        | Tools to work with android .dex and java .class files        | https://github.com/pxb1988/dex2jar                           |
+| reko           | C#开源项目-二进制文件的反编译器                              | https://github.com/uxmal/reko                                |
+| GDA            | GJoy Dex Analyzer(GDA)，中国第一款也是唯一一款全交互式的现代反编译器，同时也是世界上最早实现的dalvik字节码反编译器。 GDA不只是一款反编译器，同时也是一款轻便且功能强大的综合性逆向分析利器，其不依赖java且支持apk, dex, odex, oat, jar, class, aar文件的反编译， 支持python及java脚本自动化分析。其包含多个由作者独立研究的高速分析引擎:反编译引擎、漏洞检测引擎、 恶意行为检测引擎、污点传播分析引擎、反混淆引擎、apk壳检测引擎等等 | http://www.gda.wiki:9090/                                    |
+| TTDeDroid      | 一键反编译工具(不需要手动安装Python) One key for quickly decompile apk/aar/dex/jar, support by jadx/dex2jar/enjarify. | https://github.com/tp7309/TTDeDroid                          |
+| Smali2JavaUI   | tool-pc-windows-gui-smali2java-a-tool-decompile-smali-to-java | https://forum.xda-developers.com/showthread.php?t=2430413    |
+
 - [bytecode-viewer: A Java 8+ Jar & Android APK Reverse Engineering Suite (Decompiler, Editor, Debugger & More)](https://github.com/Konloch/bytecode-viewer)
-- [Apktool: A tool for reverse engineering Android apk files](https://github.com/iBotPeaches/Apktool)
-- [smali: smali/baksmali](https://github.com/JesusFreke/smali)
-- [dex2jar: Tools to work with android .dex and java .class files](https://github.com/pxb1988/dex2jar)
 - [android-classyshark: Analyze any Android/Java based app or game](https://github.com/google/android-classyshark)
 - [jd-gui: A standalone Java Decompiler GUI](https://github.com/java-decompiler/jd-gui)
 - [Luyten: An Open Source Java Decompiler Gui for Procyon](https://github.com/deathmarine/Luyten)
 - [Krakatau: Java decompiler, assembler, and disassembler](https://github.com/Storyyeller/Krakatau) java的反编译器、汇编器、反汇编器
-- [GDA主页-中国首款交互式Android反编译器](http://www.gda.wiki:9090/)
 - [androguard/androguard: Reverse engineering, Malware and goodware analysis of Android applications)](https://github.com/androguard/androguard)
 
 
