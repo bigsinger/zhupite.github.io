@@ -12,12 +12,11 @@ tags:		[android]
 
 # 审计测试
 
-| 名称       | 简介                                                         | 相关资料                                                     |
-| ---------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| virustotal |                                                              | https://www.virustotal.com/                                  |
-| MobSF      | Mobile Security Framework (MobSF) is an automated, all-in-one mobile application (Android/iOS/Windows) pen-testing, malware analysis and security assessment framework capable of performing static and dynamic analysis. | https://github.com/MobSF/Mobile-Security-Framework-MobSF     |
-| appmon     | 隐私检测、安全检测、HOOK函数调用、行为分析等可以借助这个框架 | [appmon](https://github.com/dpnishant/appmon)                |
-| Objection  | objection是基于Frida的一个工具,可以方便我们直接找出apk中需要HOOK的方法，还可以打印函数的参数、返回值以及栈调用等，是辅助编写Frida脚本的好工具。 | [Android APP渗透测试(2)-Objection](https://blog.csdn.net/qq_40827990/article/details/106347852) |
+| 名称       | 简介                                                         | 相关资料                                                 |
+| ---------- | ------------------------------------------------------------ | -------------------------------------------------------- |
+| virustotal |                                                              | https://www.virustotal.com/                              |
+| MobSF      | Mobile Security Framework (MobSF) is an automated, all-in-one mobile application (Android/iOS/Windows) pen-testing, malware analysis and security assessment framework capable of performing static and dynamic analysis. | https://github.com/MobSF/Mobile-Security-Framework-MobSF |
+| appmon     | 隐私检测、安全检测、HOOK函数调用、行为分析等可以借助这个框架 | [appmon](https://github.com/dpnishant/appmon)            |
 
 
 
@@ -55,15 +54,16 @@ tags:		[android]
 | Apktool        | A tool for reverse engineering Android apk files             | https://github.com/iBotPeaches/Apktool                       |
 | smali/baksmali |                                                              | [smali: smali/baksmali](https://github.com/JesusFreke/smali) |
 | dex2jar        | Tools to work with android .dex and java .class files        | https://github.com/pxb1988/dex2jar                           |
+| jd-gui         | A standalone Java Decompiler GUI                             | https://github.com/java-decompiler/jd-gui                    |
+| Luyten         | An Open Source Java Decompiler Gui for Procyon               | https://github.com/deathmarine/Luyten                        |
 | reko           | C#开源项目-二进制文件的反编译器                              | https://github.com/uxmal/reko                                |
 | GDA            | GJoy Dex Analyzer(GDA)，中国第一款也是唯一一款全交互式的现代反编译器，同时也是世界上最早实现的dalvik字节码反编译器。 GDA不只是一款反编译器，同时也是一款轻便且功能强大的综合性逆向分析利器，其不依赖java且支持apk, dex, odex, oat, jar, class, aar文件的反编译， 支持python及java脚本自动化分析。其包含多个由作者独立研究的高速分析引擎:反编译引擎、漏洞检测引擎、 恶意行为检测引擎、污点传播分析引擎、反混淆引擎、apk壳检测引擎等等 | http://www.gda.wiki:9090/                                    |
 | TTDeDroid      | 一键反编译工具(不需要手动安装Python) One key for quickly decompile apk/aar/dex/jar, support by jadx/dex2jar/enjarify. | https://github.com/tp7309/TTDeDroid                          |
 | Smali2JavaUI   | tool-pc-windows-gui-smali2java-a-tool-decompile-smali-to-java | https://forum.xda-developers.com/showthread.php?t=2430413    |
+| ByteViewer     | 支持apk、dex等多种文件格式的反编译                           | https://github.com/Konloch/bytecode-viewer                   |
+| wxUnpacker     | 小程序反编译工具 , 现已被封，但有其他fork版本                | https://github.com/geilige/wxappUnpacker                     |
 
-- [bytecode-viewer: A Java 8+ Jar & Android APK Reverse Engineering Suite (Decompiler, Editor, Debugger & More)](https://github.com/Konloch/bytecode-viewer)
 - [android-classyshark: Analyze any Android/Java based app or game](https://github.com/google/android-classyshark)
-- [jd-gui: A standalone Java Decompiler GUI](https://github.com/java-decompiler/jd-gui)
-- [Luyten: An Open Source Java Decompiler Gui for Procyon](https://github.com/deathmarine/Luyten)
 - [Krakatau: Java decompiler, assembler, and disassembler](https://github.com/Storyyeller/Krakatau) java的反编译器、汇编器、反汇编器
 - [androguard/androguard: Reverse engineering, Malware and goodware analysis of Android applications)](https://github.com/androguard/androguard)
 
@@ -71,29 +71,26 @@ tags:		[android]
 
 # HOOK工具
 
-- [Frida](https://github.com/frida/)
-
-- Xposed
-
-- EDXposed
-
-- LSPosed：完全取代EDXposed
-
-- VirtualXposed
-
-- FakeXposed：Xposed隐藏器
-
-- [Cydia Substrate](http://www.cydiasubstrate.com/)
+| 名称            | 简介                                                         | 相关资料                                             |
+| --------------- | ------------------------------------------------------------ | ---------------------------------------------------- |
+| frida           |                                                              | https://github.com/frida/                            |
+| Cydia Substrate |                                                              | http://www.cydiasubstrate.com/                       |
+| Xposed          |                                                              |                                                      |
+| EDXposed        |                                                              |                                                      |
+| LSPosed         | 完全取代EDXposed                                             |                                                      |
+| VirtualXposed   |                                                              |                                                      |
+| FakeXposed      | Xposed隐藏器                                                 |                                                      |
+| JustTrustMe     | 基于Xposed写的可以绕过SSL Pinning检测的工具                  | https://github.com/Fuzion24/JustTrustMe              |
+| Inspeckage      | 基于Xposed写的动态分析工具，Hook了大量逆向时常见的方法，如Crypto、Hash，这两个类型在破解大部分APP的加密参数时可以说是降维打击，因为大部分APP的加密参数都逃不过MD5、SHA1、AES、DES这四种，而它们都被Hook了（不仅仅只有这四种）。基本上就是打开Inspeckage再打开它的Web端，然后打开指定的APP操作一下，一个搜索，加密参数就原形毕露了 | https://github.com/ac-pm/Inspeckage                  |
+| Objection       | objection是基于Frida的一个工具,可以方便我们直接找出apk中需要HOOK的方法，还可以打印函数的参数、返回值以及栈调用等，是辅助编写Frida脚本的好工具。 | https://github.com/sensepost/objection               |
+| PMS AMS HOOK    | 插件化框架 PMS AMS HOOK。demos to help understand plugin framwork | https://github.com/tiann/understand-plugin-framework |
+| UCrack          | 基于Xposed写的辅助工具，集成了自动网络抓包、网络堆栈爆破、文件日志、WebView调试环境、自动脱壳、Native函数注册监控、记录程序自杀堆栈等功能 |                                                      |
 
 - [Android-Inline-Hook](https://github.com/ele7enxxh/Android-Inline-Hook)
-
-- [objection: 📱 objection - runtime mobile exploration](https://github.com/sensepost/objection)
 
 - [xHook: 🔥 A PLT hook library for Android native ELF.](https://github.com/iqiyi/xhook)
 
 - [bytedance/bhook](https://github.com/bytedance/bhook)：bhook(aka ByteHook) 是一个针对 Android app 的 PLT hook 框架。字节跳动的大多数 Android app 在线上使用了 bhook 作为 PLT hook 方案。
-
-- 插件化框架 PMS AMS HOOK [tiann/understand-plugin-framework: demos to help understand plugin framwork](https://github.com/tiann/understand-plugin-framework)
 
   
 
