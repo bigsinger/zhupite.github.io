@@ -62,6 +62,7 @@ tags:		[android]
 | Smali2JavaUI   | tool-pc-windows-gui-smali2java-a-tool-decompile-smali-to-java | https://forum.xda-developers.com/showthread.php?t=2430413    |
 | ByteViewer     | 支持apk、dex等多种文件格式的反编译                           | https://github.com/Konloch/bytecode-viewer                   |
 | wxUnpacker     | 小程序反编译工具 , 现已被封，但有其他fork版本                | https://github.com/geilige/wxappUnpacker                     |
+| ManifestEditor | modify Android Manifest binary file.                         | https://github.com/WindySha/ManifestEditor                   |
 
 - [android-classyshark: Analyze any Android/Java based app or game](https://github.com/google/android-classyshark)
 - [Krakatau: Java decompiler, assembler, and disassembler](https://github.com/Storyyeller/Krakatau) java的反编译器、汇编器、反汇编器
