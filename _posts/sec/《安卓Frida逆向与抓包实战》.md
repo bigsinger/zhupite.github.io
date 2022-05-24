@@ -39,8 +39,16 @@ Python 版本管理软件：pyenv ， 通过pyenv安装和管理不同的Python�
 其他小工具：
 **htop**工具，它是加强版的top工具。htop可以动态查看当前活跃的、系统占用率高的进程。Uptime 是开机时间；Load average 是平均负载， 比如四核CPU，平均负载跑到4的时候就说明系统满载了。
 
-
 实时查看系统网络负载的工具**jnettop**，在抓包时打开这个工具往往会有奇效，比如实时查看对方IP等。在jnettop界面中可以看到主机连接的远程IP、端口、速率以及协议等。
+
+
+
+- termux  是一个安卓手机的 Linux 模拟器,可以在手机上模拟 Linux 环境。它提供一个命令行界面,让用户与系统互动。
+- DexGuard 。DexGuard与ProGuard是同一个开发者开发的，与ProGuard相比，DexGuard功能更加丰富，不过它是一个收费的商业软件。同时，DexGuard的混淆功能更加强大，不仅支持ProGuard的所有功能，还支持字符串加密、花指令、资源加密等。
+- DexHunter，其原理就是通过主动加载DEX中的所有类并dump出所有方法对应的代码，最后将代码重构再填充回被抽取的DEX中。为了对抗DexHunter，有的代码抽取方案在类加载的时并不恢复函数的代码内容，而将恢复的时机进一步延后，这也就引出了后来的主动调用方案——FUPK3/FART。
+- FUPK3/FART的原理是对执行方法的入口函数进行插桩操作，并在入口函数开始处判断是否带有主动调用的标志，若属于主动调用则dump出相应函数的内容，再进行DEX文件的重构。为了对抗这类脱壳的方式，加固厂商也采取过一些反制手段，比如为App添加一个垃圾类，一旦这个垃圾类被加载就退出进程的执行；亦或是采取监控特定文件读写的方式，比如一旦监控到进程要把以dex035开头的文件内容dump出，就杀死进程，诸如此类。
+- dexdump https://github.com/hluwa/FRIDA-DEXDump。dexdump是Wallbreaker作者的另一力作，主要用于应用的脱壳工作，其脱壳的基本原理是暴力搜索内存中符合dex格式的数据完成dump工作。Dexdump 有三种使用方式。
+- 
 
 
 
@@ -174,5 +182,79 @@ rpc.exports
 
 
 
+# Objection
 
+Objection对快速定位关键函数的帮助是巨大的，它将整个逆向过程中最难部分（即从海量代码中定位关键函数）的效率提升了无数倍。
+
+
+
+Objection可以将Frida运行时所需要的frida-gadget.so重打包进App中，从而完成Frida的无root调试。
+
+```
+android heap search instances android.App.AlertDialog
+android hooking watch class android.App.AlertDialog
+```
+
+WallBreaker  https://github.com/hluwa/Wallbreaker  Wallbreaker 不仅实现了Objection内存搜索实例的功能，还能通过类实例打印出相应类的具体内容，包括静态成员和实例成员的值以及类中所有的函数，这对逆向过程快速定位的作用是巨大的。
+
+
+
+样本刚启动函数便被Hook上了。Objection作为一个成熟的工具也提供了这样的功能， 只需在Objection 注入App 时加上参数--startupcommand或者-s
+
+
+
+## Xposed
+
+EdXposed这一框架在Android 8之后延续了Xposed的寿命，但是EdXposed的稳定性和安全性仍旧有待商榷。
+除此之外， 还出现过一些其他的衍生品， 比如太极框架 https://taichi.cool/zh/  、VirtualApp （ https://github.com/asLody/VirtualApp
+
+
+
+# 抓包
+
+中间人抓包方式通常会通过抓包工具完成数据的截取，常用的工具有Wireshark、BurpSuite、Charles、Fiddler等。通常如果是抓应用层的Http(s)协议数据，推荐的专业工具是BurpSuite；如果只是想简单地抓包，用得舒服轻松，也可以选择Charles。不建议使用Fiddler（一个可以将网络传输发送与接受的数据包进截获、重发、编辑、转存等操作的抓包工具，该工具也可以用来检测网络安全），因为Fiddler无法导入客户端证书（p12、Client SSL Certificates），在服务器校验客户端证书时无法通过。如果是会话层抓包，可选择Charles或者tcpdump和WireShark组合的方式。
+
+
+
+为了达到抓包的目的，首先要将计算机和测试手机连接在同一个局域网中并且要确保手机和计算机能够互相访问，确保手机和计算机能够ping通。
+
+
+
+检测代理的方法：
+
+```java
+System.getProperty("http.proxyHost");
+System.getProperty("http.proxyPort");
+```
+
+为了配置VPN代理，首先需要下载一个VPN软件，这里推荐**Postern**这个App。在通过adb安装App后，打开Postern，首先在弹出的“网络连接请求”选择框中单击“确定”按钮后进入App主页面，然后单击App左上方将菜单调出，再单击“配置代理”选项。
+
+
+
+在进入“配置代理”页面后单击“代理1:proxy”，配置服务器IP地址为主机IP、端口为8080。再选择代理类型为HTTPS/HTTPCONNECT，在配置完毕后单击“保存”按钮并退出页面，如图7-8所示。
+配置完代理后，重新单击App左上角，待弹出菜单后选择“配置规则”，清空原来的所有规则并创建一个新的规则，分别设置“动作”选项为“通过代理连接”“代理／代理组”为刚才设置的代理（这里为192.168.50.48:8080），并设置“目标地址”为"*"或者直接清空以指定手机所有流量从代理经过，如图7-9所示。注意，“开启抓包”选项要关闭。
+
+
+
+**SSL Pinning**，又称证书绑定，可以说是客户端校验服务器的进阶版：该种方式不仅校验服务器证书是否是系统中的可信凭证，在通信过程中甚至连系统内置的证书都不信任而只信任App指定的证书。一旦发现服务器证书为非指定证书即停止通信，最终导致即使将Charles证书安装到系统信任凭据中也无法生效。
+
+
+
+在这方面Objection本身可以通过以下命令完成SSL Pinning Bypass的功能：
+
+```
+android sslpinning disable
+```
+
+[WooyunDota/DroidSSLUnpinning: Android certificate pinning disable tools](https://github.com/WooyunDota/DroidSSLUnpinning)
+
+由于SSL Pinning的功能是由开发者自定义的，因此并不存在一个通用的解决方案，Objection和DroidSSLUnpinning也只是对常见的App所使用的网络框架中对证书进行校验的代码逻辑进行了Hook修改。一旦App中的代码被混淆或者使用了未知的框架，这些App的客户端校验服务器的逻辑就需要安全人员自行分析，不过上述两种方案已几乎可以覆盖目前已知的所有种类的证书绑定。
+
+```
+android hooking list classes
+在遍历完加载的所有类后，通过Ctrl+C组合键或者输入exit命令退出Objection，保存日志。
+结合cat命令和grep管道命令来过滤HTTPURLConnection和okhttp相关类。
+```
+
+[siyujie/OkHttpLogger-Frida: Frida 实现拦截okhttp的脚本](https://github.com/siyujie/okhttpLogger-Frida)
 
