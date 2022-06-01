@@ -78,6 +78,7 @@ cef_100_percent.pak
 ## 常见问题
 
 - **cefinitialize崩溃**：说明exe执行路径下缺少相关文件导致初始化失败，可以把**Resources**目录下的locales文件夹、icudtl.dat、cef*.pak等文件复制过来。
+- base::Bind not found：解决办法：修改为base::BindOnce，会提示找不到OnceCallback，需要在cef_bind.h头文件中添加对cef_callback.h文件的包含，这个太坑了。
 
 
 
