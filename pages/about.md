@@ -11,16 +11,9 @@ permalink: /about/
 
 <iframe src="https://githubbadge.appspot.com/bigsinger?s=1" style="border: 0;height: 142px;width: 200px;overflow: hidden;" frameBorder="0"></iframe>
 
-80后，从事软件安全行业，对编程技术有很高热情，喜欢尝试各种编程技术和框架，喜欢用现有技术解决实际问题。
+对编程技术有很高热情，喜欢尝试各种编程技术和框架，喜欢用现有技术解决实际问题。
 
-- 我的编程生涯:[IT十年逐浪而行](https://www.zhupite.com/other/it10year.html)
-- [另附一个程序员的幽默段子](https://www.zhupite.com/other/joke.html)
-
-
-
-# 个人作品
-
-- 
+- [程序员幽默段子](https://www.zhupite.com/other/joke.html)
 
 
 
