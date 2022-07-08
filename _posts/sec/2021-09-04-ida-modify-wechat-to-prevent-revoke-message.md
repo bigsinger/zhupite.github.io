@@ -86,10 +86,185 @@ xor eax, eax	;33 C0
 IDA里搜索特征码（ALT + B， 任意一个均可以）：
 
 ```
-68 ?? 04 00 00 C6 00 02 89 70 08 
-E8 ?? ?? ?? 00 83 C4 70  EB 42
+68 ?? 04 00 00 C6 00 02 89 70 08 （有效）
+E8 ?? ?? ?? 00 83 C4 70 EB 42  （有效，但存在多个）
 ```
 
 搜索到后，向下附近找一找test eax, eax。
 
-2022年3月15日验证3.6版本依然有效。
+2022年7月8日验证3.7版本依然有效。
+
+
+
+# 另一组特征
+
+支持多开和消息防撤回
+
+## 多开
+
+IDA里先找导出函数：**StartWechat**，然后向下找到如下代码，把 jz 修改为 jmp 即可：
+
+```assembly
+.text:1042E03A C7 85 D8 FC FF FF 02 00 00 00                 mov     dword ptr [ebp-328h], 2
+.text:1042E044 89 8D 0C FF FF FF                             mov     [ebp-0F4h], ecx
+.text:1042E04A E8 C1 5F CB FF                                call    sub_100E4010
+.text:1042E04F 80 7D F2 00                                   cmp     byte ptr [ebp-0Eh], 0
+.text:1042E053 6A 01                                         push    1
+.text:1042E055 74 4B                                         jz      short loc_1042E0A2
+```
+
+搜索特征：
+
+```assembly
+.text:1042DFB7 33 C9                                         xor     ecx, ecx
+.text:1042DFB9 33 D2                                         xor     edx, edx
+.text:1042DFBB C7 85 D0 FC FF FF 10 27 00 00                 mov     [ebp+var_330], 2710h
+.text:1042DFC5 83 F8 39                                      cmp     eax, 39h ; '9'
+.text:1042DFC8 89 8D 0C FF FF FF                             mov     [ebp+var_F4], ecx
+.text:1042DFCE 0F 45 C2                                      cmovnz  eax, edx
+```
+
+特征码提炼为：
+
+```
+33 C9 33 D2 C7 85 ?? ?? FF FF ?? ?? 00 00 83 F8 39 89 8D ?? FF FF FF 0F 45 C2
+```
+
+或：
+
+```assembly
+.text:1042E005 7F 30                                         jg      short loc_1042E037
+.text:1042E007 7C 09                                         jl      short loc_1042E012
+.text:1042E009 83 BD A0 FC FF FF 00                          cmp     [ebp+var_360], 0
+.text:1042E010 77 25                                         ja      short loc_1042E037
+.text:1042E012
+.text:1042E012                               loc_1042E012:                           ; CODE XREF: sub_1042DD00+307↑j
+.text:1042E012 E8 F9 5F CB FF                                call    sub_100E4010
+.text:1042E017 6A 01                                         push    1
+.text:1042E019 33 D2                                         xor     edx, edx
+.text:1042E01B 8B CF                                         mov     ecx, edi
+```
+
+特征码提炼为：
+
+```
+7F ?? 7C ?? 83 BD ?? ?? FF FF 00 77
+7F ?? 7C ?? 83 BD ?? ?? FF FF 00 77 ?? E8 ?? ?? ?? FF 6A 01 33 D2 8B CF
+```
+
+然后向下找：
+
+```assembly
+.text:1042E053 6A 01                                         push    1
+.text:1042E055 74 4B                                         jz      short loc_1042E0A2
+```
+
+
+
+## 消息防撤回
+
+找到如下代码，把最后一个 jz 修改为 jmp 即可：
+
+```assembly
+.text:10D7DDC2 74 09                                         jz      short loc_10D7DDCD
+.text:10D7DDC4 56                                            push    esi
+.text:10D7DDC5 E8 4B DE D4 00                                call    sub_11ACBC15
+.text:10D7DDCA 83 C4 04                                      add     esp, 4
+.text:10D7DDCD
+.text:10D7DDCD                               loc_10D7DDCD:                           ; CODE XREF: StartWechat+1D2↑j
+.text:10D7DDCD 8B 85 D4 FB FF FF                             mov     eax, [ebp-42Ch]
+.text:10D7DDD3 85 C0                                         test    eax, eax
+.text:10D7DDD5 74 09                                         jz      short loc_10D7DDE0
+.text:10D7DDD7 50                                            push    eax
+.text:10D7DDD8 E8 38 DE D4 00                                call    sub_11ACBC15
+.text:10D7DDDD 83 C4 04                                      add     esp, 4
+.text:10D7DDE0
+.text:10D7DDE0                               loc_10D7DDE0:                           ; CODE XREF: StartWechat+1E5↑j
+.text:10D7DDE0 80 BD 07 FC FF FF 00                          cmp     byte ptr [ebp-3F9h], 0
+.text:10D7DDE7 74 58                                         jz      short loc_10D7DE41
+```
+
+
+
+搜索特征：
+
+```
+.text:10D7DD85 50                                            push    eax
+.text:10D7DD86 6A 00                                         push    0
+.text:10D7DD88 6A 00                                         push    0
+.text:10D7DD8A FF 15 50 A3 CE 11                             call    ds:CreateMutexW
+.text:10D7DD90 8B F8                                         mov     edi, eax
+.text:10D7DD92 C6 85 07 FC FF FF 00                          mov     byte ptr [ebp-3F9h], 0
+.text:10D7DD99 85 FF                                         test    edi, edi
+.text:10D7DD9B 74 23                                         jz      short loc_10D7DDC0
+.text:10D7DD9D FF 15 F8 A2 CE 11                             call    ds:__imp_GetLastError
+```
+
+特征码提炼为：
+
+```
+50 6A 00 6A 00 FF 15 ?? ?? ?? ?? 8B F8 C6 85 ?? ?? FF FF 00 85 FF 74
+```
+
+搜到后向下找到：
+
+```
+mov     edi, ds:FindWindowW
+```
+
+上一个 jz 指令就是。
+
+
+
+或使用搜索特征：
+
+```
+.text:10D7DDF6 FF D7                                         call    edi ; FindWindowW
+.text:10D7DDF8 8B F0                                         mov     esi, eax
+.text:10D7DDFA 85 F6                                         test    esi, esi
+.text:10D7DDFC 75 0E                                         jnz     short loc_10D7DE0C
+.text:10D7DDFE 50                                            push    eax
+.text:10D7DDFF 68 8C B9 F1 11                                push    offset aWechatloginwnd ; "WeChatLoginWndForPC"
+.text:10D7DE04 FF D7                                         call    edi ; FindWindowW
+.text:10D7DE06 8B F0                                         mov     esi, eax
+.text:10D7DE08 85 F6                                         test    esi, esi
+.text:10D7DE0A 74 35                                         jz      short loc_10D7DE41
+.text:10D7DE0C
+.text:10D7DE0C                               loc_10D7DE0C:                           ; CODE XREF: StartWechat+20C↑j
+.text:10D7DE0C 6A 01                                         push    1
+.text:10D7DE0E 56                                            push    esi
+.text:10D7DE0F FF 15 B8 A9 CE 11                             call    ds:SwitchToThisWindow
+.text:10D7DE15 56                                            push    esi
+.text:10D7DE16 FF 15 BC A9 CE 11                             call    ds:BringWindowToTop
+.text:10D7DE1C 6A 00                                         push    0
+.text:10D7DE1E 68 E8 03 00 00                                push    3E8h
+.text:10D7DE23 6A 02                                         push    2
+.text:10D7DE25 6A 00                                         push    0
+.text:10D7DE27 6A 00                                         push    0
+.text:10D7DE29 68 E0 0B 00 00                                push    0BE0h
+.text:10D7DE2E 56                                            push    esi
+.text:10D7DE2F FF 15 54 A9 CE 11                             call    ds:SendMessageTimeoutW
+.text:10D7DE35 85 F6                                         test    esi, esi
+.text:10D7DE37 74 08                                         jz      short loc_10D7DE41
+.text:10D7DE39 83 CF FF                                      or      edi, 0FFFFFFFFh
+.text:10D7DE3C E9 85 07 00 00                                jmp     loc_10D7E5C6
+```
+
+
+
+特征码提炼为：
+
+```
+6A 01 56 FF 15 ?? ?? ?? ?? 56 FF 15 ?? ?? ?? ??
+或
+6A 00 68 ?? ?? 00 00 6A 02 6A 00 6A 00 68
+6A 00 68 ?? ?? 00 00 6A 02 6A 00 6A 00 68 ?? ?? 00 00 56 FF 15 ?? ?? ?? ?? 85 F6 74
+```
+
+搜到后向上找到：
+
+```
+mov     edi, ds:FindWindowW
+```
+
+上一个 jz 指令就是。
