@@ -12,11 +12,12 @@ tags:		[android]
 
 # 审计测试
 
-| 名称       | 简介                                                         | 相关资料                                                 |
-| ---------- | ------------------------------------------------------------ | -------------------------------------------------------- |
-| virustotal |                                                              | https://www.virustotal.com/                              |
-| MobSF      | Mobile Security Framework (MobSF) is an automated, all-in-one mobile application (Android/iOS/Windows) pen-testing, malware analysis and security assessment framework capable of performing static and dynamic analysis. | https://github.com/MobSF/Mobile-Security-Framework-MobSF |
-| appmon     | 隐私检测、安全检测、HOOK函数调用、行为分析等可以借助这个框架 | [appmon](https://github.com/dpnishant/appmon)            |
+| 名称                                               | 简介                                                         | 相关资料                                                 |
+| -------------------------------------------------- | ------------------------------------------------------------ | -------------------------------------------------------- |
+| virustotal                                         |                                                              | https://www.virustotal.com/                              |
+| MobSF                                              | Mobile Security Framework (MobSF) is an automated, all-in-one mobile application (Android/iOS/Windows) pen-testing, malware analysis and security assessment framework capable of performing static and dynamic analysis. | https://github.com/MobSF/Mobile-Security-Framework-MobSF |
+| appmon                                             | 隐私检测、安全检测、HOOK函数调用、行为分析等可以借助这个框架 | [appmon](https://github.com/dpnishant/appmon)            |
+| [XPrivacyLua](https://github.com/M66B/XPrivacyLua) | 隐私权限相关。撤销应用程序的 Android 权限通常会导致应用程序崩溃或出现故障。XPrivacyLua 通过向应用程序提供虚假数据而不是真实数据来解决这个问题。 |                                                          |
 
 
 
