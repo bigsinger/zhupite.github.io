@@ -25,6 +25,7 @@ tags:		[android]
 | [QARK](https://github.com/linkedin/qark)            | QARK 全称 Quick Android Review Kit ：快速 Android 审查工具包，这个工具可用来检查 Android 应用的源代码和打包的 APK 中常见的安全漏洞。 |                                                          |
 | [MARA](https://www.oschina.net/p/mara)              | MARA 是一个移动应用程序逆向工程和分析框架。它将常用的移动应用逆向工程和分析工具组合在一起，用于测试移动应用，以抵御 OWASP（开放式 WEB 应用程序安全项目）的移动安全威胁。MARA 支持 APK 逆向工程，比如将 Dalvik 字节码反汇编为 smali 字节码或 Java 字节码，同时还支持 APK 反混淆、APK 执行路径、IP 地址、URL、URI、电子邮件等基本信息的提取、APK 漏洞扫描、恶意软件分析、APK Manifest 分析等多种功能。MARA 还提供基于 OWASP Top Mobile Top 10 和 OWASP Mobile Apps Checklist 的源代码静态分析，能够对 apk、dex 或 jar 文件执行 单个或 批量分析。 |                                                          |
 | [AndroL4b](https://www.oschina.net/p/androl4b)      | AndroL4b 是一个基于 ubuntu-mate 的安卓安全虚拟机，可用于逆向工程和恶意软件分析。AndroL4b 包括来自不同信息安全极客和研究人员的最新框架、教程和漏洞实验室的集合，上文提到的 Radare2 、APKTools、ByteCodeViewer、Qark 、MARA 等工具，AndroL4b 均已内置。同时还有 Android Security Sandbox 、InsecureBankv2 等漏洞实验室，可提供最新 Android 漏洞的详细信息。 | https://sourceforge.net/projects/androl4b/               |
+| [Appknox](https://www.appknox.com/)                 | 收费。Appknox是最全面的安全测试工具之一。 它会静态分析代码二进制文件，查找应用程序任何角落的潜在安全漏洞和漏洞。自动化测试只能在一定程度上提供帮助，所以Appknox将游戏提升到了一个新的水平。 它使用着名的道德黑客手动测试您的应用程序，以发现深层次的安全漏洞，敏感数据泄露以及可能受到影响的其他潜在弱点。 |                                                          |
 
 
 
@@ -65,6 +66,9 @@ tags:		[android]
 | dex2jar                                                      | Tools to work with android .dex and java .class files        | https://github.com/pxb1988/dex2jar                           |
 | jd-gui                                                       | A standalone Java Decompiler GUI                             | https://github.com/java-decompiler/jd-gui                    |
 | Luyten                                                       | An Open Source Java Decompiler Gui for Procyon               | https://github.com/deathmarine/Luyten                        |
+| [DeGuard](http://apk-deguard.com/)                           | 在线安卓反混淆工具，理论上ProGurad混淆的代码 80% 都可以恢复出来。它使用机器学习来扭转代码混淆器的影响。DeGuard利用人工智能的优势提供出色的逆向工程。 |                                                              |
+| [androguard](https://github.com/androguard/androguard)       | Androguard是一款功能强大且维护良好的用于Python的反向工程工具。 它可以给你很多控制操作你的应用程序的DEX文件。 它还可以帮助您执行静态代码分析并诊断您的应用程序是否存在恶意软件。它还附带了其他有用的功能，例如检查两个Android Package Kit（APK）文件的“差异”，测量各种混淆器（如ProGuard和DexGuard）的效率，并检查被测试的应用程序是否被非法修改或篡改用。 |                                                              |
+| [ClassyShark](https://github.com/google/android-classyshark) | ClassyShark是一款简单易用的Android二进制检测工具。 您可以浏览所有类，成员和依赖项，并轻松检查任何应用程序的方法数量。 我发现ClassyShark能够与任何应用程序完美协作。它还具有便于浏览的便捷软件包式文件结构。 “Methods Count”选项卡是真正的生命保护程序，可以告诉您每个软件包对您的应用程序贡献的方法数量。 |                                                              |
 | reko                                                         | C#开源项目-二进制文件的反编译器                              | https://github.com/uxmal/reko                                |
 | GDA                                                          | GJoy Dex Analyzer(GDA)，中国第一款也是唯一一款全交互式的现代反编译器，同时也是世界上最早实现的dalvik字节码反编译器。 GDA不只是一款反编译器，同时也是一款轻便且功能强大的综合性逆向分析利器，其不依赖java且支持apk, dex, odex, oat, jar, class, aar文件的反编译， 支持python及java脚本自动化分析。其包含多个由作者独立研究的高速分析引擎:反编译引擎、漏洞检测引擎、 恶意行为检测引擎、污点传播分析引擎、反混淆引擎、apk壳检测引擎等等 | http://www.gda.wiki:9090/                                    |
 | TTDeDroid                                                    | 一键反编译工具(不需要手动安装Python) One key for quickly decompile apk/aar/dex/jar, support by jadx/dex2jar/enjarify. | https://github.com/tp7309/TTDeDroid                          |
@@ -125,3 +129,14 @@ tags:		[android]
 - [FUPK3](https://github.com/F8LEFT/FUPK3): 演示视频https://pan.baidu.com/s/1HH_-TQGca1NLoSqzvOPB3Q 密码：izm3
 - [drizzleDumper](https://github.com/DrizzleRisk/drizzleDumper#drizzledumper): drizzleDumper是一款基于内存搜索的Android脱壳工具。
 - [DexHunter](https://github.com/zyq8709/DexHunter): General Automatic Unpacking Tool for Android Dex Files
+
+
+
+# 加壳保护
+
+| 名称                                             | 简介                                                         |
+| ------------------------------------------------ | ------------------------------------------------------------ |
+| [DexGuard](https://www.guardsquare.com/dexguard) | 在发布之前几乎必须通过一些混淆器来传递Android应用程序。 您可能使用ProGuard作为您的默认混淆工具，而且工作得很好。 但DexGuard（来自ProGuard自己的制造商）显着提升了预测。DexGuard包括类加密，字符串加密（隐藏键现在变得非常容易），调用隐藏反射和本地代码混淆等高级功能。 这可能会让别人难以对您的应用程序进行逆向工程。 该工具还提供了几个很酷的实用程序来检测被篡改的APK，Xposed框架，扎根设备等。 |
+|                                                  |                                                              |
+|                                                  |                                                              |
+
