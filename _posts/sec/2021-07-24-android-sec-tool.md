@@ -38,13 +38,18 @@ tags:		[android]
 | AppMethodOrder                                    | 一个能让你了解所有函数调用顺序以及函数耗时的Android库（无需侵入式代码） | [AppMethodOrder](https://github.com/zjw-swun/AppMethodOrder) |
 | apk-signature-verify                              | Python校验apk签名，jar Signature / APK Signature v2 verify with pure python (support rsa dsa ecdsa) | [apk-signature-verify](https://github.com/shuxin/apk-signature-verify) |
 | AmBinaryEditor                                    | AndroidManifest二进制修改工具。新增、修改、删除指定名字的tag或者该tag的attr | [AmBinaryEditor（AndroidManifest二进制修改工具介绍）](http://ele7enxxh.com/AndroidManifest-Binary-Editor.html)、[AndroidManifest二进制文件格式分析](https://bbs.pediy.com/thread-194206.htm) |
-| MT管理器                                          | 文件管理、APK编辑功能，在手机上高效地进行各种文件操作以及修改安卓软件。 | [MT管理器](http://binmt.cc)                                  |
+| MT Manager（MT管理器）                            | 过签名工具。文件管理、APK编辑功能，在手机上高效地进行各种文件操作以及修改安卓软件。 | [MT管理器](http://binmt.cc)                                  |
+| NP-Manager                                        | 超级混淆。过签名工具。                                       | https://github.com/githubXiaowangzi/NP-Manager               |
+| ArmPro                                            | 过签名工具。脱壳工具                                         |                                                              |
+| CNFIX                                             | 过签名工具。                                                 |                                                              |
+| MODEX                                             | 过签名工具。                                                 |                                                              |
 | AndroidManifestFix                                | AndroidManifest.xml文件修复工具。用于修复AXML文件中属性名称缺失的问题。 | https://github.com/zylc369/AndroidManifestFix                |
-| NP-Manager                                        | 超级混淆                                                     | https://github.com/githubXiaowangzi/NP-Manager               |
 | FreeProGuard                                      | Config proguard for common Android libraries.                | https://github.com/Blankj/FreeProGuard                       |
 | [BlackBox](https://github.com/FBlackBox/BlackBox) | BlackBox（黑盒）是一款虚拟引擎，可以在 Android 上克隆和运行虚拟应用，拥有免安装运行能力。黑盒可以控制被运行的虚拟应用，做任何想做的事情。 |                                                              |
 | 太极                                              | 多开器、虚拟空间                                             |                                                              |
 | VirtualApp                                        |                                                              |                                                              |
+| VMOS                                              | VMOS（虚拟大师）是一款以Virtual Machine(简称VM，即虚拟机)技术为主的APP(安卓应用软件）。通过VM技术，把开源的安卓系统(支持任意版本)，无需root，以普通应用安装的形式运行到任意版本的linux或安卓系统上。 |                                                              |
+| Magisk                                            |                                                              |                                                              |
 | AssetStudio                                       | unity游戏破解工具：AssetStudio is a tool for exploring, extracting and exporting assets and assetbundles. | https://github.com/Perfare/AssetStudio                       |
 | r0capture                                         | 安卓应用层抓包通杀脚本                                       | https://github.com/r0ysue/r0capture                          |
 | StrandHogg 2.0                                    | New serious Android vulnerability                            | https://promon.co/resources/downloads/strandhogg-2-0-new-serious-android-vulnerability/ |
