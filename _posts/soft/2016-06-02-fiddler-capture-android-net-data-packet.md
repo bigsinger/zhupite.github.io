@@ -31,6 +31,7 @@ tags:		[fiddler,Android]
 
 ## 设置夜神模拟器
 
+- 模拟器设置 - 网络设置，选择桥接模式，IP设置选择DHCP，点击安装驱动，安装成功后重启模拟器。
 - 设置里找到WLAN，点击WLAN修改网络
 - 高级选项，代理：手动，IP填电脑本机的IP，端口填：8888
 - 打开模拟器中的浏览器，访问地址:代理端口号/（例如：http://10.192.73.50:8888），点击FiddlerRoot下载证书。
@@ -44,5 +45,5 @@ tags:		[fiddler,Android]
 
 # 参考
 
+- [fiddler抓包+雷电模拟器 完成手机app抓包的配置](https://www.likecs.com/show-205182531.html)
 - [Fiddler+夜神模拟器进行APP抓包](https://blog.csdn.net/21aspnet/article/details/103977908)
-- 
