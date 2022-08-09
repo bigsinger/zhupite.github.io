@@ -35,9 +35,9 @@ tags:		[fiddler,Android]
 
 ## 2、设置安卓模拟器
 
-- 模拟器开启USB调试状态，开启ROOT权限。
-- 模拟器设置 - 网络设置，选择网络桥接模式，IP设置选择DHCP，点击安装驱动，安装成功后重启模拟器。
-- 无须设置WLAN即可生效。（设置里找到WLAN，点击WLAN修改网络。高级选项，代理：手动，IP填电脑本机的IP，端口填：8888）
+1. 模拟器开启USB调试状态，开启ROOT权限。
+2. *模拟器设置 - 网络设置，选择网络桥接模式，IP设置选择DHCP，点击安装驱动，安装成功后重启模拟器。（实测无须设置）*
+3. *设置里找到WLAN，点击WLAN修改网络。高级选项，代理：手动，IP填电脑本机的IP，端口填：8888。（实测无须设置）*
 
 
 
@@ -71,14 +71,16 @@ openssl x509 -inform DER -in FiddlerRoot.cer -out fiddler.pem
    2. 推送文件到/system/etc/security/cacerts
    3. mount -o remount,ro /system 改回read only
 
-4. 重启模拟器，并在模拟器的：设置 - 安全 - 信任的凭据 - 系统中检查是否存在这样的证书：
+   在模拟器的：设置 - 安全 - 信任的凭据 - 系统中检查是否存在这样的证书：
 
    ```
    DO_NOT_TRUST
    DO_NOT_TRUST_FiddlerRoot
    ```
 
-   如果有且状态是打开的，说明证书安装成功。
+   如果有且状态是打开的，说明证书安装成功。这一步并不需要重启模拟器。
+
+   
 
 5. 使用adb命令设置模拟器的代理服务器及端口：
 
@@ -91,7 +93,7 @@ openssl x509 -inform DER -in FiddlerRoot.cer -out fiddler.pem
 
 
 
-配置完成以上就可以抓包了，Fiddler底部的抓包模式是否打开，模拟器里的网络行为都可以抓到。
+配置完成以上就可以抓包了，Fiddler底部的抓包模式是否打开，模拟器里的网络行为都可以抓到。如果你怎么配置都不行，甚至出现：ERR_CERT_AUTHORITY_INVALID、Tunnel *to* *443*的问题，只需要完全卸载掉模拟器、Fiddler并重新安装它们即可，主要原因是缓存的问题。
 
 
 
