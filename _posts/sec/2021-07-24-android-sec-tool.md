@@ -26,6 +26,7 @@ tags:		[android]
 | [MARA](https://www.oschina.net/p/mara)              | MARA 是一个移动应用程序逆向工程和分析框架。它将常用的移动应用逆向工程和分析工具组合在一起，用于测试移动应用，以抵御 OWASP（开放式 WEB 应用程序安全项目）的移动安全威胁。MARA 支持 APK 逆向工程，比如将 Dalvik 字节码反汇编为 smali 字节码或 Java 字节码，同时还支持 APK 反混淆、APK 执行路径、IP 地址、URL、URI、电子邮件等基本信息的提取、APK 漏洞扫描、恶意软件分析、APK Manifest 分析等多种功能。MARA 还提供基于 OWASP Top Mobile Top 10 和 OWASP Mobile Apps Checklist 的源代码静态分析，能够对 apk、dex 或 jar 文件执行 单个或 批量分析。 |                                                          |
 | [AndroL4b](https://www.oschina.net/p/androl4b)      | AndroL4b 是一个基于 ubuntu-mate 的安卓安全虚拟机，可用于逆向工程和恶意软件分析。AndroL4b 包括来自不同信息安全极客和研究人员的最新框架、教程和漏洞实验室的集合，上文提到的 Radare2 、APKTools、ByteCodeViewer、Qark 、MARA 等工具，AndroL4b 均已内置。同时还有 Android Security Sandbox 、InsecureBankv2 等漏洞实验室，可提供最新 Android 漏洞的详细信息。 | https://sourceforge.net/projects/androl4b/               |
 | [Appknox](https://www.appknox.com/)                 | 收费。Appknox是最全面的安全测试工具之一。 它会静态分析代码二进制文件，查找应用程序任何角落的潜在安全漏洞和漏洞。自动化测试只能在一定程度上提供帮助，所以Appknox将游戏提升到了一个新的水平。 它使用着名的道德黑客手动测试您的应用程序，以发现深层次的安全漏洞，敏感数据泄露以及可能受到影响的其他潜在弱点。 |                                                          |
+| [摸瓜](https://mogua.co/)                           | 在线查诈骗APP 查病毒APP 免费APK反编译分析工具，生成诊断报告，可以下载PDF报告 |                                                          |
 
 
 
@@ -55,7 +56,7 @@ tags:		[android]
 | StrandHogg 2.0                                    | New serious Android vulnerability                            | https://promon.co/resources/downloads/strandhogg-2-0-new-serious-android-vulnerability/ |
 | 安卓应用的安全和破解                              | 一个汇总安卓安全的博客小站                                   | https://book.crifan.com/books/android_app_security_crack/website/ |
 | radare2                                           | UNIX-like reverse engineering framework and command-line toolset。可以逆向分析dex/so/二进制等文件 | https://github.com/radareorg/radare2                         |
-|                                                   |                                                              |                                                              |
+| 安卓ROM                                           | [2022全球20多款知名的Android刷机ROM镜像和Android系统开源源码(覆盖全球机型)](https://mp.weixin.qq.com/s?__biz=Mzg2NzUzNzk1Mw==&mid=2247492637&idx=1&sn=6eee610c5d87cdba5aa125cbee66a942) |                                                              |
 
 
 
