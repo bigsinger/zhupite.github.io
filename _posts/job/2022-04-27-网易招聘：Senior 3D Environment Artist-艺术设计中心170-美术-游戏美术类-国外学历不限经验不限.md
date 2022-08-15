@@ -1,0 +1,40 @@
+---
+layout:	post
+category:	"job"
+title:	"网易招聘：Senior 3D Environment Artist-艺术设计中心170-美术-游戏美术类-国外学历不限经验不限"
+tags:	[网易,招聘,面试,找工作,工作,内推,美术,游戏美术类,国外,学历不限,经验不限]
+date:	2022-04-27
+---
+
+[点击应聘 投简历就有面试机会 -> Senior 3D Environment Artist-艺术设计中心170](http://mobile.bole.netease.com/bole/boleDetail?id=32090&employeeId=346f03c3cda5f04c&key=all)
+
+
+
+- **学历要求： **学历不限
+- **工作年限： **经验不限
+- **所属部门： **艺术设计中心-ARCADIANS
+- **工作城市： **国外
+- **发布日期： **2022-04-27
+
+
+
+**职位描述**
+1. Produce high-quality scene components according to project requirements;
+2. Develop documents related to outsourcing production according to style and benchmarks and control the quality of outsourcing;
+3. Make relevant optimization, editing, effect tuning and other scene-related content according to project requirements;
+4. Cooperate with other links to optimize and modify related content such as production and editing;
+
+
+
+**职位要求**
+1. Have good art skills and aesthetic ability; have the ability of model carving, texture drawing, production planning, resource optimization, engine editing, etc. for game scene production;
+2. Familiar with software 3DMAX (or maya), ZBrush, Photoshop, Substance painter, World Creator, UE4 and other related game production software;
+3. Familiar with the production process of PBR game scenes, and be able to quickly adapt and master projects with different realism and styles;
+4. For situations where the original painting is not specific, a certain amount of subjective design and tuning capabilities are required;
+5. Love games, have a persistent pursuit of game art, and have strong learning ability;
+6. Good learning and communication skills, serious and meticulous work, strict rules, a high sense of responsibility and teamwork spirit;
+7. Experience in UE4 game project development is preferred
+
+
+
+[点击应聘 投简历就有面试机会 -> Senior 3D Environment Artist-艺术设计中心170](http://mobile.bole.netease.com/bole/boleDetail?id=32090&employeeId=346f03c3cda5f04c&key=all)
