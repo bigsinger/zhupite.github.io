@@ -6,7 +6,7 @@ tags:	[网易,招聘,面试,找工作,工作,内推,美术,游戏美术类,国�
 date:	2022-05-07
 ---
 
-[点击应聘 投简历就有面试机会 -> North America Art Positions](http://mobile.bole.netease.com/bole/boleDetail?id=39631&employeeId=346f03c3cda5f04c&key=all)
+[点击应聘 投递简历就有面试机会 ->  North America Art Positions](http://mobile.bole.netease.com/bole/boleDetail?id=39631&employeeId=346f03c3cda5f04c&key=all)
 
 
 
@@ -19,18 +19,25 @@ date:	2022-05-07
 
 
 **职位描述**
+
 We are now hiring:
+
 2 * Concept Artist (Character)
+
 2 * 3D Envinronment Artist
+
 2 * 3D Character Artist
+
 1 * Lead Artists
 
 
 
 **职位要求**
+
 1. AAA games experience
+
 2. Familiar with modern engine
 
 
 
-[点击应聘 投简历就有面试机会 -> North America Art Positions](http://mobile.bole.netease.com/bole/boleDetail?id=39631&employeeId=346f03c3cda5f04c&key=all)
+[点击应聘 投递简历就有面试机会 ->  North America Art Positions](http://mobile.bole.netease.com/bole/boleDetail?id=39631&employeeId=346f03c3cda5f04c&key=all)

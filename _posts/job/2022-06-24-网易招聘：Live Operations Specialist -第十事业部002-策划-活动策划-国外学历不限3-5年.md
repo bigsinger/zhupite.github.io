@@ -6,7 +6,7 @@ tags:	[网易,招聘,面试,找工作,工作,内推,策划,活动策划,国外,�
 date:	2022-06-24
 ---
 
-[点击应聘 投简历就有面试机会 -> Live Operations Specialist -第十事业部002](http://mobile.bole.netease.com/bole/boleDetail?id=41120&employeeId=346f03c3cda5f04c&key=all)
+[点击应聘 投递简历就有面试机会 ->  Live Operations Specialist -第十事业部002](http://mobile.bole.netease.com/bole/boleDetail?id=41120&employeeId=346f03c3cda5f04c&key=all)
 
 
 
@@ -19,16 +19,21 @@ date:	2022-06-24
 
 
 **职位描述**
+
 Live op and in game event design
 
 
 
 **职位要求**
+
 SLG Game Background 
+
 In game event design experience 
+
 Live Ops exposure within the north america and europe market 
+
 US cand preferred 
 
 
 
-[点击应聘 投简历就有面试机会 -> Live Operations Specialist -第十事业部002](http://mobile.bole.netease.com/bole/boleDetail?id=41120&employeeId=346f03c3cda5f04c&key=all)
+[点击应聘 投递简历就有面试机会 ->  Live Operations Specialist -第十事业部002](http://mobile.bole.netease.com/bole/boleDetail?id=41120&employeeId=346f03c3cda5f04c&key=all)

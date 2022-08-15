@@ -6,7 +6,7 @@ tags:	[网易,招聘,面试,找工作,工作,内推,游戏,游戏美术,游戏�
 date:	2022-04-02
 ---
 
-[点击应聘 投简历就有面试机会 -> Senior Level Artist-雷火事业群807](http://mobile.bole.netease.com/bole/boleDetail?id=38973&employeeId=346f03c3cda5f04c&key=all)
+[点击应聘 投递简历就有面试机会 ->  Senior Level Artist-雷火事业群807](http://mobile.bole.netease.com/bole/boleDetail?id=38973&employeeId=346f03c3cda5f04c&key=all)
 
 
 
@@ -19,23 +19,35 @@ date:	2022-04-02
 
 
 **职位描述**
+
 •	Create worlds, maps, and large-scale open environments alike
+
 •	Help develop the pipeline and best practices with the team
+
 •	Seek feedback proactively and share your experience and knowledge freely
+
 •	Communicate frequently with the Art and Design Department in Montreal and our partners in Hangzhou
 
 
 
 **职位要求**
+
 •	Excellent artistic abilities and skills to interpret concept art and reference material
+
 •	Extensive knowledge in current generation industry-standard tools and workflows, such as Maya, Blender, Photoshop, Houdini
+
 •	Outstanding knowledge of level art, lighting, optimization, asset pipeline creation
+
 •	Experiences in real-time game engines like Unity and Unreal 5
+
 •	Curiosity for different subjects, time periods, and styles with the drive to learn and research
+
 •	Multiple games shipped with relevant production experience
+
 •	Be a true team player and help others succeed
+
 •	Professional level of organization and self-motivation
 
 
 
-[点击应聘 投简历就有面试机会 -> Senior Level Artist-雷火事业群807](http://mobile.bole.netease.com/bole/boleDetail?id=38973&employeeId=346f03c3cda5f04c&key=all)
+[点击应聘 投递简历就有面试机会 ->  Senior Level Artist-雷火事业群807](http://mobile.bole.netease.com/bole/boleDetail?id=38973&employeeId=346f03c3cda5f04c&key=all)

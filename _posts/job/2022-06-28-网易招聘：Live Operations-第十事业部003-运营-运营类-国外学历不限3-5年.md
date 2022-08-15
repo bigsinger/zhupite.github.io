@@ -6,7 +6,7 @@ tags:	[网易,招聘,面试,找工作,工作,内推,运营,运营类,国外,学�
 date:	2022-06-28
 ---
 
-[点击应聘 投简历就有面试机会 -> Live Operations-第十事业部003](http://mobile.bole.netease.com/bole/boleDetail?id=41172&employeeId=346f03c3cda5f04c&key=all)
+[点击应聘 投递简历就有面试机会 ->  Live Operations-第十事业部003](http://mobile.bole.netease.com/bole/boleDetail?id=41172&employeeId=346f03c3cda5f04c&key=all)
 
 
 
@@ -19,13 +19,15 @@ date:	2022-06-28
 
 
 **职位描述**
+
 same as 96 but without the lord of the rings passion 
 
 
 
 **职位要求**
+
 Gaming background as well as Live operations experience 
 
 
 
-[点击应聘 投简历就有面试机会 -> Live Operations-第十事业部003](http://mobile.bole.netease.com/bole/boleDetail?id=41172&employeeId=346f03c3cda5f04c&key=all)
+[点击应聘 投递简历就有面试机会 ->  Live Operations-第十事业部003](http://mobile.bole.netease.com/bole/boleDetail?id=41172&employeeId=346f03c3cda5f04c&key=all)

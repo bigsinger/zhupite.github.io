@@ -6,7 +6,7 @@ tags:	[网易,招聘,面试,找工作,工作,内推,市场,市场营销类,国�
 date:	2022-03-09
 ---
 
-[点击应聘 投简历就有面试机会 -> Southeast Asia Business Development Manager （Indonesia)-市场与渠道中心932](http://mobile.bole.netease.com/bole/boleDetail?id=38664&employeeId=346f03c3cda5f04c&key=all)
+[点击应聘 投递简历就有面试机会 ->  Southeast Asia Business Development Manager （Indonesia)-市场与渠道中心932](http://mobile.bole.netease.com/bole/boleDetail?id=38664&employeeId=346f03c3cda5f04c&key=all)
 
 
 
@@ -19,22 +19,33 @@ date:	2022-03-09
 
 
 **职位描述**
+
 1. Obtain key insights through collaborating closely with local and regional teams and identify new business opportunities for Southeast Asia game publishing.
+
 2. Initiate, develop and maintain partnerships with online\offline channels, boost the successful launch of games.
+
 3. Maintain in-depth knowledge of the Gaming landscape in order to identify opportunities to develop strategic partnerships, including channel, payment, brand partnership and etc.
 
 
 
 **职位要求**
+
 1. Bachelor's degree from established university.
+
 2. Passionate about video game and/or the broader entertainment industry.
+
 3. 1 – 5 years in business development, account management, sales, or related field within gaming industry or Internet industry is preferred.
+
 4. Ability to build and maintain rapport with key accounts and partners.
+
 5. Resource in Southeast Asian local online growth channel and offline promotion channel is highly preferred.
+
 6. Understanding of local marketing and channel networks, content development and community management is a plus.
+
 7. Language capabilities in English and/or Mandarin (additional SEA language would be advantageous).
+
 8. Multiple locations：Singapore /Thailand/Indonesia/Russia.
 
 
 
-[点击应聘 投简历就有面试机会 -> Southeast Asia Business Development Manager （Indonesia)-市场与渠道中心932](http://mobile.bole.netease.com/bole/boleDetail?id=38664&employeeId=346f03c3cda5f04c&key=all)
+[点击应聘 投递简历就有面试机会 ->  Southeast Asia Business Development Manager （Indonesia)-市场与渠道中心932](http://mobile.bole.netease.com/bole/boleDetail?id=38664&employeeId=346f03c3cda5f04c&key=all)

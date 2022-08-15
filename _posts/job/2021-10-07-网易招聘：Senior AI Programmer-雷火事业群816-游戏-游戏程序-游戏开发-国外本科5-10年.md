@@ -6,7 +6,7 @@ tags:	[网易,招聘,面试,找工作,工作,内推,游戏,游戏程序,游戏�
 date:	2021-10-07
 ---
 
-[点击应聘 投简历就有面试机会 -> Senior AI Programmer-雷火事业群816](http://mobile.bole.netease.com/bole/boleDetail?id=27191&employeeId=346f03c3cda5f04c&key=all)
+[点击应聘 投递简历就有面试机会 ->  Senior AI Programmer-雷火事业群816](http://mobile.bole.netease.com/bole/boleDetail?id=27191&employeeId=346f03c3cda5f04c&key=all)
 
 
 
@@ -19,35 +19,59 @@ date:	2021-10-07
 
 
 **职位描述**
+
 Job Description
+
 NetEase Games Montreal is a division of NetEase Games, a leading game developer and publisher focusing on delivering top quality mobile and online gaming experiences. We’re currently looking for Senior AI Programmer for our next AAA project to bring AI characters and behaviors to life.
 
+
+
 Job Responsibilities:
+
 •	Analyze and understand the project’s AI related intentions, in order to assess their technical feasibility, define and then implement the required features
+
 •	Take in charge part of the AI system improvement especially navigation, behavior trees, tactical positioning and task planning
+
 •	Discuss technical constraints with designers and animators and propose solutions
+
 •	Collaborate with the team to design and architect AI systems
+
 •	Support the AI features and systems designed for production
+
 •	Capable of quick iteration and feedback loops while working with the team
 
 
 
 **职位要求**
+
 Qualifications:
+
 •	6+ years ai/gameplay development experience
+
 •	Minimum of 1 published AAA title
+
 •	Excellent C++/C# proficiency
+
 •	Experience with architecting AI systems such as navigation, behavior trees and task planning
+
 •	Strong math skills, knowledge of vectors, matrices, and linear algebra
+
 •	Experience with multi-threaded programming paradigms
+
 •	Experience with data-oriented programming paradigms is a plus
+
 •	Experience with Unity is a plus
 
+
+
 Other Requirements:
+
 •	Strong communication skills
+
 •	Self-driven
+
 •	Leadership
 
 
 
-[点击应聘 投简历就有面试机会 -> Senior AI Programmer-雷火事业群816](http://mobile.bole.netease.com/bole/boleDetail?id=27191&employeeId=346f03c3cda5f04c&key=all)
+[点击应聘 投递简历就有面试机会 ->  Senior AI Programmer-雷火事业群816](http://mobile.bole.netease.com/bole/boleDetail?id=27191&employeeId=346f03c3cda5f04c&key=all)

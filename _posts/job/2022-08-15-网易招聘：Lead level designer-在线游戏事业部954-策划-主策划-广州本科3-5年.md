@@ -6,7 +6,7 @@ tags:	[网易,招聘,面试,找工作,工作,内推,策划,主策划,广州,本�
 date:	2022-08-15
 ---
 
-[点击应聘 投简历就有面试机会 -> Lead level designer-在线游戏事业部954](http://mobile.bole.netease.com/bole/boleDetail?id=39322&employeeId=346f03c3cda5f04c&key=all)
+[点击应聘 投递简历就有面试机会 ->  Lead level designer-在线游戏事业部954](http://mobile.bole.netease.com/bole/boleDetail?id=39322&employeeId=346f03c3cda5f04c&key=all)
 
 
 
@@ -19,20 +19,29 @@ date:	2022-08-15
 
 
 **职位描述**
+
 Job responsibilities:
+
 1. Design and develop levels for a 3D action game
+
 2. Lead and mentor a team of level designers, to complete the level design of a 3D action game project
+
 3. Identify requirements to enhance production quality.
+
 Cooperate with team members to establish workflows, and introduce     technical requirements.
 
 
 
 
+
 **职位要求**
+
 Job requirements:
+
 1. Proven years of experience as a level designer on AA, AAA console games (published)
+
 2. Skillful at English, knowledge of Chinese, Japanese or French is welcome
 
 
 
-[点击应聘 投简历就有面试机会 -> Lead level designer-在线游戏事业部954](http://mobile.bole.netease.com/bole/boleDetail?id=39322&employeeId=346f03c3cda5f04c&key=all)
+[点击应聘 投递简历就有面试机会 ->  Lead level designer-在线游戏事业部954](http://mobile.bole.netease.com/bole/boleDetail?id=39322&employeeId=346f03c3cda5f04c&key=all)

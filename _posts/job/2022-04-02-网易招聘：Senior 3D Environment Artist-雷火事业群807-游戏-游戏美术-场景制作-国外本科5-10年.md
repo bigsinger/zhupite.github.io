@@ -6,7 +6,7 @@ tags:	[网易,招聘,面试,找工作,工作,内推,游戏,游戏美术,场景�
 date:	2022-04-02
 ---
 
-[点击应聘 投简历就有面试机会 -> Senior 3D Environment Artist-雷火事业群807](http://mobile.bole.netease.com/bole/boleDetail?id=38972&employeeId=346f03c3cda5f04c&key=all)
+[点击应聘 投递简历就有面试机会 ->  Senior 3D Environment Artist-雷火事业群807](http://mobile.bole.netease.com/bole/boleDetail?id=38972&employeeId=346f03c3cda5f04c&key=all)
 
 
 
@@ -19,23 +19,35 @@ date:	2022-04-02
 
 
 **职位描述**
+
 •	Create the full scope of Assets to make our world brim with excitement and life
+
 •	Take part in the conceptualization of the levels and have your artistic voice heard in close communication with everyone involved
+
 •	Help develop the pipeline and best practices with the team
+
 •	Seek feedback proactively and share your experience and knowledge freely
+
 •	Communicate frequently with the Art and Design Department in Montreal and our partners in Hangzhou
 
 
 
 **职位要求**
+
 •	Excellent artistic abilities and skills to interpret concept art and reference material to create highly realistic environments
+
 •	Extensive knowledge in current generation industry-standard tools and workflows, such as Maya, Blender, Photoshop, and Photogrammetry
+
 •	Outstanding knowledge to create modular sets and unique landmarks alike
+
 •	Experiences in real-time game engines like Unity and Unreal 5
+
 •	Multiple games shipped with relevant production experience from start to finish
+
 •	Be a true team player and help others succeed
+
 •	Professional level of organization and self-motivation
 
 
 
-[点击应聘 投简历就有面试机会 -> Senior 3D Environment Artist-雷火事业群807](http://mobile.bole.netease.com/bole/boleDetail?id=38972&employeeId=346f03c3cda5f04c&key=all)
+[点击应聘 投递简历就有面试机会 ->  Senior 3D Environment Artist-雷火事业群807](http://mobile.bole.netease.com/bole/boleDetail?id=38972&employeeId=346f03c3cda5f04c&key=all)

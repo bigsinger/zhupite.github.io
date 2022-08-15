@@ -6,7 +6,7 @@ tags:	[网易,招聘,面试,找工作,工作,内推,用户体验,用户研究类
 date:	2022-08-04
 ---
 
-[点击应聘 投简历就有面试机会 -> NetEase Game User Experience Researcher Intern- Los Angeles,USA   ](http://mobile.bole.netease.com/bole/boleDetail?id=37781&employeeId=346f03c3cda5f04c&key=all)
+[点击应聘 投递简历就有面试机会 ->  NetEase Game User Experience Researcher Intern- Los Angeles,USA   ](http://mobile.bole.netease.com/bole/boleDetail?id=37781&employeeId=346f03c3cda5f04c&key=all)
 
 
 
@@ -19,19 +19,27 @@ date:	2022-08-04
 
 
 **职位描述**
+
 -Assist in recruiting players for game playtest and player interview.
+
 -Assist in executing studies to learn user behaviors by means of quantitative and qualitative research including playtest, surveys and user interviews.
+
 -Pay close attention to game localizations in North America, and partner with designers and producers from development team to improve user experience.
 
 
 
 
+
 **职位要求**
+
 -Excellent communication and interpersonal skills, with enthusiasm to talk with game players
+
 -Positive attitudes towards challenging work
+
 -Familiar with basic user research practices and multiple tools
+
 -(Not mandatory) Enjoy games and show strong interest in several certain game genres while open to new games
 
 
 
-[点击应聘 投简历就有面试机会 -> NetEase Game User Experience Researcher Intern- Los Angeles,USA   ](http://mobile.bole.netease.com/bole/boleDetail?id=37781&employeeId=346f03c3cda5f04c&key=all)
+[点击应聘 投递简历就有面试机会 ->  NetEase Game User Experience Researcher Intern- Los Angeles,USA   ](http://mobile.bole.netease.com/bole/boleDetail?id=37781&employeeId=346f03c3cda5f04c&key=all)
