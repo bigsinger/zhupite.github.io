@@ -10,7 +10,7 @@ permalink: /wiki/
 
 # 定期更新，长期有效，欢迎上传简历
 
-- 猛戳链接：[网易招聘内部职位推荐](https://zhupite.com/job/nejobs.html)
+- 猛戳链接：[网易招聘内部职位推荐](https://zhupite.com/categories/#job)
 
 
 
