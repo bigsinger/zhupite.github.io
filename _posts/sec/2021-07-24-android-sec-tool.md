@@ -32,31 +32,33 @@ tags:		[android]
 
 # 综合工具
 
-| 名称                                              | 简介                                                         | 相关资料                                                     |
-| ------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| 安卓右键工具                                      | 集成到Windows系统菜单，右键操作安卓相关，方便快捷。          | [APKmenuTOOL - 安卓右键工具](https://github.com/bigsinger/APKmenuTOOL)、[CustomContextMenu: 自定义Windows系统右键菜单工具](https://github.com/bigsinger/CustomContextMenu) |
-| AndLayoutInspector                                | 安卓界面布局获取分析工具（uiautomation tool），C#语言编写。  | [界面布局分析 AndLayoutInspector](https://github.com/inckie/AndLayoutInspector) |
-| AppMethodOrder                                    | 一个能让你了解所有函数调用顺序以及函数耗时的Android库（无需侵入式代码） | [AppMethodOrder](https://github.com/zjw-swun/AppMethodOrder) |
-| apk-signature-verify                              | Python校验apk签名，jar Signature / APK Signature v2 verify with pure python (support rsa dsa ecdsa) | [apk-signature-verify](https://github.com/shuxin/apk-signature-verify) |
-| AmBinaryEditor                                    | AndroidManifest二进制修改工具。新增、修改、删除指定名字的tag或者该tag的attr | [AmBinaryEditor（AndroidManifest二进制修改工具介绍）](http://ele7enxxh.com/AndroidManifest-Binary-Editor.html)、[AndroidManifest二进制文件格式分析](https://bbs.pediy.com/thread-194206.htm) |
-| MT Manager（MT管理器）                            | 过签名工具。文件管理、APK编辑功能，在手机上高效地进行各种文件操作以及修改安卓软件。 | [MT管理器](http://binmt.cc)                                  |
-| NP-Manager                                        | 超级混淆。过签名工具。                                       | https://github.com/githubXiaowangzi/NP-Manager               |
-| ArmPro                                            | 过签名工具。脱壳工具                                         |                                                              |
-| CNFIX                                             | 过签名工具。                                                 |                                                              |
-| MODEX                                             | 过签名工具。                                                 |                                                              |
-| AndroidManifestFix                                | AndroidManifest.xml文件修复工具。用于修复AXML文件中属性名称缺失的问题。 | https://github.com/zylc369/AndroidManifestFix                |
-| FreeProGuard                                      | Config proguard for common Android libraries.                | https://github.com/Blankj/FreeProGuard                       |
-| [BlackBox](https://github.com/FBlackBox/BlackBox) | BlackBox（黑盒）是一款虚拟引擎，可以在 Android 上克隆和运行虚拟应用，拥有免安装运行能力。黑盒可以控制被运行的虚拟应用，做任何想做的事情。 |                                                              |
-| 太极                                              | 多开器、虚拟空间                                             |                                                              |
-| VirtualApp                                        |                                                              |                                                              |
-| VMOS                                              | VMOS（虚拟大师）是一款以Virtual Machine(简称VM，即虚拟机)技术为主的APP(安卓应用软件）。通过VM技术，把开源的安卓系统(支持任意版本)，无需root，以普通应用安装的形式运行到任意版本的linux或安卓系统上。 |                                                              |
-| Magisk                                            |                                                              |                                                              |
-| AssetStudio                                       | unity游戏破解工具：AssetStudio is a tool for exploring, extracting and exporting assets and assetbundles. | https://github.com/Perfare/AssetStudio                       |
-| r0capture                                         | 安卓应用层抓包通杀脚本                                       | https://github.com/r0ysue/r0capture                          |
-| StrandHogg 2.0                                    | New serious Android vulnerability                            | https://promon.co/resources/downloads/strandhogg-2-0-new-serious-android-vulnerability/ |
-| 安卓应用的安全和破解                              | 一个汇总安卓安全的博客小站                                   | https://book.crifan.com/books/android_app_security_crack/website/ |
-| radare2                                           | UNIX-like reverse engineering framework and command-line toolset。可以逆向分析dex/so/二进制等文件 | https://github.com/radareorg/radare2                         |
-| 安卓ROM                                           | [2022全球20多款知名的Android刷机ROM镜像和Android系统开源源码(覆盖全球机型)](https://mp.weixin.qq.com/s?__biz=Mzg2NzUzNzk1Mw==&mid=2247492637&idx=1&sn=6eee610c5d87cdba5aa125cbee66a942) |                                                              |
+| 名称                                                         | 简介                                                         | 相关资料                                                     |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 安卓右键工具                                                 | 集成到Windows系统菜单，右键操作安卓相关，方便快捷。          | [APKmenuTOOL - 安卓右键工具](https://github.com/bigsinger/APKmenuTOOL)、[CustomContextMenu: 自定义Windows系统右键菜单工具](https://github.com/bigsinger/CustomContextMenu) |
+| [Apk Easy Tool](https://www.filehorse.com/download-apk-easy-tool/) | **Apk Easy Tool** is an amazing Windows program that enables you to manage, sign, compile, or decompile your [**APK files**](https://www.filehorse.com/download-apk-downloader/) for your great apps! |                                                              |
+| [AnLink安联](https://cn.anlinksoft.com/)                     | 安全,轻松地在PC上操作手机。支持所有品牌的Android手机,WiFi和USB连接,多点触控,共享剪贴板等。 |                                                              |
+| AndLayoutInspector                                           | 安卓界面布局获取分析工具（uiautomation tool），C#语言编写。  | [界面布局分析 AndLayoutInspector](https://github.com/inckie/AndLayoutInspector) |
+| AppMethodOrder                                               | 一个能让你了解所有函数调用顺序以及函数耗时的Android库（无需侵入式代码） | [AppMethodOrder](https://github.com/zjw-swun/AppMethodOrder) |
+| apk-signature-verify                                         | Python校验apk签名，jar Signature / APK Signature v2 verify with pure python (support rsa dsa ecdsa) | [apk-signature-verify](https://github.com/shuxin/apk-signature-verify) |
+| AmBinaryEditor                                               | AndroidManifest二进制修改工具。新增、修改、删除指定名字的tag或者该tag的attr | [AmBinaryEditor（AndroidManifest二进制修改工具介绍）](http://ele7enxxh.com/AndroidManifest-Binary-Editor.html)、[AndroidManifest二进制文件格式分析](https://bbs.pediy.com/thread-194206.htm) |
+| MT Manager（MT管理器）                                       | 过签名工具。文件管理、APK编辑功能，在手机上高效地进行各种文件操作以及修改安卓软件。 | [MT管理器](http://binmt.cc)                                  |
+| NP-Manager                                                   | 超级混淆。过签名工具。                                       | https://github.com/githubXiaowangzi/NP-Manager               |
+| ArmPro                                                       | 过签名工具。脱壳工具                                         |                                                              |
+| CNFIX                                                        | 过签名工具。                                                 |                                                              |
+| MODEX                                                        | 过签名工具。                                                 |                                                              |
+| AndroidManifestFix                                           | AndroidManifest.xml文件修复工具。用于修复AXML文件中属性名称缺失的问题。 | https://github.com/zylc369/AndroidManifestFix                |
+| FreeProGuard                                                 | Config proguard for common Android libraries.                | https://github.com/Blankj/FreeProGuard                       |
+| [BlackBox](https://github.com/FBlackBox/BlackBox)            | BlackBox（黑盒）是一款虚拟引擎，可以在 Android 上克隆和运行虚拟应用，拥有免安装运行能力。黑盒可以控制被运行的虚拟应用，做任何想做的事情。 |                                                              |
+| 太极                                                         | 多开器、虚拟空间                                             |                                                              |
+| VirtualApp                                                   |                                                              |                                                              |
+| VMOS                                                         | VMOS（虚拟大师）是一款以Virtual Machine(简称VM，即虚拟机)技术为主的APP(安卓应用软件）。通过VM技术，把开源的安卓系统(支持任意版本)，无需root，以普通应用安装的形式运行到任意版本的linux或安卓系统上。 |                                                              |
+| Magisk                                                       |                                                              |                                                              |
+| AssetStudio                                                  | unity游戏破解工具：AssetStudio is a tool for exploring, extracting and exporting assets and assetbundles. | https://github.com/Perfare/AssetStudio                       |
+| r0capture                                                    | 安卓应用层抓包通杀脚本                                       | https://github.com/r0ysue/r0capture                          |
+| StrandHogg 2.0                                               | New serious Android vulnerability                            | https://promon.co/resources/downloads/strandhogg-2-0-new-serious-android-vulnerability/ |
+| 安卓应用的安全和破解                                         | 一个汇总安卓安全的博客小站                                   | https://book.crifan.com/books/android_app_security_crack/website/ |
+| radare2                                                      | UNIX-like reverse engineering framework and command-line toolset。可以逆向分析dex/so/二进制等文件 | https://github.com/radareorg/radare2                         |
+| 安卓ROM                                                      | [2022全球20多款知名的Android刷机ROM镜像和Android系统开源源码(覆盖全球机型)](https://mp.weixin.qq.com/s?__biz=Mzg2NzUzNzk1Mw==&mid=2247492637&idx=1&sn=6eee610c5d87cdba5aa125cbee66a942) |                                                              |
 
 
 
@@ -115,26 +117,29 @@ tags:		[android]
 
   
 
-# 脱壳工具
+# 查壳脱壳
 
-- [BlackDex](https://github.com/CodingGay/BlackDex): BlackDex是一个运行在Android手机上的脱壳工具，支持5.0～12，无需依赖任何环境任何手机都可以使用，包括模拟器。只需几秒，即可对已安装包括未安装的APK进行脱壳。
-- [ApkPecker自动化DEX-VMP脱壳功能全新上线](https://mp.weixin.qq.com/s/ppnvwwd9k6hP_xK364ydfg)（腾讯科恩实验室），[ApkPecker脱壳服务FAQ](https://docs.qq.com/doc/DRmVBbWtHcmNPYWxO)，[ApkPecker](https://apkpecker.qq.com/)（面向攻击面的Android应用自动化检测系统）
-- [AUPK](https://bbs.pediy.com/thread-266716.htm)：基于Art虚拟机的脱壳机，[AUPK](https://github.com/FeJQ/AUPK)，[DexPatcher: 修复脱壳后的dex文件](https://github.com/FeJQ/DexPatcher)
-- [FRIDA-DEXDump: Fast search and dump dex on memory.](https://github.com/hluwa/FRIDA-DEXDump)
-- [frida-unpack: 基于Frida的脱壳工具](https://github.com/dstmath/frida-unpack)
-- [unpacker](https://github.com/youlor/unpacker): 基于ART主动调用的脱壳机
-- [将FART和Youpk结合来做一次针对函数抽取壳的全面提升](https://bbs.pediy.com/thread-260052.htm)
-- 安卓查壳工具：[rednaga/APKiD: Android Application Identifier for Packers, Protectors, Obfuscators and Oddities - PEiD for Android](https://github.com/rednaga/APKiD)
-- Xposed反射大师 脱壳
-- [DumpDex: 💯一款Android脱壳工具，需要xposed支持, 易开发已集成该项目](https://github.com/WrBug/dumpDex)  用来从运行中的安卓app中导出dex文件的工具。
-- [strazzere/android-unpacker: Android Unpacker presented at Defcon 22: Android Hacker Protection Level 0](https://github.com/strazzere/android-unpacker)
-- [zyq8709/DexHunter: General Automatic Unpacking Tool for Android Dex Files](https://github.com/zyq8709/DexHunter)
-- FDex2：用来从运行中的安卓app中导出dex文件的工具
-- [drizzleDumper: drizzleDumper是一款基于内存搜索的Android脱壳工具。](https://github.com/DrizzleRisk/drizzleDumper)
-- [DexExtractor 用于破解邦邦加密的安卓dex文件提取器](https://github.com/lambdalang/DexExtractor)
-- [FUPK3](https://github.com/F8LEFT/FUPK3): 演示视频https://pan.baidu.com/s/1HH_-TQGca1NLoSqzvOPB3Q 密码：izm3
-- [drizzleDumper](https://github.com/DrizzleRisk/drizzleDumper#drizzledumper): drizzleDumper是一款基于内存搜索的Android脱壳工具。
-- [DexHunter](https://github.com/zyq8709/DexHunter): General Automatic Unpacking Tool for Android Dex Files
+| 名称                                                         | 简介                                                         |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [XAPKDetector](https://github.com/horsicq/XAPKDetector)      | 安卓查壳工具                                                 |
+| [BlackDex](https://github.com/CodingGay/BlackDex)            | BlackDex是一个运行在Android手机上的脱壳工具，支持5.0～12，无需依赖任何环境任何手机都可以使用，包括模拟器。只需几秒，即可对已安装包括未安装的APK进行脱壳。 |
+| [AUPK](https://bbs.pediy.com/thread-266716.htm)              | 基于Art虚拟机的脱壳机，[AUPK](https://github.com/FeJQ/AUPK)，[DexPatcher: 修复脱壳后的dex文件](https://github.com/FeJQ/DexPatcher) |
+| [ApkPecker](https://mp.weixin.qq.com/s/ppnvwwd9k6hP_xK364ydfg) | 自动化DEX-VMP脱壳功能全新上线（腾讯科恩实验室），[ApkPecker脱壳服务FAQ](https://docs.qq.com/doc/DRmVBbWtHcmNPYWxO)，[ApkPecker](https://apkpecker.qq.com/)（面向攻击面的Android应用自动化检测系统） |
+| [FRIDA-DEXDump](https://github.com/hluwa/FRIDA-DEXDump)      | Fast search and dump dex on memory.                          |
+| [APKiD](https://github.com/rednaga/APKiD)                    | 安卓查壳工具，Android Application Identifier for Packers, Protectors, Obfuscators and Oddities - PEiD for Android |
+| [frida-unpack](https://github.com/dstmath/frida-unpack)      | 基于Frida的脱壳工具                                          |
+| Xposed反射大师                                               |                                                              |
+| [unpacker](https://github.com/youlor/unpacker)               | 基于ART主动调用的脱壳机                                      |
+| [DumpDex](https://github.com/WrBug/dumpDex)                  | 一款Android脱壳工具，需要xposed支持, 易开发已集成该项目。用来从运行中的安卓app中导出dex文件的工具。 |
+| [android-unpacker](https://github.com/strazzere/android-unpacker) | Android Unpacker presented at Defcon 22: Android Hacker Protection Level 0 |
+| [DexHunter](https://github.com/zyq8709/DexHunter)            | General Automatic Unpacking Tool for Android Dex Files       |
+| FDex2                                                        | 用来从运行中的安卓app中导出dex文件的工具                     |
+| [drizzleDumper](https://github.com/DrizzleRisk/drizzleDumper) | drizzleDumper是一款基于内存搜索的Android脱壳工具。           |
+| [DexExtractor                                                | 用于破解邦邦加密的安卓dex文件提取器                          |
+| [FUPK3](https://github.com/F8LEFT/FUPK3)                     | 演示视频https://pan.baidu.com/s/1HH_-TQGca1NLoSqzvOPB3Q 密码：izm3 |
+|                                                              | [将FART和Youpk结合来做一次针对函数抽取壳的全面提升](https://bbs.pediy.com/thread-260052.htm) |
+|                                                              |                                                              |
+|                                                              |                                                              |
 
 
 
