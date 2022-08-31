@@ -29,3 +29,15 @@ aria2因为是命令行模式，使用起来不是很方便，可以用一些基
 
 
 
+# FileCentipede
+
+[FileCentipede](https://github.com/filecxx/FileCentipede)：文件蜈蚣(FileCentipede) – 支持迅雷、磁力链、BT等协议的全能下载工具。
+
+
+
+# Hitomi-Downloader
+
+[Hitomi-Downloader](https://github.com/KurtBestor/Hitomi-Downloader)：Python 写的桌面下载工具。界面简单使用方便，拥有下载限速、BT 种子、自动提取网页视频等功能，支持下载国内多个视频网站的内容。
+
+
+
