@@ -102,20 +102,20 @@ tags:		[android]
 
 # HOOK工具
 
-| 名称            | 简介                                                         | 相关资料                                             |
-| --------------- | ------------------------------------------------------------ | ---------------------------------------------------- |
-| frida           |                                                              | https://github.com/frida/                            |
-| Cydia Substrate |                                                              | http://www.cydiasubstrate.com/                       |
-| Xposed          |                                                              |                                                      |
-| EDXposed        |                                                              |                                                      |
-| LSPosed         | 完全取代EDXposed                                             |                                                      |
-| VirtualXposed   |                                                              |                                                      |
-| FakeXposed      | Xposed隐藏器                                                 |                                                      |
-| JustTrustMe     | 基于Xposed写的可以绕过SSL Pinning检测的工具                  | https://github.com/Fuzion24/JustTrustMe              |
-| Inspeckage      | 基于Xposed写的动态分析工具，Hook了大量逆向时常见的方法，如Crypto、Hash，这两个类型在破解大部分APP的加密参数时可以说是降维打击，因为大部分APP的加密参数都逃不过MD5、SHA1、AES、DES这四种，而它们都被Hook了（不仅仅只有这四种）。基本上就是打开Inspeckage再打开它的Web端，然后打开指定的APP操作一下，一个搜索，加密参数就原形毕露了 | https://github.com/ac-pm/Inspeckage                  |
-| Objection       | objection是基于Frida的一个工具,可以方便我们直接找出apk中需要HOOK的方法，还可以打印函数的参数、返回值以及栈调用等，是辅助编写Frida脚本的好工具。 | https://github.com/sensepost/objection               |
-| PMS AMS HOOK    | 插件化框架 PMS AMS HOOK。demos to help understand plugin framwork | https://github.com/tiann/understand-plugin-framework |
-| UCrack          | 基于Xposed写的辅助工具，集成了自动网络抓包、网络堆栈爆破、文件日志、WebView调试环境、自动脱壳、Native函数注册监控、记录程序自杀堆栈等功能 |                                                      |
+| 名称                                                   | 简介                                                         |
+| ------------------------------------------------------ | ------------------------------------------------------------ |
+| [frida](https://github.com/frida/)                     |                                                              |
+| [Cydia Substrate](http://www.cydiasubstrate.com/)      |                                                              |
+| Xposed                                                 |                                                              |
+| EDXposed                                               |                                                              |
+| [LSPosed](https://github.com/LSPosed/LSPosed)          | 完全取代EDXposed                                             |
+| VirtualXposed                                          |                                                              |
+| FakeXposed                                             | Xposed隐藏器                                                 |
+| [JustTrustMe](https://github.com/Fuzion24/JustTrustMe) | 基于Xposed写的可以绕过SSL Pinning检测的工具                  |
+| [Inspeckage](https://github.com/ac-pm/Inspeckage)      | 基于Xposed写的动态分析工具，Hook了大量逆向时常见的方法，如Crypto、Hash，这两个类型在破解大部分APP的加密参数时可以说是降维打击，因为大部分APP的加密参数都逃不过MD5、SHA1、AES、DES这四种，而它们都被Hook了（不仅仅只有这四种）。基本上就是打开Inspeckage再打开它的Web端，然后打开指定的APP操作一下，一个搜索，加密参数就原形毕露了 |
+| [Objection](https://github.com/sensepost/objection)    | objection是基于Frida的一个工具,可以方便我们直接找出apk中需要HOOK的方法，还可以打印函数的参数、返回值以及栈调用等，是辅助编写Frida脚本的好工具。 |
+| PMS AMS HOOK                                           | 插件化框架 PMS AMS HOOK。[demos to help understand plugin framwork](https://github.com/tiann/understand-plugin-framework) |
+| UCrack                                                 | 基于Xposed写的辅助工具，集成了自动网络抓包、网络堆栈爆破、文件日志、WebView调试环境、自动脱壳、Native函数注册监控、记录程序自杀堆栈等功能 |
 
 - [Android-Inline-Hook](https://github.com/ele7enxxh/Android-Inline-Hook)
 
