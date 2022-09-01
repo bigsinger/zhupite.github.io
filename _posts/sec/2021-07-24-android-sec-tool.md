@@ -72,27 +72,28 @@ tags:		[android]
 
 # 反编译工具
 
-| 名称                                                         | 简介                                                         | 相关资料                                                     |
-| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| IDA                                                          |                                                              | https://www.hex-rays.com/products/ida/news/ 、 https://www.hex-rays.com/products/ida/ 、 https://ida2020.org/ |
-| jadx                                                         | JADX 是一个 Dex 到 Java 的反编译器， 用于从 Android Dex 和 Apk 文件生成 Java 源代码，有命令行和 GUI 两个版本。JADX 的主要功能是从 APK、dex、aar、aab 和 zip 文件将 Dalvik 字节码反编译为 java 类，自带去混淆器。JADX-GUI 版本还支持以高亮语法查看反编译的代码、提供用法指引、全文检索和 smali 调试器等功能。 | [jadx: Dex to Java decompiler](https://github.com/skylot/jadx) |
-| JEB                                                          |                                                              | https://www.pnfsoftware.com/                                 |
-| Apktool                                                      | Apktool 是一个用于逆向工程第三方、封闭二进制 Android 应用程序的工具。它可以用来从 Android 的 apk 安装程序中提取各种资源，将资源分解为几乎原始的形式（比如 resources.arsc、classes.dex和 9.png.XMLs），并对这些资源进行修改和重新打包。Apktool 可用于 也可将解码的资源重建回二进制 APK/JAR 文件，由于它支持自动化的 APK 构建，因此也可以用来完成一些重复的 APK 构建任务。Apktool 可用于应用的本地化、往应用中添加一些功能、使应用支持自定义平台、或分析学习应用程序内部结构等用途， 不适用于盗版和其他非法用途。 | https://github.com/iBotPeaches/Apktool                       |
-| smali/baksmali                                               |                                                              | [smali: smali/baksmali](https://github.com/JesusFreke/smali) |
-| dex2jar                                                      | Tools to work with android .dex and java .class files        | https://github.com/pxb1988/dex2jar                           |
-| jd-gui                                                       | A standalone Java Decompiler GUI                             | https://github.com/java-decompiler/jd-gui                    |
-| Luyten                                                       | An Open Source Java Decompiler Gui for Procyon               | https://github.com/deathmarine/Luyten                        |
-| [DeGuard](http://apk-deguard.com/)                           | 在线安卓反混淆工具，理论上ProGurad混淆的代码 80% 都可以恢复出来。它使用机器学习来扭转代码混淆器的影响。DeGuard利用人工智能的优势提供出色的逆向工程。 |                                                              |
-| [androguard](https://github.com/androguard/androguard)       | Androguard是一款功能强大且维护良好的用于Python的反向工程工具。 它可以给你很多控制操作你的应用程序的DEX文件。 它还可以帮助您执行静态代码分析并诊断您的应用程序是否存在恶意软件。它还附带了其他有用的功能，例如检查两个Android Package Kit（APK）文件的“差异”，测量各种混淆器（如ProGuard和DexGuard）的效率，并检查被测试的应用程序是否被非法修改或篡改用。 |                                                              |
-| [ClassyShark](https://github.com/google/android-classyshark) | ClassyShark是一款简单易用的Android二进制检测工具。 您可以浏览所有类，成员和依赖项，并轻松检查任何应用程序的方法数量。 我发现ClassyShark能够与任何应用程序完美协作。它还具有便于浏览的便捷软件包式文件结构。 “Methods Count”选项卡是真正的生命保护程序，可以告诉您每个软件包对您的应用程序贡献的方法数量。 |                                                              |
-| reko                                                         | C#开源项目-二进制文件的反编译器                              | https://github.com/uxmal/reko                                |
-| GDA                                                          | GJoy Dex Analyzer(GDA)，中国第一款也是唯一一款全交互式的现代反编译器，同时也是世界上最早实现的dalvik字节码反编译器。 GDA不只是一款反编译器，同时也是一款轻便且功能强大的综合性逆向分析利器，其不依赖java且支持apk, dex, odex, oat, jar, class, aar文件的反编译， 支持python及java脚本自动化分析。其包含多个由作者独立研究的高速分析引擎:反编译引擎、漏洞检测引擎、 恶意行为检测引擎、污点传播分析引擎、反混淆引擎、apk壳检测引擎等等 | http://www.gda.wiki:9090/                                    |
-| TTDeDroid                                                    | 一键反编译工具(不需要手动安装Python) One key for quickly decompile apk/aar/dex/jar, support by jadx/dex2jar/enjarify. | https://github.com/tp7309/TTDeDroid                          |
-| Smali2JavaUI                                                 | tool-pc-windows-gui-smali2java-a-tool-decompile-smali-to-java | https://forum.xda-developers.com/showthread.php?t=2430413    |
-| Bytecode Viewer                                              | Bytecode Viewer (字节码查看器) 是一个高级轻量级 Java/Android 逆向工程套件，可以分析 Java 8+ Jar 文件 和 Android APK 文件。Bytecode Viewer 内置 6 个 Java 反编译器：Krakatau、CFR、Procyon、FernFlower、JADX、JD-GUI；和 3 个内置字节码反汇编器，包括 2 个汇编器：Krakatau 和 Smali/BakSmali ；以及 Dex2Jar 和 Enjarify 这两个 APK/DEX 转换器，同时拥有高级搜索、调试等功能。 | https://github.com/Konloch/bytecode-viewer                   |
-| wxUnpacker                                                   | 小程序反编译工具 , 现已被封，但有其他fork版本                | https://github.com/geilige/wxappUnpacker                     |
-| ManifestEditor                                               | modify Android Manifest binary file.                         | https://github.com/WindySha/ManifestEditor                   |
-| [x-DecompilerWxApkgTool](https://gitee.com/xwintop/x-DecompilerWxApkgTool) | DecompilerWxApkgTool是使用javafx开发的一款微信小程序反编译工具，从微信小程序（小游戏）中获取压缩包，反编译其中的编码及资源 |                                                              |
+| 名称                                                         | 简介                                                         |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| IDA                                                          | https://www.hex-rays.com/products/ida/news/ 、 https://www.hex-rays.com/products/ida/ 、 https://ida2020.org/ |
+| [jadx](https://github.com/skylot/jadx)                       | JADX 是一个 Dex 到 Java 的反编译器， 用于从 Android Dex 和 Apk 文件生成 Java 源代码，有命令行和 GUI 两个版本。JADX 的主要功能是从 APK、dex、aar、aab 和 zip 文件将 Dalvik 字节码反编译为 java 类，自带去混淆器。JADX-GUI 版本还支持以高亮语法查看反编译的代码、提供用法指引、全文检索和 smali 调试器等功能。 |
+| [JEB](https://www.pnfsoftware.com/)                          |                                                              |
+| [Apktool](https://github.com/iBotPeaches/Apktool)            | Apktool 是一个用于逆向工程第三方、封闭二进制 Android 应用程序的工具。它可以用来从 Android 的 apk 安装程序中提取各种资源，将资源分解为几乎原始的形式（比如 resources.arsc、classes.dex和 9.png.XMLs），并对这些资源进行修改和重新打包。Apktool 可用于 也可将解码的资源重建回二进制 APK/JAR 文件，由于它支持自动化的 APK 构建，因此也可以用来完成一些重复的 APK 构建任务。Apktool 可用于应用的本地化、往应用中添加一些功能、使应用支持自定义平台、或分析学习应用程序内部结构等用途， 不适用于盗版和其他非法用途。 |
+| [smali/baksmali](smali/baksmali)                             |                                                              |
+| [dex2jar](https://github.com/pxb1988/dex2jar)                | Tools to work with android .dex and java .class files        |
+| [jd-gui](https://github.com/java-decompiler/jd-gui)          | A standalone Java Decompiler GUI                             |
+| [Luyten](https://github.com/deathmarine/Luyten)              | An Open Source Java Decompiler Gui for Procyon               |
+| [DeGuard](http://apk-deguard.com/)                           | 在线安卓反混淆工具，理论上ProGurad混淆的代码 80% 都可以恢复出来。它使用机器学习来扭转代码混淆器的影响。DeGuard利用人工智能的优势提供出色的逆向工程。 |
+| [androguard](https://github.com/androguard/androguard)       | Androguard是一款功能强大且维护良好的用于Python的反向工程工具。 它可以给你很多控制操作你的应用程序的DEX文件。 它还可以帮助您执行静态代码分析并诊断您的应用程序是否存在恶意软件。它还附带了其他有用的功能，例如检查两个Android Package Kit（APK）文件的“差异”，测量各种混淆器（如ProGuard和DexGuard）的效率，并检查被测试的应用程序是否被非法修改或篡改用。 |
+| [ClassyShark](https://github.com/google/android-classyshark) | ClassyShark是一款简单易用的Android二进制检测工具。 您可以浏览所有类，成员和依赖项，并轻松检查任何应用程序的方法数量。 我发现ClassyShark能够与任何应用程序完美协作。它还具有便于浏览的便捷软件包式文件结构。 “Methods Count”选项卡是真正的生命保护程序，可以告诉您每个软件包对您的应用程序贡献的方法数量。 |
+| [reko](https://github.com/uxmal/reko)                        | C#开源项目-二进制文件的反编译器                              |
+| [GDA](http://www.gda.wiki:9090/)                             | GJoy Dex Analyzer(GDA)，中国第一款也是唯一一款全交互式的现代反编译器，同时也是世界上最早实现的dalvik字节码反编译器。 GDA不只是一款反编译器，同时也是一款轻便且功能强大的综合性逆向分析利器，其不依赖java且支持apk, dex, odex, oat, jar, class, aar文件的反编译， 支持python及java脚本自动化分析。其包含多个由作者独立研究的高速分析引擎:反编译引擎、漏洞检测引擎、 恶意行为检测引擎、污点传播分析引擎、反混淆引擎、apk壳检测引擎等等 |
+| [TTDeDroid](https://github.com/tp7309/TTDeDroid)             | 一键反编译工具(不需要手动安装Python) One key for quickly decompile apk/aar/dex/jar, support by jadx/dex2jar/enjarify. |
+| [Smali2JavaUI](https://forum.xda-developers.com/showthread.php?t=2430413) | tool-pc-windows-gui-smali2java-a-tool-decompile-smali-to-java |
+| [Bytecode Viewer](https://github.com/Konloch/bytecode-viewer) | Bytecode Viewer (字节码查看器) 是一个高级轻量级 Java/Android 逆向工程套件，可以分析 Java 8+ Jar 文件 和 Android APK 文件。Bytecode Viewer 内置 6 个 Java 反编译器：Krakatau、CFR、Procyon、FernFlower、JADX、JD-GUI；和 3 个内置字节码反汇编器，包括 2 个汇编器：Krakatau 和 Smali/BakSmali ；以及 Dex2Jar 和 Enjarify 这两个 APK/DEX 转换器，同时拥有高级搜索、调试等功能。 |
+| [wxUnpacker](https://github.com/geilige/wxappUnpacker)       | 小程序反编译工具 , 现已被封，但有其他fork版本                |
+| [ManifestEditor](https://github.com/WindySha/ManifestEditor) | modify Android Manifest binary file.                         |
+| [x-DecompilerWxApkgTool](https://gitee.com/xwintop/x-DecompilerWxApkgTool) | DecompilerWxApkgTool是使用javafx开发的一款微信小程序反编译工具，从微信小程序（小游戏）中获取压缩包，反编译其中的编码及资源 |
+| [Recaf](https://github.com/Col-E/Recaf)                      | Java 字节码编辑器。让你像写普通代码的一样编写 Java 字节码，如果不懂这方面的知识，先不要轻举妄动，可以去看看字节码的资料再回来把玩这个项目。 |
 
 - [android-classyshark: Analyze any Android/Java based app or game](https://github.com/google/android-classyshark)
 - [Krakatau: Java decompiler, assembler, and disassembler](https://github.com/Storyyeller/Krakatau) java的反编译器、汇编器、反汇编器
