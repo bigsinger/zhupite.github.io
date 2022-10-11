@@ -1,7 +1,7 @@
 ﻿---
 layout:		post
 category:	"soft"
-title:		"Linux系统Ubuntu的使用汇总方便查询"
+title:		"Linux - Ubuntu的使用汇总方便查询"
 
 tags:		[语音合成]
 ---
