@@ -1,7 +1,7 @@
 ﻿---
 layout:		post
 category:	"soft"
-title:		"Linux - Ubuntu的使用汇总方便查询"
+title:		"Linux - Ubuntu的常用命令收集汇总方便查询"
 
 tags:		[语音合成]
 ---
@@ -75,9 +75,19 @@ Windows上的子系统是命令行方式，暂不支持gui工具。
 
 ## Windows共享目录
 
-使用Windows上的文件，路径形式为 /mnt/盘符/路径，例如Windows上的文件：E:/test/123.txt，则使用时为：/mnt/e/test/123.txt
+参考：[玩转WSL 2(三)——Windows和Linux之间的文件操作_wsl2访问windows本地文件](https://blog.csdn.net/Caoyang_He/article/details/107898883)
 
-Linux子系统的目录是在Windows的这个目录下：
+### 子系统访问Windows文件
+
+子系统里面使用Windows上的文件，路径形式为 /mnt/盘符/路径，例如Windows上的文件：E:/test/123.txt，则使用时为：/mnt/e/test/123.txt
+
+
+
+### Windows访问子系统文件
+
+#### WSL1
+
+Linux子系统的目录是在Windows这个目录下：
 
 ```
 C:\Users\用户名\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState\rootfs
@@ -87,3 +97,135 @@ WIN + R打开：
 ```
 
 当需求修改文件的时候，可以直接在Windows下面操作，非常的方便，就不用使用反人类的vim了。
+
+#### WSL2
+
+%USERPROFILE%\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState 命令下只有 ext4.vhdx 文件，不能按照WSL1的方式访问了，但是可以通过网络路径来访问：
+
+```
+\\wsl$\Ubuntu\home
+```
+
+也是可以直接操作文件的，比较方便。
+
+
+
+# 其他常用命令
+
+- 上传文件： rz
+- 查看文件内容：cat filename
+- 编辑文件：vi filename 按a进入编辑模式，esc退出编辑模式 :wq 保存并退出。:q! 退出不保存。
+- 删除文件夹：rm -rf dirname
+- 删除文件：rm filename
+
+
+
+
+
+## rz Windows通过xshell远程传输文件到Linux
+
+ubuntu下安装：
+
+```bash
+sudo apt-get install lrzsz
+```
+
+然后xshell下输入名 **rz** 回车后会打开文件选择对话框 并传输文件到ubuntu中。
+
+
+
+
+
+sudo apt-get install rar unrar p7zip p7zip-rar p7zip-full cabextract 
+基本上大部分都可以解压
+
+
+
+
+
+## **ZIP**压缩解压缩
+
+```
+#压缩文件
+zip [压缩文件名][原文件]
+
+#压缩目录
+zip -r  [压缩文件名][原文件]
+
+#解压：
+unzip [压缩文件名]
+```
+
+我们可以使用下列的命令压缩一个目录：
+
+```bash
+zip -r archive_name.zip directory_to_compress
+
+```
+
+解压一个zip文档：
+
+```bash
+unzip archive_name.zip
+```
+
+
+
+## **TAR**打包解包
+
+如何打包一个目录：
+
+```bash
+tar -cvf archive_name.tar directory_to_compress
+```
+
+
+
+如何解包：
+
+```bash
+tar -xvf archive_name.tar.gz
+```
+
+上面这个解包命令将会将文档解开在当前目录下面。当然，你也可以用这个命令来捏住解包的路径：
+
+```bash
+tar -xvf archive_name.tar -C /tmp/extract_here/
+```
+
+
+
+**TAR.GZ**
+
+使用下面这种格式去压缩一个目录：
+
+```bash
+tar -zcvf archive_name.tar.gz directory_to_compress
+```
+
+解压缩：
+
+```bash
+tar -zxvf archive_name.tar.gz
+```
+
+上面这个解包命令将会将文档解开在当前目录下面。当然，你也可以用这个命令来捏住解包的路径：
+
+```bash
+tar -zxvf archive_name.tar.gz -C /tmp/extract_here/
+```
+
+**TAR.BZ2**
+
+这个就是你如何使用tar.bz2进行压缩。
+
+```bash
+tar -jcvf archive_name.tar.bz2 directory_to_compress
+```
+
+上面这个解包命令将会将文档解开在当前目录下面。当然，你也可以用这个命令来捏住解包的路径：
+
+```bash
+tar -jxvf archive_name.tar.bz2 -C /tmp/extract_here/
+```
+
