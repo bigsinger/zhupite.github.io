@@ -41,6 +41,7 @@ chmod a+x ~/bin/repo
 # 安装git curl
 sudo apt install curl
 sudo apt install git
+sudo apt install zip
 # sudo apt install gedit
 
 # git配置
@@ -57,6 +58,9 @@ sudo apt-get upgrade
 ```
 
 
+
+- 扩展子系统的虚拟硬盘空间：[扩展 WSL 2 虚拟硬盘的大小 | Microsoft Learn](https://learn.microsoft.com/zh-cn/windows/wsl/vhd-size)
+- 
 
 # 文件操作
 
@@ -97,6 +101,16 @@ WIN + R打开：
 ```
 
 当需求修改文件的时候，可以直接在Windows下面操作，非常的方便，就不用使用反人类的vim了。
+
+上面 CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc 的名称可以通过命令查询出来：
+
+```bash
+Get-AppxPackage -Name "*<distro>*" | Select PackageFamilyName
+例如：
+Get-AppxPackage -Name "*Ubuntu*" | Select PackageFamilyName
+```
+
+
 
 #### WSL2
 
