@@ -13,7 +13,7 @@ tags:		[fiddler,Android]
 
 - 下载安装：[雷电模拟器](https://www.ldmnq.com/) （版本：4.0.83）
 - 下载安装：[Fiddler](https://www.telerik.com/download/fiddler) （版本：v5.0.20211.51073 for .NET 4.6.1）
-- 下载安装：[Win32/Win64 OpenSSL Installer for Windows](http://slproweb.com/products/Win32OpenSSL.html)
+- 下载安装：[Win32/Win64 OpenSSL Installer for Windows](http://slproweb.com/products/Win32OpenSSL.html) 或 直接使用Windows的子系统Ubuntu下使用openssl命令（参考：https://zhupite.com/soft/linux-ubuntu.html）
 
 ## 1、配置fiddler
 
