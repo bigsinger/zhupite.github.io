@@ -42,6 +42,9 @@ chmod a+x ~/bin/repo
 sudo apt install curl
 sudo apt install git
 sudo apt install zip
+sudo apt install make
+sudo apt install g++
+sudo apt-get install zlib1g-dev
 # sudo apt install gedit
 
 # git配置
