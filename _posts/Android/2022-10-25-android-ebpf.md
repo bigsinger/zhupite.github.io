@@ -13,11 +13,19 @@ tags:		[android]
 
 # 简介
 
-可以参考安卓官网介绍：[使用 eBPF 扩展内核    Android 开源项目   Android Open Source Project](https://source.android.com/docs/core/architecture/kernel/bpf)，拓展参考：[DavadDi/bpf_study: bpf 学习仓库](https://github.com/DavadDi/bpf_study)。
+可以参考安卓官网介绍：[使用 eBPF 扩展内核    Android 开源项目   Android Open Source Project](https://source.android.com/docs/core/architecture/kernel/bpf)，拓展参考：[在 Android 中使用 eBPF：开篇 Weishu's Notes](https://weishu.me/2022/06/12/eBPF-on-Android/)、[DavadDi/bpf_study: bpf 学习仓库](https://github.com/DavadDi/bpf_study)。
 
 
 
 在 Android 启动期间，系统会加载位于 `/system/etc/bpf/` 的所有 eBPF 程序。因此，只需要编译ebpf模块，放到 `/system/etc/bpf/` 目录下即可被系统加载，实现监控系统层的效果。
+
+
+
+> eBPF is a revolutionary technology with origins in the Linux kernel that can run sandboxed programs in a privileged context such as the operating system kernel. It is used to safely and efficiently extend the capabilities of the kernel without requiring to change kernel source code or load kernel modules.
+
+简单来说，[eBPF](https://ebpf.io/) 是一个运行在 Linux 内核里面的虚拟机组件，它可以在无需改变内核代码或者加载内核模块的情况下，安全而又高效地拓展内核的功能。
+
+
 
 
 
@@ -195,9 +203,16 @@ mm
 
 
 
+[在 Android 中使用 eBPF：搭建环境_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV19t4y1H71G/?vd_source=151c87469d92e70e43c55eada781a068)
+
+
+
+
+
 # 参考
 
 - [使用 eBPF 扩展内核    Android 开源项目   Android Open Source Project](https://source.android.com/docs/core/architecture/kernel/bpf)
+- [在 Android 中使用 eBPF：开篇 Weishu's Notes](https://weishu.me/2022/06/12/eBPF-on-Android/)
 - [DavadDi/bpf_study: bpf 学习仓库](https://github.com/DavadDi/bpf_study)
 - 《Linux内核观测技术BPF》
 - [深入浅出 eBPF 专注于 Linux 内核技术eBPF](https://ebpf.top/)
