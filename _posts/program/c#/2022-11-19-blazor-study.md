@@ -588,3 +588,22 @@ System.InvalidOperationException: Authorization requires a cascading parameter o
 解决：在使用了 `AuthorizeView ` 的地方或者父级布局文件里，添加：`@attribute [Authorize]`  或者组件节点用 `<CascadingAuthenticationState>` 包含起来。
 
 参考：https://stackoverflow.com/questions/72897910/authorization-requires-a-cascading-parameter-of-type-taskauthenticationstate
+
+
+
+# 老版本项目迁移
+
+## 数据库
+
+| SQL Server                                                   | MySQL                                 |
+| ------------------------------------------------------------ | ------------------------------------- |
+| nvarchar(max)                                                | longtext                              |
+| datetimeoffset                                               | datetime                              |
+| Specified key was too long; max key length is 3072 bytes     | nvarchar(1000)替换为longtext          |
+| BLOB/TEXT column 'Id' used in key specification without a key length | 找到Id为longtext的修改为nvarchar(100) |
+| datetime2                                                    | datetime                              |
+|                                                              |                                       |
+|                                                              |                                       |
+|                                                              |                                       |
+|                                                              |                                       |
+
