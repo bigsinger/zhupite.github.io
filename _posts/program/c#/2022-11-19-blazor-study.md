@@ -15,12 +15,16 @@ API搜索可以到微软官方网址：https://learn.microsoft.com/zh-cn/dotnet/
 
 | 库                                                           | 说明                                                         |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Pomelo.EntityFrameworkCore.MySql                             |                                                              |
+| [Scrutor](https://github.com/khellang/Scrutor)               | 基于 `Microsoft.Extensions.DependencyInjection` 的一个扩展库，主要是为了简化我们对DI的操作。`Scrutor`主要提供了两个扩展方法给我们使用，一个是`Scan`,一个是`Decorate`。 |
+| Swashbuckle.AspNetCore.Swagger                               | Swagger，方便接口测试的工具                                  |
 | [Blazored.Toast](https://github.com/Blazored/Toast)          | 吐司提示。在线演示效果见：https://blazored.github.io/Toast/  |
 | [Blazored.LocalStorage](https://github.com/Blazored/LocalStorage) | 本地存储。在线演示效果见：https://blazored.github.io/LocalStorage/ |
 | Microsoft.AspNetCore.Components.Authorization                |                                                              |
 | [Microsoft.AspNetCore.WebUtilities](https://learn.microsoft.com/zh-cn/dotnet/api/microsoft.aspnetcore.webutilities?view=aspnetcore-7.0) | QueryHelpers 、Base64UrlTextEncoder 更多类参见微软官方文档。 |
 | Microsoft.Extensions.Http                                    |                                                              |
 | System.Net.Http.Json                                         |                                                              |
+| MediatR                                                      | [MediatR 在 .NET 应用中的实践 ](https://yimingzhi.net/2021/12/mediatr-zai-dotnet-ying-yong-zhong-de-shi-jian)中介模式，感觉封装的太重了，反而不够轻便。 |
 |                                                              |                                                              |
 |                                                              |                                                              |
 |                                                              |                                                              |
@@ -606,4 +610,11 @@ System.InvalidOperationException: Authorization requires a cascading parameter o
 |                                                              |                                       |
 |                                                              |                                       |
 |                                                              |                                       |
+
+数据库授权访问：
+
+```sql
+GRANT ALL PRIVILEGES ON *.* TO 'ROOT'@'%' IDENTIFIED BY '123' WITH GRANT OPTION;
+flush privileges;
+```
 
