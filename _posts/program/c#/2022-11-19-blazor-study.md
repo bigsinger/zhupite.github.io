@@ -17,7 +17,7 @@ API搜索可以到微软官方网址：https://learn.microsoft.com/zh-cn/dotnet/
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | Pomelo.EntityFrameworkCore.MySql                             |                                                              |
 | [Scrutor](https://github.com/khellang/Scrutor)               | 基于 `Microsoft.Extensions.DependencyInjection` 的一个扩展库，主要是为了简化我们对DI的操作。`Scrutor`主要提供了两个扩展方法给我们使用，一个是`Scan`,一个是`Decorate`。 |
-| Swashbuckle.AspNetCore.Swagger                               | Swagger，方便接口测试的工具                                  |
+| Swashbuckle.AspNetCore.Swagger                               | Swagger，方便接口测试的工具。参考：[Get started with Swashbuckle and ASP.NET Core \| Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-7.0&tabs=visual-studio) |
 | [Blazored.Toast](https://github.com/Blazored/Toast)          | 吐司提示。在线演示效果见：https://blazored.github.io/Toast/  |
 | [Blazored.LocalStorage](https://github.com/Blazored/LocalStorage) | 本地存储。在线演示效果见：https://blazored.github.io/LocalStorage/ |
 | Microsoft.AspNetCore.Components.Authorization                |                                                              |
@@ -599,7 +599,9 @@ System.InvalidOperationException: Authorization requires a cascading parameter o
 
 ## 数据库
 
-| SQL Server                                                   | MySQL                                 |
+### SqlServer转成MySQL
+
+| SqlServer                                                    | MySQL                                 |
 | ------------------------------------------------------------ | ------------------------------------- |
 | nvarchar(max)                                                | longtext                              |
 | datetimeoffset                                               | datetime                              |
@@ -611,10 +613,59 @@ System.InvalidOperationException: Authorization requires a cascading parameter o
 |                                                              |                                       |
 |                                                              |                                       |
 
-数据库授权访问：
+### 数据库授权访问
 
 ```sql
 GRANT ALL PRIVILEGES ON *.* TO 'ROOT'@'%' IDENTIFIED BY '123' WITH GRANT OPTION;
 flush privileges;
+```
+
+### EntityFramework
+
+```
+Microsoft.EntityFrameworkCore
+Microsoft.EntityFrameworkCore.design
+Pomelo.EntityFrameworkCore.MySql
+```
+
+`dotnet ef`
+
+```bash
+// 在PM控制台中使用。注意：使用前一定先 cd 到项目目录
+
+dotnet ef database update  		//更新数据库
+dotnet ef migrations add Name  	//创建新的迁移文件
+dotnet ef migrations remove 	//删除迁移文件
+dotnet ef database update drop 	//删除数据库
+```
+
+创建数据库模拟数据，可以按照如下代码创建一些模拟数据，然后执行`dotnet ef database update`即可。（`appsettings.json`里的数据源要配置正确）
+
+```c#
+protected override void OnModelCreating(ModelBuilder modelBuilder) {
+    modelBuilder.Entity<Product>().HasData(
+        new Product(){
+            Id=1,
+            Title = "",
+            Description = "",
+            ImageUrl = "",
+            Price = 9.99m
+        },
+        new Product(){
+            Id=2,
+            Title = "",
+            Description = "",
+            ImageUrl = "",
+            Price = 8.99m
+        },
+        new Product(){
+            Id=3,
+            Title = "",
+            Description = "",
+            ImageUrl = "",
+            Price = 7.99m
+        },
+    )
+}
 ```
 
