@@ -601,6 +601,8 @@ System.InvalidOperationException: Authorization requires a cascading parameter o
 
 ### SqlServer转成MySQL
 
+修改好Models之后，如果有迁移文件首先使用`migrations remove`逐个删除干净，然后再依此执行`migrations add Name`、`database update`。也即全部重新生成，手动替换的话错误特别多而且有坑。
+
 | SqlServer                                                    | MySQL                                 |
 | ------------------------------------------------------------ | ------------------------------------- |
 | nvarchar(max)                                                | longtext                              |
@@ -638,6 +640,16 @@ dotnet ef migrations add Name  	//创建新的迁移文件
 dotnet ef migrations remove 	//删除迁移文件
 dotnet ef database update drop 	//删除数据库
 ```
+
+如果有多个项目，且需要在不同的项目下生成数据库迁移，则可以指定参数。参考：[c# - Add migration with different assembly](https://stackoverflow.com/questions/38705694/add-migration-with-different-assembly)
+
+```
+cd .\BlazorShop.Data
+dotnet ef --startup-project ..\BlazorShop.Web\Server migrations add Name
+dotnet ef --startup-project ..\BlazorShop.Web\Server database update
+```
+
+
 
 创建数据库模拟数据，可以按照如下代码创建一些模拟数据，然后执行`dotnet ef database update`即可。（`appsettings.json`里的数据源要配置正确）
 
