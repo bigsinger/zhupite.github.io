@@ -90,6 +90,22 @@ NavigationManager.ToAbsoluteUri(NavigationManager.Uri)
 
 在本项目的所有 `.razor` 文件或者 `.razor.cs` 文件中可以直接使用：`this.Http`
 
+### 全局注册实例
+
+例如`ApplicationSettings`是自定义类，注册：
+
+```csharp
+services.Configure<ApplicationSettings>(applicationSettingsConfiguration);
+```
+
+在后面的代码中就可以这样使用：
+
+```csharp
+public JwtGeneratorService(IOptions<ApplicationSettings> applicationSettings) {
+    this.applicationSettings = applicationSettings.Value;
+}
+```
+
 
 
 ### NavigationManager
@@ -592,6 +608,16 @@ System.InvalidOperationException: Authorization requires a cascading parameter o
 解决：在使用了 `AuthorizeView ` 的地方或者父级布局文件里，添加：`@attribute [Authorize]`  或者组件节点用 `<CascadingAuthenticationState>` 包含起来。
 
 参考：https://stackoverflow.com/questions/72897910/authorization-requires-a-cascading-parameter-of-type-taskauthenticationstate
+
+
+
+
+
+```
+Cannot add or update a child row: a foreign key constraint fails (`blazorshopdb`.`shoppingcarts`, CONSTRAINT `FK_ShoppingCarts_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`))
+```
+
+解决：原因是主表中不存在该Id的用户记录，需要先在主表中添加记录（业务流程就是先进行用户注册）。
 
 
 
