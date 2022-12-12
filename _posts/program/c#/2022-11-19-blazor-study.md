@@ -621,6 +621,30 @@ Cannot add or update a child row: a foreign key constraint fails (`blazorshopdb`
 
 
 
+
+
+```
+The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+
+Entity 'Product' has a global query filter defined and is the required end of a relationship with the entity 'WishlistProduct'. This may lead to unexpected results when the required entity is filtered out
+```
+
+解决办法：
+
+```csharp
+public class BlazorShopDbContext : DbContext        
+	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
+            base.OnConfiguring(optionsBuilder);
+            optionsBuilder.ConfigureWarnings(wb => wb
+                .Ignore(CoreEventId.RowLimitingOperationWithoutOrderByWarning)
+                .Ignore(CoreEventId.PossibleIncorrectRequiredNavigationWithQueryFilterInteractionWarning)
+            );
+    }
+}
+```
+
+
+
 # 老版本项目迁移
 
 ## 数据库
