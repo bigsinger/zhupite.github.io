@@ -17,7 +17,7 @@ API搜索可以到微软官方网址：https://learn.microsoft.com/zh-cn/dotnet/
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | Pomelo.EntityFrameworkCore.MySql                             |                                                              |
 | [Scrutor](https://github.com/khellang/Scrutor)               | 基于 `Microsoft.Extensions.DependencyInjection` 的一个扩展库，主要是为了简化我们对DI的操作。`Scrutor`主要提供了两个扩展方法给我们使用，一个是`Scan`,一个是`Decorate`。 |
-| Swashbuckle.AspNetCore.Swagger                               | Swagger，方便接口测试的工具。参考：[Get started with Swashbuckle and ASP.NET Core \| Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-7.0&tabs=visual-studio) |
+| Swashbuckle.AspNetCore                                       | Swagger，方便接口测试的工具。参考：[Get started with Swashbuckle and ASP.NET Core \| Microsoft Learn](https://learn.microsoft.com/zh-cn/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-7.0&tabs=visual-studio) |
 | [Blazored.Toast](https://github.com/Blazored/Toast)          | 吐司提示。在线演示效果见：https://blazored.github.io/Toast/  |
 | [Blazored.LocalStorage](https://github.com/Blazored/LocalStorage) | 本地存储。在线演示效果见：https://blazored.github.io/LocalStorage/ |
 | Microsoft.AspNetCore.Components.Authorization                |                                                              |
@@ -133,9 +133,28 @@ protected override void OnInitialized() {
 ### 接口编写步骤
 
 1. 先写Model
-2. 再写服务端的service（使用DbContext）
+
+2. 再写服务端的service（使用`DbContext`）
+
 3. 再写controller
-4. 使用swagger测试
+
+4. 使用 `swagger` 测试
+
+   1. 添加三方库：`Swashbuckle.AspNetCore`
+
+   2. 添加初始化代码：
+
+      ```csharp
+      if(env.IsDevelopment()) {
+          app.UseSwagger();
+          app.UseSwaggerUI();
+      }
+      
+      builder.Services.AddSwaggerGen();
+      ```
+
+   3. 服务运行后访问：https://localhost:7155/swagger/index.html
+
 5. 客户端的service（使用http发送请求）
 
 
