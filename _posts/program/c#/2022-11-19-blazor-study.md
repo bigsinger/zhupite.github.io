@@ -126,6 +126,8 @@ protected override void OnInitialized() {
         returnUrl = url;
     }
 }
+
+currentCategory = WebUtility.UrlDecode(NavigationManager.Uri.Split('/')[5]);
 ```
 
 
@@ -173,7 +175,17 @@ protected override void OnInitialized() {
 
 ### 自定义搜索文本框
 
-#### 1 实时搜索（简单场景使用）
+#### 1 实时搜索（简单推荐）
+
+```html
+<EditForm Model="model" @oninput="() => LoadData()">
+    <input @bind-value="SearchQuery" @bind-value:event="oninput" type="text" placeholder="输入关键词搜索" class="form-control" />
+</EditForm>
+```
+
+
+
+#### 2 实时搜索（简单场景使用）
 
 根据输入内容实时搜索（无须按下Enter键或者点击别的按钮）
 
@@ -260,7 +272,7 @@ private async Task OnSearch(string searchText) {
 }
 ```
 
-#### 2 一般线上的使用方法
+#### 3 一般线上的使用方法
 
 比较巧妙，直接打开一个URL。
 
