@@ -126,6 +126,8 @@ protected override void OnInitialized() {
         returnUrl = url;
     }
 }
+
+currentCategory = WebUtility.UrlDecode(NavigationManager.Uri.Split('/')[5]);
 ```
 
 
@@ -159,6 +161,14 @@ protected override void OnInitialized() {
 
 
 
+### HTTPS免费证书
+
+[Let's Encrypt - 免费的SSL/TLS证书](https://letsencrypt.org/zh-cn/)
+
+
+
+
+
 # 界面UI
 
 简单的UI可以参考 [bootstrap](https://www.runoob.com/bootstrap5/bootstrap5-tutorial.html) 或 [CSS](https://www.runoob.com/css/css-tutorial.html) 自己来写，稍微复杂点的可以使用三方开源框架，例如：[Bootstrap Blazor - 企业级 UI 组件库](https://www.blazor.zone/introduction)
@@ -173,7 +183,17 @@ protected override void OnInitialized() {
 
 ### 自定义搜索文本框
 
-#### 1 实时搜索（简单场景使用）
+#### 1 实时搜索（简单推荐）
+
+```html
+<EditForm Model="model" @oninput="() => LoadData()">
+    <input @bind-value="SearchQuery" @bind-value:event="oninput" type="text" placeholder="输入关键词搜索" class="form-control" />
+</EditForm>
+```
+
+
+
+#### 2 实时搜索（简单场景使用）
 
 根据输入内容实时搜索（无须按下Enter键或者点击别的按钮）
 
@@ -260,7 +280,7 @@ private async Task OnSearch(string searchText) {
 }
 ```
 
-#### 2 一般线上的使用方法
+#### 3 一般线上的使用方法
 
 比较巧妙，直接打开一个URL。
 
