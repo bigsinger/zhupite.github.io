@@ -78,7 +78,7 @@ x86_64-linux-android
 
 ## 使用NDK交叉编译
 
-参考：[Android NDK交叉编译器三种使用方法](https://zwyuan.github.io/2015/12/22/three-ways-to-use-android-ndk-cross-compiler/)，文章借鉴了 Andriod 的官方指南：[独立工具链（已弃用）  |  Android NDK  |  Android Developers](https://developer.android.com/ndk/guides/standalone_toolchain?hl=zh-cn)
+参考：[Android NDK交叉编译器三种使用方法](https://zwyuan.github.io/2015/12/22/three-ways-to-use-android-ndk-cross-compiler/)，文章借鉴了 Andriod 的官方指南：[独立工具链（已弃用）](https://developer.android.com/ndk/guides/standalone_toolchain?hl=zh-cn)
 
 **警告：**如果您使用的是 r19 或更高版本，请参阅将 [NDK 与其他构建系统配合使用文档](https://developer.android.com/ndk/guides/other_build_systems?hl=zh-cn)，了解有关如何将 NDK 工具链与任意构建系统结合使用的说明。对于 r19 之前的版本，NDK 的默认工具链都是独立工具链，因此无需执行此流程。
 
@@ -88,7 +88,7 @@ x86_64-linux-android
 
 ### 1、下载配置NDK
 
-因为需要在 WSL 的Ubuntu子系统里操作，所以需要下载Linux版本的NDK：[NDK 下载  |  Android NDK  |  Android Developers](https://developer.android.com/ndk/downloads?hl=zh-cn)，这里下载`Linux 64 位 (x86)`：[android-ndk-r25b-linux.zip](https://dl.google.com/android/repository/android-ndk-r25b-linux.zip?hl=zh-cn)，然后把文件复制到 WSL 的目录下，并在WSL系统中使用`zip`命令解压缩，例如目录：`/home/sing/android-ndk-r25b`。最后设置环境变量：`export NDK=/home/sing/android-ndk-r25b`
+因为需要在 WSL 的Ubuntu子系统里操作，所以需要下载Linux版本的NDK：[NDK 下载](https://developer.android.com/ndk/downloads?hl=zh-cn)，这里下载`Linux 64 位 (x86)`：[android-ndk-r25b-linux.zip](https://dl.google.com/android/repository/android-ndk-r25b-linux.zip?hl=zh-cn)，然后把文件复制到 WSL 的目录下，并在WSL系统中使用`zip`命令解压缩，例如目录：`/home/sing/android-ndk-r25b`。最后设置环境变量：`export NDK=/home/sing/android-ndk-r25b`
 
 
 
@@ -187,7 +187,7 @@ export STRIP=$TOOLCHAIN/bin/llvm-strip
 
 ### 4、配置参数并编译
 
-参考[Cross Compile Binutils | Writing an OS in Rust](https://os.phil-opp.com/cross-compile-binutils/) 更多编译参数提高编译速度：
+参考[Cross Compile Binutils  Writing an OS in Rust](https://os.phil-opp.com/cross-compile-binutils/) 更多编译参数提高编译速度：
 
 ```bash
 ../binutils-2.X/configure --target=x86_64-elf --prefix="$HOME/opt/cross"  --disable-nls --disable-werror     --disable-gdb --disable-libdecnumber --disable-readline --disable-sim
