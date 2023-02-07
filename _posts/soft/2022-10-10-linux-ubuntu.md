@@ -10,7 +10,8 @@ tags:		[语音合成]
 双系统来回切换不方便，目前有一个方式倒是挺方便的，就是在Windows10中安装Ubuntu子系统：
 
 ```bash
-wsl --install -d Ubuntu
+wsl --list --online 			# 查看可安装版本
+wsl --install -d Ubuntu-20.04
 ```
 
 安装需要的条件：
@@ -24,6 +25,7 @@ wsl --install -d Ubuntu
 ```bash
 wsl -l -v # 查看版本
 wsl --set-version <linux fronm above> 2		# 转换需要几分钟时间，然后重启计算机就可以了。
+# wsl --set-default-version 2				# 设置WSL2为默认版本
 # wsl --set-version Ubuntu 2
 ```
 
@@ -31,7 +33,14 @@ wsl --set-version <linux fronm above> 2		# 转换需要几分钟时间，然后�
 
 # 首次配置
 
+参考：[Get started with Linux using WSL](https://learn.microsoft.com/en-us/windows/wsl/tutorials/linux)
+
 ```bash
+# 更新
+sudo apt-get update
+sudo apt-get upgrade
+
+
 # 安装repo
 mkdir ~/bin
 PATH=~/bin:$PATH
@@ -55,9 +64,6 @@ git config --global https.sslverify false
 
 # 修改默认python版本为python3
 alias python=python3
-
-sudo apt-get update
-sudo apt-get upgrade
 ```
 
 
@@ -103,7 +109,7 @@ WIN + R打开：
 %USERPROFILE%\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState\rootfs
 ```
 
-当需求修改文件的时候，可以直接在Windows下面操作，非常的方便，就不用使用反人类的vim了。
+当需求修改文件的时候，可以直接在 Windows 下面操作，非常的方便，就不用使用反人类的 vim了。
 
 上面 CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc 的名称可以通过命令查询出来：
 
@@ -129,11 +135,12 @@ Get-AppxPackage -Name "*Ubuntu*" | Select PackageFamilyName
 
 # 其他常用命令
 
-- 上传文件： rz
-- 查看文件内容：cat filename
-- 编辑文件：vi filename 按a进入编辑模式，esc退出编辑模式 :wq 保存并退出。:q! 退出不保存。
-- 删除文件夹：rm -rf dirname
-- 删除文件：rm filename
+- 上传文件： `rz`
+- 查看文件内容：`cat filename`
+- 编辑文件：`vi filename` 按 `a` 进入编辑模式，`esc` 退出编辑模式  `:wq` 保存并退出。`:q!` 退出不保存。
+- 删除文件夹：`rm -rf dirname`
+- 删除文件：`rm filename`
+- 设置变量：`export XX_DIR = /xx`，撤销设置：`unset XX_DIR` 列出所有的shell赋予程序的环境变量：`export -p`
 
 
 
@@ -153,7 +160,7 @@ sudo apt-get install lrzsz
 
 
 
-sudo apt-get install rar unrar p7zip p7zip-rar p7zip-full cabextract 
+`sudo apt-get install rar unrar p7zip p7zip-rar p7zip-full cabextract `
 基本上大部分都可以解压
 
 
@@ -162,7 +169,7 @@ sudo apt-get install rar unrar p7zip p7zip-rar p7zip-full cabextract
 
 ## **ZIP**压缩解压缩
 
-```
+```bash
 #压缩文件
 zip [压缩文件名][原文件]
 
