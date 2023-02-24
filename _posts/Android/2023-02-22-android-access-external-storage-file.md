@@ -11,10 +11,14 @@ tags:		[android]
 
 
 
-Android R上分区存储的限制得到进一步加强，无论APP的targetsdkversion是多少，都将无法访问Android/data和Android/obb这二个应用私有目录。这无疑对会部分APP的业务场景及用户体验造成冲击，典型的如下：
+Android R上分区存储的限制得到进一步加强，无论APP的`targetsdkversion`是多少，都将无法访问`Android/data`和`Android/obb`这二个应用私有目录。这无疑对会部分APP的业务场景及用户体验造成冲击，典型的如下：
 
 - 文件管理类软件：微信、QQ传输的文件无法展示给用户以便捷使用
 - 垃圾清理类软件：清理缓存功能受阻
+
+
+
+声明 [`MANAGE_EXTERNAL_STORAGE`](https://developer.android.com/reference/android/Manifest.permission?hl=zh-cn#MANAGE_EXTERNAL_STORAGE) 权限可以使用`File`遍历除`Android/data`和`Android/obb`之外的目录。如需确定您的应用是否已获得 `MANAGE_EXTERNAL_STORAGE` 权限，请调用 [`Environment.isExternalStorageManager()`](https://developer.android.com/reference/android/os/Environment?hl=zh-cn#isExternalStorageManager())。
 
 
 
@@ -133,6 +137,7 @@ public static List<File> documentFileToFile(Context context) {
 
 # 参考
 
+- [管理存储设备上的所有文件  |  Android 开发者  |  Android Developers](https://developer.android.com/training/data-storage/manage-all-files?hl=zh-cn)
 - [文档访问限制](https://links.jianshu.com/go?to=https%3A%2F%2Fdeveloper.android.com%2Fabout%2Fversions%2F11%2Fprivacy%2Fstorage%23file-directory-restrictions)
   [授予对目录内容的访问权限](https://links.jianshu.com/go?to=https%3A%2F%2Fdeveloper.android.com%2Ftraining%2Fdata-storage%2Fshared%2Fdocuments-files%23grant-access-directory)
 - [Android R 如何访问Android/data目录](https://blog.csdn.net/cmyperson/article/details/120015213?spm=1001.2014.3001.5506)
