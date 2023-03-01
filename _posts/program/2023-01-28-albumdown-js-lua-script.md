@@ -34,7 +34,7 @@ tags:		[]
 调试技巧：
 
 ```js
-var debug = true;
+var debug = false;
 if(debug){ alert(s); debug = false;}
 ```
 
@@ -61,6 +61,12 @@ var nodes = document.getElementsByClassName('class name');//getElementsByTagName
 if (nodes.length != 0) {
     url = nodes[0].href; //alert(url);	//v.parentNode.innerHTML;
 }
+```
+
+通过标签获取节点：
+
+```js
+var images = n.getElementsByTagName('img1');
 ```
 
 通过**Selector**获取节点信息：
