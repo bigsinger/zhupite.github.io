@@ -31,6 +31,13 @@ tags:		[]
 
 # JavaScript
 
+调试技巧：
+
+```js
+var debug = true;
+if(debug){ alert(s); debug = false;}
+```
+
 获取自定义属性值：
 
 ```js
