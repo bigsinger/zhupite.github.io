@@ -27,7 +27,50 @@ Google Code上倒是可以下载，但是是老的版本，2012年的：
 
 
 
-# VisualStudio2017、2019编译（推荐）
+# nmake编译（推荐）
+
+2023年3月29日补充。受益于GPT4，有了更加简便高效的编译方法，也就是把`CMakeLists.txt`转换成`Makefile`再用`nmake`编译。详细参考：[CMake、CMakeLists.txt、GCC、Clang、LLVM、MinGW、交叉编译](https://zhupite.com/program/CMake-GCC-Clang-LLVM-MinGW-CrossCompile.html)
+
+1. 确保已经安装了CMake。如果没有安装，可以从官方网站[下载CMake](https://cmake.org/download/)并安装。
+
+2. 在`CMakeLists.txt`里面找到`PRINT_CEF_CONFIG()`，在其前面添加如下代码：
+
+   ```cmake
+   if(MSVC)
+       if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+           set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+   		add_definitions(/D_ITERATOR_DEBUG_LEVEL=2)
+           target_compile_definitions(libcef_dll_wrapper PRIVATE _HAS_ITERATOR_DEBUGGING=1)
+           target_compile_definitions(libcef_dll_wrapper PRIVATE _ITERATOR_DEBUG_LEVEL=2)
+           message(STATUS "Setting _ITERATOR_DEBUG_LEVEL to 2 for Debug build")
+       else()
+           set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+   		add_definitions(/D_ITERATOR_DEBUG_LEVEL=0)
+           target_compile_definitions(libcef_dll_wrapper PRIVATE _HAS_ITERATOR_DEBUGGING=0)
+           target_compile_definitions(libcef_dll_wrapper PRIVATE _ITERATOR_DEBUG_LEVEL=0)
+           message(STATUS "Setting _ITERATOR_DEBUG_LEVEL to 0 for Debug build")
+       endif()
+   endif()
+   
+   
+   # Display configuration settings.
+   PRINT_CEF_CONFIG()
+   ```
+
+3. 使用如下的命令转换：
+
+   ```bash
+   cmake -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Debug   -D_HAS_ITERATOR_DEBUGGING=1 -D_ITERATOR_DEBUG_LEVEL=2
+   cmake -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release
+   ```
+
+4. 使用`nmake`编译。
+
+对于`cef`来说，只需要把编译出来的`libcef_dll_wrapper.lib`拿来使用即可，其他文件直接包里的即可。
+
+
+
+# VisualStudio2017、2019编译
 
 VisualStudio2017、2019编译非常快速，使用**CMake**对cef_binary_3.3578.1860.g36610bd_windows32创建build项目，创建成功后只编译**libcef_dll_wrapper**即可，其他lib和资源使用编译好的即可。
 

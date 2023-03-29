@@ -1,7 +1,7 @@
 ﻿---
 layout:		post
 category:	"program"
-title:		"CMake、CMakeLists.txt、GCC、Clang、LLVM、MinGW、交叉编译"
+title:		"Makefile、CMake、CMakeLists.txt、GCC、Clang、LLVM、MinGW、交叉编译"
 tags:		[c++]
 ---
 - Content
@@ -126,6 +126,83 @@ LLVM（**Low Level Virtual Machine**），是以 BSD 许可来开发的开源的
 
 
 注意不要下载在线安装版，会非常慢，推荐用上述的方法下载编译好的离线安装包，在线安装的方法参考：[MinGW-w64安装教程 - 简书](https://www.jianshu.com/p/d66c2f2e3537)
+
+
+
+# Windows使用Makefile或CMakeLists.txt编译
+
+2023-3-29补充。得益于GPT4，直接问到了最简单的编译方法。现在很多开源项目的工程是配置的`Makefile`或`CMakeLists.txt`，在Windows上可以通过如下方法快速编译，非常爽歪歪。
+
+## Makefile
+
+直接在Windows搜索栏里搜索`prompt`找到`VisualStudio`的对应版本的控制台，进入到源码目录下，直接调用`nmake`命令即可编译，非常简单：
+
+```bash
+nmake -f makefile
+```
+
+如果想编译`debug`或`release`模式，可以在`Makefile`里添加如下类似的代码：
+
+```makefile
+!IFNDEF DEBUG
+DEBUG = 0
+!ENDIF
+
+!IF $(DEBUG)
+!MESSAGE Compiling in debug mode (DEBUG = $(DEBUG))
+!ELSE
+!MESSAGE Compiling in release mode (DEBUG = $(DEBUG))
+!ENDIF
+```
+
+`nmake`的时候参考如下方式编译：
+
+```bash
+nmake -f makefile DEBUG=1
+```
+
+当然也可以直接咨询GPT去修改完善`Makefile`。
+
+## CMakeLists.txt
+
+相对`Makefile`只需要多一个步骤，也就是把`CMakeLists.txt`转换成`Makefile`再用`nmake`编译。
+
+1. 确保已经安装了CMake。如果没有安装，可以从官方网站[下载CMake](https://cmake.org/download/)并安装。
+
+2. 使用如下的命令转换：
+
+   ```bash
+   cmake -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Debug   -D_HAS_ITERATOR_DEBUGGING=1 -D_ITERATOR_DEBUG_LEVEL=2
+   cmake -G "NMake Makefiles" -DCMAKE_BUILD_TYPE=Release
+   ```
+
+3. 使用`nmake`编译，可以参考前文。
+
+
+
+注意，如果需要修改一些编译配置，可以修改`CMakeLists.txt`内容做一些修改，例如：
+
+```cmake
+if(MSVC)
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+		add_definitions(/D_ITERATOR_DEBUG_LEVEL=2)
+        target_compile_definitions(libcef_dll_wrapper PRIVATE _HAS_ITERATOR_DEBUGGING=1)
+        target_compile_definitions(libcef_dll_wrapper PRIVATE _ITERATOR_DEBUG_LEVEL=2)
+        message(STATUS "Setting _ITERATOR_DEBUG_LEVEL to 2 for Debug build")
+    else()
+        set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+		add_definitions(/D_ITERATOR_DEBUG_LEVEL=0)
+        target_compile_definitions(libcef_dll_wrapper PRIVATE _HAS_ITERATOR_DEBUGGING=0)
+        target_compile_definitions(libcef_dll_wrapper PRIVATE _ITERATOR_DEBUG_LEVEL=0)
+        message(STATUS "Setting _ITERATOR_DEBUG_LEVEL to 0 for Debug build")
+    endif()
+endif()
+```
+
+并配合`cmake`转换命令的参数使用，参考步骤2.
+
+
 
 
 
