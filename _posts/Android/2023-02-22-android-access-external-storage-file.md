@@ -137,7 +137,7 @@ public static List<File> documentFileToFile(Context context) {
 
 # 参考
 
-- [管理存储设备上的所有文件  |  Android 开发者  |  Android Developers](https://developer.android.com/training/data-storage/manage-all-files?hl=zh-cn)
+- [管理存储设备上的所有文件   Android 开发者   Android Developers](https://developer.android.com/training/data-storage/manage-all-files?hl=zh-cn)
 - [文档访问限制](https://links.jianshu.com/go?to=https%3A%2F%2Fdeveloper.android.com%2Fabout%2Fversions%2F11%2Fprivacy%2Fstorage%23file-directory-restrictions)
   [授予对目录内容的访问权限](https://links.jianshu.com/go?to=https%3A%2F%2Fdeveloper.android.com%2Ftraining%2Fdata-storage%2Fshared%2Fdocuments-files%23grant-access-directory)
 - [Android R 如何访问Android/data目录](https://blog.csdn.net/cmyperson/article/details/120015213?spm=1001.2014.3001.5506)
@@ -146,4 +146,5 @@ public static List<File> documentFileToFile(Context context) {
 - [android - Delete Audio From Sdcard - Stack Overflow](https://stackoverflow.com/questions/48527106/delete-audio-from-sdcard/48528465#48528465)
 - [Android 11 文件复制流程_android 复制文件](https://blog.csdn.net/u013936727/article/details/128022842)
 - [Android11 无Root 访问data目录实现、Android11访问data目录、Android11解除data目录限制、Android11 data空白解决](https://blog.csdn.net/qq_17827627/article/details/113931692)
+- [Android 10 中的隐私权变更   Android Developers](https://developer.android.google.cn/about/versions/10/privacy?hl=zh-cn)
 
