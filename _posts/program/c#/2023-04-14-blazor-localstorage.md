@@ -7,7 +7,7 @@ tags:		[c#,blazor,net]
 ---
 - Content
 {:toc}
-使用 `Blazor` 的本地存储库 [Blazored.LocalStorage](https://github.com/Blazored/LocalStorage) 来简化本地存储相关的操作。这个库在 `Blazor` 的生命周期方法中处理 `JavaScript Interop` 调用，使得代码更简洁，易于维护。
+使用 `Blazor` 的本地存储库 [Blazored.LocalStorage](https://github.com/Blazored/LocalStorage) 来简化本地存储相关的操作，可以在 `Blazor Server` 和 `Blazor WebAssembly` 项目中使用。这个库在 `Blazor` 的生命周期方法中处理 `JavaScript Interop` 调用，使得代码更简洁，易于维护。
 
 
 
