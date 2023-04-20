@@ -714,25 +714,25 @@ public abstract class PageBaseHelper : ComponentBase, IDisposable {
 
 
 @code{
-    // URL参数：维度1的列索引序号
-    [Parameter]
-    [SupplyParameterFromQuery(Name = "dim1ColumnIndex")]
-    public int dim1ColumnIndex { set; get; }
+        // URL参数：维度1的列索引序号
+        [Parameter]
+        [SupplyParameterFromQuery(Name = "dim1ColumnIndex")]
+        public int dim1ColumnIndex { set; get; }
 
-    // URL参数：维度1的子分类，用户多选
-    [Parameter]
-    [SupplyParameterFromQuery(Name = "dim1Classifies")]
-    public string dim1Classifies { set; get; } = string.Empty;
+        // URL参数：维度1的子分类，用户多选
+        [Parameter]
+        [SupplyParameterFromQuery(Name = "dim1Classifies")]
+        public string dim1Classifies { set; get; } = string.Empty;
 
-    // URL参数：维度X的列索引序号
-    [Parameter]
-    [SupplyParameterFromQuery(Name = "dimXColumnIndex")]
-    public int dimXColumnIndex { set; get; }
+        // URL参数：维度X的列索引序号
+        [Parameter]
+        [SupplyParameterFromQuery(Name = "dimXColumnIndex")]
+        public int dimXColumnIndex { set; get; }
 
-    // URL参数：统计时间单位
-    [Parameter]
-    [SupplyParameterFromQuery(Name = "timeUnit")]
-    public string timeUnit { get; set; } = string.Empty;
+        // URL参数：统计时间单位
+        [Parameter]
+        [SupplyParameterFromQuery(Name = "timeUnit")]
+        public string timeUnit { get; set; } = string.Empty;
 
 
     private Dictionary<int, string> optionsOfDim1 = new();
@@ -796,17 +796,15 @@ public abstract class PageBaseHelper : ComponentBase, IDisposable {
             { "dim1Classifies", dim1Classifies},
             { "dimXColumnIndex", dimXColumnIndex.ToString()},
             { "timeUnit", timeUnit},
-            { "startTime", dateRange.Start.ToString()},
-            { "endTime", dateRange.End.ToString()},
         };
 
         if (dateRange.Start!=DateTime.MinValue) {
-            args.Add("startTime", dateRange.Start.ToString("yyyy-mm-dd"));
+            args.Add("startTime", dateRange.Start.ToString("yyyy-MM-dd"));
         }
         if (dateRange.End != DateTime.MinValue) {
-            args.Add("startTime", dateRange.End.ToString("yyyy-mm-dd"));
+            args.Add("endTime", dateRange.End.ToString("yyyy-MM-dd"));
         }
-
+        BICommonUtil.updateUrlArgs(navigationManager, args);
         GlobalEventService.OnQueryBtnClicked();
     }
 
