@@ -69,7 +69,20 @@ alias python=python3
 
 
 - 扩展子系统的虚拟硬盘空间：[扩展 WSL 2 虚拟硬盘的大小 | Microsoft Learn](https://learn.microsoft.com/zh-cn/windows/wsl/vhd-size)
-- 
+
+
+
+## 安装clang编译工具链
+
+```bash
+sudo apt update
+sudo apt install clang
+
+# 查看是否安装成功以及clang版本
+clang --version
+```
+
+
 
 # 文件操作
 
