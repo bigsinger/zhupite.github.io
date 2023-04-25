@@ -132,6 +132,17 @@ currentCategory = WebUtility.UrlDecode(NavigationManager.Uri.Split('/')[5]);
 
 
 
+```c#
+/// 从URL中取某参数
+public static string? getUrlArg(NavigationManager navigationManager, string argName) {
+    var currentUrl = new Uri(navigationManager.Uri);    // 获取当前 URL
+    var queryParameters = System.Web.HttpUtility.ParseQueryString(currentUrl.Query);
+    return queryParameters[argName];
+}
+```
+
+
+
 ### 接口编写步骤
 
 1. 先写Model
@@ -178,6 +189,31 @@ currentCategory = WebUtility.UrlDecode(NavigationManager.Uri.Split('/')[5]);
 ### 页头页脚
 
 可以参考`MainLayout.razor`里的   `<Header />`  和 `<Footer />`
+
+
+
+### 打开首页自动跳转到某页面
+
+创建`Index.razor`
+
+```c#
+@page "/"
+@inject NavigationManager NavigationManager
+
+
+@code {
+    private bool _hasNavigated;
+
+    // 首页默认跳转到指定页面
+    protected override Task OnAfterRenderAsync(bool firstRender) {
+        if (firstRender && !_hasNavigated) {
+            _hasNavigated = true;
+            NavigationManager.NavigateTo("pageXX");
+        }
+        return base.OnAfterRenderAsync(firstRender);
+    }
+}
+```
 
 
 

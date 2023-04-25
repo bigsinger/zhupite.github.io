@@ -11,10 +11,11 @@ tags:		[c#,blazor,net]
 
 
 
-想要实现这个效果，在技术上需要实现两点：
+想要实现这个效果，在技术上需要实现几点：
 
 1. 使用一个带查询参数的网址打开页面时，应自动解析参数更新到页面控件里去，并执行查询操作。
 2. 查询时把筛选条件更新到网址URL中，每次查询就要自动更新下当前网页的网址。
+2. 切换不同页面时参数也带上。
 
 
 
@@ -202,6 +203,55 @@ GlobalEventService.OnQueryBtnClicked();
 [Parameter]
 [SupplyParameterFromQuery(Name = "name")]
 public string SearchName { set; get; } = string.Empty;
+```
+
+
+
+# 切换网页参数不丢失
+
+需要修改`NavMenu.razor`，凡是使用`NavLink`的地方统一替换为`CustomNavLink`，`CustomNavLink.razor`的代码如下：
+
+```c#
+@inherits NavLink
+@inject NavigationManager NavigationManager
+
+
+@*会有个问题：首页的导航项会一直处于匹配选中状态*@
+<NavLink @attributes="AdditionalAttributes"
+         Href="@HrefWithQuery"
+         @onclick="OnClick"
+         Match="NavLinkMatch.Prefix">
+    @base.ChildContent
+</NavLink>
+
+@code {
+    [Parameter] public string Href { get; set; } = string.Empty;
+
+    private string HrefWithQuery => GetHrefWithCurrentQuery();
+
+    private string GetHrefWithCurrentQuery() {
+        var currentUrl = new Uri(NavigationManager.Uri);
+        var query = currentUrl.Query;
+
+        if (!string.IsNullOrEmpty(query)) {
+            return $"{Href}{query}";
+        }
+
+        return Href;
+    }
+
+    private void OnClick(MouseEventArgs args) {
+        NavigationManager.NavigateTo(HrefWithQuery, forceLoad: false);
+    }
+}
+```
+
+为解决首页的导航页一直处于匹配选中状态的问题，可以把`Match`设置为`NavLinkMatch.All`。
+
+```html
+<CustomNavLink class="nav-link" href="" Match="NavLinkMatch.All">
+    <span class="oi oi-dollar" aria-hidden="true"></span> 首页
+</CustomNavLink>
 ```
 
 
