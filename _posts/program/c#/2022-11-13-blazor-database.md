@@ -74,10 +74,11 @@ dotnet tool update dotnet-ef --global
 
 项目需要安装如下三方库：
 
-```
+```bash
 Microsoft.EntityFrameworkCore
 Microsoft.EntityFrameworkCore.design
-Pomelo.EntityFrameworkCore.MySql
+Microsoft.EntityFrameworkCore.Tools
+Pomelo.EntityFrameworkCore.MySql		# Microsoft.EntityFrameworkCore.SqlServer
 ```
 
 添加`Model`，添加`DbContext`派生类，然后初始化一些种子数据，最后执行以下命令：
@@ -177,3 +178,8 @@ protected override void OnModelCreating(ModelBuilder modelBuilder) {
 }
 ```
 
+
+
+# 参考
+
+- [Migrations does not exist in the namespace Microsoft.EntityFrameworkCore](https://stackoverflow.com/questions/52191294/migrations-does-not-exist-in-the-namespace-microsoft-entityframeworkcore)
