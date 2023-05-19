@@ -15,6 +15,8 @@ tags:		[c#,blazor,net]
 - 安装：[ODBC Connector - MariaDB Knowledge Base](https://mariadb.com/kb/en/mariadb-connector-odbc/)
 - [Navicat](https://www.navicat.com/en/download/navicat-for-mysql)：可视化操作数据库，不用敲`SQL`命令，方面快捷；
 
+
+
 ## 2、VisualStudio连接MySQL
 
 `VisualStudio`默认使用的数据库是`SQL Server`，先改为链接`MySQL`的数据库，这里使用开源的`MariaDB`。`VisualStudio`链接`MariaDB`数据库需要通过ODBC方式，因此需要安装[ODBC Connector - MariaDB Knowledge Base](https://mariadb.com/kb/en/mariadb-connector-odbc/)，然后进行ODBC数据源配置：
@@ -29,6 +31,8 @@ tags:		[c#,blazor,net]
 
 - [MariaDB + Visual Studio 2017 环境下的 ODBC 入门开发](https://www.cnblogs.com/joxon/p/mariadb-vs2017-odbc.html)
 - 参考：[How to Use MySQL Database With .Net Core And Entity Framework?](https://www.geekinsta.com/mysql-with-net-core-and-entity-framework/)
+
+
 
 ## 3、创建数据库和表
 
@@ -81,7 +85,76 @@ Microsoft.EntityFrameworkCore.Tools
 Pomelo.EntityFrameworkCore.MySql		# Microsoft.EntityFrameworkCore.SqlServer
 ```
 
-添加`Model`，添加`DbContext`派生类，然后初始化一些种子数据，最后执行以下命令：
+添加`Model`，一些注解参考：
+
+```c#
+[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+[Display(Name = "编号")]
+public long Id { get; set; }
+
+[Required]
+[Display(Name = "编号")]
+
+[StringLength(maximumLength: 64)]
+[StringLength(maximumLength: 20, MinimumLength = 11)]
+
+[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+[Display(Name = "创建时间")]
+public DateTime CreateTime { get; set; }
+
+[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+[Display(Name = "更新时间")]
+public DateTime UpdatedTime { get; set; }
+
+[Index] // 创建索引
+```
+
+
+
+注意事项：
+
+```
+Employee-Job关系：在你的代码中，Employee和Job似乎有多对多的关系，这通常需要一个连接表（如EmployeeJob）来表示。在EF Core 5.0及以上版本中，你可以使用"多对多"关系来简化你的模型。你可以在Employee和Job类中直接添加对方的集合，然后EF Core会自动创建并管理连接表。
+
+然后你可以移除EmployeeJob类，EF Core会自动处理这个多对多的关系。
+```
+
+避免递归嵌套：
+
+```c#
+//实现接口的服务器项目在Program.cs中添加：
+//builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options => {
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+});
+
+// 在前端项目对应的http查询服务中
+public class EmployeeHttpService : IEmployeeHttpService {
+    private readonly HttpClient _client;
+    private readonly JsonSerializerOptions _jsonSerializerOptions;
+    
+    public EmployeeHttpService(HttpClient client) {
+        _client = client;
+        _jsonSerializerOptions = new JsonSerializerOptions {
+            PropertyNameCaseInsensitive = true,
+            ReferenceHandler = ReferenceHandler.Preserve,
+        };
+    }
+    
+    public async Task<ServiceResponse<PagedList<Employee>>> GetAll(EmployeeParameters param) {
+        HttpResponseMessage response = await _client.PostAsJsonAsync($"api/employee", param);
+
+        // 确保响应成功
+        response.EnsureSuccessStatusCode();
+
+        // 反序列化响应内容为对象
+        var content = await response.Content.ReadFromJsonAsync<ServiceResponse<PagedList<Employee>>>(_jsonSerializerOptions);
+        return content;
+    }
+}
+```
+
+添加`DbContext`派生类，然后初始化一些种子数据，最后执行以下命令：
 
 ```bash
 dotnet ef migrations add InitName
@@ -91,7 +164,7 @@ dotnet ef database update
 `dotnet ef`命令汇总：
 
 ```c#
-// 在PM控制台中使用。注意：使用前一定先 cd 到项目目录（或者直接切换默认项目），选择有 DbContext 实体类的项目。
+// 在PM控制台中使用。注意：使用前一定先 cd 到项目目录（或者直接切换默认项目），选择有 DbContext 实体类的项目。且把配置有数据库源的项目设置为启动项目！！！
 
 dotnet ef database update  		//更新数据库
 dotnet ef migrations add Name  	//创建新的迁移文件

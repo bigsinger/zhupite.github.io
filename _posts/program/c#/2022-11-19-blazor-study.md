@@ -143,35 +143,6 @@ public static string? getUrlArg(NavigationManager navigationManager, string argN
 
 
 
-### 接口编写步骤
-
-1. 先写Model
-
-2. 再写服务端的service（使用`DbContext`）
-
-3. 再写controller
-
-4. 使用 `swagger` 测试
-
-   1. 添加三方库：`Swashbuckle.AspNetCore`
-
-   2. 添加初始化代码：
-
-      ```csharp
-      if(env.IsDevelopment()) {
-          app.UseSwagger();
-          app.UseSwaggerUI();
-      }
-      
-      builder.Services.AddSwaggerGen();
-      ```
-
-   3. 服务运行后访问：https://localhost:7155/swagger/index.html
-
-5. 客户端的service（使用http发送请求）
-
-
-
 ### HTTPS免费证书
 
 [Let's Encrypt - 免费的SSL/TLS证书](https://letsencrypt.org/zh-cn/)
