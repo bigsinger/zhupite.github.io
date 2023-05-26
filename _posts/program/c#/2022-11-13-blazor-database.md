@@ -85,39 +85,7 @@ Microsoft.EntityFrameworkCore.Tools
 Pomelo.EntityFrameworkCore.MySql		# Microsoft.EntityFrameworkCore.SqlServer
 ```
 
-添加`Model`，一些注解参考：
-
-```c#
-[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-[Display(Name = "编号")]
-public long Id { get; set; }
-
-[Required]
-[Display(Name = "编号")]
-
-[StringLength(maximumLength: 64)]
-[StringLength(maximumLength: 20, MinimumLength = 11)]
-
-[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-[Display(Name = "创建时间")]
-public DateTime CreateTime { get; set; }
-
-[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-[Display(Name = "更新时间")]
-public DateTime UpdatedTime { get; set; }
-
-[Index] // 创建索引
-```
-
-
-
-注意事项：
-
-```
-Employee-Job关系：在你的代码中，Employee和Job似乎有多对多的关系，这通常需要一个连接表（如EmployeeJob）来表示。在EF Core 5.0及以上版本中，你可以使用"多对多"关系来简化你的模型。你可以在Employee和Job类中直接添加对方的集合，然后EF Core会自动创建并管理连接表。
-
-然后你可以移除EmployeeJob类，EF Core会自动处理这个多对多的关系。
-```
+添加`Model`，具体可以参考【模型设计】一节。
 
 避免递归嵌套：
 
@@ -175,10 +143,200 @@ dotnet ef database update drop 	//删除数据库
 也有对应的另外的版本：
 
 ```bash
-Add-Migration Initial   -verbose # -verbose 根据实际需要添加
-Update-Database
+Add-Migration Initial   -verbose 	# -verbose 根据实际需要添加
+Update-Database	<MigrationName>		# 数据库更新到指定的迁移，不带参数则更新最后一个
 Remove-Migration
+
+Get-Migrations						# 列出所有迁移
+Add-Migration <合并后的迁移名称> -Context <DbContext名称>		# 迁移合并命令（合并多个迁移记录为一个）
+Update-Database 0					# 将数据库回滚到初始状态
 ```
+
+## 关于数据迁移
+
+数据迁移记录在数据库中的`__EFMigrationsHistory`表中。
+
+
+
+## 注意事项
+
+执行`Entity Framework Core` 命令时，一定要确保：切换到 `DbContext`派生类所在的项目，并且启动项目为包含数据源配置的项目，不然会报错：
+
+```
+Unable to create an object of type 'DataContext'. For the different patterns supported at design time, see https://go.microsoft.com/fwlink/?linkid=851728
+```
+
+这个是很容易忘记的。
+
+
+
+迁移记录文件是用来记录模型更改历史的，它们对于追踪和应用数据库变更非常重要。因此，不建议随意删除迁移记录文件。
+
+如果你有太多的迁移记录文件，可以考虑进行一些清理和整理，以保持项目的可维护性。以下是一些处理过多迁移记录的常见方法：
+
+1. 合并迁移：将多个相关的迁移记录合并成一个更大的迁移记录。这样可以减少迁移文件的数量，并提高可读性和维护性。可以使用 `dotnet ef migrations merge` 命令来执行迁移合并操作。
+2. 删除旧的迁移记录：如果你确定某些迁移记录不再需要，可以考虑删除它们。但是要注意，只能删除尚未应用到数据库的迁移记录。已经应用到数据库的迁移记录不能被删除，否则会导致数据库与迁移记录不一致。
+3. 重置迁移历史：如果迁移记录过多且已经应用到数据库中，你可以考虑重置迁移历史。这意味着将数据库回滚到初始状态，并重新创建一个全新的初始迁移记录。这样可以清除所有旧的迁移记录，并开始一个新的迁移历史。要执行迁移历史重置，可以使用 `dotnet ef database update 0` 命令。
+
+无论你选择哪种方法，都建议在进行任何更改之前先备份数据库以防止数据丢失。此外，与团队成员进行充分的沟通，并确保所有人都了解迁移历史的变更和处理方式。
+
+
+
+```
+Employee-Job关系：在你的代码中，Employee和Job似乎有多对多的关系，这通常需要一个连接表（如EmployeeJob）来表示。在EF Core 5.0及以上版本中，你可以使用"多对多"关系来简化你的模型。你可以在Employee和Job类中直接添加对方的集合，然后EF Core会自动创建并管理连接表。
+
+然后你可以移除EmployeeJob类，EF Core会自动处理这个多对多的关系。
+```
+
+
+
+```
+fail: Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware[1]
+      An unhandled exception has occurred while executing the request.
+      System.InvalidOperationException: The instance of entity type 'Department' cannot be tracked because another instance with the same key value for {'DepartmentId'} is already being tracked. When attaching existing entities, ensure that only one entity instance with a given key value is attached. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the conflicting key values.
+```
+
+存在递归循序引用关系时可能出现这个错误，例如：
+
+```c#
+public class Department : BaseEntity {
+    [Display(Name = "部门级别")]
+    public int DepartmentLevel { get; set; }
+
+    [Display(Name = "上级部门")]
+    public long? ParentDepartmentId { get; set; }
+
+    [ForeignKey("ParentDepartmentId")]
+    public Department ParentDepartment { get; set; }
+    public ICollection<Department> ChildDepartments { get; set; } = new List<Department>();
+
+    [Display(Name = "负责人编号")]
+    public long? ManagerId { get; set; }
+
+    [ForeignKey("ManagerId")]
+    [Display(Name = "负责人")]
+    public Employee Manager { get; set; }
+
+    public ICollection<Employee> Employees { get; set; } = new List<Employee>();
+}
+```
+
+
+
+# 模型设计
+
+## 导航属性
+
+- 在 `Entity Framework Core` (EF Core)中，**导航属性**用于表示实体类型之间的关系。导航属性允许您在实体之间导航并访问相关实体的属性。
+- 在 `Entity Framework Core` 中，**反向导航属性**（Reverse Navigation Property）是指在关系模型中定义的一个属性，用于表示与当前实体关联的其他实体。一般也是集合属性，它解决的是一对多关系。其实广义上来讲，**反向导航属性**也是**导航属性**的一种，属于**集合导航属性**。
+
+
+
+导航属性是EF Core中非常强大和常用的功能，它简化了实体之间的关系处理和查询操作。在EF Core 5.0及以上版本中，你可以使用"多对多"关系来简化你的模型。EF Core导航属性的基本概念和用法：
+
+1. `单导航属性`（Single Navigation Property）：在一个实体类型中，通过一个导航属性引用另一个实体类型。例如，一个订单实体可能有一个指向客户实体的导航属性，表示订单所属的客户。
+
+2. `集合导航属性`（Collection Navigation Property）：在一个实体类型中，通过一个导航属性引用多个相关实体类型。例如，一个部门实体可能有一个指向员工实体的集合导航属性，表示部门中的所有员工。
+
+3. 导航属性的定义：在实体类型中，您可以通过定义一个属性来表示导航关系。这个属性的类型通常是关联实体类型或关联实体类型的集合。
+
+   ```c#
+   public class Order {
+       public int OrderId { get; set; }
+       public Customer Customer { get; set; } 			// 单导航属性
+   }
+   
+   public class Customer {
+       public int CustomerId { get; set; }
+       public ICollection<Order> Orders { get; set; } 	// 集合导航属性，或称反向导航属性
+   }
+   ```
+
+4. `导航属性的配置`：**如果使用了导航属性，则不能再使用`Fluent API`配置关联关系，虽然可以编译通过，但是会生成额外的列，造成逻辑混乱。**如果没有使用导航属性可以使用`Fluent API`配置关联关系，例如可以指定导航属性之间的关系类型（一对一、一对多、多对多）以及外键属性的名称。
+
+   ```c#
+   // 如果使用了导航属性，则不能再使用 Fluent API 配置关联关系
+   protected override void OnModelCreating(ModelBuilder modelBuilder) {
+       modelBuilder.Entity<Order>()
+           .HasOne(o => o.Customer)
+           .WithMany(c => c.Orders)
+           .HasForeignKey(o => o.CustomerId);
+   }
+   ```
+
+
+
+​	使用反向导航属性（集合属性）时，即使关联的实体类没有设置导航属性，在数据迁移后，也会为实体类自动生成外键。所以，不能再额外使用`Fluent API`创建外键。例如下面的代码中`Order`类没有使用导航属性，但是`Customer`使用了集合属性，则在执行数据迁移后，表`Orders`的列中仍然会出现`CustomerId`，因为它是被反向导航了，也可以认为是`躺枪`。
+
+```c#
+// 没有使用导航属性
+public class Order {
+}
+
+// 使用了集合属性
+public class Customer {
+    public int CustomerId { get; set; }
+    public ICollection<Order> Orders { get; set; }
+}
+```
+
+​	也就是说，`Customer`使用了集合属性，它们俩的关联关系在设计阶段其实就已经形成了，那就是至少是一对多的，至于是不是多对多那要看`Order`类怎么设计的。假如现在设计如下：
+
+```c#
+public class Order {
+    public int OrderId { get; set; }
+    public Customer Customer { get; set; } 			// 单导航属性
+}
+
+public class Customer {
+    public int CustomerId { get; set; }
+    public ICollection<Order> Orders { get; set; } 	// 集合导航属性
+}
+```
+
+​	那么它们的关系是一对多，注意这个时候执行数据迁移，并不会因为这次新增加了属性：`OrderId` 和 `Customer` 而有什么变化，实际上也确实不会有什么变化。增加这两个属性是为了方便后面代码引用方便罢了，`OrderId`本身就是集合属性而反向增加的外键名称了，`Customer`是为了在执行关联查询时候可以直接获取出属性的全部信息。
+
+
+
+5. **导航属性的关联查询**，您可以轻松地在查询中进行关联操作，例如通过以下方式获取订单所属的客户信息：
+
+```c#
+var order = dbContext.Orders.Include(o => o.Customer).FirstOrDefault();
+var customer = order.Customer;
+```
+
+使用导航属性相对比较简单清晰一些，只需关注模型实体的设计即可，查询的时候也比较简单，执行关联查询即可，也就是结合`Include`语句进行查询。
+
+
+
+
+
+## 注解参考
+
+```c#
+// 自动增加，一般用在编号上
+[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+[Display(Name = "编号")]
+public long Id { get; set; }
+
+[Required]
+[Display(Name = "编号")]
+
+[StringLength(maximumLength: 64)]
+[StringLength(maximumLength: 20, MinimumLength = 11)]
+
+[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+[Display(Name = "创建时间")]
+public DateTime CreateTime { get; set; }
+
+[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+[Display(Name = "更新时间")]
+public DateTime UpdatedTime { get; set; }
+
+[Index] // 创建索引
+```
+
+
 
 
 
