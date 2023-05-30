@@ -7,7 +7,9 @@ tags:		[c#,blazor,net]
 ---
 - Content
 {:toc}
-实现效果：[列表数据多页面翻页](https://zhupite.com/program/blazor-study.html#%E7%BF%BB%E9%A1%B5)。
+
+
+# 翻页方案1
 
 `Pagination.razor`：
 
@@ -24,9 +26,11 @@ tags:		[c#,blazor,net]
 </nav>
 ```
 
+
+
 `Pagination.razor.cs`：
 
-```c#
+```cs
 using BlazorDemo.Features;
 using Entities.RequestFeatures;
 using Microsoft.AspNetCore.Components;
@@ -71,35 +75,18 @@ namespace BlazorDemo.Components {
 }
 ```
 
-
-
-`MetaData.cs`：
-
-```c#
-namespace Entities.RequestFeatures {
-	public class MetaData {
-		public int CurrentPage { get; set; }
-		public int TotalPages { get; set; }
-		public int PageSize { get; set; }
-		public int TotalCount { get; set; }
-
-		public bool HasPrevious => CurrentPage > 1;
-		public bool HasNext => CurrentPage < TotalPages;
-	}
-}
-```
-
-
-
-使用时：
+使用者：
 
 ```xml
-<BlazorDemo.Components.Pagination MetaData="@MetaData" Spread="2" SelectedPage="SelectedPage" />
+<div class="row">
+    <div class="col">
+        <BlazorDemo.Components.Pagination MetaData="@MetaData" Spread="2" SelectedPage="SelectedPage" />
+    </div>
+</div>
 ```
 
-```c#
+```cs
 public MetaData MetaData { get; set; } = new MetaData();
-
 
 private async Task SelectedPage(int page) {
     _appParam.PageNumber = page;
@@ -107,3 +94,140 @@ private async Task SelectedPage(int page) {
 }
 ```
 
+
+
+# 翻页方案2
+
+`Pagination.razor`：
+
+```xml
+@if (TotalPages > 1) {
+    <nav class="mt-4" aria-label="Page navigation sample">
+        <ul class="pagination">
+            @foreach (var link in links) {
+                <li @onclick="() => SelectedPageInternal(link)"
+                    style="cursor: pointer;"
+                    class="page-item @(link.Enabled ? null : "disabled") @(link.Active ? "active" : null)">
+                    <span class="page-link">@link.Text</span>
+                </li>
+            }
+        </ul>
+    </nav>
+}
+```
+
+
+
+`Pagination.razor.cs`：
+
+```cs
+namespace BlazorShop.Web.Client.Shared.Products {
+    using Microsoft.AspNetCore.Components;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    public partial class Pagination {
+        private List<LinkModel> links;
+
+        [Parameter]
+        public int Page { get; set; } = 1;
+
+        [Parameter]
+        public int TotalPages { get; set; }
+
+        [Parameter]
+        public int Radius { get; set; } = 3;
+
+        [Parameter]
+        public EventCallback<int> SelectedPage { get; set; }
+
+        protected override void OnParametersSet() => this.LoadPages();
+
+        private async Task SelectedPageInternal(LinkModel link) {
+            if (link.Page == this.Page) {
+                return;
+            }
+
+            if (!link.Enabled) {
+                return;
+            }
+
+            this.Page = link.Page;
+
+            await this.SelectedPage.InvokeAsync(link.Page);
+        }
+
+        private void LoadPages() {
+            const string previous = "Previous";
+            const string next = "Next";
+
+            var isPreviousPageLinkEnabled = this.Page != 1;
+            var previousPage = this.Page - 1;
+
+            this.links = new List<LinkModel>
+            {
+                new LinkModel(previousPage, isPreviousPageLinkEnabled, previous)
+            };
+
+            for (int i = 1; i <= this.TotalPages; i++) {
+                if (i >= this.Page - this.Radius && i <= this.Page + this.Radius) {
+                    this.links.Add(new LinkModel(i)
+                    {
+                        Active = this.Page == i
+                    });
+                }
+            }
+
+            var isNextPageLinkEnabled = this.Page != this.TotalPages;
+            var nextPage = this.Page + 1;
+
+            this.links.Add(new LinkModel(nextPage, isNextPageLinkEnabled, next));
+        }
+
+        private class LinkModel {
+            public LinkModel(int page)
+                : this(page, true) {
+            }
+
+            private LinkModel(int page, bool enabled)
+                : this(page, enabled, page.ToString()) {
+            }
+
+            public LinkModel(int page, bool enabled, string text) {
+                this.Page = page;
+                this.Enabled = enabled;
+                this.Text = text;
+            }
+
+            public string Text { get; }
+
+            public int Page { get; }
+
+            public bool Enabled { get; }
+
+            public bool Active { get; set; }
+        }
+    }
+}
+```
+
+
+
+使用者：
+
+```xml
+<Pagination Page="@searchResponse.Page" TotalPages="@searchResponse.TotalPages" Radius="2" SelectedPage="SelectedPage" />
+```
+
+```cs
+private async Task SelectedPage(int page) {
+    this.Page = page;
+    await this.LoadData(withCategories: false);
+}
+```
+
+
+
+# 翻页方案3 使用三方框架
+
+如使用 [BootstrapBlazor表格的分页功能](https://www.blazor.zone/tables/pages) 

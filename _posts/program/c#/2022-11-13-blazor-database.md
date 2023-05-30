@@ -152,6 +152,8 @@ Add-Migration <合并后的迁移名称> -Context <DbContext名称>		# 迁移合
 Update-Database 0					# 将数据库回滚到初始状态
 ```
 
+
+
 ## 关于数据迁移
 
 数据迁移记录在数据库中的`__EFMigrationsHistory`表中。
@@ -220,6 +222,8 @@ public class Department : BaseEntity {
     public ICollection<Employee> Employees { get; set; } = new List<Employee>();
 }
 ```
+
+
 
 
 
@@ -333,7 +337,19 @@ public DateTime CreateTime { get; set; }
 [Display(Name = "更新时间")]
 public DateTime UpdatedTime { get; set; }
 
-[Index] // 创建索引
+
+#region 负责的部门
+[Display(Name = "负责的部门")]
+public long? ChargeDepartmentId { get; set; }
+
+[ForeignKey("ChargeDepartmentId")]		// 外键
+public Department ChargeDepartment { get; set; }
+
+[NotMapped]
+[Display(Name = "负责的部门")]
+public string ChargeDepartmentName { get; set; }
+#endregion
+
 ```
 
 
