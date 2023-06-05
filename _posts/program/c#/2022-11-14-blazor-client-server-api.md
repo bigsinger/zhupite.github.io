@@ -51,9 +51,9 @@ tags:		[c#,blazor,net]
 
 1. 先写`Model`，模型设计及数据库迁移可以参考：[C# blazor Web开发之数据库汇总 — 朱皮特的烂笔头](https://zhupite.com/program/blazor-database.html)
 
-1. 添加`DbContext`派生类；
-
 1. 配置数据源：创建好数据库，然后配置`appsettings.json` ；
+
+1. 添加并注册`DbContext`派生类；
 
 1. 如果模型及数据有变更，需要执行一次数据迁移；
 
@@ -79,4 +79,123 @@ tags:		[c#,blazor,net]
    3. 服务运行后访问：https://localhost:7155/swagger/index.html  测试接口及服务编写的正确性。
 
 5. 编写客户端的`service`（使用http发送请求）并注册，一般是两个文件：一个接口、一个实现。
+
+
+
+
+
+# 服务请求方法
+
+## PostAsync
+
+```c#
+public async Task<ServiceResponse<bool>> Create(Module obj) {
+    ServiceResponse<bool> ret = new();
+    if (obj.Memo?.Length > Settings.MemoMaxSize) {
+        obj.Memo = obj.Memo.Substring(0, Settings.MemoMaxSize);
+    }
+    var postContent = System.Text.Json.JsonSerializer.Serialize(obj, _jsonSerializerOptions);
+    var bodyContent = new StringContent(postContent, Encoding.UTF8, "application/json");
+
+    var response = await _client.PostAsync("api/module/create", bodyContent);
+    if (response.IsSuccessStatusCode) {
+        ret = await response.Content.ReadFromJsonAsync<ServiceResponse<bool>>(_jsonSerializerOptions) ?? ret;
+    } else {
+        ret.Success = false;
+        var content = await response.Content.ReadAsStringAsync();
+        ret.Message = $"Create failed with status code: {response.StatusCode}\nResponse content: {content}";
+        throw new ApplicationException(content);
+    }
+
+    return ret;
+}
+```
+
+## PostAsJsonAsync
+
+```c#
+public async Task<ServiceResponse<PagedList<Module>>> GetAll(ModuleFilterParam param) {
+    HttpResponseMessage response = await _client.PostAsJsonAsync($"api/module", param);
+    response.EnsureSuccessStatusCode(); // 确保响应成功
+    var content = await response.Content.ReadFromJsonAsync<ServiceResponse<PagedList<Module>>>(_jsonSerializerOptions);
+    return content ?? new();
+}
+```
+
+
+
+## DeleteAsync
+
+```c#
+public async Task Delete(long id) {
+    var postResult = await _client.DeleteAsync("api/module/delete/" + id);
+    var postContent = await postResult.Content.ReadAsStringAsync();
+
+    if (!postResult.IsSuccessStatusCode) {
+        throw new ApplicationException(postContent);
+    }
+}
+```
+
+
+
+## PutAsync
+
+```c#
+public async Task<ServiceResponse<bool>> Update(Module obj) {
+    ServiceResponse<bool> ret = new();
+    try {
+        var postContent = System.Text.Json.JsonSerializer.Serialize(obj, _jsonSerializerOptions);
+        var bodyContent = new StringContent(postContent, Encoding.UTF8, "application/json");
+
+        var response = await _client.PutAsync("api/module/update", bodyContent);
+
+        if (response.IsSuccessStatusCode) {
+            ret = await response.Content.ReadFromJsonAsync<ServiceResponse<bool>>(_jsonSerializerOptions) ?? ret;
+        } else {
+            var content = await response.Content.ReadAsStringAsync();
+            ret.Success = false;
+            ret.Message = $"Update failed with status code: {response.StatusCode}\nResponse content: {content}";
+            throw new ApplicationException(content);
+        }
+    } catch (Exception e) {
+        ret.Success = false;
+        ret.Message = $"Exception occured in Update: {e.Message}";
+        if (e.InnerException != null) {
+            ret.Message += $"\nInner exception: {e.InnerException.Message}";
+        }
+        ret.Message += $"\bStack trace: {e.StackTrace}";
+        throw;
+    }
+
+    return ret;
+}
+```
+
+
+
+## DeleteFromJsonAsync
+
+
+
+## GetFromJsonAsync
+
+```c#
+var res = await _client.GetFromJsonAsync<ServiceResponse<xxx>>(Url + "/api/chat/message");
+res.Data
+```
+
+
+
+## PatchAsJsonAsync
+
+
+
+## PostAsJsonAsync
+
+
+
+## PutAsJsonAsync
+
+
 

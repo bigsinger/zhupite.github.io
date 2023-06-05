@@ -34,6 +34,7 @@ API搜索可以到微软官方网址：https://learn.microsoft.com/zh-cn/dotnet/
 # 鸡零狗碎
 
 ```c#
+添加属性，输入prop自动补全
 public event Action ProductsChanged;
 public event Action<string> ProductsChanged;
 public EventCallback<string> ProductsChanged;
