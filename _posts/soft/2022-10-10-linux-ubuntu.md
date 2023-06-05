@@ -1,7 +1,7 @@
 ﻿---
 layout:		post
 category:	"soft"
-title:		"Linux - Ubuntu的常用命令收集汇总方便查询"
+title:		"Linux - Ubunt（WSL）的常用命令收集汇总方便查询"
 
 tags:		[语音合成]
 ---
