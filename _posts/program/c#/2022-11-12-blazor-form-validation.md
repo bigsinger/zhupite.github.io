@@ -1,13 +1,17 @@
 ---
 layout:		post
 category:	"program"
-title:		"C#Blazor表单验证"
+title:		"C#Blazor表单验证摘要验证消息"
 
 tags:		[c#,blazor,net]
 ---
 - Content
 {:toc}
-实现效果：对表单内容自动检查合法性。
+- 实现效果：对表单内容自动检查合法性。
+- 关键词：`EditForm`、 `DataAnnotationsValidator`、 `ValidationMessage` 、`ValidationSummary`
+- 验证摘要使用：`ValidationSummary`
+- 验证消息使用：`ValidationMessage` 
+- 一般来说推荐使用验证消息。
 
 
 
@@ -84,6 +88,21 @@ namespace Entities.Models {
 
 
 
+又如：
+
+```c#
+public class UserRegister {
+    [Required, EmailAddress]
+    public string Email { get; set; } = string.Empty;
+    [Required, StringLength(100, MinimumLength = 6)]
+    public string Password { get; set; } = string.Empty;
+    [Compare("Password", ErrorMessage = "The passwords do not match.")]
+    public string ConfirmPassword { get; set; } = string.Empty;
+}
+```
+
+
+
 使用`EditForm` 和 `<ValidationMessage For="@(() => _app.Name)" />`可以在提交表单时自动进行合法性验证并做提示。
 
 ```xml
@@ -132,5 +151,4 @@ namespace Entities.Models {
 </EditForm>
 <SuccessNotification @ref="_notification"/>
 ```
-
 
