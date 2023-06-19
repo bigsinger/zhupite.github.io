@@ -10,8 +10,9 @@ tags:		[语音合成]
 双系统来回切换不方便，目前有一个方式倒是挺方便的，就是在Windows10中安装Ubuntu子系统：
 
 ```bash
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart		# 管理员身份运行
 wsl --list --online 			# 查看可安装版本
-wsl --install -d Ubuntu-20.04
+wsl --install -d Ubuntu-22.04	# Ubuntu-20.04
 ```
 
 安装需要的条件：
