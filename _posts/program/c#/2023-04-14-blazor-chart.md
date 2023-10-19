@@ -1,7 +1,7 @@
 ---
 layout:		post
 category:	"program"
-title:		"C#之Blazor开发数据图表分析项目"
+title:		"C#之Blazor开发CSV数据图表分析项目"
 
 tags:		[c#,blazor,net,chart]
 ---
@@ -35,12 +35,14 @@ tags:		[c#,blazor,net,chart]
 
 ## 基础表
 
-`BICsvBaseTable`
+`BICsvBaseTable`，在基础表里面做了一些异常判断，如果列名标注有误，会给出错误提示，方便排查问题。
 
 ```c#
 using System.Data;
 using System.Globalization;
+using System.Reflection;
 using BIChart;
+using BIChart.CSVTable;
 using CsvHelper;
 
 public abstract class BICsvBaseTable {
@@ -49,8 +51,70 @@ public abstract class BICsvBaseTable {
     // 获取待分析数据的文件路径
     public abstract string? getDataFilePath();
 
+    // 表示日期的默认列索引
+    public int defaultDateColumnIndex { get; set; } = -1;
+
+    // 表示数值的默认列索引
+    public int defaultValueColumnIndex { get; set; } = -1;
+
+    // 存储表格列属性的列表
+    protected List<KeyValuePair<FieldInfo, Attribute>> fields = new();
+
+
+    // 根据列名找到对应的列类型
+    private Type findColumnType(int columnIndex, string columnName, List<KeyValuePair<FieldInfo, Attribute>> fields) {
+        foreach (var field in fields) {
+            if (field.Value is TableColumnAttribute attribute) {
+                if (attribute.Name == columnName) {
+                    field.Key.SetValue(null, columnIndex);
+                    return attribute.DataType;
+                }
+            }
+        }
+        return typeof(string);
+    }
+
     // Manually define the columns and their types
-    protected abstract void defineColumnType(DataTable dt, int columnCount);
+    protected void defineColumnType(DataTable dt, string[] columnNames) {
+        // 初始化表格列属性的列表
+        if (this.fields.Count == 0) {
+            Type type = this.GetType();
+            foreach (var field in type.GetFields()) {
+                if (field.IsStatic) {
+                    var attribute = Attribute.GetCustomAttribute(field, typeof(TableColumnAttribute)) as TableColumnAttribute;
+                    if (attribute != null) {
+                        field.SetValue(null, -1);   // 初始化为-1，表示未初始化
+                        fields.Add(new(field, attribute));
+                    }
+                }
+            }
+        }
+
+        for (int columnIndex = 0; columnIndex < columnNames.Length; columnIndex++) {
+            dt.Columns.Add(new DataColumn(columnNames[columnIndex], findColumnType(columnIndex, columnNames[columnIndex], fields)));
+        }
+    }
+
+    // 获取需要分析的列，并检查是否有未初始化的列
+    protected void defineSelectingColumns() {
+        columnsToSelect = new();
+
+        foreach (var field in fields) {
+            if (field.Value is TableColumnAttribute attribute) {
+                int? columnIndex = (int?)field.Key.GetValue(null);
+                if (columnIndex == null) {
+                    throw new Exception("存在未初始化的列null，请检查列名是否正确：" + attribute.Name);
+                } else {
+                    if (columnIndex == -1) {
+                        throw new Exception("存在未初始化的列-1，请检查列名是否正确：" + attribute.Name);
+                    }
+                    if (attribute.CanSelect) {
+                        columnsToSelect.Add((int)columnIndex);
+                    }
+                }
+            }
+        }
+    }
 
     // 读取csv记录到datatable
     public DataTable readData(string? csvFile) {
@@ -61,11 +125,17 @@ public abstract class BICsvBaseTable {
         using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture)) {
             csv.Read();
             var rawRecord = csv.Context.Parser.RawRecord;
-            this.columnNames = rawRecord.Split(',');  // 列头一般不会有逗号
+            this.columnNames = rawRecord.Split(',', StringSplitOptions.TrimEntries);  // 列头一般不会有逗号
             csv.ReadHeader();
 
             // Manually define the columns and their types
-            defineColumnType(dt, this.columnNames.Length);
+            defineColumnType(dt, this.columnNames);
+
+            // 指定需要分析的列
+            defineSelectingColumns();
+
+            // 根据列头定义自动获取出默认的日期列和数值列
+            autoDetectDefaultColumnIndex(dt);
 
             // Read the CSV records and add them to the DataTable
             while (csv.Read()) {
@@ -85,6 +155,23 @@ public abstract class BICsvBaseTable {
         return dt;
     }
 
+    // 自动探测数值列和日期列
+    private void autoDetectDefaultColumnIndex(DataTable dt) {
+        // 如果日期列或数值列未初始化过，需要自动探测
+        if (defaultDateColumnIndex == -1 || defaultValueColumnIndex == -1) {
+            foreach (DataColumn column in dt.Columns) {
+                if (column.DataType == typeof(DateOnly)) {
+                    if (defaultDateColumnIndex == -1) { defaultDateColumnIndex = column.Ordinal; }
+                } else if (column.DataType == typeof(double)) {
+                    if (defaultValueColumnIndex == -1) { defaultValueColumnIndex = column.Ordinal; }
+                }
+            }
+        }
+
+        if (defaultDateColumnIndex == -1 || defaultValueColumnIndex == -1) {
+            throw new Exception("未探测到默认的日期列和数值列");
+        }
+    }
 
     // 提供给UI可以选择分析的列索引列表，在派生类的构造函数中初始化该值即可。
     protected List<int>? columnsToSelect = null;
@@ -115,12 +202,11 @@ public abstract class BICsvBaseTable {
     /// <param name="obj">从CSV读取出的原始内容，也就是即将被规范化的内容</param>
     /// <returns></returns>
     private object? normalizeClassify(DataRow row, int columnIndex, object? obj) {
-        if (normalClassifiesDic == null || normalClassifiesDic.Count == 0) { return obj; }
+        if (normalClassifiesDic == null || normalClassifiesDic.Count == 0 || normalClassifiesDic.TryGetValue(columnIndex, out Dictionary<string, string>? nameMap) == false) { return obj; }
         if (obj is string) {
             string? name = obj as string;
             string? newName = null;
             if (name != null) {
-                normalClassifiesDic.TryGetValue(columnIndex, out Dictionary<string, string>? nameMap);
                 nameMap?.TryGetValue(name, out newName);
             }
             if (newName == null && putLeftoverToOthers) {
@@ -136,7 +222,8 @@ public abstract class BICsvBaseTable {
     /// 适合批量重新规范化的情况，目前遇不到。目前在读取表格的时候同时就规范化了，参见：normalizeClassify 的使用
     /// </summary>
     protected void normalizeClassifies() {
-        if (normalClassifiesDic == null) return;
+        if (normalClassifiesDic == null)
+            return;
 
         foreach (DataRow row in dataTable.Rows) {
             foreach (var dic in normalClassifiesDic) {
@@ -162,7 +249,7 @@ public abstract class BICsvBaseTable {
     }
 
     // 缓存列头信息的字符串列表
-    private string[]? columnNames;
+    private string[] columnNames;
 
     /// <summary>
     /// 获取列头名称
@@ -181,10 +268,9 @@ public abstract class BICsvBaseTable {
     protected Dictionary<int, List<string>> classifies = new();
 
     // 获取某列的全部的分类
-    public List<string> getAllClassifies(DataTable? dt, int columnIndex) {
-        if (dt == null) { dt = dataTable; }
+    public List<string> getAllClassifies(int columnIndex) {
         if (!classifies.TryGetValue(columnIndex, out List<string>? list)) {
-            list = BICommonUtil.getAllClassifiesInner(dt, columnIndex);
+            list = BICommonUtil.getAllClassifiesInner(dataTable, columnIndex);
             classifies[columnIndex] = list;
         }
         return list;
@@ -207,7 +293,53 @@ public abstract class BICsvBaseTable {
         }
         return allYears;
     }
+}
+```
 
+## 注解类
+
+其实在C#里叫特性，但是我更喜欢注解这个词，贴切！使用`TableColumnAttribute`来给列做标注，见后面的业务实现部分。
+
+```c#
+namespace BIChart.CSVTable;
+
+/*
+ 用来标注指定表格列的名称和数据类型
+ */
+[AttributeUsage(AttributeTargets.Field)]
+public class TableColumnAttribute : Attribute {
+    // 指示该列的名称
+    private string name;
+
+    // 指示该列的数据类型
+    private Type dataType = typeof(string);
+
+    // 指示是否可以展示分析
+    private bool canSelect = false;
+
+    public TableColumnAttribute(string name) {
+        this.name = name;
+    }
+
+    public TableColumnAttribute(string name, bool canSelect) {
+        this.name = name;
+        this.canSelect = canSelect;
+    }
+
+    public TableColumnAttribute(string name, Type dataType) {
+        this.name = name;
+        this.dataType = dataType;
+    }
+
+    public TableColumnAttribute(string name, Type dataType, bool canSelect) {
+        this.name = name;
+        this.dataType = dataType;
+        this.canSelect = canSelect;
+    }
+
+    public string Name { get { return name; } }
+    public Type DataType { get { return dataType; } }
+    public bool CanSelect { get { return canSelect; } }
 }
 ```
 
@@ -921,12 +1053,10 @@ public abstract class PageBaseHelper : ComponentBase, IDisposable {
 
 1. 导出为`CSV`格式文件，并把文件存放在`Data`目录下（其他文件目录也可以，通过相对路径定位）。
 
-2. 创建一个派生自`BICsvBaseTable`的类，用来简单描述该数据表。简单到什么程度？只需要做三块：
+2. 创建一个派生自`BICsvBaseTable`的类，用来简单描述该数据表。简单到什么程度？只需要两步：
 
-   1. 声明一些表格列头的索引数值常量，可以不用全部声明完，只需要声明实际需要的即可。
-2. 实现`getDataFilePath`函数，主要是告知`CSV`文件路径的。
-   3. 实现`defineColumnType`函数，主要是对某些列进行类型指定，用以提高速度的，后面读取数据的时候就不用额外做转换操作了。
-3. 实现构造函数并初始化`columnsToSelect`，用来告知哪些列是可以选择的。
+   1. 声明一些表格列头的静态变量，可以不用全部声明，只需要声明实际需要的即可，且无须考虑顺序。用特性类`TableColumnAttribute`进行注解，标注对应的列名、数据格式、是否需要展示分析。
+   1. 实现`getDataFilePath`函数，主要是告知`CSV`文件路径的。
 
 ```c#
 using System.Data;
@@ -935,38 +1065,22 @@ namespace BIChart;
 
 // 订单详情csv解析辅助类
 public class BIOrdersTable : BICsvBaseTable {
-  // CSV的列意义
-  public const int columnIndexDate = 0;                   	//时间
-  public const int columnIndexValue = 5;                  	//数额
-  public const int columnIndexType = 6;                   	//类型
-	//…… 此处省略多个列头的索引声明
+  	[TableColumnAttribute(name: "时间", dataType: typeof(DateOnly))]
+    public static int columnIndexDate;
 
-	public BIOrdersTable() {
-        this.columnsToSelect = new(){
-            columnIndexType,
-            //……
-        };
+    [TableColumnAttribute(name: "数额", dataType: typeof(double))]
+    public static int columnIndexValue;
+
+    [TableColumnAttribute(name: "类型", canSelect: true)]
+    public static int columnIndexType;
+
+    //…… 此处省略多个列头的索引声明
+
+    // 获取某个月份的经营收入表格的全文件路径
+    public override string? getDataFilePath() {
+        string filePath = star.paths.findRecentOneFile(Path.Combine(Constant.RootDirName, "订单明细"), ".csv");
+        return filePath;
     }
-
-  public override string getDataFilePath() {
-	  string csvFile = Path.Combine(Constant.RootDirName, "xxx数据", "", string.Format("{0:00}.csv", 1));
-	  return csvFile;
-  }
-
-  // Manually define the columns and their types
-  protected override void defineColumnType(DataTable dt, int columnCount) {
-	  DataColumn col;
-	  for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
-		  if (columnIndex == columnIndexDate) {
-			  col = new DataColumn("", typeof(DateOnly));
-		  } else if (columnIndex == columnIndexValue) {
-			  col = new DataColumn("", typeof(double));
-		  } else {
-			  col = new DataColumn("", typeof(string));
-		  }
-		  dt.Columns.Add(col);
-	  }
-  }
 }
 ```
 
@@ -1054,6 +1168,8 @@ public class BIOrdersTable : BICsvBaseTable {
 - 页面顶部设计一个公共的区域，用来让使用者选择参数。这个是从`blazor`原本的`About`区域扩展的，主要包含了时间范围的选择、列表选择、时间周期单位选择等。
 - 实现了对用户选择的参数的记录功能，下次打开会自动选择。
 - 实现了自动更新URL，自动拼接上使用者选择的参数，而且当使用者直接使用带参数的URL访问时，控件能自动更新且查询时会使用参数。但是项目并没有利用URL做参数解析，而是直接使用了缓存的本地存储中的用户配置。有兴趣的可以自行研究拓展。
+- 使用注解特性`TableColumnAttribute`来方便标注表格的列，可以不用全部声明，只需要声明实际需要的即可，且无须考虑顺序。标注对应的列名、数据格式、是否需要展示分析。
+- 在基础表里面做了一些异常判断，如果列名标注有误，会给出错误提示，方便排查问题。
 
 
 
