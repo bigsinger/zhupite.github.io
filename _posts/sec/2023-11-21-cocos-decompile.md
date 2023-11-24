@@ -9,6 +9,10 @@ tags:		[]
 {:toc}
 
 
+Cocos2d-x 是一款国产的开源的手机游戏开发框架，基于MIT许可证发布。引擎核心采用C++编写，提供C++、Lua、JavaScript 三种编程语言接口，跨平台支持 iOS、Android 等智能手机，Windows、Mac 等桌面操作系统，以及 Chrome, Safari, IE 等 HTML5 浏览器。
+
+Cocos2d-x 降低了手机游戏的技术从业门槛，在全球范围得到广泛使用和认可。腾讯、网易、盛大、掌趣等国内游戏大厂，以及任天堂、Square Enix、Gamevil、DeNA、LINE等国际大厂均已使用cocos2d-x引擎开发并推出了自己的手游产品。使用cocos2d-x引擎的历年代表作有《我叫MT Online》《捕鱼达人》《大掌门》《刀塔传奇》《放开那三国》《全民飞机大战》《欢乐斗地主》《开心消消乐》《保卫萝卜》《梦幻西游》《大话西游》《神武》《问道》《征途》《列王的纷争》《热血传奇》《传奇世界》《剑与家园》《乱世王者》《传奇霸业》等。
+
 
 
 [Download Cocos2d-x](https://www.cocos2d-x.org/download)
@@ -75,6 +79,19 @@ jsb_set_xxtea_key
 applicationDidFinishLaunching
 xxtea_decrypt
 do_xxtea_decrypt 
+```
+
+
+
+```js
+Interceptor.attach(Module.findBaseAddress("libcocos2djs.so").add(0x22E5CC), {
+    onEnter: function(args) {
+        console.log(Memory.readUtf8String(args[2]));
+    },
+
+    onLeave: function(retval) {
+    }
+});
 ```
 
 
@@ -151,13 +168,99 @@ key在打包后的cocos的lib库的libcocos2dlua.so中
 1. 第一种方法是`libcocos2dlua.so`使用IDA打开string窗口，全局查找加密sign。点击进入查找结果，在该结果的上方3行能够发现加密key。
 2. 第二种方法，用`strings`工具查找字符串。终端运行 `strings -a libcocos2dlua.so` ，查找`sign`，观察`sign`上方的字符串，即为key。
 
+
+
+## 反编译
+
+使用`unluac.jar`：
+
+```bash
+java -jar unluac.jar ./StoreItemDlg.luac > ./StoreItemDlg.luac.lua
+```
+
+
+
+## 抓包
+
+抓游戏客户端与服务器的通信数据：
+
+```js
+//函数定义 void LuaWebSocket::onMessage(WebSocket* ws, const WebSocket::Data& data)
+
+
+// 这种方式可以精确的hook某个函数但需要自行查找函数调用地址，动态调试需要自行查找偏移地址。
+// 用 nm -DC libcocos2dlua.so | grep -i LuaWebSocket::onMessage 可以找到so内静态的调用地址。
+//var func = Module.findBaseAddress("libcocos2dlua.so").add(0x8244b4);
+
+
+
+//  当函数是全局唯一时可以用这种方式，如果存在多个函数名则hook无效。
+var func = Module.findExportByName("libcocos2dlua.so" , "LuaWebSocket::onMessage");
+var Log = Java.use("android.util.Log");
+Interceptor.attach(func, {
+  onEnter: function (args) {
+    // 在不知道数据类型前先这样看看hook后是否有数据，有数据再用对应数据类型的读函数或转换函数。数据类型不对会导致hook失败。
+    Log.e("frida-HOOK", "ws:"+args[1]);
+    Log.e("frida-HOOK", "data:"+args[2]);
+  }
+});
+```
+
+
+
+Dump lua文件的frida脚本， 脚本文件放置路径为/data/local/tmp/frida_script.js：
+
+```js
+var func = Module.findBaseAddress("libcocos2dlua.so").add(0x93ad2d);
+//var func = Module.findBaseAddress("libcocos2dlua.so").add(0x93ad0d);
+
+Interceptor.attach(func, {
+  onEnter: function (args) {
+    this.fileout = "/sdcard/lua/" + Memory.readCString(args[3]).split("/").join(".");
+    console.log("read file from: "+this.fileout);
+    var tmp = Memory.readByteArray(args[1], args[2].toInt32());
+    var file = new File(this.fileout, "w");
+    file.write(tmp);
+    file.flush();
+    file.close();
+  }
+});
+```
+
+获取sign和key的frida脚本， 脚本文件放置路径为/data/local/tmp/frida_script.js
+
+```js
+var func = Module.findBaseAddress("libcocos2dlua.so").add(0x6ea6d4);
+//var func = Module.findExportByName("libcocos2dlua.so" , "cocos2d::LuaStack::setXXTEAKeyAndSign");
+var Log = Java.use("android.util.Log");
+
+Interceptor.attach(func, {
+  onEnter: function (args) {
+    Log.e("frida-HOOK", "key:"+Memory.readCString(args[1]));
+    Log.e("frida-HOOK", "sign:"+Memory.readCString(args[3]));
+  }
+});
+```
+
+
+
 # 参考
 
 - [Cocos2DX-JS 加密逆向探究解密app实战](https://www.52pojie.cn/thread-1362276-1-1.html)
 - [关于Cocos2dx-js游戏的jsc文件解密(二)](https://www.52pojie.cn/thread-1449982-1-1.html)
+- [Cocos2d-lua工程运行流程的理解](https://www.jianshu.com/p/781d835c88c9)
+- [浅谈Cocos2d-x下Lua文件的保护方式](https://blog.shi1011.cn/rev/android/1216)
+- [cocos2dx-Lua引擎游戏脚本及图片资源解密与DUMP_luajit解密](https://blog.csdn.net/asmcvc/article/details/54098090)
 - [cocos2dx lua 反编译](https://bbs.pediy.com/thread-216800.htm)
 - [cocos2dx游戏逆向实战](https://www.52pojie.cn/forum.php?mod=viewthread&tid=1634085)
 - [cocos2d-x官方引用的xxtea加密解密算法源码](https://github.com/cocos2d/cocos2d-x-3rd-party-libs-bin/tree/v3/xxtea)
 - [XXTEA 可逆加密解密算法 C++ C#兼容版本](http://www.waitingfy.com/archives/1157)
 - [安卓逆向之Luac解密反编译](https://www.yuanrenxue.cn/app-crawl/luac.html)
+- [Cocos2d-x与LuaJIT汇编的初步解密](https://bbs.kanxue.com/thread-222825.htm)
+- [Dr-MTN/luajit-decompiler](https://github.com/Dr-MTN/luajit-decompiler)
+-  [luajit-lang-toolkit](https://github.com/franko/luajit-lang-toolkit)
+- [Lua绑定的Socket通信源码](https://github.com/cocos2d/cocos2d-x/blob/76903dee64046c7bfdba50790be283484b4be271/cocos/scripting/lua-bindings/manual/network/Lua_web_socket.cpp#L468)
+- [Lua绑定的XMLHttpRequest通信源码（http请求会用到）](https://github.com/cocos2d/cocos2d-x/blob/76903dee64046c7bfdba50790be283484b4be271/cocos/scripting/lua-bindings/manual/network/lua_xml_http_request.cpp)
+- [Lua绑定的Downloader源码（下载文件用到）](https://github.com/cocos2d/cocos2d-x/blob/76903dee64046c7bfdba50790be283484b4be271/cocos/scripting/lua-bindings/manual/network/lua_downloader.cpp)
+- [frida内存检索svc指令查找sendto和recvfrom进行hook抓包](https://www.wangan.com/p/7fy74705bc6187fb)
 
