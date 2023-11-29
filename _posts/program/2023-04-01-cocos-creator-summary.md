@@ -2,6 +2,7 @@
 layout:		post
 category:	"program"
 title:		"Cocos Creator使用汇总备查"
+
 tags:		[c++]
 ---
 - Content
@@ -9,10 +10,11 @@ tags:		[c++]
 - 下载：[Cocos Creator - 高效轻量的跨平台3D/2D图形引擎](https://www.cocos.com/creator)
 - 文档：[Cocos Creator 用户手册](https://docs.cocos.com/creator/manual/zh/)
 - 视频：[Cocos Creator 官方 YouTube 频道](https://www.youtube.com/c/CocosCreator/videos)
+- 资源：[awesome-CocosCreator: Cocos Creator 游戏资源合集](https://github.com/Leo501/awesome-CocosCreator)
 
 
 
-# **`Cocos Creator`编辑器相关**
+# Cocos Creator编辑器相关
 
 - 资源文件的存放结构：
   1. 原始素材存放在`assets\resources`目录下，可以分类存放；
@@ -41,8 +43,16 @@ tags:		[c++]
 
 
 
+# 碎图/图集
+
+- [Cocos Creator 图集 (TexturePacker、自动图集功能 、压缩纹理、压缩插件)](https://www.jianshu.com/p/f8f1e830d112)
+- [How to create and use sprite sheets with CocosCreator 3.x](https://www.codeandweb.com/texturepacker/tutorials/how-to-create-and-usesprite-sheets-with-cocoscreator)
+- 
+
+
+
 # 三方工具
 
 - 瓦片地图编辑：Tiled Map Editor
-- 合图工具：TexturePacker
+- 合图工具：[TexturePacker](https://www.codeandweb.com/texturepacker)
 - 碎图工具：[TextureUnpacker](https://www.onlinedown.net/soft/1114992.htm)
