@@ -43,6 +43,31 @@ tags:		[c++]
 
 
 
+# API
+
+## 场景
+
+[加载和切换场景](https://docs.cocos.com/creator/manual/zh/scripting/scene-managing.html)
+
+- 加载和切换场景：`director.loadScene`
+- 预加载：`director.preloadScene
+
+
+
+## 音效
+
+[AudioSource 组件参考](https://docs.cocos.com/creator/manual/zh/audio-system/audiosource.html)
+
+- 播放长音乐：play
+- 播放短音效：playOneShot
+
+
+
+## 动作
+
+- [缓动系统](https://docs.cocos.com/creator/manual/zh/tween/)
+- [Cocos Creator动作系统和缓动系统总结详解](https://zhuanlan.zhihu.com/p/667936820)
+
 # 碎图/图集
 
 - [Cocos Creator 图集 (TexturePacker、自动图集功能 、压缩纹理、压缩插件)](https://www.jianshu.com/p/f8f1e830d112)
