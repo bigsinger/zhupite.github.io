@@ -50,7 +50,7 @@ tags:		[c++]
 [加载和切换场景](https://docs.cocos.com/creator/manual/zh/scripting/scene-managing.html)
 
 - 加载和切换场景：`director.loadScene`
-- 预加载：`director.preloadScene
+- 预加载：`director.preloadScene`
 
 
 
@@ -61,12 +61,58 @@ tags:		[c++]
 - 播放长音乐：play
 - 播放短音效：playOneShot
 
+```js
+// 播放音效, filename: 文件名，例如：click（相对于resources/audio的路径）
+playSound(filename) {
+    resources.load("audio/" + filename, AudioClip, (err, audio) => {
+        this.backgroud.playOneShot(audio);
+    })
+}
+
+// 加载音效：烟花
+resources.load('audio/fireworks', AudioClip, (err, audio) => { if (err) { console.log("load audio error"); error(err.message || err); return; } this.clipFireworks = audio; })
+
+// 加载背景音乐
+resources.load('audio/bg', AudioClip, (err, audio) => {
+    this.backgroud.clip = audio;
+    this.backgroud.loop = true;
+    this.backgroud.play();
+})
+```
+
+
+
+## 动画
+
+```js
+const node:Node = find('Canvas/nodeName');
+const ani = node.getComponent(Animation);
+ani.play();
+```
+
 
 
 ## 动作
 
 - [缓动系统](https://docs.cocos.com/creator/manual/zh/tween/)
 - [Cocos Creator动作系统和缓动系统总结详解](https://zhuanlan.zhihu.com/p/667936820)
+
+
+
+## 本地存储
+
+```js
+this.soundEffectSwitch = sys.localStorage.getItem("soundEffectSwitch") == "1" ? 1 : 0;
+sys.localStorage.setItem("soundEffectSwitch", this.soundEffectSwitch.toString());
+```
+
+## JSON
+
+```js
+
+```
+
+
 
 # 碎图/图集
 
