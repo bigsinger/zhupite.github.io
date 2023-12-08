@@ -31,7 +31,7 @@ API搜索可以到微软官方网址：https://learn.microsoft.com/zh-cn/dotnet/
 
 
 
-# 鸡零狗碎
+# 杂项
 
 ```c#
 添加属性，输入prop自动补全
@@ -104,6 +104,21 @@ services.Configure<ApplicationSettings>(applicationSettingsConfiguration);
 ```csharp
 public JwtGeneratorService(IOptions<ApplicationSettings> applicationSettings) {
     this.applicationSettings = applicationSettings.Value;
+}
+```
+
+
+
+### 初始化时机
+
+页面初始化代码放在`OnAfterRenderAsync`里面，并通过参考`firstRender`控制，在首次渲染的时候进行初始化。不要在`OnInitializedAsync`里进行初始化操作，会执行两次，影响性能。
+
+```csharp
+protected override async Task OnAfterRenderAsync(bool firstRender) {
+    if (firstRender) {
+        // 初始化代码
+    }
+    await base.OnAfterRenderAsync(firstRender);
 }
 ```
 
