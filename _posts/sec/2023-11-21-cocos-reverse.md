@@ -96,6 +96,149 @@ Interceptor.attach(Module.findBaseAddress("libcocos2djs.so").add(0x22E5CC), {
 
 
 
+## uuids
+
+最近的（3.8可用）：
+
+- [MD5 缓存 - Cocos Creator 3.8 手册](https://docs.cocos.com/creator/manual/zh/editor/publish/build-options.html?h=getuuidfromurl#md5-%E7%BC%93%E5%AD%98)
+- [getUrlWithUuid](https://docs.cocos.com/creator/3.4/api/en/cocos-core-asset-manager/Function/getUrlWithUuid)  [getUuidFromURL](https://docs.cocos.com/creator/3.4/api/en/cocos-core-asset-manager/Function/getUuidFromURL) （实际上这两个函数在3.8里面也有的，但是文档里搜不到，有点坑！）
+- [【cocos creator】获取资源uuid_cocos 3.7通过文件路径获取文件uuid](https://blog.csdn.net/K86338236/article/details/125508703)
+
+```js
+import { assetManager } from 'cc';
+
+
+var uuid = getUuidFromURL(url); // fc991dd7-0033-4b80-9d41-c8a86a702e59
+var url = 'res/import/fc/fc991dd7-0033-4b80-9d41-c8a86a702e59.json';
+
+
+var url = getUrlWithUuid('fcmR3XADNLgJ1ByKhqcC5Z', {isNative: false});
+// json path, 'assets/main/import/fc/fc991dd7-0033-4b80-9d41-c8a86a702e59.json';
+
+var url = getUrlWithUuid('fcmR3XADNLgJ1ByKhqcC5Z', {isNative: true, nativeExt: '.png'});
+// png path, 'assets/main/native/fc/fc991dd7-0033-4b80-9d41-c8a86a702e59.png';
+```
+
+
+
+3.4版本里还有API接口`decodeUuid`可以调用（解码 uuid，返回原始 uuid），之后的版本不再有。
+
+```js
+const uuid = 'fcmR3XADNLgJ1ByKhqcC5Z';
+const originalUuid = decodeUuid(uuid); // fc991dd7-0033-4b80-9d41-c8a86a702e59
+```
+
+看接口文档，是定义在这里：[cocos-engine/cocos/core/utils/decode-uuid.ts at 3.4.2 · cocos/cocos-engine](https://github.com/cocos/cocos-engine/blob/3.4.2/cocos/core/utils/decode-uuid.ts)  把代码抠出来重建：`decode-uuid.ts`：
+
+```js
+/*
+ Copyright (c) 2013-2016 Chukong Technologies Inc.
+ Copyright (c) 2017-2020 Xiamen Yaji Software Co., Ltd.
+
+ http://www.cocos.com
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated engine source code (the "Software"), a limited,
+  worldwide, royalty-free, non-assignable, revocable and non-exclusive license
+ to use Cocos Creator solely to develop games on your target platforms. You shall
+  not use Cocos Creator software for developing other software or tools that's
+  used for developing games. You are not granted to publish, distribute,
+  sublicense, and/or sell copies of Cocos Creator.
+
+ The software or tools in this License Agreement are licensed, not sold.
+ Xiamen Yaji Software Co., Ltd. reserves all rights not expressly granted to you.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+*/
+
+/**
+ * @packageDocumentation
+ * @module core
+ */
+
+
+//import { BASE64_VALUES } from './misc';
+//////////////////////////////////////
+const BASE64_KEYS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+const values:number[] = new Array(123); // max char code in base64Keys
+for (let i = 0; i < 123; ++i) { values[i] = 64; } // fill with placeholder('=') index
+for (let i = 0; i < 64; ++i) { values[BASE64_KEYS.charCodeAt(i)] = i; }
+
+// decoded value indexed by base64 char code
+const BASE64_VALUES = values;
+//////////////////////////////////////
+
+
+
+const HexChars = '0123456789abcdef'.split('');
+
+const _t = ['', '', '', ''];
+const UuidTemplate = _t.concat(_t, '-', _t, '-', _t, '-', _t, '-', _t, _t, _t);
+const Indices = UuidTemplate.map((x, i) => (x === '-' ? NaN : i)).filter(isFinite);
+
+/**
+ * @en
+ * Decode uuid, returns the original uuid
+ *
+ * @zh
+ * 解码 uuid，返回原始 uuid
+ *
+ * @param  base64 - the encoded uuid
+ * @returns the original uuid
+ *
+ * @example
+ * ```ts
+ * const uuid = 'fcmR3XADNLgJ1ByKhqcC5Z';
+ * const originalUuid = decodeUuid(uuid); // fc991dd7-0033-4b80-9d41-c8a86a702e59
+ * ```
+ */
+export default function decodeUuid (base64: string) {
+    const strs = base64.split('@');
+    const uuid = strs[0];
+    if (uuid.length !== 22) {
+        return base64;
+    }
+    UuidTemplate[0] = base64[0];
+    UuidTemplate[1] = base64[1];
+    for (let i = 2, j = 2; i < 22; i += 2) {
+        const lhs = BASE64_VALUES[base64.charCodeAt(i)];
+        const rhs = BASE64_VALUES[base64.charCodeAt(i + 1)];
+        UuidTemplate[Indices[j++]] = HexChars[lhs >> 2];
+        UuidTemplate[Indices[j++]] = HexChars[((lhs & 3) << 2) | rhs >> 4];
+        UuidTemplate[Indices[j++]] = HexChars[rhs & 0xF];
+    }
+    return base64.replace(uuid, UuidTemplate.join(''));
+}
+```
+
+使用：
+
+```js
+import decodeUuid from './decode-uuid';
+
+const uuid = 'fcmR3XADNLgJ1ByKhqcC5Z';
+const originalUuid = decodeUuid(uuid); // fc991dd7-0033-4b80-9d41-c8a86a702e59
+```
+
+
+
+更早期的：https://forum.cocos.org/t/prefab---type--/54978
+
+```js
+let uuid=Editor.Utils.UuidUtils.uuid();
+let decompressUuid=Editor.Utils.UuidUtils.decompressUuid(uuid);
+Editor.log(uuid);//45p/Kon2hGs7gjNzbB8Xgg
+Editor.log(decompressUuid);//45a7f2a8-9f68-46b3-b823-3736c1f17820
+```
+
+
+
 ## 重建
 
 Cocos2dx-js引擎做的游戏在运行时会先检测内存里面有没有js文件，有的话就直接运行js文件，没有的话就从jsc转换出js文件，所以解密后的js文件直接丢入原包就行（除了一些做了文件验证形式的安全手段的游戏）。jsc解密后，还得在同目录下的index.json（config.json）文件把`encrypted`改成`flase`，不然会打不开。
