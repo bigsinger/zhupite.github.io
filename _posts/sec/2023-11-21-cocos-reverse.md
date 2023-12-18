@@ -108,14 +108,14 @@ Interceptor.attach(Module.findBaseAddress("libcocos2djs.so").add(0x22E5CC), {
 import { assetManager } from 'cc';
 
 
-var uuid = getUuidFromURL(url); // fc991dd7-0033-4b80-9d41-c8a86a702e59
 var url = 'res/import/fc/fc991dd7-0033-4b80-9d41-c8a86a702e59.json';
+var uuid = assetManager.utils.getUuidFromURL(url); // fc991dd7-0033-4b80-9d41-c8a86a702e59
 
 
-var url = getUrlWithUuid('fcmR3XADNLgJ1ByKhqcC5Z', {isNative: false});
+var url = assetManager.utils.getUrlWithUuid('fcmR3XADNLgJ1ByKhqcC5Z', {isNative: false});
 // json path, 'assets/main/import/fc/fc991dd7-0033-4b80-9d41-c8a86a702e59.json';
 
-var url = getUrlWithUuid('fcmR3XADNLgJ1ByKhqcC5Z', {isNative: true, nativeExt: '.png'});
+var url = assetManager.utils.getUrlWithUuid('fcmR3XADNLgJ1ByKhqcC5Z', {isNative: true, nativeExt: '.png'});
 // png path, 'assets/main/native/fc/fc991dd7-0033-4b80-9d41-c8a86a702e59.png';
 ```
 
