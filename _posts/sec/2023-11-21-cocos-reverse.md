@@ -243,9 +243,37 @@ const originalUuid = decodeUuid(uuid); // fc991dd7-0033-4b80-9d41-c8a86a702e59
 
 ## 重建
 
-Cocos2dx-js引擎做的游戏在运行时会先检测内存里面有没有js文件，有的话就直接运行js文件，没有的话就从jsc转换出js文件，所以解密后的js文件直接丢入原包就行（除了一些做了文件验证形式的安全手段的游戏）。jsc解密后，还得在同目录下的index.json（config.json）文件把`encrypted`改成`flase`，不然会打不开。
+步骤：解密`jsc` - 定位启动场景（`launchScene`） - 解密uuids - 重建场景（scene）
 
 
+
+**解密`jsc`** 
+
+`Cocos2dx-js`引擎做的游戏在运行时会先检测内存里面有没有`js`文件，有的话就直接运行`js`文件，没有的话就从`jsc`转换出`js`文件，所以解密后的`js`文件直接丢入原包就行（除了一些做了文件验证形式的安全手段的游戏）。`jsc`解密后，还得在同目录下的`index.json`（config.json）文件把`encrypted`改成`flase`，不然会打不开。
+
+
+
+**定位启动场景（`launchScene`）**
+
+在 `settings.js` 里找到启动的场景：
+
+```json
+window._CCSettings = { 
+    platform: "android", 
+    groupList: ["default", "static", "ui", "3D"], 
+    collisionMatrix: [[true], [false, false], [false, false, false], [false, false, false, false]], 
+    hasResourcesBundle: true, 
+    hasStartSceneBundle: false, 
+    remoteBundles: [], 
+    subpackages: [], 
+    launchScene: "db://assets/Scene/loadScene.fire", 
+    orientation: "", 
+    server: "", 
+    jsList: [] 
+};
+```
+
+之后在 `index.js` 中搜索：`loadScene` （或 `"loadScene"`）。
 
 # Cocos2dx-Lua
 
@@ -391,6 +419,7 @@ Interceptor.attach(func, {
 
 # 参考
 
+- [Cocos Creator：构建流程简介与常见问题指南](https://www.mvrlink.com/cocos-creator-build-process-and-faq/)
 - [Cocos2DX-JS 加密逆向探究解密app实战](https://www.52pojie.cn/thread-1362276-1-1.html)
 - [关于Cocos2dx-js游戏的jsc文件解密(二)](https://www.52pojie.cn/thread-1449982-1-1.html)
 - [Cocos2d-lua工程运行流程的理解](https://www.jianshu.com/p/781d835c88c9)
