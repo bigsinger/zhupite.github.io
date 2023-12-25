@@ -273,7 +273,7 @@ window._CCSettings = {
 };
 ```
 
-之后在 `index.js` 中搜索：`loadScene` （或 `"loadScene"`）。
+之后在 `index.js` 中搜索：`loadScene` （或 `"loadScene"`）。然后在上下文代码中挑选一两个属性名称，进行搜索，从而定位到`json`文件。
 
 # Cocos2dx-Lua
 
