@@ -121,6 +121,17 @@ var url = assetManager.utils.getUrlWithUuid('fcmR3XADNLgJ1ByKhqcC5Z', {isNative:
 
 
 
+在 [Utils - Creator 内置的一些工具函数](https://docs.cocos.com/creator/manual/zh/editor/extension/api/utils.html) 中也有所介绍：
+
+```js
+Editor.Utils.UUID.decompressUUID("4329tMArhImq290WvA8tWd");		// 43dbdb4c-02b8-489a-adbd-d16bc0f2d59d
+Editor.Utils.UUID.compressUUID("43dbdb4c-02b8-489a-adbd-d16bc0f2d59d")	// 43dbdtMArhImq290WvA8tWd
+```
+
+直接点击主菜单中的 **开发者 -> 构建调试工具（或开关开发人员工具）**，在`Console`控制台里输入命令即可查询到原始 `UUID`。
+
+
+
 3.4版本里还有API接口`decodeUuid`可以调用（解码 uuid，返回原始 uuid），之后的版本不再有。
 
 ```js
@@ -227,15 +238,6 @@ const originalUuid = decodeUuid(uuid); // fc991dd7-0033-4b80-9d41-c8a86a702e59
 ```
 
 
-
-更早期的：https://forum.cocos.org/t/prefab---type--/54978
-
-```js
-let uuid=Editor.Utils.UuidUtils.uuid();
-let decompressUuid=Editor.Utils.UuidUtils.decompressUuid(uuid);
-Editor.log(uuid);//45p/Kon2hGs7gjNzbB8Xgg
-Editor.log(decompressUuid);//45a7f2a8-9f68-46b3-b823-3736c1f17820
-```
 
 
 
