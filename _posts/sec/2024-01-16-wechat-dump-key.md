@@ -11,7 +11,7 @@ tags:		[]
 
 # 分析过程
 
-先通过CE进行内存搜索微信号，找到地址后，使用调试器对该地址下内存访问断点，中断在：
+先通过CE进行内存搜索微信号（其他信息同理），找到地址后，使用调试器对该地址下内存访问断点，中断在：
 
 ```assembly
 000000018139D8CA 4C 8D A0 20 07 00 00                          lea     r12, [rax+720h]	;访问微信号地址
@@ -113,11 +113,9 @@ __int64 *sub_18094E510() {
 }
 ```
 
-然后查看调用函数`sub_18094E510`的地方，发现有非常多的地方调用。如果能定位到这个函数以及提取它的返回值，则基本上很多数据都可以找到了。
+然后查看调用函数`sub_18094E510`的地方，发现有非常多的地方。如果能定位到这个函数以及提取它的返回值，则基本上很多数据都可以找到了。
 
-我们为函数`sub_18094E510`命名为：`getXObjAddr`，它的返回地址`183DFD3F0`命名为：`g_xaddr`，则微信号地址为：`g_xaddr + 0x720`
-
-把地址转换成相对基址的偏移：`183DFD3F0  - 180000000 = 3DFD3F0`，通过查看附近内存地址的数据内容，可以发现如下数据：
+我们为函数`sub_18094E510`命名为：`getXObjAddr`，它的返回地址`183DFD3F0`命名为：`g_xaddr`，则微信号地址为：`g_xaddr + 0x720` 。把地址转换成相对基址的偏移：`183DFD3F0  - 180000000 = 3DFD3F0`，通过查看附近内存地址的数据内容，可以发现如下数据：
 
 | 项                   | 地址                                            | 相对地址                            |
 | -------------------- | ----------------------------------------------- | ----------------------------------- |
@@ -264,51 +262,27 @@ __int64 *sub_18094E510() {
 000000018126BA77                               sub_18126B8E0   endp
 ```
 
-可以看出与地址`g_xaddr`相关的字段很多，参考偏移地址可以挖掘跟多信息，这里不再继续深入分析。
+可以看出与地址`g_xaddr`相关的字段很多，参考偏移地址可以挖掘很多信息，这里不再继续深入分析。
 
 
 
 # 特征提取
 
-## 特征1：指令特征
-
-取如下代码的特征：
-
-```assembly
-000000018139D90A                               loc_18139D90A:                          ; CODE XREF: sub_18139D800+F5↑j
-000000018139D90A 48 8B D8                                      mov     rbx, rax
-000000018139D90D 48 83 CB 0F                                   or      rbx, 0Fh
-000000018139D911 48 3B D9                                      cmp     rbx, rcx
-000000018139D914 48 0F 47 D9                                   cmova   rbx, rcx
-000000018139D918 48 8D 4B 01                                   lea     rcx, [rbx+1]
-000000018139D91C E8 DF 76 59 FF                                call    sub_180935000
-```
-
-特征序列为：
-
-```assembly
-48 8B D8 48 83 CB 0F 48 3B D9 48 0F 47 D9 48 8D 4B 01 
-```
-
-搜索到后向上找一个`call`，基本上就是`call    getObjAddr`，然后看对`rax`的访问情况，即可知道数据的偏移了。
-
-
-
-## 特征2：字符串特征
+## 特征1：字符串特征
 
 ```assembly
 000000018139D89D 48 8D 15 3C 15 14 02                          lea     rdx, aWechatFiles ; "\\WeChat Files\\"
 ```
 
-跟随一下发现这个字符串是个Unicode字符串：
+跟随一下发现这个字符串是个`Unicode`字符串：
 
 ```assembly
-.rdata:00000001834DEDE0                               aWechatFiles:                           ; DATA XREF: sub_180E07FB0+45B↑o
-.rdata:00000001834DEDE0                                                                       ; sub_180E858B0+2E0↑o ...
-.rdata:00000001834DEDE0 5C 00 57 00 65 00 43 00 68 00+                text "UTF-16LE", '\WeChat Files\',0
+00000001834DEDE0                               aWechatFiles:                           ; DATA XREF: sub_180E07FB0+45B↑o
+00000001834DEDE0                                                                       ; sub_180E858B0+2E0↑o ...
+00000001834DEDE0 5C 00 57 00 65 00 43 00 68 00+                text "UTF-16LE", '\WeChat Files\',0
 ```
 
-因此在IDA里面`shift + F12`查看字符串窗口的时候，需要右键点击弹出菜单 - 选择`setup`- `Unicode C-style (16 bits)`，稍等IDA列出所有字符串，然后搜索`\WeChat Files\`即可，然后查找引用，会有多个，经过筛选发现两处匹配：
+在IDA里面`Shift + F12`查看字符串窗口的时候，需要右键点击弹出菜单 - 选择`setup`- `Unicode C-style (16 bits)`，稍等IDA列出所有字符串，然后搜索`\WeChat Files\`即可，然后查找引用，会有多个，经过筛选发现两处匹配：
 
 ```assembly
 sub_18139C400+B9	lea     rdx, aWechatFiles; "\\WeChat Files\\"
@@ -368,9 +342,50 @@ no convert,out path=%s
 
 
 
+## 特征2：指令特征
+
+取如下代码的特征：
+
+```assembly
+000000018139D90A                               loc_18139D90A:                          ; CODE XREF: sub_18139D800+F5↑j
+000000018139D90A 48 8B D8                                      mov     rbx, rax
+000000018139D90D 48 83 CB 0F                                   or      rbx, 0Fh
+000000018139D911 48 3B D9                                      cmp     rbx, rcx
+000000018139D914 48 0F 47 D9                                   cmova   rbx, rcx
+000000018139D918 48 8D 4B 01                                   lea     rcx, [rbx+1]
+000000018139D91C E8 DF 76 59 FF                                call    sub_180935000
+```
+
+```assembly
+000000018139C51E                               loc_18139C51E:                          ; CODE XREF: sub_18139C400+10B↑j
+000000018139C51E 48 8B DE                                      mov     rbx, rsi
+000000018139C521 48 83 CB 0F                                   or      rbx, 0Fh
+000000018139C525 48 3B D8                                      cmp     rbx, rax
+000000018139C528 48 0F 47 D8                                   cmova   rbx, rax
+000000018139C52C 48 8D 4B 01                                   lea     rcx, [rbx+1]
+000000018139C530 E8 CB 8A 59 FF                                call    sub_180935000
+```
+
+特征序列为（两条人选一条）：
+
+```assembly
+48 8B D8 48 83 CB 0F 48 3B D9 48 0F 47 D9 48 8D 4B 01 E8 
+48 8B DE 48 83 CB 0F 48 3B D8 48 0F 47 D8 48 8D 4B 01 E8
+```
+
+综合成通配符特征的话为：
+
+```
+48 8B ?? 48 83 CB 0F 48 3B ?? 48 0F 47 ?? 48 8D 4B 01 E8
+```
+
+搜索到后向上找一个`call`，基本上就是`call    getObjAddr`，然后看对`rax`的访问情况，即可知道数据的偏移了。
+
+
+
 ## 特征3：手机型号
 
-微信登录设备类型基本只有 iphone、android，在内存中先搜到设备类型所在内存，key 就在它的前面，向前搜就行。参考：[search_wechat_key](https://github.com/sunhanaix/search_wechat_key)。
+微信登录设备类型基本只有 `iphone`、`android`，在内存中先搜到设备类型所在内存，key 就在它的前面，向前搜就行。参考：[search_wechat_key](https://github.com/sunhanaix/search_wechat_key)。
 
 ```assembly
 WeChatWin.dll+3DFDB80  ;android
@@ -378,8 +393,17 @@ WeChatWin.dll+3DFDB80  ;android
 
 
 
+# 信息取证
+
+- 手机号、微信昵称、微信注册id、手机设备类型、聊天数据库key；
+- 聊天数据库解密；
+- 好友列表；
+
 # 参考
 
 - [wechat-dump-rs](https://github.com/0xlane/wechat-dump-rs)
 - [search_wechat_key](https://github.com/sunhanaix/search_wechat_key)
 - [SharpWxDump](https://github.com/AdminTest0/SharpWxDump)
+- https://github.com/LC044/WeChatMsg
+- [WechatBakTool: 基于C#的微信PC版聊天记录备份工具，提供图形界面，解密微信数据库并导出聊天记录。](https://github.com/SuxueCode/WechatBakTool)
+- https://github.com/kihlh/WxDatViewerAutoExportRust
