@@ -403,6 +403,7 @@ WeChatWin.dll+3DFDB80  ;android
 
 - [wechat-dump-rs](https://github.com/0xlane/wechat-dump-rs)
 - [search_wechat_key](https://github.com/sunhanaix/search_wechat_key)
+- https://github.com/xaoyaoo/PyWxDump
 - [SharpWxDump](https://github.com/AdminTest0/SharpWxDump)
 - https://github.com/LC044/WeChatMsg
 - [WechatBakTool: 基于C#的微信PC版聊天记录备份工具，提供图形界面，解密微信数据库并导出聊天记录。](https://github.com/SuxueCode/WechatBakTool)
