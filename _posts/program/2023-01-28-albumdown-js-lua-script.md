@@ -7,25 +7,30 @@ tags:		[]
 
 # 接口
 
-| 接口                            | 调用环境 | 说明                                                     |
-| ------------------------------- | -------- | -------------------------------------------------------- |
-| starjs.setsource4lua(s);        | js       | 传递全局字符串                                           |
-| starjs.setnexturl4lua(nexturl); | js       | 传递全局字符串                                           |
-| starjs.getsource4js             | js       | 获取全局字符串                                           |
-| starjs.addphotojs               | js       | 添加图片，starjs.addphotojs(src, name);                  |
-| starjs.addalbumjs               | js       | 添加相册，starjs.addalbumjs(name, href, src, count);     |
-| starjs.getminwidth()            | js       | var w = starjs.getminwidth();                            |
-| starjs.getminheight()           | js       | var h = starjs.getminheight();                           |
-|                                 |          |                                                          |
-| navigate(url, [milliseconds])   | lua      | 参数2位等待时间，单位：毫秒                              |
-| runjs                           | lua      | runjs([[  ]])                                            |
-| getsource4lua()                 | lua      | 获取全局字符串                                           |
-| getnexturl4lua()                | lua      | 获取全局字符串                                           |
-| setsource4js                    | lua      | 传递全局字符串                                           |
-| print                           | lua      | 输出日志                                                 |
-| msgbox                          | lua      | 弹框                                                     |
-| getver                          | lua      | 获取程序版本号。if getver()>1031 then end                |
-| selecttab                       | lua      | 切换软件Tab页。if getver() >= 1031 then selecttab(0) end |
+| 接口                            | 调用环境 | 说明                                                         |
+| ------------------------------- | -------- | ------------------------------------------------------------ |
+| starjs.setsource4lua(s);        | js       | 传递全局字符串                                               |
+| starjs.setnexturl4lua(nexturl); | js       | 传递全局字符串                                               |
+| starjs.getsource4js             | js       | 获取全局字符串                                               |
+| starjs.addphotojs               | js       | 添加图片，starjs.addphotojs(src, name);                      |
+| starjs.addalbumjs               | js       | 添加相册，starjs.addalbumjs(name, href, src, count);         |
+| starjs.getminwidth()            | js       | var w = starjs.getminwidth();                                |
+| starjs.getminheight()           | js       | var h = starjs.getminheight();                               |
+|                                 |          |                                                              |
+| visit                           | lua      | visit(url, isAsync, waitTime, className)  返回网页源码       |
+| navigate(url, [milliseconds])   | lua      | 参数2位等待时间，单位：毫秒                                  |
+| runjs                           | lua      | runjs([[  ]])                                                |
+| getsource4lua()                 | lua      | 获取全局字符串                                               |
+| getnexturl4lua()                | lua      | 获取全局字符串                                               |
+| setsource4js                    | lua      | 传递全局字符串                                               |
+| print                           | lua      | 输出日志                                                     |
+| msgbox                          | lua      | 弹框                                                         |
+| getver                          | lua      | 获取程序版本号。if getver()>1031 then end                    |
+| selecttab                       | lua      | 切换软件Tab页。if getver() >= 1031 then selecttab(0) end     |
+| findurl                         | lua      | 获取访问网页过程中加载的url，通过关键词进行查找。if getver()>1051 then end |
+| star.log                        | lua      | 将内容以日志形式保存到文件                                   |
+| star.gethtml                    | lua      | 请求url获取返回内容                                          |
+| star.gethtmlex                  | lua      | 请求url获取返回内容。star.gethtmlex(url, 'xxx.com', getcookies())  效果等同于：navigate(url) s = getwebsource() |
 
 
 
