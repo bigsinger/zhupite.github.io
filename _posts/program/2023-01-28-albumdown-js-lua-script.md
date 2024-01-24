@@ -17,6 +17,7 @@ tags:		[]
 | starjs.getminwidth()            | js       | var w = starjs.getminwidth();                                |
 | starjs.getminheight()           | js       | var h = starjs.getminheight();                               |
 |                                 |          |                                                              |
+| request                         | lua      | request(url) 请求url获取返回内容。内部自动获取当前浏览器正在访问的网址作为Refer参数，自动获取Cookie作为参数。效果等同于：star.gethtmlex(url, 'xxx.com', getcookies())   以及： navigate(url) s = getwebsource() |
 | visit                           | lua      | visit(url, isAsync, waitTime, className)  返回网页源码       |
 | navigate(url, [milliseconds])   | lua      | 参数2位等待时间，单位：毫秒                                  |
 | runjs                           | lua      | runjs([[  ]])                                                |
