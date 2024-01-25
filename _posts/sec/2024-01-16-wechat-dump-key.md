@@ -399,6 +399,8 @@ WeChatWin.dll+3DFDB80  ;android
 - 聊天数据库解密；
 - 好友列表；
 
+可以参考 [PyWxDump](https://github.com/xaoyaoo/PyWxDump) ，但请勿作恶！！！
+
 # 参考
 
 - [wechat-dump-rs](https://github.com/0xlane/wechat-dump-rs)
