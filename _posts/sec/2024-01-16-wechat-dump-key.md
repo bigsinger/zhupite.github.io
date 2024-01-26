@@ -393,6 +393,61 @@ WeChatWin.dll+3DFDB80  ;android
 
 
 
+## 特征4：指令特征
+
+```assembly
+000000018093A588 48 8B 0C C8                                   mov     rcx, [rax+rcx*8]
+000000018093A58C 8B 04 0A                                      mov     eax, [rdx+rcx]
+000000018093A58F 39 05 2B 2E 4C 03                             cmp     cs:dword_183DFD3C0, eax
+```
+
+得特征：
+
+```
+48 8B 0C C8 8B 04 0A 39 05
+```
+
+搜索到后，取后面的地址，然后做一个页面对齐向后搜索内存特征即可。
+
+
+
+## 特征5：导出函数
+
+从导出函数`TlsCallback_3`的地址开始，搜索特征：`48 8B 0C C8 8B 04 0A 39 05`  ，搜索到后取地址，例如：`dword_183DFD3C0`  做一个对齐：`3DFD000`，即可开始搜索手机型号特征。
+
+```assembly
+0000000180935400                                               public TlsCallback_3
+0000000180935400                               TlsCallback_3   proc near               ; CODE XREF: sub_180A17480+4↓p
+0000000180935400                                                                       ; sub_180A17490+F↓p ...
+0000000180935400 C2 00 00                                      retn    0
+0000000180935400                               TlsCallback_3   endp
+```
+
+
+
+从导出函数`GetHandleVerifier`的地址找到`qword_183DFA6A0`，做一个对齐即可开始搜索手机型号特征。
+
+```assembly
+0000000181E61760                                               public GetHandleVerifier
+0000000181E61760                               GetHandleVerifier proc near             ; DATA XREF: sub_181E60D60:loc_181E60D9E↑o
+0000000181E61760                                                                       ; .rdata:off_183BE2938↓o ...
+0000000181E61760 48 83 EC 28                                   sub     rsp, 28h
+0000000181E61764 48 8B 05 35 8F F9 01                          mov     rax, cs:qword_183DFA6A0
+0000000181E6176B 48 85 C0                                      test    rax, rax
+0000000181E6176E 75 0C                                         jnz     short loc_181E6177C
+0000000181E61770 E8 EB F5 FF FF                                call    sub_181E60D60
+0000000181E61775 48 8B 05 24 8F F9 01                          mov     rax, cs:qword_183DFA6A0
+0000000181E6177C
+0000000181E6177C                               loc_181E6177C:                          ; CODE XREF: GetHandleVerifier+E↑j
+0000000181E6177C 48 83 C4 28                                   add     rsp, 28h
+0000000181E61780 C3                                            retn
+0000000181E61780                               GetHandleVerifier endp
+```
+
+# 代码自动获取地址
+
+为了提高代码搜索速度，可以适当缩小一下范围。可以结合导出函数及特征，先定位一个比较大的内存范围搜索起地址，例如结合特征4和特征5，取一个较小值，然后做页面对齐，例如可以得到：`3DFA000`，然后结合特征3的手机型号进行搜索，搜索到：`3DFF000`，读取的内存范围只有：`0x5000`。一页是4KB，相当于总共只读取了20KB的大小，并不算多。当然如果后续版本变化，范围可以适当增大，搜索的速度也是很快的。
+
 # 信息取证
 
 - 手机号、微信昵称、微信注册id、手机设备类型、聊天数据库key；
