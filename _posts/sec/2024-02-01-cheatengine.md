@@ -57,6 +57,21 @@ CE批量锁定或修改进行筛选。N次扫描后结果仍然很多，可以�
 
 - 如果知道offset偏移量可以指定提高搜索速度，如果不知道就不要勾选该项。搜索的层级可以逐渐加大，默认从1开始。
 
+## 数据结构分析
+
+- 手动输入地址分析（不推荐但必要时可使用，因为需要手动减去偏移量offset）：
+
+  - 通过搜索手段找到数据地址；
+  - 通过查看访问修改地址找到指令，以及计算正确的偏移量offset；
+  - 从指令这里打开汇编窗口，点击菜单：工具 - 分析数据/结构（Ctrl + D）进入数据分析窗口；
+  - 手动添加分组和每组里的数据，需要注意的是这里的数据一定要减去offset，点击菜单：结构 - 定义新的结构，开始自动分析。
+
+- 自动化（推荐，无须手动减去offset，CE会自动推测）：
+
+  - 参考教程练习的`Step9`，主要路径是：通过访问地址的指令，右键查看还访问了什么地址，追踪到地址列表后，右键选择进行数据结构分析即可。
+
+  
+
 # 教程练习
 
 CE目录下的`Tutorial-i386.exe`就是练习用的程序。
@@ -122,11 +137,43 @@ CE目录下的`Tutorial-i386.exe`就是练习用的程序。
 
 
 
-## Step9 
+## Step9 共享代码
 
+1. 先通过数值搜索找到数值的内存地址，添加到地址列表。
 
+2. 找到地址后找访问指令，对指令右键选择：`找出代码访问的地址` （推荐）。会弹出一个小窗口，这个时候操作教程的按钮，会动态列出地址。或者对指令右键选择：`Check if found opcodes also access other addresses (max 8)`，然后回到教程中点击其他按钮触发血量变化。然后点右侧工具栏的`More Information` 会弹出Extra info窗口及窗口：`Accessed addresses by xxxx`，也即该指令还访问了哪些地址。该教程里会列出4个地址列表。
 
+3. 选中这4个地址列表，右键选择：`dissect data`（或者Ctrl + D）进行数据结构分析。弹出的窗口点确定。进而会进入数据对比窗口。需要注意的是，CE会自动减去`offset`做数据校准。
 
+4. 如果是相同的对象，则第一条地址的内容是相同的，其实就是函数表指针。然后向后观察个字段的内容差异（红色高亮部分）。【**注意**】：如果自动分析显示的不对时，可以手动添加字段，就是强制按照指定的去拆解字段：右键菜单选择`Add Element`，然后手动输入偏移和类型。
+
+5. 该关卡是在对象的`offset=0x14`字段来区分敌我双方（数值为1与2之分）。
+
+6. 注入代码。关闭数据结构对比窗口，进入汇编窗口，做代码注入：
+
+   ```assembly
+   alloc(newmem,2048,"Tutorial-x86_64.exe"+2F25D) 
+   label(returnhere)
+   label(originalcode)
+   label(exit)
+   
+   newmem: //this is allocated memory, you have read,write,execute access
+   //place your code here
+   cmp [rbx+14], 1
+   je exit
+   
+   originalcode:
+   movss [rbx+08],xmm0
+   
+   exit:
+   jmp returnhere
+   
+   "Tutorial-x86_64.exe"+2F25D:
+   jmp newmem
+   returnhere:
+   ```
+
+   
 
 # 其他练习
 
@@ -148,6 +195,7 @@ CE目录下的`Tutorial-i386.exe`就是练习用的程序。
 
 # 参考
 
-- [CE官网](https://www.cheatengine.org/)
+- [CE官网](https://www.cheatengine.org/) 
+- [Chinese Simplified translation files (ch_CN)](https://www.cheatengine.org/download/ch_cn.zip)
 - [CE修改器使用教程 [入门篇]](https://www.cnblogs.com/LyShark/p/10799926.html)
 - 
