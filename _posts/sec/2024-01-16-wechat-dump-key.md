@@ -11,6 +11,117 @@ tags:		[]
 
 # 分析过程
 
+## CE分析（推荐）
+
+### 1、指针扫描（推荐）
+
+这个就更简单了，搜索微信账号，得两条地址，进行多级指针扫描，层级设置为2。通过结果数据查看指针关系及偏移量，很快就能得到想要的了。
+
+从一级指针的地址很容易找到 `3DFD3F0` 这个地址。一共可以找到两个这样的地址，分别是：`7FF899E5D3F0`  和  `7FF899E5D100` 。接着使用CE的结构分析功能，分别对这两个地址做结构分析，CE自动识别出结构类型分别为：`AccountService` 和 `CheckResUpdateMgr`，真是太强大了。通过浏览数据结构可以很快找到我们想要的数据，偏移量`offset`也可以很直观地得到。
+
+以 `AccountService（7FF899E5D3F0 ）`为例，可以很快得到如下字段信息：
+
+| 项                   | 偏移  |
+| -------------------- | ----- |
+| 注册微信ID字符串     | 0x80  |
+| 注册微信ID字符串长度 | 0x90  |
+| 省份字符串           | 0x188 |
+| 省份字符串长度       | 0x198 |
+| 城市字符串           | 0x1A8 |
+| 城市字符串长度       | 0x1B8 |
+| 微信账号             | 0x720 |
+| 微信账号长度         | 0x730 |
+| 注册微信ID字符串     | 0x740 |
+| 注册微信ID字符串长度 | 0x750 |
+| 手机型号字符串       | 0x790 |
+| 手机型号字符串长度   | 0x7A0 |
+
+这些都是很容易明显看出来的，其他的字段信息可以直接在内存中去看。
+
+
+
+### 2、地址访问
+
+搜索微信账号，会有两条记录，都查看谁访问。
+第一个地址的触发条件有：
+
+1. 点击自己的微信头像
+2. 在文件传输助手里给自己发个信息，点击自己头像
+3. 点击设置
+
+
+
+点头像触发指令：
+`7FF896A51FDD - 0F10 06  - movups xmm0,[rsi]`
+
+查看汇编代码：
+
+```assembly
+WeChatWin.dll+9F1FAF - E8 5CC5F5FF           - call WeChatWin.dll+94E510
+WeChatWin.dll+9F1FB4 - 48 8D B0 08010000     - lea rsi,[rax+00000108]
+WeChatWin.dll+9F1FBB - 33 DB                 - xor ebx,ebx
+WeChatWin.dll+9F1FBD - 48 89 5D E7           - mov [rbp-19],rbx
+WeChatWin.dll+9F1FC1 - 48 89 5D F7           - mov [rbp-09],rbx
+WeChatWin.dll+9F1FC5 - 48 89 5D FF           - mov [rbp-01],rbx
+WeChatWin.dll+9F1FC9 - 4C 8B 76 10           - mov r14,[rsi+10]
+WeChatWin.dll+9F1FCD - 48 83 7E 18 10        - cmp qword ptr [rsi+18],10 { 16 }
+WeChatWin.dll+9F1FD2 - 72 03                 - jb WeChatWin.dll+9F1FD7
+WeChatWin.dll+9F1FD4 - 48 8B 36              - mov rsi,[rsi]
+WeChatWin.dll+9F1FD7 - 49 83 FE 10           - cmp r14,10 { 16 }
+WeChatWin.dll+9F1FDB - 73 11                 - jae WeChatWin.dll+9F1FEE
+WeChatWin.dll+9F1FDD - 0F10 06               - movups xmm0,[rsi]
+```
+
+点击设置触发指令：
+`7FF896ED9858 - 0F10 06  - movups xmm0,[rsi]`
+
+查看汇编代码：
+
+```assembly
+WeChatWin.dll+E7982C - E8 DF4CADFF           - call WeChatWin.dll+94E510
+WeChatWin.dll+E79831 - 4C 89 65 EF           - mov [rbp-11],r12
+WeChatWin.dll+E79835 - 4C 89 65 FF           - mov [rbp-01],r12
+WeChatWin.dll+E79839 - 4C 89 65 07           - mov [rbp+07],r12
+WeChatWin.dll+E7983D - 48 8D B0 08010000     - lea rsi,[rax+00000108]
+WeChatWin.dll+E79844 - 4C 8B 76 10           - mov r14,[rsi+10]
+WeChatWin.dll+E79848 - 48 83 7E 18 10        - cmp qword ptr [rsi+18],10 { 16 }
+WeChatWin.dll+E7984D - 72 03                 - jb WeChatWin.dll+E79852
+WeChatWin.dll+E7984F - 48 8B 36              - mov rsi,[rsi]
+WeChatWin.dll+E79852 - 49 83 FE 10           - cmp r14,10 { 16 }
+WeChatWin.dll+E79856 - 73 11                 - jae WeChatWin.dll+E79869
+WeChatWin.dll+E79858 - 0F10 06               - movups xmm0,[rsi]
+```
+
+
+
+第二个地址的触发条件：随便点开一个有未读消息的群。
+触发指令：
+`7FF8973FC50D - 0F10 07  - movups xmm0,[rdi]`
+
+查看汇编代码：
+
+```assembly
+WeChatWin.dll+139C4D7 - E8 34205BFF           - call WeChatWin.dll+94E510
+WeChatWin.dll+139C4DC - 48 89 5D 50           - mov [rbp+50],rbx
+WeChatWin.dll+139C4E0 - 48 89 5D 60           - mov [rbp+60],rbx
+WeChatWin.dll+139C4E4 - 48 89 5D 68           - mov [rbp+68],rbx
+WeChatWin.dll+139C4E8 - 48 8D B8 20070000     - lea rdi,[rax+00000720]
+WeChatWin.dll+139C4EF - 48 8B 77 10           - mov rsi,[rdi+10]
+WeChatWin.dll+139C4F3 - 48 83 7F 18 10        - cmp qword ptr [rdi+18],10 { 16 }
+WeChatWin.dll+139C4F8 - 72 03                 - jb WeChatWin.dll+139C4FD
+WeChatWin.dll+139C4FA - 48 8B 3F              - mov rdi,[rdi]
+WeChatWin.dll+139C4FD - 48 B8 FFFFFFFFFFFFFF7F - mov rax,7FFFFFFFFFFFFFFF { -1 }
+WeChatWin.dll+139C507 - 48 83 FE 10           - cmp rsi,10 { 16 }
+WeChatWin.dll+139C50B - 73 11                 - jae WeChatWin.dll+139C51E
+WeChatWin.dll+139C50D - 0F10 07               - movups xmm0,[rdi]
+```
+
+函数 `WeChatWin.dll+94E510` 就是 `getXObjAddr` ，注意向下看偏移量。
+
+
+
+## 调试器分析
+
 先通过CE进行内存搜索微信号（其他信息同理），找到地址后，使用调试器对该地址下内存访问断点，中断在：
 
 ```assembly
@@ -114,6 +225,8 @@ __int64 *sub_18094E510() {
 ```
 
 然后查看调用函数`sub_18094E510`的地方，发现有非常多的地方。如果能定位到这个函数以及提取它的返回值，则基本上很多数据都可以找到了。
+
+## 数据结构
 
 我们为函数`sub_18094E510`命名为：`getXObjAddr`，它的返回地址`183DFD3F0`命名为：`g_xaddr`，则微信号地址为：`g_xaddr + 0x720` 。把地址转换成相对基址的偏移：`183DFD3F0  - 180000000 = 3DFD3F0`，通过查看附近内存地址的数据内容，可以发现如下数据：
 

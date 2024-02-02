@@ -45,6 +45,10 @@ CE批量锁定或修改进行筛选。N次扫描后结果仍然很多，可以�
 
 # 基础操作
 
+## 中文语言
+
+从 [Chinese Simplified translation files (ch_CN)](https://www.cheatengine.org/download/ch_cn.zip) 下载简体中文语言包，解压`ch_cn`到CE的安装目录下 `languages` 文件夹里，修改 文件 `language.ini` 的内容：`PreferedLanguage=ch_cn`  即可完成中文语言配置。
+
 ## 内存搜索
 
 - 二进制数据（字节数组）搜索：勾选Hex，搜索类型：Search for this array ， 值类型：Array of byte ， 搜索内容填写示例：`30 20 31 20 20 32 32 20 `
@@ -174,6 +178,63 @@ CE目录下的`Tutorial-i386.exe`就是练习用的程序。
    ```
 
    
+
+## 图形关卡1
+
+通关思路：
+
+- 子弹加多或无限；
+- 目标血量减少；
+
+通过搜索发现子弹数量搜索不到，可能在内存中有所加密。从目标血量入手：
+
+- 初始搜索未知的初始值，数值类型：4字节；
+- 血量减少后，搜索减少的值，静默一会搜索未变的数值。
+- 然后再次血量减少，搜索减少的值，静默一会搜索未变的数值。
+- 找到血量地址后（血量初始值是100），修改血量为一个较小的值，例如为1（不可直接修改为0或负数），然后再打一次子弹，即可通关。
+
+该关卡主要考察：未知初始值的搜索、其他搜索组合等。子弹数量有一定的迷惑性。
+
+
+
+## 图形关卡2
+
+考察共享代码、数据结构分析、代码注入。通关思路：
+
+- 精确数值搜索4字节找到我方血量地址；
+- 找谁写了这个地址，然后定位到指令，查看其他地址，会获取3个地址，1个是我方的2个是敌方的，右键进入数据结构分析；
+- 0x70偏移处是敌我之分的标志，0是我方，1是敌方。
+- 代码注入：
+
+```assembly
+alloc(newmem,2048,"gtutorial-x86_64.exe"+400E3) 
+label(returnhere)
+label(originalcode)
+label(exit)
+
+newmem: //this is allocated memory, you have read,write,execute access
+//place your code here
+cmp [rax+70],0
+je exit
+mov edx, 1000		// 增加伤害加快敌方死亡速度，否则攻击很慢
+
+originalcode:
+sub [rax+60],edx
+
+exit:
+jmp returnhere
+
+"gtutorial-x86_64.exe"+400E3:
+jmp newmem
+returnhere:
+ret					// 需要注意，默认代码模板会把ret放在 originalcode 里，导致注入后的代码有问题导致崩溃，一定要检查。
+```
+
+
+
+## 图形关卡3
+
+
 
 # 其他练习
 
