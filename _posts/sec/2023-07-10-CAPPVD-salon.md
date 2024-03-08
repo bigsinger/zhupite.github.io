@@ -1,9 +1,8 @@
 ﻿---
-layout：	post
-category：	"sec"
-title：		"CAPPVD2023年首期移动互联网APP产品安全漏洞技术沙龙"
-
-tags：		[]
+layout:	post
+category:	"sec"
+title:		"CAPPVD2023年首期移动互联网APP产品安全漏洞技术沙龙"
+tags:		[]
 ---
 - Content
 {:toc}
