@@ -7,42 +7,42 @@ tags:		[]
 
 # 接口
 
-| 接口                              | 调用环境 | 说明                                                         |
-| --------------------------------- | -------- | ------------------------------------------------------------ |
-| starjs.setsource4lua(s);          | js       | 传递全局字符串                                               |
-| starjs.setnexturl4lua(nexturl);   | js       | 传递全局字符串                                               |
-| starjs.getsource4js               | js       | 获取全局字符串                                               |
-| starjs.addphotojs                 | js       | 添加图片，starjs.addphotojs(src, name);                      |
-| starjs.addalbumjs                 | js       | 添加相册，starjs.addalbumjs(name, href, src, count);         |
-| starjs.getminwidth()              | js       | var w = starjs.getminwidth();                                |
-| starjs.getminheight()             | js       | var h = starjs.getminheight();                               |
-|                                   |          |                                                              |
-| getver                            | lua      | 获取程序版本号。if getver()>1031 then end                    |
-| print                             | lua      | 输出日志。支持多参数，如：print(1,2,'3')                     |
-| msgprint                          | lua      | 同print。支持多参数。                                        |
-| msgbox                            | lua      | 弹框。支持多参数。                                           |
-| msgtip                            | lua      | 托盘提示。支持多参数。                                       |
-| selecttab                         | lua      | 切换软件Tab页。if getver() >= 1031 then selecttab(0) end     |
-| setsavepath                       | lua      | 设置保存目录，只需设置一个名称即可，软件会自动创建目录，无须设置全路径。 |
-| request                           | lua      | request(url) 请求url获取返回内容。内部自动获取当前浏览器正在访问的网址作为Refer参数，自动获取Cookie作为参数。效果等同于：star.gethtmlex(url, 'xxx.com', getcookies())   以及： navigate(url) s = getwebsource() |
-| visit                             | lua      | visit(url, isAsync, waitTime, className)  返回网页源码       |
-| navigate(url, [milliseconds])     | lua      | 参数2位等待时间，单位：毫秒                                  |
-| getwebname                        | lua      | 获取浏览器类型字符串，目前：cef ie cefmb                     |
-| getweburl                         | lua      | 获取当前浏览器正在访问的网址。                               |
-| getwebsource                      | lua      | 获取当前浏览器的网页源码。                                   |
-| runjs                             | lua      | runjs([[  ]]) 执行js脚本。                                   |
-| getsource4lua()                   | lua      | 获取全局字符串                                               |
-| getnexturl4lua()                  | lua      | 获取全局字符串                                               |
-| setsource4js                      | lua      | 传递全局字符串                                               |
-| AddOneAlbum                       | lua      | 添加一个相册，参数：id, name, url, preview, count, desc, question, CreateTime, sUpdateTime, nPrivate，最简使用形式：AddOneAlbum('', name, url, src) |
-| AddOnePhoto                       | lua      | 相册下载中使用的函数。添加一个图片，参数：id, name, preview, original, desc, refurl，最简使用形式：AddOnePhoto('', name, src, src) |
-| AddOneImage                       | lua      | 下载当前网页图片使用的函数。添加一个图片，参数：id, name, preview, original, desc, refurl，不常用。 |
-| findurl(key1, [key2], [maxCount]) | lua      | 获取访问网页过程中加载的url，通过关键词进行查找。maxCount为0或1时只查找1个且返回一个字符串，为负数不限制查找次数且返回table，未整数则为指定的最大查找次数且返回table。if getver()>1051 then end |
-| clearurl                          | lua      | 清空访问网页过程中加载的url                                  |
-| findurlwhoisrecent                | lua      | 获取访问网页过程中加载的url，最先出现的关键词列表的索引（0表示都没有出现，查找到则序号以1作为基数）。index = findurlwhoisrecent({"key1", "key2", "key3"}) |
-| star.log                          | lua      | 将内容以日志形式保存到文件                                   |
-| star.gethtml                      | lua      | 请求url获取返回内容                                          |
-| star.gethtmlex                    | lua      | 请求url获取返回内容。star.gethtmlex(url, 'xxx.com', getcookies())  效果等同于：navigate(url) s = getwebsource() |
+| 接口                                  | 调用环境 | 说明                                                         |
+| ------------------------------------- | -------- | ------------------------------------------------------------ |
+| starjs.setsource4lua(s);              | js       | 传递全局字符串                                               |
+| starjs.setnexturl4lua(nexturl);       | js       | 传递全局字符串                                               |
+| starjs.getsource4js                   | js       | 获取全局字符串                                               |
+| starjs.addphotojs                     | js       | 添加图片，starjs.addphotojs(src, name);                      |
+| starjs.addalbumjs                     | js       | 添加相册，starjs.addalbumjs(name, href, src, count);         |
+| starjs.getminwidth()                  | js       | var w = starjs.getminwidth();                                |
+| starjs.getminheight()                 | js       | var h = starjs.getminheight();                               |
+|                                       |          |                                                              |
+| getver                                | lua      | 获取程序版本号。if getver()>1031 then end                    |
+| print                                 | lua      | 输出日志。支持多参数，如：print(1,2,'3')                     |
+| msgprint                              | lua      | 同print。支持多参数。                                        |
+| msgbox                                | lua      | 弹框。支持多参数。                                           |
+| msgtip                                | lua      | 托盘提示。支持多参数。                                       |
+| selecttab                             | lua      | 切换软件Tab页。if getver() >= 1031 then selecttab(0) end     |
+| setsavepath                           | lua      | 设置保存目录，只需设置一个名称即可，软件会自动创建目录，无须设置全路径。 |
+| request                               | lua      | request(url) 请求url获取返回内容。内部自动获取当前浏览器正在访问的网址作为Refer参数，自动获取Cookie作为参数。效果等同于：star.gethtmlex(url, 'xxx.com', getcookies())   以及： navigate(url) s = getwebsource() |
+| visit                                 | lua      | visit(url, isAsync, waitTime, className)  返回网页源码       |
+| navigate(url, [milliseconds])         | lua      | 参数2位等待时间，单位：毫秒                                  |
+| getwebname                            | lua      | 获取浏览器类型字符串，目前：cef ie cefmb                     |
+| getweburl                             | lua      | 获取当前浏览器正在访问的网址。                               |
+| getwebsource                          | lua      | 获取当前浏览器的网页源码。                                   |
+| runjs                                 | lua      | runjs([[  ]]) 执行js脚本。                                   |
+| getsource4lua()                       | lua      | 获取全局字符串                                               |
+| getnexturl4lua()                      | lua      | 获取全局字符串                                               |
+| setsource4js                          | lua      | 传递全局字符串                                               |
+| AddOneAlbum                           | lua      | 添加一个相册，参数：id, name, url, preview, count, desc, question, CreateTime, sUpdateTime, nPrivate，最简使用形式：AddOneAlbum('', name, url, src) |
+| AddOnePhoto                           | lua      | 相册下载中使用的函数。添加一个图片，参数：id, name, preview, original, desc, refurl，最简使用形式：AddOnePhoto('', name, src, src) |
+| AddOneImage                           | lua      | 下载当前网页图片使用的函数。添加一个图片，参数：id, name, preview, original, desc, refurl，不常用。 |
+| findurl(key1, [key2], [maxCount = 1]) | lua      | 获取访问网页过程中加载的url，通过关键词进行查找。maxCount为1时只查找1个且返回一个字符串，为0或负数不限制查找次数且返回table，设置大于1整数则为指定的最大查找次数且返回table；默认为1。if getver()>1051 then end |
+| clearurl                              | lua      | 清空访问网页过程中加载的url                                  |
+| findurlwhoisrecent                    | lua      | 获取访问网页过程中加载的url，最先出现的关键词列表的索引（0表示都没有出现，查找到则序号以1作为基数）。index = findurlwhoisrecent({"key1", "key2", "key3"}) |
+| star.log                              | lua      | 将内容以日志形式保存到文件                                   |
+| star.gethtml                          | lua      | 请求url获取返回内容                                          |
+| star.gethtmlex                        | lua      | 请求url获取返回内容。star.gethtmlex(url, 'xxx.com', getcookies())  效果等同于：navigate(url) s = getwebsource() |
 
 
 
