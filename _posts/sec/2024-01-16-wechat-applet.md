@@ -19,3 +19,19 @@ tags:		[]
 wxapkg unpack -o unpack -r "D:\Tencent\WeChat Files\Applet\wx32348465709"
 ```
 
+或者用封装后的工具，直接拖放待反编译的小程序目录下的任意一个`.wxapkg`后缀的文件到`apkinfo`上。
+
+# 抓包
+
+[HttpDebuggerPro](https://www.httpdebugger.com/)
+
+
+
+### [DragonBones 骨骼动画资源](https://docs.cocos.com/creator/3.1/manual/zh/asset/dragonbones.html)
+
+DragonBones 骨骼动画资源包括：
+
+- `.json`/`.dbbin` 骨骼数据
+- `.json` 图集数据
+- `.png` 图集纹理
+
