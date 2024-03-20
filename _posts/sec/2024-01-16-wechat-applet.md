@@ -27,7 +27,7 @@ wxapkg unpack -o unpack -r "D:\Tencent\WeChat Files\Applet\wx32348465709"
 
 
 
-### [DragonBones 骨骼动画资源](https://docs.cocos.com/creator/3.1/manual/zh/asset/dragonbones.html)
+### [DragonBones 骨骼动画资源](https://docs.cocos.com/creator/manual/zh/asset/dragonbones.html)
 
 DragonBones 骨骼动画资源包括：
 
