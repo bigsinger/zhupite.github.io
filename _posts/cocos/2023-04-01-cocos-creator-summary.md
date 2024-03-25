@@ -99,6 +99,43 @@ ani.play();
 
 
 
+## 坐标
+
+参考官网文档：[坐标系和变换 · Cocos Creator](https://docs.cocos.com/creator/3.2/manual/zh/content-workflow/transform.html)
+
+### 坐标系
+
+- **屏幕坐标系**：顾名思义，就是看着显示器，按照人眼的阅读习惯的顺序，从左到右从上到下。所有原生编程的坐标都是用这个，例如Android、iOS、Windows的原生代码的开发，均使用该坐标系。
+- **笛卡尔坐标系**：就是我们上学的时候，学习数学用的坐标系，左下角为原点，向右X变大，向上Y变大。又称为：左手坐标系、`OpenGL`坐标系。`Cocos`系列均使用该坐标系，一般默认就是指该坐标系。
+
+
+
+- **世界坐标**：又叫全局坐标，它不是坐标系，是一个绝对概念，即该坐标是全局范围的一个**绝对坐标**值。是游戏世界里的绝对坐标。可以简单理解为：**游戏世界坐标**。
+- **本地坐标**：是一个**相对坐标**，是相当于其父节点的坐标。是游戏世界里的相对坐标。
+
+
+
+- **屏幕坐标：** 它是考虑到屏幕分辨率的坐标，可以简单理解为：**屏幕分辨率坐标**（注意，仍然是笛卡尔坐标系，而非屏幕坐标系）。其实处理这个屏幕坐标意义不大，因为都是在游戏世界，建议直接从游戏世界里的坐标进行操作处理。这个非常容易误解。
+
+
+
+在`Cocos Creator`的鼠标事件中：
+
+- `touchEvent.getUILocation()` 获取的是笛卡尔坐标系下的世界坐标（全局坐标）。
+- `touchEvent.getLocation()`  获取的是鼠标的屏幕坐标（并不是屏幕坐标系，仍然是笛卡尔坐标系），是结合了屏幕分辨率后的坐标，可以简单理解为：屏幕分辨率坐标（笛卡尔坐标系）。该坐标可以使用函数 `screenToWorld `转换为游戏世界坐标。
+
+
+
+cocos提供了API在世界坐标和本地坐标之间相互转换：
+
+```typescript
+let location = touchEvent.getUILocation();  		// 获取世界坐标，注意不要用getLocation
+let position = new Vec3(location.x, location.y);
+let point = node.getComponent(UITransform).convertToNodeSpaceAR(position); // 转换为相对节点的本地坐标
+```
+
+
+
 ## 本地存储
 
 ```js
@@ -127,3 +164,10 @@ sys.localStorage.setItem("soundEffectSwitch", this.soundEffectSwitch.toString())
 - 瓦片地图编辑：Tiled Map Editor
 - 合图工具：[TexturePacker](https://www.codeandweb.com/texturepacker)
 - 碎图工具：[TextureUnpacker](https://www.onlinedown.net/soft/1114992.htm)
+
+
+
+# 常见问题
+
+- [警告: WebGL 1.0 平台不支持非 2 次贴图的 Repeat 过滤模式，运行时会自动改为 Clamp 模式，这会使材质的 tilingOfiset 等属性完全失效](https://forum.cocos.org/t/topic/144127/2)，解决：在「属性检查器」中修改「类型」为`sprite-frame` ，然后保存即可。
+- 
