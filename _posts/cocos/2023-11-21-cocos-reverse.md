@@ -1,6 +1,6 @@
 ﻿---
 layout:		post
-category:	"sec"
+category:	"cocos"
 title:		"cocos逆向工程汇总"
 
 tags:		[]
