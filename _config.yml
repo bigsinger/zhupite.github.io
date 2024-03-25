@@ -65,9 +65,8 @@ navs:
 #     href: /open-source/
 #     label: 开源
 
-  -
-    href: /wiki/
-    label: 求职内推
+#   -
+#     href: /wiki/
 
   -
     href: /links/
