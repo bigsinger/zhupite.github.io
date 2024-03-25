@@ -82,6 +82,12 @@ resources.load('audio/bg', AudioClip, (err, audio) => {
 
 
 
+封装 `AudioController` 脚本，添加到场景的任意一个节点上（可以是根节点），然后为该节点添加组件：`AudioSource` ，然后把音频资源拖放到该组件的`Clip`上（可以勾选`Loop`进行循环播放），再把该`AudioSource` 组件拖放到`AudioController`的`Backgroud`属性上。
+
+
+
+
+
 ## 动画
 
 ```js
