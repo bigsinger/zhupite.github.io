@@ -103,18 +103,32 @@ ani.play();
 - [缓动系统](https://docs.cocos.com/creator/manual/zh/tween/)
 - [Cocos Creator动作系统和缓动系统总结详解](https://zhuanlan.zhihu.com/p/667936820)
 
+```ts
+tween(this.node).delay(3).hide().start();		// 3s 后隐藏
+
+
+_tweenSpeakUI: any = null;
+this._tweenSpeakUI?.stop();
+this.node.active = true;
+this._tweenSpeakUI = tween(this.node).delay(3).call(() => {
+    this.node.active = false;
+}).start();
+```
+
 
 
 ## 坐标
 
 参考官网文档：[坐标系和变换 · Cocos Creator](https://docs.cocos.com/creator/3.2/manual/zh/content-workflow/transform.html)
 
-### 坐标系
+**坐标系**：
 
 - **屏幕坐标系**：顾名思义，就是看着显示器，按照人眼的阅读习惯的顺序，从左到右从上到下。所有原生编程的坐标都是用这个，例如Android、iOS、Windows的原生代码的开发，均使用该坐标系。
 - **笛卡尔坐标系**：就是我们上学的时候，学习数学用的坐标系，左下角为原点，向右X变大，向上Y变大。又称为：左手坐标系、`OpenGL`坐标系。`Cocos`系列均使用该坐标系，一般默认就是指该坐标系。
 
 
+
+**世界坐标：**
 
 - **世界坐标**：又叫全局坐标，它不是坐标系，是一个绝对概念，即该坐标是全局范围的一个**绝对坐标**值。是游戏世界里的绝对坐标。可以简单理解为：**游戏世界坐标**。
 - **本地坐标**：是一个**相对坐标**，是相当于其父节点的坐标。是游戏世界里的相对坐标。
@@ -151,8 +165,37 @@ sys.localStorage.setItem("soundEffectSwitch", this.soundEffectSwitch.toString())
 
 ## JSON
 
-```js
+[JSON 资源 - Cocos Creator 3.8 手册](https://docs.cocos.com/creator/manual/zh/asset/json.html)
 
+```ts
+resources.load('gameGiftJson', (err: any, res: JsonAsset) => {
+    if (err) { error(err.message || err); return; }
+    const jsonData: object = res.json!;     // 获取到 Json 数据
+})
+
+
+resources.load('Level1/things', (err: any, res: JsonAsset) => {
+    if (err) { error(err.message || err); return; }
+    const items: object[] = res.json! as object[];   // 获取到 Json 数据
+    if (!items) { return; }
+
+    items.forEach(item => {
+        let oldName = item["old"];
+        let newName = item["new"];
+        let audio = item["audio"];
+        let text = Common.FindSubStr(audio, '_', '_') || audio;
+
+        this.thingsList.push({
+            oldThingsName: oldName, 
+            newThingsName: newName, 
+            audioPath: audio, 
+            speakText : text,
+            oldThingsNode : find('bgs/scrollview/' + oldName),
+            newThingsNode :find('bgs/scrollview/' + newName),
+        });
+    });
+    //console.log(this.thingsList.length, this.thingsList);
+})
 ```
 
 
