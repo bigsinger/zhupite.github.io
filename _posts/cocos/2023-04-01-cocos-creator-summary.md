@@ -82,9 +82,87 @@ resources.load('audio/bg', AudioClip, (err, audio) => {
 
 
 
-封装 `AudioController` 脚本，添加到场景的任意一个节点上（可以是根节点），然后为该节点添加组件：`AudioSource` ，然后把音频资源拖放到该组件的`Clip`上（可以勾选`Loop`进行循环播放），再把该`AudioSource` 组件拖放到`AudioController`的`Backgroud`属性上。
+封装 `AudioHelper` 脚本，添加到场景的任意一个节点上（可以是根节点），然后为该节点添加组件：`AudioSource` ，然后把音频资源拖放到该组件的`Clip`上（可以勾选`Loop`进行循环播放），再把该`AudioSource` 组件拖放到`AudioHelper`的`Backgroud`属性上。
+
+```ts
+// AudioHelper.ts
+
+import { AudioClip, AudioSource, Component, _decorator, resources, error, assetManager } from 'cc';
+import { common } from './Common';
+const { ccclass, property } = _decorator;
 
 
+@ccclass
+export class AudioHelper extends Component {
+    // 背景音乐
+    @property(AudioSource)
+    public backgroud: AudioSource = null!;
+
+    protected onLoad(): void {
+        common.audioHelper = this;
+    }
+
+    // 初始化音频源
+    public InitAudioSource(audioPath: string, onComplete?: ((err: Error | null, audioSource: AudioSource) => void) | null) {
+        if (this.backgroud == null || this.backgroud.clip == null) {
+            // 如果不通过UI绑定的方式，通过代码异步初始化
+            if (audioPath) {
+                resources.load(audioPath, AudioClip, (err, audio) => {
+                    if (err) {
+                        console.log("load audio error"); error(err.message || err);
+                    }else {
+                        this.backgroud = new AudioSource();
+                        this.backgroud.clip = audio;
+                        this.backgroud.loop = true;
+                        this.backgroud.playOnAwake = true; // 如果需要在加载时自动播放
+                    }
+                    onComplete && onComplete(err, this.backgroud);
+                });
+            }
+        }
+    }
+
+    // 播放音效, filename: 文件名，例如：click（相对于resources的路径）
+    playSound(filename) {
+        if (this.backgroud) {
+            resources.load(filename, AudioClip, (err, audio) => {
+                if (err) { console.log("load audio error"); error(err.message || err); return; }
+                this.backgroud.playOneShot(audio);
+            })
+        }
+    }
+
+    // 播放音乐
+    playBGM() {
+        this.backgroud.play();
+    }
+
+    // 暂停音乐
+    pauseBGM() {
+        this.backgroud.pause();
+    }
+
+    // 停止音乐
+    stopBGM() {
+        this.backgroud.stop();
+    }
+}
+```
+
+简化使用的代码（无须在编辑器中操作）：
+
+```ts
+override start() {
+    // 初始化背景音乐
+    if (common.AudioHelper == null) { common.audioHelper = new AudioHelper(); }
+    common.audioHelper.InitAudioSource('Common/audios/bgm', (err, audioSource) => {
+        // 播放开场白
+        if (!err && audioSource) { 
+            common.audioHelper.playSound('Common/audios/xxx');
+        }
+    });
+}
+```
 
 
 
@@ -94,6 +172,25 @@ resources.load('audio/bg', AudioClip, (err, audio) => {
 const node:Node = find('Canvas/nodeName');
 const ani = node.getComponent(Animation);
 ani.play();
+```
+
+
+
+切换龙骨动画：
+
+```ts
+import { dragonBones } from 'cc';
+
+// 切换骨骼动画
+ChangeDragonBonesAnim(name: string, animationName: string) {
+    let node = find(name);
+    if (!node) { console.error('not found: ' + name); return; }
+
+    let dragonDisplay = node.getComponent(dragonBones.ArmatureDisplay);
+    if (dragonDisplay) {
+        dragonDisplay.playAnimation(animationName, 0);
+    }
+}
 ```
 
 
@@ -113,6 +210,23 @@ this.node.active = true;
 this._tweenSpeakUI = tween(this.node).delay(3).call(() => {
     this.node.active = false;
 }).start();
+```
+
+
+
+```ts
+// 说话：显示对话框，3秒后消失。如果对话框消失前再次调用，则重新计时。
+_tweenSpeakUI: any = null;
+SpeakText(text: string, times: number = 3) {
+    if (this.speakLabel && text) {
+        this._tweenSpeakUI?.stop();
+        this.speakLabel.string = text;
+        this.speakLabel.node.parent.active = true;
+        this._tweenSpeakUI = tween(this.speakLabel.node.parent).delay(times).call(() => {
+            this.speakLabel.node.parent.active = false;
+        }).start();
+    }
+}
 ```
 
 
