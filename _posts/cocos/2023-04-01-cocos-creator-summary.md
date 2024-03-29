@@ -20,11 +20,11 @@ tags:		[c++]
   1. 原始素材存放在`assets\resources`目录下，可以分类存放；
   2. `typescript`脚本文件存放在`assets\ts`目录下；
   3. 编辑器中制作的资源存放`assets`目录下分类存储，例如`assets\prefab`下存放预制体文件，`assets\animation`下存放制作的动画文件；
-- 右键选中空白区域可以拖动
+- 右键选中空白区域可以拖动。
 - 创建精灵：
-  1. 直接拖放图片进去即可
-  2. 在层级管理器中右键创建2D-精灵，然后拖放图片到其右侧的属性中
-- 为节点挂载脚本，在层级管理器中选中节点，然后拖放资源管理器中的脚本文件到节点右侧的属性面板里即可。
+  1. 直接拖放图片进去即可。
+  2. 在层级管理器中右键`创建2D-精灵`，然后拖放图片到其右侧的属性中。
+- 为节点挂载脚本，在层级管理器中选中节点，然后拖放资源管理器中的脚本文件到节点的属性面板里即可。
 - 创建预制体：精灵修改好后再拖回到资源管理器中即可。后面使用直接拖放预制体到层级管理器。
 - 创建点击缩放效果：添加组件 - `Button` - `Transition` - `Scale`，使用默认参数即可。
 - 使用文本组件：添加空节点 - 添加`Label `
@@ -39,6 +39,7 @@ tags:		[c++]
   8. 您可以通过调整关键帧之间的时间间隔来改变动画播放的速度。点击并拖动关键帧，将其移动到所需的时间位置。
   9. 如果需要，您可以在动画编辑器中预览动画。点击编辑器底部的播放按钮或按空格键来播放/暂停动画。
   10. 保存您的动画片段。点击动画编辑器右上角的 "Save" 按钮，或按 Ctrl/Cmd + S。
+- 创建龙骨动画：为节点添加组件：`dragonbones.ArmatureDisplay`，拖放龙骨动画的`dbbin`文件到`Dragon Asset`，拖放龙骨动画的json文件到 `Dragon Atlas Asset` 。 选择`Armature` 和 `Animation` 。
 - `Tiledmap`（瓦块地图）：
 
 
@@ -51,6 +52,16 @@ tags:		[c++]
 
 - 加载和切换场景：`director.loadScene`
 - 预加载：`director.preloadScene`
+
+
+
+## 生命周期
+
+[生命周期回调 Cocos Creator 手册](https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html)
+
+- `onLoad` 回调会在节点首次激活时触发，onLoad 总是会在任何 start 方法调用前执行，这能用于安排脚本的初始化顺序。通常我们会在 `onLoad` 阶段去做一些初始化相关的操作。
+- `start` 回调函数会在组件第一次激活前，也就是第一次执行 `update` 之前触发。
+- `onDestroy`。当组件或者所在节点调用了 `destroy()`，则会调用 `onDestroy` 回调，并在当帧结束时统一回收组件。
 
 
 
@@ -154,13 +165,163 @@ export class AudioHelper extends Component {
 ```ts
 override start() {
     // 初始化背景音乐
-    if (common.AudioHelper == null) { common.audioHelper = new AudioHelper(); }
+    if (common.audioHelper == null) { common.audioHelper = new AudioHelper(); }
     common.audioHelper.InitAudioSource('Common/audios/bgm', (err, audioSource) => {
         // 播放开场白
         if (!err && audioSource) { 
             common.audioHelper.playSound('Common/audios/xxx');
         }
     });
+}
+```
+
+
+
+另外贴一个简单版的音效和背景音乐播放类，需要在编辑器中做资源绑定。
+
+```ts
+import { AudioClip, AudioSource, Component, _decorator } from "cc";
+const { ccclass, property } = _decorator;
+
+@ccclass("AudioPlayer")
+export class AudioPlayer extends Component {
+    @property(AudioSource) private soundSource: AudioSource;
+    @property(AudioSource) private musicSource: AudioSource;
+
+    public init(soundVolume: number, musicVolume: number): void {
+        this.setSoundVolume(soundVolume);
+        this.setMusicVolume(musicVolume);
+    }
+
+    public get SoundVolume(): number {
+        return this.soundSource.volume;
+    }
+
+    public get MusicVolume(): number {
+        return this.musicSource.volume;
+    }
+
+    public setSoundVolume(volume: number): void {
+        this.soundSource.volume = volume;
+    }
+
+    public setMusicVolume(volume: number): void {
+        this.musicSource.volume = volume;
+    }
+
+    public playSound(clip: AudioClip): void {
+        this.soundSource.playOneShot(clip);
+    }
+
+    public playMusic(clip: AudioClip): void {
+        this.musicSource.stop();
+        this.musicSource.clip = clip;
+        this.musicSource.play();
+    }
+}
+```
+
+在具体的业务逻辑处理中，可以增加一个适配器`GameAudioAdapter`，用来管理音效资源。
+
+```ts
+import { _decorator, Component, Node, AudioClip } from "cc";
+import { AppRoot } from "../../AppRoot/AppRoot";
+import { AudioPlayer } from "../../Services/AudioPlayer/AudioPlayer";
+const { ccclass, property } = _decorator;
+
+@ccclass("GameAudioAdapter")
+export class GameAudioAdapter extends Component {
+    @property(AudioClip) private music: AudioClip;
+    @property(AudioClip) private enemyHit: AudioClip;
+    @property(AudioClip) private playerHit: AudioClip;
+    @property(AudioClip) private playerDeath: AudioClip;
+    @property(AudioClip) private weaponSwing: AudioClip;
+    @property(AudioClip) private xpPickup: AudioClip;
+    @property(AudioClip) private goldPickup: AudioClip;
+    @property(AudioClip) private healthPotionPickup: AudioClip;
+    @property(AudioClip) private magnetPickup: AudioClip;
+    @property(AudioClip) private chestPickup: AudioClip;
+    @property(AudioClip) private levelUp: AudioClip;
+    @property(AudioClip) private horizontalProjectileLaunch: AudioClip;
+    @property(AudioClip) private diagonalProjectileLaunch: AudioClip;
+    @property(AudioClip) private haloProjectileLaunch: AudioClip;
+
+    private audioPlayer: AudioPlayer;
+    private player: Player;
+
+    public init(
+        player: Player,
+        enemyManager: EnemyManager,
+        itemManager: ItemManager,
+        horizontalLauncher: WaveProjectileLauncher,
+        diagonalLauncher: WaveProjectileLauncher,
+        haloLauncher: HaloProjectileLauncher
+    ): void {
+        AppRoot.Instance.AudioPlayer.playMusic(this.music);
+
+        this.audioPlayer = AppRoot.Instance.AudioPlayer;
+        this.player = player;
+
+        player.Weapon.WeaponStrikeEvent.on(() => this.audioPlayer.playSound(this.weaponSwing), this);
+        player.Level.LevelUpEvent.on(() => this.audioPlayer.playSound(this.levelUp), this);
+        player.Health.HealthPointsChangeEvent.on(this.tryPlayPlayerHitSound, this);
+
+        enemyManager.EnemyAddedEvent.on(this.addEnemyListeners, this);
+        enemyManager.EnemyRemovedEvent.on(this.removeEnemyListeners, this);
+
+        itemManager.PickupEvent.on(this.playPickupItemSound, this);
+
+        horizontalLauncher.ProjectileLaunchedEvent.on(() => this.audioPlayer.playSound(this.horizontalProjectileLaunch), this);
+        diagonalLauncher.ProjectileLaunchedEvent.on(() => this.audioPlayer.playSound(this.diagonalProjectileLaunch), this);
+        haloLauncher.ProjectilesLaunchedEvent.on(() => this.audioPlayer.playSound(this.haloProjectileLaunch), this);
+    }
+
+    private addEnemyListeners(enemy: Enemy): void {
+        enemy.Health.HealthPointsChangeEvent.on(this.playEnemyHitSound, this);
+    }
+
+    private removeEnemyListeners(enemy: Enemy): void {
+        enemy.Health.HealthPointsChangeEvent.off(this.playEnemyHitSound);
+    }
+
+    private tryPlayPlayerHitSound(healthChange: number): void {
+        if (healthChange < 0) {
+            this.audioPlayer.playSound(this.playerHit);
+        }
+
+        if (!this.player.Health.IsAlive) {
+            this.audioPlayer.playSound(this.playerDeath);
+        }
+    }
+
+    private playEnemyHitSound(): void {
+        this.audioPlayer.playSound(this.enemyHit);
+    }
+
+    private playPickupItemSound(itemType: ItemType): void {
+        let clipToPlay: AudioClip;
+        switch (itemType) {
+            case ItemType.XP:
+                clipToPlay = this.xpPickup;
+                break;
+            case ItemType.Gold:
+                clipToPlay = this.goldPickup;
+                break;
+            case ItemType.HealthPotion:
+                clipToPlay = this.healthPotionPickup;
+                break;
+            case ItemType.Magnet:
+                clipToPlay = this.magnetPickup;
+                break;
+            case ItemType.Chest:
+                clipToPlay = this.chestPickup;
+                break;
+            default:
+                break;
+        }
+
+        this.audioPlayer.playSound(clipToPlay);
+    }
 }
 ```
 
@@ -277,6 +438,33 @@ this.soundEffectSwitch = sys.localStorage.getItem("soundEffectSwitch") == "1" ? 
 sys.localStorage.setItem("soundEffectSwitch", this.soundEffectSwitch.toString());
 ```
 
+```ts
+import { sys } from "cc";
+import { UserData } from "../Game/Data/UserData";
+
+export class SaveSystem {
+    private userDataIdentifier = "user-dse";
+    public save(userData: UserData): void {
+        sys.localStorage.setItem(this.userDataIdentifier, JSON.stringify(userData));
+    }
+
+    public load(): UserData {
+        const data: string = sys.localStorage.getItem(this.userDataIdentifier);
+
+        if (!data) return new UserData();
+
+        try {
+            // TODO: the data can be corrupted if we introduce a new field in UserData
+            return <UserData>JSON.parse(data);
+        } catch (error) {
+            return new UserData();
+        }
+    }
+}
+```
+
+
+
 ## JSON
 
 [JSON 资源 - Cocos Creator 3.8 手册](https://docs.cocos.com/creator/manual/zh/asset/json.html)
@@ -314,6 +502,147 @@ resources.load('Level1/things', (err: any, res: JsonAsset) => {
 
 
 
+# 代码汇总
+
+## 全局管理
+
+可以使用一个`AppRoot.ts`作为全局管理器，把它绑定到根节点即可，后面统一使用该类来访问其他对象。
+
+```ts
+export class AppRoot extends Component {
+    @property(AudioPlayer) private audio: AudioPlayer;
+    @property(JsonAsset) private settingsAsset: JsonAsset;
+
+    private static instance: AppRoot;
+
+    // 外部调用该接口函数
+    public static get Instance(): AppRoot {
+        return this.instance;
+    }
+    
+    // 初始化操作
+   	public onLoad()  {
+        if (AppRoot.Instance == null) {
+            AppRoot.instance = this;
+            director.addPersistRootNode(this.node);
+            this.init();
+        } else {
+            this.node.destroy();
+        }
+    }
+}
+```
+
+## 事件回调
+
+参考：Cocos Creator事件回调
+
+
+
+## 对话框
+
+
+
+## 碰撞
+
+
+
+## 延时
+
+```ts
+export async function delay(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+```
+
+## 数学函数
+
+```ts
+// 数组打乱（洗牌）
+export function shuffle<T>(array: T[]): T[] {
+    const shuffledArray: T[] = [...array];
+
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+    }
+
+    return shuffledArray;
+}
+
+// 此函数用于将输入的数字四舍五入到小数点后一位。
+export function roundToOneDecimal(num: number): number {
+    return Math.round(num * 10) / 10;
+}
+
+// 此函数用于生成一个随机的正数或负数，结果只有1或-1两种可能。
+export function randomPositiveOrNegative(): number {
+    return Math.random() < 0.5 ? 1 : -1;
+}
+
+/**
+ * 功能描述：此函数用于根据笛卡尔坐标系中的x和y值计算出相应的角度（度）。
+ * @param x 笛卡尔坐标系中的x坐标值。
+ * @param y 笛卡尔坐标系中的y坐标值。
+ * @returns 返回一个角度值，表示从正x轴到由(x, y)指向的向量的角度，结果在0到360度之间。
+ */
+export function getDegreeAngleFromDirection(x: number, y: number): number {
+    const radianAngle = Math.atan2(y, x);
+    const angle = (radianAngle / Math.PI) * 180;
+
+    return angle < 0 ? angle + 360 : angle;
+}
+```
+
+## 带点击音效的按钮
+
+```ts
+import { _decorator, Component, Node, NodeEventType } from "cc";
+import { ISignal } from "../../EventSystem/ISignal";
+import { Signal } from "../../EventSystem/Signal";
+const { ccclass, property } = _decorator;
+
+@ccclass("UIButton")
+export class UIButton extends Component {
+    private interactedEvent = new Signal<UIButton>();
+
+    public start(): void {
+        this.node.on(Node.EventType.TOUCH_START, this.interact, this);
+    }
+
+    public get InteractedEvent(): ISignal<UIButton> {
+        return this.interactedEvent;
+    }
+
+    private interact(): void {
+        console.log("interact");
+        this.interactedEvent.trigger(this);
+    }
+}
+```
+
+```ts
+import { Component, _decorator } from "cc";
+import { AppRoot } from "../AppRoot/AppRoot";
+import { UIButton } from "../Services/UI/Button/UIButton";
+const { ccclass, property } = _decorator;
+
+@ccclass("UIButtonAudioPlayer")
+export class UIButtonAudioPlayer extends Component {
+    @property(UIButton) private button: UIButton;
+    public start(): void {
+        this.button.InteractedEvent.on(this.playButtonClick, this);
+    }
+
+    private playButtonClick(): void {
+        const audioClip = AppRoot.Instance.GameAssets.AudioAssets.buttonClick;
+        AppRoot.Instance.AudioPlayer.playSound(audioClip);
+    }
+}
+```
+
+
+
 # 碎图/图集
 
 - [Cocos Creator 图集 (TexturePacker、自动图集功能 、压缩纹理、压缩插件)](https://www.jianshu.com/p/f8f1e830d112)
@@ -334,3 +663,10 @@ resources.load('Level1/things', (err: any, res: JsonAsset) => {
 
 - [警告: WebGL 1.0 平台不支持非 2 次贴图的 Repeat 过滤模式，运行时会自动改为 Clamp 模式，这会使材质的 tilingOfiset 等属性完全失效](https://forum.cocos.org/t/topic/144127/2)，解决：在「属性检查器」中修改「类型」为`sprite-frame` ，然后保存即可。
 - 
+
+
+
+# 参考资料
+
+- [Cocos Creator 官网手册](https://docs.cocos.com/creator/manual/zh/)
+- [Cocos中文社区](https://forum.cocos.org)
