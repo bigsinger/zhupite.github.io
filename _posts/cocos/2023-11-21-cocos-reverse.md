@@ -277,6 +277,8 @@ window._CCSettings = {
 
 # Cocos2dx-Lua
 
+## 解密
+
 `AppDelegate`.cpp源码：
 
 ```c
@@ -334,12 +336,12 @@ AppDelegate::applicationDidFinishLaunching {
 
 
 
-**密key的找寻方法**
+**解密key的找寻方法**
 
 key在打包后的cocos的lib库的libcocos2dlua.so中
 
 1. 第一种方法是`libcocos2dlua.so`使用IDA打开string窗口，全局查找加密sign。点击进入查找结果，在该结果的上方3行能够发现加密key。
-2. 第二种方法，用`strings`工具查找字符串。终端运行 `strings -a libcocos2dlua.so` ，查找`sign`，观察`sign`上方的字符串，即为key。
+2. 第二种方法，用`strings`工具（在`SysinternalsSuite`工具集里）查找字符串。终端运行 `strings -a libcocos2dlua.so` ，查找`sign`，观察`sign`上方的字符串，即为key。或倒叙查找关键词：`cocos_android_app_init`  、 `AppDelegate` ，观察上方字符串。
 
 
 
