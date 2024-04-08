@@ -23,6 +23,7 @@ tags:		[]
 | msgbox                                | lua      | 弹框。支持多参数。                                           |
 | msgtip                                | lua      | 托盘提示。支持多参数。                                       |
 | selecttab                             | lua      | 切换软件Tab页。if getver() >= 1031 then selecttab(0) end     |
+| settitle                              | lua      | 设置软件的标题，如：settitle('xxx')                          |
 | setsavepath                           | lua      | 设置保存目录，只需设置一个名称即可，软件会自动创建目录，无须设置全路径。 |
 | request                               | lua      | request(url) 请求url获取返回内容。内部自动获取当前浏览器正在访问的网址作为Refer参数，自动获取Cookie作为参数。效果等同于：star.gethtmlex(url, 'xxx.com', getcookies())   以及： navigate(url) s = getwebsource() |
 | visit                                 | lua      | visit(url, isAsync, waitTime, className)  返回网页源码       |
