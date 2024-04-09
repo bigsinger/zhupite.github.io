@@ -129,9 +129,34 @@ LLVM（**Low Level Virtual Machine**），是以 BSD 许可来开发的开源的
 
 
 
+# Linux下编译
+
+进入到有`Makefile`文件的目录下，直接使用命令编译：
+
+```bash
+make
+```
+
+有时候需要设置下包含目录路径：
+
+```bash
+export LUAPATH=/mnt/f/bigsinger/lib2/lua53
+```
+
+为工具设置下别名或链接：
+
+```bash
+# 为lua起个别名lua53
+sudo ln -s /usr/bin/lua /usr/bin/lua53
+```
+
+
+
 # Windows使用Makefile或CMakeLists.txt编译
 
-2023-3-29补充。得益于GPT4，直接问到了最简单的编译方法。现在很多开源项目的工程是配置的`Makefile`或`CMakeLists.txt`，在Windows上可以通过如下方法快速编译，非常爽歪歪。
+2023-3-29补充。得益于`GPT4`，直接问到了最简单的编译方法。现在很多开源项目的工程是配置的`Makefile`或`CMakeLists.txt`，在Windows上可以通过如下方法快速编译，非常爽歪歪。
+
+其实推荐在`Windows`上进入`WSL`系统下按照`Linux`的方式编译，比较方便快捷。
 
 ## Makefile
 

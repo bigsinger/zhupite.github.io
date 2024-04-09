@@ -277,6 +277,10 @@ window._CCSettings = {
 
 # Cocos2dx-Lua
 
+## 版本
+
+IDA中搜索字符串：`cocos2d-x-`   可以得到类似`cocos2d-x-3.17.2`的版本号。
+
 ## 解密
 
 `AppDelegate`.cpp源码：
@@ -336,12 +340,94 @@ AppDelegate::applicationDidFinishLaunching {
 
 
 
+
+
 **解密key的找寻方法**
 
 key在打包后的cocos的lib库的libcocos2dlua.so中
 
-1. 第一种方法是`libcocos2dlua.so`使用IDA打开string窗口，全局查找加密sign。点击进入查找结果，在该结果的上方3行能够发现加密key。
-2. 第二种方法，用`strings`工具（在`SysinternalsSuite`工具集里）查找字符串。终端运行 `strings -a libcocos2dlua.so` ，查找`sign`，观察`sign`上方的字符串，即为key。或倒叙查找关键词：`cocos_android_app_init`  、 `AppDelegate` ，观察上方字符串。
+1. 方法一：
+
+   - 打开任意一个lua脚本，开头的字符串是相同是，这是sign。然后IDA打开`libcocos2dlua.so`查看`string`窗口，全局查找加密sign字符串，找到后点击进入数据段，在该结果的附近能够发现加密key（一般是上方）。
+
+   ```
+   .rodata:0000000000D2750C aKey  DCB "keykeykey",0 ; DATA XREF: AppDelegate::applicationDidFinishLaunching(void)+4C↑o
+   .rodata:0000000000D2750C                                         ; AppDelegate::applicationDidFinishLaunching(void)+58↑o ...
+   .rodata:0000000000D2751C aSign DCB "signsign",0 ; DATA XREF: AppDelegate::applicationDidFinishLaunching(void)+50↑o
+   ```
+
+2. 方法二，用`strings`工具（在`SysinternalsSuite`工具集里）查找字符串。终端运行 `strings -a libcocos2dlua.so` ，查找`sign`，观察`sign`上方的字符串，即为key。或倒叙查找关键词：`cocos_android_app_init`  、 `AppDelegate` ，观察上方字符串。
+
+3. 方法三，IDA打开`libcocos2dlua.so`，直接找到函数 `applicationDidFinishLaunching` ，在函数代码中寻找字符串，就可以找到key和sign了。
+
+4. 方法四，通过frida动态获取。
+
+   ```js
+   function xx() {
+       console.log("===============================================================");
+   
+       var coco = Process.findModuleByName("libcocos2dlua.so");
+       var exports = coco.enumerateExports();
+       for(var i = 0; i < exports.length; i++) {
+           var name = exports[i].name;
+   
+           // 不一定叫这个名字，匹配一下
+           if (name.indexOf("xxtea_decrypt")!=-1) {
+               console.log("name:", name);
+               console.log("exports[i]:", JSON.stringify(exports[i]));
+   
+               var addr = exports[i].address;
+               Interceptor.attach(addr, {
+                   onEnter: function (args) {
+                       console.log('[+] args0,r0: ' + args[0]);//data数据
+                       console.log('[+] args1,r1: ' + args[1]);//data长度
+   
+                       //密钥
+                       console.log('[+] args2,r2: ' + args[2]);
+                       console.log(Memory.readCString(args[2]));
+                       console.log('[+] args2,r3: ' + args[3]);//密钥长度
+                   } onLeave: function (retval) {
+                   }
+               }
+           });
+       }
+   }
+   
+   setImmediate(xx,0);
+   ```
+
+   
+
+
+
+使用xxtea来解密：
+
+- xxtea加解密算法源码：https://github.com/cocos2d/cocos2d-x-3rd-party-libs-bin/tree/v3/xxtea
+- [xxtea/xxtea-dotnet: XXTEA encryption algorithm library for .NET.](https://github.com/xxtea/xxtea-dotnet)
+
+```python
+#coding: utf-8
+
+# lua 解密单个文件
+
+import os
+import sys
+import xxtea
+import logging
+import pathlib
+
+sign = "xxxx"
+key = "0x201xxxx"
+inputName = r"main.lua"
+
+def decrypt(filename):
+    f = open(filename, mode='rb')
+    data = f.read()
+    data2 = data[len(sign):]
+    return xxtea.decrypt(data2, key)
+
+print(decrypt(inputName))
+```
 
 
 
@@ -352,6 +438,14 @@ key在打包后的cocos的lib库的libcocos2dlua.so中
 ```bash
 java -jar unluac.jar ./StoreItemDlg.luac > ./StoreItemDlg.luac.lua
 ```
+
+
+
+## csb2csd
+
+- [lyzz0612/csb2csd: cocostudio csb反编成csd](https://github.com/lyzz0612/csb2csd) （测试可用，支持文件夹批量转换，支持子文件夹的递归处理）
+- [davidxifeng/csb2csd: 小工具，转换CocosStudio输出的csb文件为源文件，使之可继续编辑](https://github.com/davidxifeng/csb2csd) （测试不可用）
+- 
 
 
 
@@ -419,10 +513,19 @@ Interceptor.attach(func, {
 
 
 
+# 工程转换
+
+**注意：**一定是js脚本的项目转换才有意义，否则转换后引擎是不支持的，例如Lua。
+
+[导入其他编辑器项目 - Cocos Creator 2.4 手册](https://docs.cocos.com/creator/2.4/manual/zh/asset-workflow/project-import.html)
+
+
+
 # 参考
 
 - [Cocos Creator：构建流程简介与常见问题指南](https://www.mvrlink.com/cocos-creator-build-process-and-faq/)
 - [Cocos2DX-JS 加密逆向探究解密app实战](https://www.52pojie.cn/thread-1362276-1-1.html)
+- [某棋牌游戏lua逆向破解修改(一)](https://www.52pojie.cn/thread-1780626-1-1.html)
 - [关于Cocos2dx-js游戏的jsc文件解密(二)](https://www.52pojie.cn/thread-1449982-1-1.html)
 - [Cocos2d-lua工程运行流程的理解](https://www.jianshu.com/p/781d835c88c9)
 - [浅谈Cocos2d-x下Lua文件的保护方式](https://blog.shi1011.cn/rev/android/1216)
@@ -430,6 +533,7 @@ Interceptor.attach(func, {
 - [cocos2dx lua 反编译](https://bbs.pediy.com/thread-216800.htm)
 - [cocos2dx游戏逆向实战](https://www.52pojie.cn/forum.php?mod=viewthread&tid=1634085)
 - [cocos2d-x官方引用的xxtea加密解密算法源码](https://github.com/cocos2d/cocos2d-x-3rd-party-libs-bin/tree/v3/xxtea)
+- [Cocos2dlua手游 Lua解密与资源解密实战](https://bbs.kanxue.com/thread-268574.htm)
 - [XXTEA 可逆加密解密算法 C++ C#兼容版本](http://www.waitingfy.com/archives/1157)
 - [安卓逆向之Luac解密反编译](https://www.yuanrenxue.cn/app-crawl/luac.html)
 - [Cocos2d-x与LuaJIT汇编的初步解密](https://bbs.kanxue.com/thread-222825.htm)
@@ -439,4 +543,11 @@ Interceptor.attach(func, {
 - [Lua绑定的XMLHttpRequest通信源码（http请求会用到）](https://github.com/cocos2d/cocos2d-x/blob/76903dee64046c7bfdba50790be283484b4be271/cocos/scripting/lua-bindings/manual/network/lua_xml_http_request.cpp)
 - [Lua绑定的Downloader源码（下载文件用到）](https://github.com/cocos2d/cocos2d-x/blob/76903dee64046c7bfdba50790be283484b4be271/cocos/scripting/lua-bindings/manual/network/lua_downloader.cpp)
 - [frida内存检索svc指令查找sendto和recvfrom进行hook抓包](https://www.wangan.com/p/7fy74705bc6187fb)
+
+# 工具
+
+- [Cocos 资料大全](https://fusijie.github.io/Cocos-Resource/index.html)
+- cocos studio v3.10 的下载地址http://download.cocos.com/CocosStudio/v3.10/CocosForWin-v3.10.exe
+  MAC版本：[http://download.cocos.com/CocostudioMac/Download/v3.10/CocosForMac-v3.10.dmg 618](http://download.cocos.com/CocostudioMac/Download/v3.10/CocosForMac-v3.10.dmg)
+- [Cocos Studio 3.10 Mac](http://cocos2d-x.org/filedown/CocosForMac-v3.10.dmg)    [Cocos Studio 3.10 Win](http://cocos2d-x.org/filedown/CocosForWin-v3.10.exe)
 

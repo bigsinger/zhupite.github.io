@@ -670,3 +670,4 @@ export class UIButtonAudioPlayer extends Component {
 
 - [Cocos Creator 官网手册](https://docs.cocos.com/creator/manual/zh/)
 - [Cocos中文社区](https://forum.cocos.org)
+- [Cocos 资料大全](https://fusijie.github.io/Cocos-Resource/index.html)
