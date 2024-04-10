@@ -281,7 +281,7 @@ window._CCSettings = {
 
 IDA中搜索字符串：`cocos2d-x-`   可以得到类似`cocos2d-x-3.17.2`的版本号。
 
-## 解密
+## 解密脚本
 
 `AppDelegate`.cpp源码：
 
@@ -428,6 +428,28 @@ def decrypt(filename):
 
 print(decrypt(inputName))
 ```
+
+
+
+## 解密资源
+
+从**initWithImageFile**入手，寻找解密函数。
+
+```c++
+bool Image::initWithImageFile(const std::string& path) {
+    bool ret = false;
+    _filePath = FileUtils::getInstance()->fullPathForFilename(path);
+    Data data = FileUtils::getInstance()->getDataFromFile(_filePath);
+
+    if (!data.isNull()) {
+        ret = initWithImageData(data.getBytes(), data.getSize());
+    }
+
+    return ret;
+}
+```
+
+
 
 
 
