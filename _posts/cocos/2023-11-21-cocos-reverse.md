@@ -431,6 +431,16 @@ print(decrypt(inputName))
 
 
 
+## 反编译Lua
+
+使用`unluac.jar`：
+
+```bash
+java -jar unluac.jar ./StoreItemDlg.luac > ./StoreItemDlg.luac.lua
+```
+
+
+
 ## 解密资源
 
 从**initWithImageFile**入手，寻找解密函数。
@@ -451,23 +461,30 @@ bool Image::initWithImageFile(const std::string& path) {
 
 
 
+## CSB转CSD
 
+- CSD：可以认为是场景文件，可以直接在`CocosStudio`中打开。
+- CSB：CSD文件经过`CocosStudio`发布后的文件。
 
-## 反编译
-
-使用`unluac.jar`：
-
-```bash
-java -jar unluac.jar ./StoreItemDlg.luac > ./StoreItemDlg.luac.lua
-```
-
-
-
-## csb2csd
+因此想要学习参考的话，可以转换一下，而且将来想要升级到`Cocos Creator`，也方便导入升级。转换工具：
 
 - [lyzz0612/csb2csd: cocostudio csb反编成csd](https://github.com/lyzz0612/csb2csd) （测试可用，支持文件夹批量转换，支持子文件夹的递归处理）
+
+  - ```bash
+    python convert.py <dir_in> <dir_out>
+    ```
+
 - [davidxifeng/csb2csd: 小工具，转换CocosStudio输出的csb文件为源文件，使之可继续编辑](https://github.com/davidxifeng/csb2csd) （测试不可用）
-- 
+
+
+
+**需要注意**：反编译的文件可能存在错误或丢失内容的情况，因此在重建工程的时候需要仔细检查并修复，然后再通过`CocosStudio`重新发布出`CSB`文件使用。
+
+
+
+## 反编译Java
+
+因为引擎是模板性的，项目为了实现自己的业务逻辑会增加`Java`代码，但是又要在脚本里面去操作，这个时候就会调用`luaj.callStaticMethod`，因此在脚本文件里搜索这个函数的调用，就可以摸清楚主要的逻辑了。
 
 
 
