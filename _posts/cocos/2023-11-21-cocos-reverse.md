@@ -281,6 +281,8 @@ window._CCSettings = {
 
 IDA中搜索字符串：`cocos2d-x-`   可以得到类似`cocos2d-x-3.17.2`的版本号。
 
+
+
 ## 解密脚本
 
 `AppDelegate`.cpp源码：
@@ -548,6 +550,52 @@ Interceptor.attach(func, {
     Log.e("frida-HOOK", "sign:"+Memory.readCString(args[3]));
   }
 });
+```
+
+
+
+## 动态解密
+
+参考案例：[cocos2dx-Lua引擎游戏脚本及图片资源解密与DUMP](./cocos2dx-dynamic-reverse-case.html)
+
+对Lua脚本的获取可以直接对**luaL_loadbuffer**进行HOOK，进而DUMP出Lua脚本，网上搜索函数声明：
+
+```c
+int luaL_loadbuffer (lua_State *L, const char *buff, size_t sz, const char *name);
+```
+
+进而实现HOOK代码：
+
+```c
+//orig function copy
+int (*luaL_loadbuffer_orig)(void *L, const char *buff, int size, const char *name) = NULL;
+
+//local function
+int luaL_loadbuffer_mod(void *L, const char *buff, int size, const char *name) {
+	LOGD("[dumplua] luaL_loadbuffer name: %s lua: %s", name, buff);
+	return luaL_loadbuffer_orig(L, buff, size, name);
+}
+
+void hook() {
+    LOGD("[dumplua] hook begin");
+    void *handle = dlopen("libgame.so", RTLD_NOW);
+    if (handle == NULL) {
+    	LOGE("[dumplua]dlopen err: %s.", dlerror());
+    	return;
+    }else{
+    	LOGD("[dumplua] libgame.so dlopen OK!");
+    }
+    
+    
+    void *pluaL_loadbuffer = dlsym(handle, "luaL_loadbuffer");
+    if (pluaL_loadbuffer == NULL){
+    	LOGE("[dumplua] lua_loadbuffer not found!");
+    	LOGE("[dumplua] dlsym err: %s.", dlerror());
+    }else{
+    	LOGD("[dumplua] luaL_loadbuffer found!");
+    	MSHookFunction(pluaL_loadbuffer, (void *)&luaL_loadbuffer_mod, (void **)&luaL_loadbuffer_orig);
+    }
+}
 ```
 
 

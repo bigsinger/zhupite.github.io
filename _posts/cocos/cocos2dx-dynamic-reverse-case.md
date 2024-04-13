@@ -1,48 +1,48 @@
+﻿---
+layout:		post
+category:	"cocos"
+title:		"cocos2dx-Lua引擎游戏脚本及图片资源解密与DUMP"
+date:		"2017-03-01"
+tags:		[cocos]
 ---
-layout:     post
-title:      cocos2dx-Lua引擎游戏脚本及图片资源解密与DUMP
-category: cocos
-tags:		[android]
-date:		2017-03-01
-description: 
----
+
+
+
 
 
 ## 分析目标
+
+
+
 - [少年三国志](http://sg.youzu.com/)，包名：com.youzu.android.snsgz
 - [全民水浒](http://qmsh.qq.com/)，包名：com.tencent.Q108
 
 下面分析的主要是少年三国志。
 
 ## Lua脚本解密与DUMP
-- LuaJit IDA分析调用树：
+
+
+
+- `LuaJit` IDA分析调用树：
 
 1. **AppDelegate::applicationDidFinishLaunching**(AppDelegate *__hidden this) EXPORT _ZN11AppDelegate29applicationDidFinishLaunchingEv
-
 2. **cocos2d::CCLuaEngine::defaultEngine**(cocos2d::CCLuaEngine *__hidden this) EXPORT _ZN7cocos2d11CCLuaEngine13defaultEngineEv
-
-3. **cocos2d::CCLuaEngine::init**(cocos2d::CCLuaEngine *__hidden this)
- EXPORT _ZN7cocos2d11CCLuaEngine4initEv
-
-4. **cocos2d::CCLuaStack::create**(cocos2d::CCLuaStack *__hidden this)
- EXPORT _ZN7cocos2d10CCLuaStack6createEv
-
-5. **cocos2d::CCLuaStack::init**(cocos2d::CCLuaStack *__hidden this)
- EXPORT _ZN7cocos2d10CCLuaStack4initEv
-
+3. **cocos2d::CCLuaEngine::init**(cocos2d::CCLuaEngine *__hidden this) EXPORT _ZN7cocos2d11CCLuaEngine4initEv
+4. **cocos2d::CCLuaStack::create**(cocos2d::CCLuaStack *__hidden this) EXPORT _ZN7cocos2d10CCLuaStack6createEv
+5. **cocos2d::CCLuaStack::init**(cocos2d::CCLuaStack *__hidden this) EXPORT _ZN7cocos2d10CCLuaStack4initEv
 6. **cocos2dx_lua_loader**
+7. **cocos2d::CCLuaStack::lua_loadbuffer**(lua_State *, char const*, int, char const*) EXPORT *ZN7cocos2d10CCLuaStack14lua_loadbufferEP9lua_StatePKciS4*
 
-7. **cocos2d::CCLuaStack::lua_loadbuffer**(lua_State *, char const*, int, char const*)
-EXPORT _ZN7cocos2d10CCLuaStack14lua_loadbufferEP9lua_StatePKciS4_
-
-**cocos2d::CCLuaStack::lua_loadbuffer**先调用以下函数解密： **cocos2d::extra::CCCrypto::decryptUF**(uchar *,int,int *,int *) EXPORT _ZN7cocos2d5extra8CCCrypto9decryptUFEPhiPiS3_
-最后再调用：**luaL_loadbuffer**
+**cocos2d::CCLuaStack::lua_loadbuffer**先调用以下函数解密： **cocos2d::extra::CCCrypto::decryptUF**(uchar *,int,int *,int *) EXPORT *ZN7cocos2d5extra8CCCrypto9decryptUFEPhiPiS3* 最后再调用：**luaL_loadbuffer**
 
 因此可以直接对**luaL_loadbuffer**进行HOOK，进而DUMP出Lua脚本，网上搜索函数声明：
+
 ```c
 int luaL_loadbuffer (lua_State *L, const char *buff, size_t sz, const char *name);
 ```
+
 进而实现HOOK代码：
+
 ```c
 //orig function copy
 int (*luaL_loadbuffer_orig)(void *L, const char *buff, int size, const char *name) = NULL;
@@ -74,8 +74,10 @@ void hook() {
     }
 }
 ```
+
 运行后拦截到的输出信息：
-```
+
+```lua
 01-05 19:29:27.674 13191-13215/? D/SUBSTRATEHOOK: [dumplua] luaL_loadbuffer name: assets/scripts/main.lua lua: 
     function __G__TRACKBACK__(errorMessage)
     
@@ -128,13 +130,17 @@ void hook() {
 01-05 19:29:27.689 13191-13215/? D/SUBSTRATEHOOK: [dumplua] luaL_loadbuffer name: upgrade.SplashLayer lua: LJ-
 01-05 19:29:27.689 13191-13215/? D/SUBSTRATEHOOK: [dumplua] luaL_loadbuffer name: upgrade.upgrade lua: LJ6
 ```
+
 可见，有些Lua脚本是源码形式，有些是LuaJit编译的，可以改写以上代码把脚本DUMP到文件中再进一步分析，此处略。
 
 
+
 ## 资源解密与DUMP
+
 主要函数： cocos2d::CCImage::**initWithImageFile调用** cocos2d::CCImage::**initWithImageData**
 
-但是IDA分析发现**initWithImageData**会调用**cocos2d::extra::CCCrypto::decryptXXTEA**和**cocos2d::extra::CCCrypto::decryptUF**进行解密，最后再加载图片资源。以下是initWithImageData部分代码：
+但是IDA分析发现**initWithImageData**会调用**cocos2d::extra::CCCrypto::decryptXXTEA**和**cocos2d::extra::CCCrypto::decryptUF**进行解密，最后再加载图片资源。以下是`initWithImageData`部分代码：
+
 ```c
 if ( s )
   {
@@ -162,7 +168,7 @@ if ( s )
         v16 = 1068708659;
 ```
 
-也即会调用cocos2d::extra::CCCrypto::decryptXXTEA和cocos2d::extra::CCCrypto::decryptUF进行解密操作。我们看下**cocos2d::extra::CCCrypto::decryptUF**这个函数，通过IDA的F5插件，并不断修改变量名可以获得一个比较清晰的C代码。
+也即会调用`cocos2d::extra::CCCrypto::decryptXXTEA`和`cocos2d::extra::CCCrypto::decryptUF`进行解密操作。我们看下**cocos2d::extra::CCCrypto::decryptUF**这个函数，通过IDA的F5插件，并不断修改变量名可以获得一个比较清晰的C代码。
 
 ```c
 int __fastcall cocos2d::extra::CCCrypto::decryptUF(cocos2d::extra::CCCrypto *pInBuff, int nlen, int a3, int *pOutLen, int *name)
@@ -235,9 +241,11 @@ int __fastcall cocos2d::extra::CCCrypto::decryptUF(cocos2d::extra::CCCrypto *pIn
   return 0;
 }
 ```
-其实看到这里应该也是比较容易逆向分析出解密的算法的，应该说比较简单，可以直接写一个脚本来解密assets里的资源。但是为了保证通用性，还是写HOOK代码比较好。
+
+其实看到这里应该也是比较容易逆向分析出解密的算法的，应该说比较简单，可以直接写一个脚本来解密`assets`里的资源。但是为了保证通用性，还是写HOOK代码比较好。
 
 本来分析以为最终都会调用_initWithWebpData、_initWithJpgData、_initWithBpgData、_initWithPngData、_initWithTiffData、_initWithRawData这些函数的，但是实际上分别HOOK后并没有被拦截，所以最后还是HOOK了下**cocos2d::extra::CCCrypto::decryptUF**。
+
 ```c
 static string g_strDataPath;
 static int g_nCount = 1;
@@ -285,9 +293,10 @@ void hook() {
 		MSHookFunction(decryptUF, (void *)&decryptUF_mod, (void **)&decryptUF_orig);
 	}
 }
-
 ```
+
 我这里图方便把所有解密的数据都DUMP为/data/data/packagename/cache目录下扩展名为PNG的文件了，最后通过脚本从手机中批量提取出解密后的文件：
+
 ```python
 #coding:utf-8
 import os
@@ -296,12 +305,16 @@ for i in range(1, 10000):
     cmd = 'adb pull /data/data/com.youzu.android.snsgz/cache/' + str(i) +'.png' + ' e:\\test'
     os.system(cmd)
 ```
-![image](http://img.blog.csdn.net/20170106095923860?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYXNtY3Zj/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
+
+![](https://img-blog.csdn.net/20170106095923860)
+
 其实通过上面的分析就可以知道，图片资源的解密和Lua的解密都是调用了相同的函数，因此解密出的文件不全是图片，还有写LuaJit的脚本文件，用十六进制编辑器打开就可以看到LJ开头的魔法数字。
 
 ## 全民水浒
-全民水浒这个比较简单，资源直接没加密处理，解压缩APK文件就可以在assets目录下查看了。Lua脚本可以通过HOOK函数luaL_loadbuffer获得，而且可以看出只是对编译的Lua脚本做了简单的加密，可以直接DUMP出来，相对少年三国志稍微弱了一些。
-```
+
+全民水浒这个比较简单，资源直接没加密处理，解压缩APK文件就可以在assets目录下查看了。Lua脚本可以通过HOOK函数`luaL_loadbuffer`获得，而且可以看出只是对编译的Lua脚本做了简单的加密，可以直接DUMP出来，相对少年三国志稍微弱了一些。
+
+```lua
 01-05 20:04:16.569 17729-17886/? D/SUBSTRATEHOOK: [dumplua] luaL_loadbuffer name: require "UpdateScene.lua" lua: require "UpdateScene.lua"
 01-05 20:04:16.574 17729-17886/? D/SUBSTRATEHOOK: [dumplua] luaL_loadbuffer name: UpdateScene.lua lua: LuaQ
 01-05 20:04:16.574 17729-17886/? D/SUBSTRATEHOOK: [dumplua] luaL_loadbuffer name: Modal.lua lua: LuaQ
