@@ -492,6 +492,15 @@ bool Image::initWithImageFile(const std::string& path) {
 
 因为引擎是模板性的，项目为了实现自己的业务逻辑会增加`Java`代码，但是又要在脚本里面去操作，这个时候就会调用`luaj.callStaticMethod`，因此在脚本文件里搜索这个函数的调用，就可以摸清楚主要的逻辑了。
 
+推荐使用 [jadx](https://github.com/skylot/jadx/releases) 或 [jeb](https://www.pnfsoftware.com/) 进行反编译Java源码。
+
+构建步骤：
+
+1. 查找所有 `luaj.callStaticMethod` 反射调用的代码，优先保留和实现。
+2. 三方SDK的包名汇总，通过询问ChatGPT来判断是什么SDK，并自行调用。
+3. `AndroidManifest.xml` 参考着配置。
+4. 其他代码大致浏览，保留有借鉴意义的部分。
+
 
 
 ## 抓包
