@@ -435,6 +435,10 @@ print(decrypt(inputName))
 
 ## 反编译Lua
 
+Lua编译工具使用的是`tools\cocos2d-console\plugins\plugin_luacompile`，`cocos2d-x-3.17.2`使用的 [LuaJIT](http://luajit.org/) 版本信息为：`LuaJIT 2.1.0-beta2` ，GitHub镜像：https://github.com/LuaJIT/LuaJIT
+
+
+
 使用`unluac.jar`：
 
 ```bash
