@@ -13,11 +13,21 @@ Cocos2d-x 是一款国产的开源的手机游戏开发框架，基于MIT许可�
 
 Cocos2d-x 降低了手机游戏的技术从业门槛，在全球范围得到广泛使用和认可。腾讯、网易、盛大、掌趣等国内游戏大厂，以及任天堂、Square Enix、Gamevil、DeNA、LINE等国际大厂均已使用cocos2d-x引擎开发并推出了自己的手游产品。使用cocos2d-x引擎的历年代表作有《我叫MT Online》《捕鱼达人》《大掌门》《刀塔传奇》《放开那三国》《全民飞机大战》《欢乐斗地主》《开心消消乐》《保卫萝卜》《梦幻西游》《大话西游》《神武》《问道》《征途》《列王的纷争》《热血传奇》《传奇世界》《剑与家园》《乱世王者》《传奇霸业》等。
 
+[Download Cocos2d-x](https://github.com/cocos2d/cocos2d-x)
+
+# Cocos Creator
+
+[Cocos Creator 下载](https://www.cocos.com/creator-download)
+
+因为`Cocos Creator`的脚本语言是ts或js，因此看到ts或js时大概率能猜测到是`Cocos Creator`构建的，但是也可能是`Cocos2dx-JS`构建的，需要稍微区分一下。
 
 
-[Download Cocos2d-x](https://www.cocos2d-x.org/download)
 
-# Cocos2dx-JS
+## 版本信息
+
+IDA中搜索字符串：`cocos@cocoss`   可以得到类似`2.4.2 cocos@cocoss-MacBook-Pro.local-v3.4-182-g408ba56`的版本信息。
+
+解密：`assets/src/cocos2d-jsb.jsc` ，在文件末尾可以得到类似： `t.CocosEngine = cc.ENGINE_VERSION = "2.4.3"` 、 `console.log("Cocos Creator v" + cc.ENGINE_VERSION)`  的版本信息。
 
 
 
@@ -25,7 +35,13 @@ Cocos2d-x 降低了手机游戏的技术从业门槛，在全球范围得到广�
 
 常规在`libcocos2djs.so`文件中搜索Ascil字符串`Cocos Game`、`main.js`、`jsb-adapter/jsb-builtin.js`等一些常规的普遍关键词来尝试定位Key。如果没找到，用IDA看下so文件有没有做过加密混淆，没有的话就结合`applicationDidFinishLaunching`函数等来寻找明文的Key值，或者hook关键函数来打印Key值。如果游戏做了混淆或其他安全手段，需要分析处理。
 
-一般来说，文本方式打开`cocos`引擎的so文件，搜索特征字符串：`Cocos Game`，在后面紧接着的明文字符串就是密钥。
+一般来说，文本方式打开`cocos`引擎的so文件，搜索特征字符串：`Cocos Game`，在后面紧接着的明文字符串就是密钥。或者ID里打开so分析搜索字符串`Cocos Game`，双击定位到字符串后，上下文就可以看到密码了：
+
+```
+.rodata:01ACDA2F aCocosGame      DCB "Cocos Game",0      ; DATA XREF: AppDelegate::AppDelegate(int,int)+34↑o
+.rodata:01ACDA2F                                         ; AppDelegate::AppDelegate(int,int)+38↑o ...
+.rodata:01ACDA3A axxxxxyyyyzzz	 DCB "xxxxxx-yyyy-zzz",0
+```
 
 `cocos2dx-js`解密，`coco2dx`生成的`jsc`并不是真正意义上的编译出来的字节码，只是做一层压缩和`xxtea`加密，因此解密过程就是先做`xxtea`解密和解压缩。网上有一个解密的`python`脚本：
 
@@ -68,10 +84,6 @@ key = "xxxxxxx-xxxx-xx"
 run(key)
 ```
 
-
-
-## 密钥分析过程
-
 IDA分析 `libcocos2djs.so`，查找如下函数分析上下文关联寻找线索：
 
 ```c
@@ -81,7 +93,17 @@ xxtea_decrypt
 do_xxtea_decrypt 
 ```
 
+实际上Cocos Creator是开源的，可以从源码 [jsb_global_init.cpp](https://github.com/cocos/cocos-engine/blob/56661467db61ebec2b47bf5795d3d3c3673266ca/native/cocos/bindings/manual/jsb_global_init.cpp#L122) 中获知这个流程：
 
+```c++
+xxtea_decrypt
+ZipUtils::isGZipBuffer
+ZipUtils::inflateMemory 
+```
+
+
+
+**动态HOOK获取密码：**
 
 ```js
 Interceptor.attach(Module.findBaseAddress("libcocos2djs.so").add(0x22E5CC), {
@@ -93,6 +115,8 @@ Interceptor.attach(Module.findBaseAddress("libcocos2djs.so").add(0x22E5CC), {
     }
 });
 ```
+
+
 
 
 
@@ -239,6 +263,120 @@ const originalUuid = decodeUuid(uuid); // fc991dd7-0033-4b80-9d41-c8a86a702e59
 
 
 
+其他三方的代码，参考：[cc-reverse/_uuid.js at main · Crain99/cc-reverse](https://github.com/Crain99/cc-reverse/blob/main/_uuid.js)（未测试过）
+
+
+
+
+
+## config.json
+
+Cocos Creator编译后的文件规则：
+
+```json
+ /** 构建后的Bundle config.json文件解析 */
+  interface BundleConfig {
+      
+    // 包内资源列表 <资源uuid索引，<资源相对路径, 资源类型索引>>
+    paths: Record<string, [string, number]>;
+      
+    // 类型数组 debug没有该字段；
+    types: string[];
+
+    // 资源uuid数组
+    uuids: string[];
+
+    // 场景 <场景url, 场景资源uuid索引>
+    scenes: Record<string, number>;
+
+    // 重新使用[uuid索引,重新使用次数]
+    redirect: number[];
+
+    // 依赖的bundle资源包名称
+    deps: string[];
+
+    // 合并的资源信息 {[合并的uuid] : [被合并的资源索引,...]}
+    packs: Record<string, number[]>;
+
+    // bundle名称
+    name: string;
+
+    // 资源前缀 比如cdn链接...
+    base: string;
+
+    // json文件夹
+    importBase: string;
+
+    // 原生资源信息
+    nativeBase: string;
+
+    // 是否是debug模式
+    debug: boolean;
+
+    // 是否zip压缩
+    isZip: boolean;
+
+    // 脚本是否加密
+    encrypted: boolean;
+
+    // 版本信息, 选择md5配置的时候
+    versions: {
+        
+      // [资源uuid索引, md5, 资源uuid索引, md5,...],
+      import: any[];
+        
+      // [资源uuid索引, md5, 资源uuid索引, md5,...]
+      native: any[];
+    }
+  }
+```
+
+
+
+举例：
+
+`paths`字段：
+
+```json
+"2": [
+    "guide/image_qpk2",
+    1,
+    1
+],
+```
+
+`types`字段：
+
+```json
+"types": [
+    "cc.AnimationClip",
+    "cc.SpriteFrame",
+    "cc.Texture2D",
+    "cc.LabelAtlas",
+    "cc.Asset",
+    "cc.SpriteAtlas",
+    "sp.SkeletonData",
+    "cc.TextAsset",
+    "dragonBones.DragonBonesAsset",
+    "dragonBones.DragonBonesAtlasAsset",
+    "cc.JsonAsset",
+    "cc.Prefab",
+    "cc.AudioClip"
+],
+```
+
+`packs`字段：
+
+```json
+"0172ac7c0": [
+            2,
+            438,
+            749
+        ],
+```
+
+意思为：序号为2、438、749的资源合并在`0172ac7c0.json`文件中，2号资源是一个 `cc.SpriteFrame` 类型（资源类型为1，从types配置中取第2个，索引从0开始）。
+
 
 
 ## 重建
@@ -249,7 +387,7 @@ const originalUuid = decodeUuid(uuid); // fc991dd7-0033-4b80-9d41-c8a86a702e59
 
 **解密`jsc`** 
 
-`Cocos2dx-js`引擎做的游戏在运行时会先检测内存里面有没有`js`文件，有的话就直接运行`js`文件，没有的话就从`jsc`转换出`js`文件，所以解密后的`js`文件直接丢入原包就行（除了一些做了文件验证形式的安全手段的游戏）。`jsc`解密后，还得在同目录下的`index.json`（config.json）文件把`encrypted`改成`flase`，不然会打不开。
+`Cocos`引擎做的游戏在运行时会先检测内存里面有没有`js`文件，有的话就直接运行`js`文件，没有的话就从`jsc`转换出`js`文件，所以解密后的`js`文件直接丢入原包就行（除了一些做了文件验证形式的安全手段的游戏）。`jsc`解密后，还得在同目录下的`index.json`（config.json）文件把`encrypted`改成`flase`，不然会打不开。
 
 
 
@@ -275,11 +413,17 @@ window._CCSettings = {
 
 之后在 `index.js` 中搜索：`loadScene` （或 `"loadScene"`）。然后在上下文代码中挑选一两个属性名称，进行搜索，从而定位到`json`文件。
 
+
+
+# Cocos2dx-JS
+
+
+
 # Cocos2dx-Lua
 
-## 版本
+## 版本信息
 
-IDA中搜索字符串：`cocos2d-x-`   可以得到类似`cocos2d-x-3.17.2`的版本号。
+IDA中搜索字符串：`cocos2d-x-`   可以得到类似`cocos2d-x-3.17.2`的版本信息。
 
 
 
