@@ -1,12 +1,20 @@
 ﻿---
 layout:		post
 category:	"sec"
-title:		"微信小程序反编译"
+title:		"微信小程序小游戏反编译"
 
 tags:		[]
 ---
 - Content
 {:toc}
+
+
+# 安装包
+
+- 手机端：`/data/data/com.tencent.mm/MicroMsg/{用户ID}/appbrand/pkg`
+- 电脑端：`D:\Tencent\msgxyz\WeChat Files\Applet`
+- 
+
 
 
 使用工具： [wux1an/wxapkg: 微信小程序反编译工具，.wxapkg 文件扫描 + 解密 + 解包工具](https://github.com/wux1an/wxapkg)

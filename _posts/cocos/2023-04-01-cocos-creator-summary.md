@@ -533,6 +533,23 @@ export class AppRoot extends Component {
 }
 ```
 
+## 精灵
+
+[精灵帧资源（SpriteFrame）  Cocos Creator 3.8 手册](https://docs.cocos.com/creator/manual/zh/asset/sprite-frame.html)
+
+```ts
+var spriteFrame = common.cropAtlas.getSpriteFrame('abcxyz');
+
+
+const url = this.gameLevels[idx].LevelIcon;
+resources.load(url, ImageAsset, (err: any, imageAsset) => {
+    const sprite = this.getComponent(Sprite);
+    sprite.spriteFrame = SpriteFrame.createWithImage(imageAsset);
+});
+```
+
+
+
 ## 事件回调
 
 参考：Cocos Creator事件回调
