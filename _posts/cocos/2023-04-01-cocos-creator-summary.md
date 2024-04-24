@@ -586,7 +586,9 @@ resources.load("test_assets/sheep", SpriteAtlas, (err, atlas) => {
 
 ## 加载ZIP资源
 
+[cocos creator 加载与读取zip包 - 知乎](https://zhuanlan.zhihu.com/p/392192673)
 
+[1.JSZip入坑教程-新手指南 - Creator 2.x - Cocos中文社区](https://forum.cocos.org/t/1-jszip/93127?u=15732633043)
 
 [【插件】Cocos Creator JSZip压缩](https://www.cnblogs.com/gamedaybyday/p/13567043.html)
 
@@ -598,18 +600,69 @@ resources.load("test_assets/sheep", SpriteAtlas, (err, atlas) => {
 4. 代码：
 
 ```tsx
-let path: string = url.raw("resources/zip/config.zip");
-loader.load({ url: path, type: "binary", }, (err, res) => {
-    if (err) return;
-    console.log(res)
-    JSZip.loadAsync(res).then((zip: JSZip) => {
-        // console.log(zip.files);	// 可以查看文件路径格式
-        let path:string="config.json"
-        zip.file(path).async("text").then((data: string) => {
-            console.log(JSON.parse(data));
+import { _decorator, Component, assetManager, resources, BufferAsset, LabelComponent, Label, Texture2D, SpriteFrame, Sprite, ImageAsset } from 'cc';
+const { ccclass, property } = _decorator;
+
+
+@ccclass('MainScene')
+export class MainScene extends Component {
+
+    @property(LabelComponent)
+    jsonContentLbl: LabelComponent = null!;
+
+    @property(Sprite)
+    sp: Sprite = null!;
+
+    start() {
+        this.loadZip("data").then((file: ArrayBuffer) => {
+            this.readZipFile(file);
         })
-    })
-});s
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
+    private loadZip(url: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            resources.load(url, BufferAsset, (err, asset) => {
+                if (err) return reject(err);
+                resolve(asset.buffer());
+            })
+        });
+    }
+
+    private async readZipFile(file: any) {
+        //解析zip包
+        const data = await JSZip.loadAsync(file);
+        console.log(data);
+
+        //解析json文件
+        data.file("data/a.json").async("text").then((content: string) => {
+            this.jsonContentLbl.string = content;
+        })
+
+        //解析图片文件
+        data.file("data/Dungeon.png").async("base64").then((buf: string) => {
+            let img = new Image();
+            img.src = 'data:image/png;base64,' + buf;
+
+            let texture = new Texture2D();
+
+            img.onload = () => {
+                texture.reset({
+                    width: img.width,
+                    height: img.height
+                })
+                texture.uploadData(img, 0, 0);
+                texture.loaded = true;
+
+                let spriteFrame = new SpriteFrame();
+                spriteFrame.texture = texture;
+                this.sp.spriteFrame = spriteFrame;
+            }
+        });
+    }
+}
 ```
 
 
