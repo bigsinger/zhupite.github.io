@@ -533,6 +533,12 @@ export class AppRoot extends Component {
 }
 ```
 
+## 资源加载
+
+[入门一定要会的几种资源加载](https://forum.cocos.org/t/creator3d/98389)
+
+
+
 ## 精灵
 
 [精灵帧资源（SpriteFrame）  Cocos Creator 3.8 手册](https://docs.cocos.com/creator/manual/zh/asset/sprite-frame.html)
@@ -580,11 +586,38 @@ resources.load("test_assets/sheep", SpriteAtlas, (err, atlas) => {
 
 ## 加载ZIP资源
 
-[cocos creator 3.x 加载与读取zip文件](https://gitee.com/superfinger/cocoscrator-load-zip-demo)
+
 
 [【插件】Cocos Creator JSZip压缩](https://www.cnblogs.com/gamedaybyday/p/13567043.html)
 
 [jszip GitHub](https://github.com/Stuk/jszip)
+
+1. 从 https://stuk.github.io/jszip/ 下载`jszip`库，解压缩使用`dist` 目录下的：`jszip.js 、 jszip.min.js`，使用其一即可。
+2. 在资源目录 `assets`下创建`libs`文件夹（与`resources`平级），将上述`js`文件复制到该文件夹下，然后右键设置**导入为插件**。
+3. 资源文件压缩为`zip`格式，微信平台需要将文件后缀改为`bin`，才能以二进制模式读取文件。
+4. 代码：
+
+```tsx
+let path: string = url.raw("resources/zip/config.zip");
+loader.load({ url: path, type: "binary", }, (err, res) => {
+    if (err) return;
+    console.log(res)
+    JSZip.loadAsync(res).then((zip: JSZip) => {
+        // console.log(zip.files);	// 可以查看文件路径格式
+        let path:string="config.json"
+        zip.file(path).async("text").then((data: string) => {
+            console.log(JSON.parse(data));
+        })
+    })
+});s
+```
+
+
+
+参考Demo：
+
+- [cocos creator 3.x 加载与读取zip文件](https://gitee.com/superfinger/cocoscrator-load-zip-demo)
+- https://gitee.com/carlosyzy/creator3d_jszip
 
 
 
@@ -695,6 +728,19 @@ export class UIButtonAudioPlayer extends Component {
     }
 }
 ```
+
+
+
+# 三方库
+
+- [获取 npm 包](https://docs.cocos.com/creator/manual/zh/scripting/modules/config.html)：npm 包管理工具 `npm` 附带在 Node.js 发行版中，安装 Node.js 之后即可使用。
+- [使用 NPM 上的库](https://docs.cocos.com/creator/manual/zh/editor/npm.html#%E4%BD%BF%E7%94%A8-npm-%E4%B8%8A%E7%9A%84%E5%BA%93)
+
+```js
+import JSZip from 'jszip/dist/jszip.min.js'; // 扩展名是需要的并且需要用 `min.js` 版本
+```
+
+[Cocos Creator 3.0 里如何玩转 npm 海量资源](https://mp.weixin.qq.com/s/QFElmvZY7S2Iw3SXa7kwfw)
 
 
 
