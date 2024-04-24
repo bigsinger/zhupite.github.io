@@ -542,7 +542,6 @@ export class AppRoot extends Component {
 ```ts
 var spriteFrame = common.cropAtlas.getSpriteFrame('abcxyz');
 
-
 const url = this.gameLevels[idx].LevelIcon;
 resources.load(url, ImageAsset, (err: any, imageAsset) => {
     const sprite = this.getComponent(Sprite);
@@ -550,15 +549,14 @@ resources.load(url, ImageAsset, (err: any, imageAsset) => {
 });
 ```
 
-### 加载 SpriteFrame 或 Texture2D
 
-图片设置为 sprite-frame 或 texture 或其他图片类型后，将会在 **资源管理器** 中生成一个对应类型的资源。但如果直接加载 `test_assets/image`，得到的类型将会是 `ImageAsset`。你必须指定路径到具体的子资源，才能加载到图片生成的 `SpriteFrame`：
 
-```typescript
+```tsx
 // 加载 SpriteFrame，image 是 ImageAsset，spriteFrame 是 image/spriteFrame，texture 是 image/texture
 resources.load("test_assets/image/spriteFrame", SpriteFrame, (err, spriteFrame) => {
     this.node.getComponent(Sprite).spriteFrame = spriteFrame;
 });
+
 // 加载 texture
 resources.load("test_assets/image/texture", Texture2D, (err: any, texture: Texture2D) => {
     const spriteFrame = new SpriteFrame();
@@ -567,13 +565,9 @@ resources.load("test_assets/image/texture", Texture2D, (err: any, texture: Textu
 });
 ```
 
-> 如果指定了类型参数，就会在路径下查找指定类型的资源。当你在同一个路径下同时包含了多个重名资源（例如同时包含 player.clip 和 player.psd）就需要声明类型。当你需要获取 “子资源”（例如获取 ImageAsset 的子资源 SpriteFrame），就需要指定子资源的路径。
 
-### 加载图集中的 SpriteFrame
 
-对从 TexturePacker 等第三方工具导入的图集而言，如果要加载其中的 SpriteFrame，则只能先加载图集，再获取其中的 SpriteFrame。这是一种特殊情况。
-
-```typescript
+```tsx
 // 加载 SpriteAtlas（图集），并且获取其中的一个 SpriteFrame
 // 注意 atlas 资源文件（plist）通常会和一个同名的图片文件（png）放在一个目录下, 所以需要在第二个参数指定资源类型
 resources.load("test_assets/sheep", SpriteAtlas, (err, atlas) => {
@@ -586,11 +580,11 @@ resources.load("test_assets/sheep", SpriteAtlas, (err, atlas) => {
 
 ## 加载ZIP资源
 
-[cocoscrator-load-zip-demo: cocos creator 3.x 加载与读取zip文件](https://gitee.com/superfinger/cocoscrator-load-zip-demo)
+[cocos creator 3.x 加载与读取zip文件](https://gitee.com/superfinger/cocoscrator-load-zip-demo)
 
 [【插件】Cocos Creator JSZip压缩](https://www.cnblogs.com/gamedaybyday/p/13567043.html)
 
-[Stuk/jszip: Create, read and edit .zip files with Javascript](https://github.com/Stuk/jszip)
+[jszip GitHub](https://github.com/Stuk/jszip)
 
 
 
