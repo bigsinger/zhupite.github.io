@@ -594,13 +594,17 @@ resources.load("test_assets/sheep", SpriteAtlas, (err, atlas) => {
 
 [jszip GitHub](https://github.com/Stuk/jszip)
 
-1. 从 https://stuk.github.io/jszip/ 下载`jszip`库，解压缩使用`dist` 目录下的：`jszip.js 、 jszip.min.js`，使用其一即可。
-2. 在资源目录 `assets`下创建`libs`文件夹（与`resources`平级），将上述`js`文件复制到该文件夹下，然后右键设置**导入为插件**。
+1. 从 https://stuk.github.io/jszip/ 下载`jszip`库（使用示例：[How to use JSZip](https://stuk.github.io/jszip/documentation/examples.html)），解压缩使用`dist` 目录下的：`jszip.js` 使用。
+2. 在资源目录 `assets`下创建`libs`文件夹（与`resources`平级），将上述`js`文件复制到该文件夹下，然后设置属性，勾选：**导入为插件**。还要复制声明文件`jszip.d.ts` 到下面，猜测可能是`index.d.ts`改名的。
 3. 资源文件压缩为`zip`格式，微信平台需要将文件后缀改为`bin`，才能以二进制模式读取文件。
 4. 代码：
 
 ```tsx
 import { _decorator, Component, assetManager, resources, BufferAsset, LabelComponent, Label, Texture2D, SpriteFrame, Sprite, ImageAsset } from 'cc';
+
+// 新版不支持这种导入方式，如果有 jszip.d.ts 文件，则不需要显式导入。
+import JSZip = require('./libs/jszip.min.js')
+
 const { ccclass, property } = _decorator;
 
 
@@ -793,7 +797,9 @@ export class UIButtonAudioPlayer extends Component {
 import JSZip from 'jszip/dist/jszip.min.js'; // 扩展名是需要的并且需要用 `min.js` 版本
 ```
 
-[Cocos Creator 3.0 里如何玩转 npm 海量资源](https://mp.weixin.qq.com/s/QFElmvZY7S2Iw3SXa7kwfw)
+[Cocos Creator之如何使用第三方类库](https://developer.moduyun.com/article/5d9b3029-7df0-11ee-b225-6c92bf60bba4.html)
+
+
 
 
 
