@@ -595,7 +595,7 @@ resources.load("test_assets/sheep", SpriteAtlas, (err, atlas) => {
 [jszip GitHub](https://github.com/Stuk/jszip)
 
 1. 从 https://stuk.github.io/jszip/ 下载`jszip`库（使用示例：[How to use JSZip](https://stuk.github.io/jszip/documentation/examples.html)），解压缩使用`dist` 目录下的：`jszip.js` 使用。
-2. 在资源目录 `assets`下创建`libs`文件夹（与`resources`平级），将上述`js`文件复制到该文件夹下，然后设置属性，勾选：**导入为插件**。还要复制声明文件`jszip.d.ts` 到下面，猜测可能是`index.d.ts`改名的。
+2. 在资源目录 `assets`下创建`libs`文件夹（与`resources`平级），将上述`js`文件复制到该文件夹下，然后设置属性，勾选：**导入为插件**。还要复制声明文件`jszip.d.ts` 到下面，猜测可能是`index.d.ts`改名的，主要用在vscode里编写代码的时候不会出现语法错误，方便有智能提示，也就是开发阶段使用的。不带不影响动态运行效果。
 3. 资源文件压缩为`zip`格式，微信平台需要将文件后缀改为`bin`，才能以二进制模式读取文件。
 4. 代码：
 
