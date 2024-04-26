@@ -359,7 +359,6 @@ ChangeDragonBonesAnim(name: string, animationName: string) {
 ## 动作
 
 - [缓动系统](https://docs.cocos.com/creator/manual/zh/tween/)
-- [Cocos Creator动作系统和缓动系统总结详解](https://zhuanlan.zhihu.com/p/667936820)
 
 ```ts
 var action = cc.fadeIn(1.0);//渐显
@@ -424,6 +423,23 @@ cc.tween(node)
   .call(() => { console.log('This is a callback'); })
   .by(1, {scale: 3, position: cc.v3(200, 200, 200)}, {easing: 'sineOutIn'})
   .run(cc.find('Canvas/cocos'));
+```
+
+`cc.tween`是异步的，即执行动画的同时，也会接着执行下面的代码，当有些代码需要在动画执行完毕后再执行时，需要用上`.call()`。
+
+```ts
+private scaleBtn() {
+    this.picNode.stopAllActions();
+    this._resetPosition();
+    cc.tween(this.picNode)
+        .to(1, { scale: 2 })
+        .to(1, { position: cc.v2(300, 0) })		// 
+        .by(1, { position: cc.v2(0, 50) })		// by是相对
+        .call(() => {
+        this.picNode.scale = 0.5;
+    })
+        .start();
+}
 ```
 
 
