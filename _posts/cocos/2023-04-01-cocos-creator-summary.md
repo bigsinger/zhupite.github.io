@@ -362,6 +362,15 @@ ChangeDragonBonesAnim(name: string, animationName: string) {
 - [Cocos Creator动作系统和缓动系统总结详解](https://zhuanlan.zhihu.com/p/667936820)
 
 ```ts
+var action = cc.fadeIn(1.0);//渐显
+var action = cc.fadeOut(1.0);//渐隐效果
+var action = cc.tintTo(2, 255, 0, 255);//修改颜色到指定值
+var action = cc.fadeTo(1.0, 0);//修改透明度到指定值
+```
+
+
+
+```ts
 tween(this.node).delay(3).hide().start();		// 3s 后隐藏
 
 
@@ -388,6 +397,33 @@ SpeakText(text: string, times: number = 3) {
         }).start();
     }
 }
+```
+
+```ts
+tween(btn.node).to(0.3, {scale: new Vec3(1, 1 , 1)}).start();
+```
+
+```ts
+// 渐显效果的实现：在一秒内，透明度从0变为255
+node.opacity = 0;
+cc.tween(node)
+  .to(1, {opacity: 255})
+  .start();
+```
+
+Tween 提供了一个简单灵活的方法来创建 action。 相对于 Cocos 传统的 cc.Action，cc.Tween 在创建动画上要灵活非常多：
+
+- 支持以链式结构的方式创建一个动画序列。
+- 支持对任意对象的任意属性进行缓动，不再局限于节点上的属性，而 cc.Action 添加一个属性的支持时还需要添加一个新的 action 类型。
+- 支持与 cc.Action 混用。
+- 支持设置 easing 或者 progress 函数。
+
+```ts
+cc.tween(node)
+  .to(1, {scale: 2, position: cc.v3(100, 100, 100)})
+  .call(() => { console.log('This is a callback'); })
+  .by(1, {scale: 3, position: cc.v3(200, 200, 200)}, {easing: 'sineOutIn'})
+  .run(cc.find('Canvas/cocos'));
 ```
 
 
@@ -816,6 +852,7 @@ import JSZip from 'jszip/dist/jszip.min.js'; // 扩展名是需要的并且需�
 - 瓦片地图编辑：Tiled Map Editor
 - 合图工具：[TexturePacker](https://www.codeandweb.com/texturepacker)
 - 碎图工具：[TextureUnpacker](https://www.onlinedown.net/soft/1114992.htm)
+- JavaScript代码混淆：https://obfuscator.io/
 
 
 
