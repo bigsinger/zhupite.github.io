@@ -63,7 +63,9 @@ tags:		[c++]
 - `start` 回调函数会在组件第一次激活前，也就是第一次执行 `update` 之前触发。
 - `onDestroy`。当组件或者所在节点调用了 `destroy()`，则会调用 `onDestroy` 回调，并在当帧结束时统一回收组件。
 
+## 节点
 
+[Cocos Creator 3.8 手册 - 渲染排序规则](https://docs.cocos.com/creator/manual/zh/ui-system/components/engine/priority.html) 可以通过设置节点的 `siblingIndex` 来改变节点在父节点下的顺序，从而改变渲染顺序。
 
 ## 音效
 
@@ -354,6 +356,10 @@ ChangeDragonBonesAnim(name: string, animationName: string) {
 }
 ```
 
+[Cocos Creator 2.3 - ArmatureDisplay](https://docs.cocos.com/creator/2.3/api/zh/classes/ArmatureDisplay.html#dragonbones.eventobject.loopcomplete)
+
+[如果播放完一个动画回调一个函数，或者说怎么知道动画播放完了 - Creator 2.x - Cocos中文社区](https://forum.cocos.org/t/topic/47184/2)
+
 
 
 ## 动作
@@ -555,6 +561,19 @@ resources.load('Level1/things', (err: any, res: JsonAsset) => {
 
 
 # 代码汇总
+
+## 示例教程
+
+- [Cocos Creator 3.8 手册 - 示例与教程](https://docs.cocos.com/creator/manual/zh/cases-and-tutorials/)
+- [Cocos Creator Shader Effect 系列 - 4 - 老照片特效 - 简书](https://www.jianshu.com/p/711a54ff2fa0)
+- [cocos creator游戏之弹窗动画的实现 - 简忆博客](https://www.tpxhm.com/fdetail/947.html)
+- [Cocos Creator 资源合集](http://lixxix.com/posts/cocos_creator_remind/)
+- [Shader Effect Demo（边学边写）](https://github.com/zhitaocai/CocosCreator-Shader-Effect-Demo)
+- [DataBoard监控一切的数据看板 Creator 2.x - Cocos中文社区](https://forum.cocos.org/t/topic/148404)
+- https://gitee.com/szrpf
+- [一个CocosCreator实用组件EffectBar，炫酷的特效进度条区](https://forum.cocos.org/t/topic/148658)
+
+
 
 ## 全局管理
 
