@@ -560,6 +560,14 @@ resources.load('Level1/things', (err: any, res: JsonAsset) => {
 
 
 
+# 组件
+
+## 布局
+
+- Layout：[自动布局容器](https://docs.cocos.com/creator/manual/zh/ui-system/components/engine/auto-layout.html)
+- [制作动态生成内容的列表](https://docs.cocos.com/creator/manual/zh/ui-system/components/engine/list-with-data.html)
+- [基于CocosCreator的List（列表）组件。支持虚拟列表、循环列表、不定宽/高、选择模式、滑动模式等。](https://github.com/gh-kL/cocoscreator-list?tab=readme-ov-file)
+
 # 代码汇总
 
 ## 示例教程
