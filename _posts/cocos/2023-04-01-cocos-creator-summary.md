@@ -577,6 +577,64 @@ resources.load('Level1/things', (err: any, res: JsonAsset) => {
 - [制作动态生成内容的列表](https://docs.cocos.com/creator/manual/zh/ui-system/components/engine/list-with-data.html)
 - [基于CocosCreator的List（列表）组件。支持虚拟列表、循环列表、不定宽/高、选择模式、滑动模式等。](https://github.com/gh-kL/cocoscreator-list?tab=readme-ov-file)
 
+
+
+## ScrollView
+
+- 可同时水平滚动和竖直滚动：同时勾选 Horizontal 和 Vertical 。
+
+- 不需要滚动条：先在属性中删除：Horizontal Scroll Bar 和 Vertical Scroll Bar，再在编辑器中删除bar子节点。
+
+- 去除滚动惯性、加速度：不勾选Inertia 。
+
+- 去除反弹效果：不勾选 Elastic 。
+
+- 子节点view 为显示区域，也为设计和显示区域（最早叫mask，现在叫view更妥一些）。content为内容区域，按照实际内容大小来设计，再怎么大都没关系。
+
+- 设计技巧：scrollview和bgs大小保持一致。view为显示区域，尺寸大小设计为去掉top bottom后的中间部分。设置：Content 为一个真实内容的根节点，content按照实际内容大小来，再怎么大都没关系。考虑到topbar和bottombar的情况，可以如下设计：
+
+  ```
+  方案1：
+  root
+    |-Camera
+    |-topbar
+    |-bgs
+    |-bottombar
+    
+  1、root作为根节点需要添加一个sprite用来铺设背景图，大小尺寸应该和手机分辨率保持一致，保证铺满。
+  2、topbar作为顶部工具栏区域
+  3、bgs作为scrollview的位置占位，这样就无须考虑上中下的渲染顺序及遮盖问题了，动态运行时只需要创建scrollview并添加到bgs的子节点即可。并设置：scrollview的大小 = scrollview的view的大小 = bgs的大小，这三个大小保持一致。
+  4、bottombar作为底部工具栏区域
+  
+  
+  方案2：
+  root
+    |-Camera
+    |-topbar
+    |-sv
+    	|-view
+          |-content
+    |-bottombar
+    
+  1、root作为根节点需要添加一个sprite用来铺设背景图，大小尺寸应该和手机分辨率保持一致，保证铺满。
+  2、对sv组件删除sprite组件，保证透明效果。
+  3、运行时获取root/sv/view/content节点，命名为scrollview，后面父节点名为scrollview的均在此下添加子节点。
+  
+  
+  
+  方案3（推荐）：
+  scrollview
+    |-Camera
+    |-topbar
+    |-view
+       |-content
+    |-bottombar
+    
+  scrollview直接作为根节点，不再删除sprite，为其设置背景图；
+  ```
+
+  
+
 # 代码汇总
 
 ## 示例教程
