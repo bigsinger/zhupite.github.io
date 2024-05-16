@@ -496,7 +496,7 @@ let position = new Vec3(location.x, location.y);
 let point = node.getComponent(UITransform).convertToNodeSpaceAR(position); // 转换为相对节点的本地坐标
 ```
 
-
+现在新版本可以直接使用节点的`worldPosition`属性来获取或设置世界坐标了，就不用转来转去啦，非常方便。
 
 ## 本地存储
 
