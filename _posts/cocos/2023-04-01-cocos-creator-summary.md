@@ -577,7 +577,26 @@ resources.load('Level1/things', (err: any, res: JsonAsset) => {
 - [制作动态生成内容的列表](https://docs.cocos.com/creator/manual/zh/ui-system/components/engine/list-with-data.html)
 - [基于CocosCreator的List（列表）组件。支持虚拟列表、循环列表、不定宽/高、选择模式、滑动模式等。](https://github.com/gh-kL/cocoscreator-list?tab=readme-ov-file)
 
+## 自适应宽高的Label
 
+参考：https://github.com/bigsinger/Farm/tree/master/AutoSizeLabel
+
+```
+nodeDialogA
+	nodeDialog
+		nodeLabel
+```
+
+- nodeDialogA（可以不用这个节点）
+  - anchor：0,0 
+- nodeDialog
+  - anchor：0,1
+  - 添加：sprite并设置背景图；
+  - 添加：Layout type为HORIZONTAL ResizeMode为CONTAINER，设置下Padding
+  - 添加：Layout type为VERTICAL ResizeMode为CONTAINER，设置下Padding
+- nodeLabel
+  - anchor：0.5,0.5
+  - Label的Overflow为None
 
 ## ScrollView
 
