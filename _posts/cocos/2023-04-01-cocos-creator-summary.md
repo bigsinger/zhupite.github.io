@@ -373,7 +373,10 @@ ChangeDragonBonesAnim(name: string, animationName: string) {
 
 ## 动作
 
-- [缓动系统](https://docs.cocos.com/creator/manual/zh/tween/)
+- [缓动系统](https://docs.cocos.com/creator/manual/zh/tween/)、[easing](https://docs.cocos.com/creator/api/zh/namespace/easing)
+- 函数效果演示： https://easings.net/
+- 更多的内置 Easing 类型，详情可参考 API [TweenEasing](https://docs.cocos.com/creator/3.0/api/zh/modules/tween.html#tweeneasing)。
+- [Cocos Creator 常用动画](https://juejin.cn/post/7203512643238772795)
 
 ```ts
 var action = cc.fadeIn(1.0);//渐显
