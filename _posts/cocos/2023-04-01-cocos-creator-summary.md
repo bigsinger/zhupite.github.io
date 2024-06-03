@@ -358,14 +358,15 @@ ChangeDragonBonesAnim(name: string, animationName: string) {
 
 - [Cocos Creator 2.3 - ArmatureDisplay](https://docs.cocos.com/creator/2.3/api/zh/classes/ArmatureDisplay.html#dragonbones.eventobject.loopcomplete)
 - [如果播放完一个动画回调一个函数，或者说怎么知道动画播放完了 - Creator 2.x - Cocos中文社区](https://forum.cocos.org/t/topic/47184/2)
-
 - [基于 CocosCreator 3.4.0 版本创建的**龙骨动画指定帧播放**工程](https://github.com/cocos/cocos-awesome-tech-solutions/tree/3.6.x-release/demo/Creator3.6.0_2D_DragonBonesSpecifiedFrame)
+- [从服务器远程加载 DragonBones](https://docs.cocos.com/creator/2.4/manual/zh/getting-started/faq.html)
 
 
 
 **Spine动画**
 
 - [基于 CocosCreator 3.4.0 版本创建的**Spine动画指定帧播放**工程](https://github.com/cocos/cocos-awesome-tech-solutions/tree/3.6.x-release/demo/Creator3.6.0_2D_SpineSpecifiedFrame)
+- [从服务器远程加载 Spine](https://docs.cocos.com/creator/2.4/manual/zh/getting-started/faq.html)
 
 
 
