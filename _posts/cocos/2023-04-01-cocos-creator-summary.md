@@ -374,7 +374,7 @@ ChangeDragonBonesAnim(name: string, animationName: string) {
 ## 动作
 
 - [缓动系统](https://docs.cocos.com/creator/manual/zh/tween/)、[easing](https://docs.cocos.com/creator/api/zh/namespace/easing)
-- 函数效果演示： https://easings.net/
+- [缓动函数速查表](https://github.com/ai/easings.net )（效果演示）： https://easings.net/
 - 更多的内置 Easing 类型，详情可参考 API [TweenEasing](https://docs.cocos.com/creator/3.0/api/zh/modules/tween.html#tweeneasing)。
 - [Cocos Creator 常用动画](https://juejin.cn/post/7203512643238772795)
 
@@ -670,6 +670,7 @@ nodeDialogA
 - https://gitee.com/szrpf
 - [一个CocosCreator实用组件EffectBar，炫酷的特效进度条区](https://forum.cocos.org/t/topic/148658)
 - [基于 CocosCreator 3.4.0 版本创建的 **列表视图扩展** 工程](https://github.com/cocos/cocos-awesome-tech-solutions/tree/3.6.x-release/demo/Creator3.6.0_2D_ListViewExtension)
+- 粒子特效（非cocos项目，可以参考效果）：https://github.com/tsparticles/tsparticles，例如：[五彩纸屑confetti](https://particles.js.org/samples/index.html#Wobble)
 
 
 
@@ -982,10 +983,11 @@ import JSZip from 'jszip/dist/jszip.min.js'; // 扩展名是需要的并且需�
 
 # 三方工具
 
-- 瓦片地图编辑：Tiled Map Editor
+- 瓦片地图编辑：[Tiled Map Editor](https://www.mapeditor.org/)，GitHub地址：https://github.com/mapeditor/tiled
 - 合图工具：[TexturePacker](https://www.codeandweb.com/texturepacker)
 - 碎图工具：[TextureUnpacker](https://www.onlinedown.net/soft/1114992.htm)
 - JavaScript代码混淆：https://obfuscator.io/
+- 配色提取：[Rickrack: Generate harmonious colors freely.](https://github.com/eigenmiao/Rickrack)
 
 
 

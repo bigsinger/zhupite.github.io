@@ -47,5 +47,8 @@ aria2因为是命令行模式，使用起来不是很方便，可以用一些基
 
 
 
+# 其他
 
+- [GopeedLab/gopeed: A modern download manager that supports all platforms. Built with Golang and Flutter.](https://github.com/GopeedLab/gopeed)
+- 
 
