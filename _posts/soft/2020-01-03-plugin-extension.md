@@ -1,11 +1,24 @@
 ﻿---
 layout:		post
 category:	"soft"
-title:		"谷歌浏览器扩展程序推荐，Chrome浏览器插件推荐"
+title:		"插件扩展汇总：VSCode插件 谷歌浏览器插件"
+
 tags:		[]
 ---
 - Content
 {:toc}
+
+
+# VSCode插件
+
+- GitHub Copilot
+- GitHub Copilot Chat
+- Json for Visual Studio Code，可以显示结构，比较方便导航。GitHub: https://github.com/ZainChen/vscode-json
+- Cocos Effect
+- Cocos Creator Prefab 
+
+# 谷歌浏览器插件
+
 添加插件的办法参考：[如何为谷歌浏览器添加扩展程序？添加Chrome插件的办法](./chrome-extension-how-to-add.html)
 
 
