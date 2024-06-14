@@ -672,6 +672,8 @@ nodeDialogA
 - [一个CocosCreator实用组件EffectBar，炫酷的特效进度条区](https://forum.cocos.org/t/topic/148658)
 - [基于 CocosCreator 3.4.0 版本创建的 **列表视图扩展** 工程](https://github.com/cocos/cocos-awesome-tech-solutions/tree/3.6.x-release/demo/Creator3.6.0_2D_ListViewExtension)
 - 粒子特效（非cocos项目，可以参考效果）：https://github.com/tsparticles/tsparticles，例如：[五彩纸屑confetti](https://particles.js.org/samples/index.html#Wobble)
+- UI效果：https://cyberdex.github.io/pixi-game-ui/
+- 小游戏合集：https://github.com/potato47/so-many-games
 
 
 
