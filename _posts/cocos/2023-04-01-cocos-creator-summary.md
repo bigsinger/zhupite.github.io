@@ -987,7 +987,7 @@ import JSZip from 'jszip/dist/jszip.min.js'; // 扩展名是需要的并且需�
 # 三方工具
 
 - 瓦片地图编辑：[Tiled Map Editor](https://www.mapeditor.org/)，GitHub地址：https://github.com/mapeditor/tiled
-- 合图工具：[TexturePacker](https://www.codeandweb.com/texturepacker)
+- 合图工具：[FreeTexturePacker](http://free-tex-packer.com/)（免费推荐） [TexturePacker](https://www.codeandweb.com/texturepacker)（收费）
 - 碎图工具：[TextureUnpacker](https://www.onlinedown.net/soft/1114992.htm)
 - JavaScript代码混淆：https://obfuscator.io/
 - 配色提取：[Rickrack: Generate harmonious colors freely.](https://github.com/eigenmiao/Rickrack)
