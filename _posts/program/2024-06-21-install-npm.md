@@ -28,8 +28,5 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManage
 - 安装`fnm` ： `choco install fnm`
 - `fnm env --use-on-cd | Out-String | Invoke-Expression`
 - 安装`npm`， 参考[官网](https://nodejs.org/en/download/package-manager)的命令：`fnm use --install-if-missing 20`
-
-
-
-
+- 更新：`npm install -g npm`
 
