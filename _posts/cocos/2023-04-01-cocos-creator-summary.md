@@ -961,6 +961,12 @@ export class UIButtonAudioPlayer extends Component {
 
 
 
+# 构建发布
+
+- 菜单「文件」-「偏好设置」-「程序管理器」
+  - 微信开发者工具：从这里下载并安装：[微信开发者工具（小游戏版 Minigame Build）](https://developers.weixin.qq.com/minigame/dev/devtools/download.html)，然后选择安装好的`exe`文件。
+- 菜单「项目」-「构建发布」，「发布平台」选择「微信小游戏」，在最后填上正确的`Appid`。
+
 # 三方库
 
 - [获取 npm 包](https://docs.cocos.com/creator/manual/zh/scripting/modules/config.html)：npm 包管理工具 `npm` 附带在 Node.js 发行版中，安装 Node.js 之后即可使用。
@@ -996,7 +1002,7 @@ import JSZip from 'jszip/dist/jszip.min.js'; // 扩展名是需要的并且需�
 
 # 常见问题
 
-- [警告: WebGL 1.0 平台不支持非 2 次贴图的 Repeat 过滤模式，运行时会自动改为 Clamp 模式，这会使材质的 tilingOfiset 等属性完全失效](https://forum.cocos.org/t/topic/144127/2)，解决：在「属性检查器」中修改「类型」为`sprite-frame` ，然后保存即可。
+- [警告: WebGL 1.0 平台不支持非 2 次贴图的 Repeat 过滤模式，运行时会自动改为 Clamp 模式，这会使材质的 tilingOfiset 等属性完全失效](https://forum.cocos.org/t/topic/144127/2)，解决：在「属性检查器」中修改「类型」为`sprite-frame` ，然后保存即可。  全局解决：打开「文件」-「偏好设置」-「资源数据库」-「默认资源导入类型配置」-「图片」的类型选择 `sprite-frame`，默认是`texture`。
 - 
 
 
