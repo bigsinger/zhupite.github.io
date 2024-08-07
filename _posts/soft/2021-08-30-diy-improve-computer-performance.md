@@ -108,13 +108,13 @@ tags:		[diy,电脑性能]
 
 这是个一体机，CPU比较老，网上搜索了下这个 **Intel Celeron G550** ，比 **Intel Core i5-2300** 还要略差一些，参见：[Intel Celeron G550 vs Intel Core i5-2300：有何不同？](https://versus.com/cn/intel-celeron-g550-vs-intel-core-i5-2300)
 
-鉴于CPU比较老，内存升级太大也没啥意义，其实4G就够了，加上出厂的2G，再额外购买一根2G的组成4G即可。硬盘增加一个128G的固态硬盘即可，无须上256G的。
+鉴于CPU比较老，内存升级太大也没啥意义，上到8G就行（其实4G就够了，加上出厂的2G，再额外购买一根2G的组成4G即可）。硬盘增加一个64G或128G的固态硬盘即可。
 
 | 清单 | 参数                | 其他说明                                                     |
 | ---- | ------------------- | ------------------------------------------------------------ |
-| 内存 | DDR3 1600MHz 2GB *1 | 注意电压，看看是否有必要升到8G。内存条要能适配一体机。       |
-| 硬盘 | 128G                | 选择自带Windows10系统的。                                    |
-| 系统 | Win10               | 硬件满足Windows10要求。 从  [Does My Intel® Processor Support Microsoft Windows® 10?](https://www.intel.com/content/www/us/en/support/articles/000006105/processors.html) 看第五代Celeron应该是支持的。从 [Intel Celeron G530 vs Intel Celeron G550: What is the difference?](https://versus.com/en/intel-celeron-g530-vs-intel-celeron-g550) 看 `Intel Celeron G530` 下面的评论说是Windows10会比较慢，说明是可以跑的，更何况是 `Intel Celeron G550` ，只要不玩游戏办公家用应该可行。 |
+| 内存 | DDR3 1600MHz 8GB *1 | 注意电压，内存条要能适配一体机。                             |
+| 硬盘 | 64G或128G           | 选择自带Windows10系统的。                                    |
+| 系统 | Win10               | 硬件满足Windows10要求。 从  [Does My Intel® Processor Support Microsoft Windows® 10?](https://www.intel.com/content/www/us/en/support/articles/000006105/processors.html) 看第五代Celeron应该是支持的。从 [Intel Celeron G530 vs Intel Celeron G550: What is the difference?](https://versus.com/en/intel-celeron-g530-vs-intel-celeron-g550) 看 `Intel Celeron G530` 下面的评论说是Windows10会比较慢，说明是可以跑的，更何况是 `Intel Celeron G550` ，只要不玩游戏办公家用应该可行。[14年前的CPU发挥余热！Q8300四核处理器，在win10环境下依然流畅](https://www.sohu.com/a/650321738_121192896)，这个CPU也比较老，应该可以一试。 |
 
 # 2021
 
