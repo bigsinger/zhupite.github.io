@@ -1,7 +1,7 @@
 ﻿---
 layout:	post
 category:	"sec"
-title: "CAPPVD第5期移动互联网APP产品安全漏洞技术沙龙"
+title:	"CAPPVD第5期移动互联网APP产品安全漏洞技术沙龙"
 tags:	[]
 ---
 - Content
@@ -684,10 +684,10 @@ app-configjson 就是对当前小程序的全局配置，包括了小程序的�
 
 小程序存放路径
 
-- 安卓：`/data/data/com.tencent.mm/MicroMsg/{{user哈希值)}/appbrand/pkg/`
-- iOS：`/User/Containers/Data/Application/{系统UUlD)/Library/WechatPrivate/{{user哈希值))/WeApp/LocalCache/release/`
-- Windows：`C：\Users\{系统用户名}ADocumentsWechat Files\Applet\`
-- macOS：`/Users/{(系统用户名}}/Library/Containers/com.tencent.xinWeChat/Data/.wxapplet/packages/`
+- 安卓：`/data/data/com.tencent.mm/MicroMsg/(user哈希值)/appbrand/pkg/`
+- iOS：`/User/Containers/Data/Application/(系统UUlD)/Library/WechatPrivate/(user哈希值)/WeApp/LocalCache/release/`
+- Windows：`C：\Users\(系统用户名)ADocumentsWechat Files\Applet\`
+- macOS：`/Users/(系统用户名)/Library/Containers/com.tencent.xinWeChat/Data/.wxapplet/packages/`
 
 
 
