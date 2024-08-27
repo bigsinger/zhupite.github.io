@@ -423,3 +423,5 @@ slmgr /ato
 - Windows10系统硬件要求： [Windows 10 system requirements](https://support.microsoft.com/en-us/windows/windows-10-system-requirements-6d4e9a79-66bf-7950-467c-795cf0386715) 
 - 查询CPU是否支持Windows10系统： [Does My Intel® Processor Support Microsoft Windows® 10?](https://www.intel.com/content/www/us/en/support/articles/000006105/processors.html)
 - Windows原版系统下载：[ILLKX/Windows: Windows原版镜像](https://github.com/ILLKX/Windows)，包含：xp win7 win8 win8.1 win10等。
+- 系统启动盘制作工具[etcher](https://etcher.io/)：[Flash OS images to SD cards & USB drives, safely and easily.](https://github.com/balena-io/etcher)
+
