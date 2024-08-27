@@ -263,7 +263,10 @@ const originalUuid = decodeUuid(uuid); // fc991dd7-0033-4b80-9d41-c8a86a702e59
 
 
 
-其他三方的代码，参考：[cc-reverse/_uuid.js at main · Crain99/cc-reverse](https://github.com/Crain99/cc-reverse/blob/main/_uuid.js)（未测试过）
+其他三方的代码，参考：
+
+- [cocos_revert/uuidUtils.js at main · zwq418/cocos_revert](https://github.com/zwq418/cocos_revert/blob/main/uuidUtils.js) （测试有效，包含uuid的压缩和解压缩）
+- [cc-reverse/_uuid.js at main · Crain99/cc-reverse](https://github.com/Crain99/cc-reverse/blob/main/_uuid.js)（未测试过）
 
 
 
@@ -767,6 +770,7 @@ void hook() {
 
 # 参考
 
+- [zwq418/cocos_revert: cocos资源还原](https://github.com/zwq418/cocos_revert)
 - [Cocos Creator：构建流程简介与常见问题指南](https://www.mvrlink.com/cocos-creator-build-process-and-faq/)
 - [Cocos2DX-JS 加密逆向探究解密app实战](https://www.52pojie.cn/thread-1362276-1-1.html)
 - [某棋牌游戏lua逆向破解修改(一)](https://www.52pojie.cn/thread-1780626-1-1.html)
