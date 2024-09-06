@@ -1,25 +1,29 @@
 ﻿---
 layout:		post
 category:	"soft"
-title:		"Linux - Ubunt（WSL）的常用命令收集汇总方便查询"
+title:		"Linux - Ubuntu（WSL）的常用命令汇总"
 
-tags:		[语音合成]
+tags:		[linux]
 ---
 - Content
 {:toc}
+
+
 双系统来回切换不方便，目前有一个方式倒是挺方便的，就是在Windows10中安装Ubuntu子系统：
 
 ```bash
 dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart		# 管理员身份运行
 wsl --list --online 			# 查看可安装版本
 wsl --install -d Ubuntu-22.04	# Ubuntu-20.04
+wsl -l -v # 查看版本
+wsl --unregister Ubuntu-22.04 	# 卸载
 ```
 
 安装需要的条件：
 
 - Windows 10 版本 2004 及更高版本（内部版本 19041 及更高版本）或 Windows 11。可以使用 winver 命令查看系统版本。
 - 请启用虚拟机平台 Windows 功能并确保在 BIOS 中启用虚拟化。计算机启动的时候 F2 进入BIOS 设置，启用VT。
-- 控制面版，查看方式可选择大图标，在点击程序与功能—>启用或关闭Windows功能，勾选 「Hyper-V」和 「适用于 Windows 的 Linux 子系统」。如果没有Hyper-V这一项，请查看文章win10家庭中文版安装Hyper-V。
+- 控制面版，查看方式可选择大图标，在点击程序与功能—>启用或关闭Windows功能，勾选 「Hyper-V」和 「适用于 Windows 的 Linux 子系统」。如果没有Hyper-V这一项，请查看文章win10家庭中文版安装`Hyper-V`。
 
 更新到wsl2，管理员身份打开powershell输入以下命令（cmd不行）：
 
@@ -73,6 +77,12 @@ alias python=python3
 
 
 
+## 默认root密码修改
+
+root的默认密码在未设置的情况下该如何修改呢？ 执行命令：`sudo passwd root` ，即可修改root密码。
+
+
+
 ## 安装clang编译工具链
 
 ```bash
@@ -81,6 +91,42 @@ sudo apt install clang
 
 # 查看是否安装成功以及clang版本
 clang --version
+```
+
+
+
+## 安装Java环境
+
+- 参考：[Could not find tools.jar. Please check that /usr/java/jre1.8.0_361 contains a valid JDK installation](https://www.nxcto.com/2023/03/03/could-not-find-tools-jar-please-check-that-usr-java-jre1-8-0_361-contains-a-valid-jdk-installation/)
+
+```bash
+# 更新
+sudo apt-get update
+sudo apt-get upgrade
+
+# 输入命令：java，系统会自动列出可以安装的版本，然后选择一个安装，例如：
+sudo apt-get install openjdk-8-jdk
+
+# 如果自动安装没有正确设置JAVA_HOME环境变量的话，可以参考「设置环境变量」手动修改。
+```
+
+## 设置环境变量
+
+```bash
+# 修改环境变量（可以参考vim的用法）：
+vim ~/.bashrc
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+source ~/.bashrc
+```
+
+## 编译项目
+
+```bash
+# 注意不要直接在Windows系统上解压项目源码，特别是有文件链接的时候，Windows上解压会使这一链接属性失效。应该在子系统里面使用unzip命令：
+unzip xxx.zip
+
+然后进入项目代码目录下进行编译，例如：
+./gradlew assemble
 ```
 
 
@@ -100,19 +146,19 @@ Windows上的子系统是命令行方式，暂不支持gui工具。
 
 
 
-## Windows共享目录
+# Windows共享目录
 
 参考：[玩转WSL 2(三)——Windows和Linux之间的文件操作_wsl2访问windows本地文件](https://blog.csdn.net/Caoyang_He/article/details/107898883)
 
-### 子系统访问Windows文件
+## 子系统访问Windows文件
 
 子系统里面使用Windows上的文件，路径形式为 /mnt/盘符/路径，例如Windows上的文件：E:/test/123.txt，则使用时为：/mnt/e/test/123.txt
 
 
 
-### Windows访问子系统文件
+## Windows访问子系统文件
 
-#### WSL1
+**WSL1**
 
 Linux子系统的目录是在Windows这个目录下：
 
@@ -135,9 +181,9 @@ Get-AppxPackage -Name "*Ubuntu*" | Select PackageFamilyName
 
 
 
-#### WSL2
+**WSL2（推荐）**
 
-%USERPROFILE%\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState 命令下只有 ext4.vhdx 文件，不能按照WSL1的方式访问了，但是可以通过网络路径来访问：
+`%USERPROFILE%\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState` 命令下只有 `ext4.vhdx` 文件，不能按照WSL1的方式访问了，但是可以通过网络路径来访问：
 
 ```
 \\wsl$\Ubuntu\home
