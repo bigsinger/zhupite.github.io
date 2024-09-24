@@ -89,6 +89,17 @@ CE目录下的`Tutorial-i386.exe`就是练习用的程序。
 
 
 
+## Step5 代码查找（谁写了地址）
+
+该题目的内存地址不是固定的，
+
+1. 先找到数据的内存地址；
+2. 右键选择「查看谁写了该内存地址」，会弹出一个对话框；
+3. 触发一次修改数据，对话框里会出现指令；
+4. 点击「替换」，把该条指令替换为nop。
+
+
+
 ## Step6 二级指针（地址的地址 含offset偏移量）
 
 **方法1：访问/修改内存的指令**
@@ -150,7 +161,7 @@ CE目录下的`Tutorial-i386.exe`就是练习用的程序。
 
 ## Step9 共享代码
 
-1. 先通过数值搜索找到数值的内存地址，添加到地址列表。
+1. 先通过数值搜索找到数值的内存地址（float类型），添加到地址列表。
 
 2. 找到地址后找访问指令，对指令右键选择：`找出代码访问的地址` （推荐）。会弹出一个小窗口，这个时候操作教程的按钮，会动态列出地址。或者对指令右键选择：`Check if found opcodes also access other addresses (max 8)`，然后回到教程中点击其他按钮触发血量变化。然后点右侧工具栏的`More Information` 会弹出Extra info窗口及窗口：`Accessed addresses by xxxx`，也即该指令还访问了哪些地址。该教程里会列出4个地址列表。
 
@@ -235,6 +246,33 @@ jmp returnhere
 jmp newmem
 returnhere:
 ret					// 需要注意，默认代码模板会把ret放在 originalcode 里，导致注入后的代码有问题导致崩溃，一定要检查。
+```
+
+x86版本的注入代码为：
+
+```assembly
+alloc(newmem,2048)
+label(returnhere)
+label(originalcode)
+label(exit)
+
+newmem: //this is allocated memory, you have read,write,execute access
+//place your code here
+cmp [eax+5C],0
+je exit
+mov edx, 1000
+
+originalcode:
+sub [eax+50],edx
+
+exit:
+jmp returnhere
+
+"gtutorial-i386.exe"+385A0:
+jmp newmem
+
+returnhere:
+ret
 ```
 
 
