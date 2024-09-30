@@ -2471,7 +2471,7 @@ HOOK之后，点击，输出：
 ```js
 var TargetLibName = 'libxyz.so';    	// 待分析的so库文件名
 var TargetFuncOffset = 0x6B60;          // 待分析的native函数偏移, 先在IDA里找到
-var stalkerCallNum = 1;                   // 默认只输出调用1次的函数
+var stalkerCallNum = 1;            		// 默认只输出调用1次的函数
 ```
 
 回到App解密，点击触发调用。需注意，点击的频次不要太高，否则结果不一，会影响分析。最好多触发几次，选择出现稳定且频率高的结果。例如：
@@ -2936,6 +2936,14 @@ LABEL_28:
 }
 ```
 
+实际上就是base64解密，使用的模式是`URL Safe`（`A-Za-z0-9-_`）。也可以先做一下字符替换再用标准的base64解密，替换规则为：
+
+```
+- +
+_ /
+末尾视情况主动补下=
+```
+
 
 
 ```c
@@ -3077,3 +3085,5 @@ unsigned int __fastcall sub_12190(void *a1, int a2, unsigned int a3, unsigned in
 ```
 
 这里面看到了字符串`expand 32-byte k`，大概了解是跟`ChaCha20`算法相关的，这个后面去分析下。
+
+没有详细看了，综合下来，解密规则是：使用URL Safe的base64解码，有时直接解密出明文，有时需要进行ChaCha20解密。
