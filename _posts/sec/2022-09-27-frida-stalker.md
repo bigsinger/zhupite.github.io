@@ -2801,138 +2801,137 @@ null
 从`0x12190`函数的返回时的数据内容看到了明文，再根据输入的数据内容继续跟踪，发现了`0xbd84` 做过一次解密。
 
 ```c
-_DWORD *__fastcall sub_BD84(_DWORD *result, unsigned int a2, int a3, unsigned int a4, unsigned int *a5, _DWORD *a6)
-{
-  _DWORD *v6; // r6
-  unsigned int *v8; // r7
-  unsigned int v10; // r2
-  _DWORD *v11; // r5
-  int v12; // r1
-  unsigned int v13; // r0
-  int v14; // r0
-  int v15; // r1
-  unsigned int v16; // r8
-  int v17; // r0
-  _DWORD *v18; // [sp+4h] [bp-34h]
-  unsigned int v20; // [sp+Ch] [bp-2Ch]
-  _DWORD *v21; // [sp+10h] [bp-28h]
-  unsigned int v22; // [sp+14h] [bp-24h]
-  unsigned int v23; // [sp+18h] [bp-20h]
+#include <iostream>
+#include <windows.h>
 
-  v6 = a6;
-  v8 = a5;
-  if ( a4 )
-  {
-    v18 = result;
-    v10 = 0;
-    result = 0;
-    v22 = 0;
-    v20 = 0;
-    while ( 2 )
-    {
-      v11 = result;
-      v23 = v10;
-      v21 = result;
-      while ( 1 )
-      {
-        v12 = *((unsigned __int8 *)v11 + a3);
-        v13 = ~(((v12 ^ 0x3FA0u) + 1) >> 8) & 0x3F | ~(((v12 ^ 0x3FD2u) + 1) >> 8) & 0x3E | (unsigned __int8)((v12 - 71) & ~((unsigned __int16)(v12 - 97) >> 8) & ~((unsigned __int16)(122 - v12) >> 8)) | (unsigned __int8)((v12 + 4) & ~((unsigned __int16)(v12 - 48) >> 8) & ~((unsigned __int16)(57 - v12) >> 8)) | (unsigned __int8)(~((unsigned __int16)(90 - v12) >> 8) & ~((unsigned __int16)(v12 - 65) >> 8) & (v12 - 65));
-        v14 = (unsigned __int8)(((unsigned __int16)((v12 ^ 0xFFBE) + 1) >> 8) & ~((unsigned __int16)-(__int16)v13 >> 8)) | v13;
-        if ( v14 != 255 )
-          break;
-        result = memchr("\n\r ", v12, 4u);
-        v15 = 0;
-        if ( !result )
-          goto LABEL_18;
-        v11 = (_DWORD *)((char *)v11 + 1);
-        if ( (unsigned int)v11 >= a4 )
-        {
-          result = v21;
-          v11 = (_DWORD *)((char *)v21 + 1);
-          if ( a4 > (unsigned int)v21 + 1 )
-            v11 = (_DWORD *)a4;
-LABEL_18:
-          v8 = a5;
-          v6 = a6;
-          v10 = v23;
-          goto LABEL_19;
-        }
-      }
-      v22 = v14 + (v22 << 6);
-      if ( v23 + 6 < 8 )
-      {
-        v10 = v23 + 6;
-      }
-      else
-      {
-        v10 = v23 - 2;
-        if ( v20 >= a2 )
-        {
-          result = (_DWORD *)_errno(a2, v20);
-          v10 = v23 - 2;
-          *result = 34;
-          v15 = 1;
-          goto LABEL_34;
-        }
-        *((_BYTE *)v18 + v20++) = v22 >> v10;
-      }
-      result = (_DWORD *)((char *)v11 + 1);
-      if ( (unsigned int)v11 + 1 < a4 )
-        continue;
-      break;
-    }
-    v11 = (_DWORD *)((char *)v11 + 1);
-    v15 = 0;
-LABEL_34:
-    v8 = a5;
+typedef unsigned int _DWORD;
+
+_DWORD* __fastcall sub_BD84(
+    char* result,
+    unsigned int outLen,
+    char* encodedData,
+    unsigned int inLen,
+    unsigned int* a5,
+    char* a6) {
+    char* v6; // r6
+    unsigned int* v8; // r7
+    unsigned int v10; // r2
+    unsigned int i; // r5
+    int v12; // r1
+    unsigned int v13; // r0
+    int v14; // r0
+    int v15; // r1
+    unsigned int v16; // r8
+    int v17; // r0
+    char* v18; // [sp+4h] [bp-34h]
+    unsigned int j; // [sp+Ch] [bp-2Ch]
+    char* v21; // [sp+10h] [bp-28h]
+    unsigned int v22; // [sp+14h] [bp-24h]
+    unsigned int v23; // [sp+18h] [bp-20h]
+
     v6 = a6;
-LABEL_19:
-    v16 = 0;
-    if ( v10 <= 4 )
-    {
-      v17 = v22 & ~(-1 << v10);
-      result = (_DWORD *)(v15 | (v17 != 0));
-      if ( !result )
-      {
-        if ( (unsigned int)v11 < a4 )
-        {
-          while ( 1 )
-          {
-            result = memchr("\n\r ", *((unsigned __int8 *)v11 + a3), 4u);
-            if ( !result )
-              break;
-            v11 = (_DWORD *)((char *)v11 + 1);
-            if ( (_DWORD *)a4 == v11 )
-            {
-              v11 = (_DWORD *)a4;
-              break;
+    v8 = a5;
+    if (inLen) {
+        v18 = result;
+        v10 = 0;
+        result = 0;
+        v22 = 0;
+        j = 0;
+        while (2) {
+            i = (unsigned int)result;
+            v23 = v10;
+            v21 = result;
+            while (1) {
+                v12 = (unsigned __int8)encodedData[i];
+                v13 = ~(((v12 ^ 0x3FA0u) + 1) >> 8) & 0x3F | ~(((v12 ^ 0x3FD2u) + 1) >> 8) & 0x3E | (unsigned __int8)((v12 - 71) & ~((unsigned __int16)(v12 - 97) >> 8) & ~((unsigned __int16)(122 - v12) >> 8)) | (unsigned __int8)((v12 + 4) & ~((unsigned __int16)(v12 - 48) >> 8) & ~((unsigned __int16)(57 - v12) >> 8)) | (unsigned __int8)(~((unsigned __int16)(90 - v12) >> 8) & ~((unsigned __int16)(v12 - 65) >> 8) & (v12 - 65));
+                v14 = (unsigned __int8)(((unsigned __int16)((v12 ^ 0xFFBE) + 1) >> 8) & ~((unsigned __int16)-(__int16)v13 >> 8)) | v13;
+                if (v14 != 0xFF)
+                    break;
+                result = (char*)memchr("\n\r ", v12, 4u);
+                v15 = 0;
+                if (!result)
+                    goto LABEL_18;
+                if (++i >= inLen) {
+                    result = v21;
+                    i = (unsigned int)v21 + 1;
+                    if (inLen > (unsigned int)v21 + 1)
+                        i = inLen;
+                LABEL_18:
+                    v8 = a5;
+                    v6 = a6;
+                    v10 = v23;
+                    goto LABEL_19;
+                }
             }
-          }
+            v22 = v14 + (v22 << 6);
+            if (v23 + 6 < 8) {
+                v10 = v23 + 6;
+            } else {
+                v10 = v23 - 2;
+                if (j >= outLen) {
+                    //result = (_DWORD*)_errno(outLen, j);
+                    v10 = v23 - 2;
+                    *result = 34;
+                    v15 = 1;
+                    goto LABEL_34;
+                }
+                *((byte*)v18 + j++) = v22 >> v10;
+            }
+            result = (char*)(i + 1);
+            if (i + 1 < inLen)
+                continue;
+            break;
         }
-        v16 = v20;
-      }
+        ++i;
+        v15 = 0;
+    LABEL_34:
+        v8 = a5;
+        v6 = a6;
+    LABEL_19:
+        v16 = 0;
+        if (v10 <= 4) {
+            v17 = v22 & ~(-1 << v10);
+            result = (char*)(v15 | (v17 != 0));
+            if (!result) {
+                if (i < inLen) {
+                    while (1) {
+                        result = (char*)memchr("\n\r ", (unsigned __int8)encodedData[i], 4u);
+                        if (!result)
+                            break;
+                        if (inLen == ++i) {
+                            i = inLen;
+                            break;
+                        }
+                    }
+                }
+                v16 = j;
+            }
+        }
+        if (v6)
+            goto LABEL_27;
+        if (i != inLen) {
+            //result = (_DWORD*)_errno(result, v15);
+            *result = 22;
+        }
+        goto LABEL_28;
     }
-    if ( v6 )
-      goto LABEL_27;
-    if ( v11 != (_DWORD *)a4 )
-    {
-      result = (_DWORD *)_errno(result, v15);
-      *result = 22;
+    v16 = 0;
+    i = 0;
+    if (a6) {
+    LABEL_27:
+        result = &encodedData[i];
     }
-    goto LABEL_28;
-  }
-  v16 = 0;
-  v11 = 0;
-  if ( a6 )
-  {
-LABEL_27:
-    result = (_DWORD *)((char *)v11 + a3);
-    *v6 = (char *)v11 + a3;
-  }
 LABEL_28:
-  if ( v8 )
-    *v8 = v16;
-  return result;
+    if (v8)
+        *v8 = v16;
+    return 0;
+}
+
+int main() {
+    char text[] = "xxxxx...xxxxxxx";
+	char text2[1024] = { 0 };
+
+	sub_BD84(text2, sizeof(text), text, sizeof(text), 0, 0);
 }
 ```
 
