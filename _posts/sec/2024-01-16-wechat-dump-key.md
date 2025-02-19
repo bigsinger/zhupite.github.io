@@ -9,6 +9,57 @@ tags:		[]
 {:toc}
 
 
+# 4.0.2.17
+
+- 先搜索当前登录微信对应的电话号码，这个搜索结果一般不多（一般第一个就是我们想要的结果），逐个CTRL+B查看内存，并向上滚动几行看看是否有对应的微信注册账号，如果有就记录下微信账号开始的地址`pAccount`。
+- 将`pAccount`添加到内存地址列表，并对其进行地址扫描，扫描深度设置为2，将得到的结果作为偏移供代码使用。
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable>
+  <CheatEntries>
+    <CheatEntry>
+      <ID>23</ID>
+      <Description>"account"</Description>
+      <LastState RealAddress="1C82F631568"/>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>String</VariableType>
+      <Length>10</Length>
+      <Unicode>0</Unicode>
+      <CodePage>0</CodePage>
+      <ZeroTerminate>1</ZeroTerminate>
+      <Address>"Weixin.dll"+08916E90</Address>
+      <Offsets>
+        <Offset>58</Offset>
+        <Offset>60</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>24</ID>
+      <Description>"account"</Description>
+      <LastState RealAddress="1C82F631568"/>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>String</VariableType>
+      <Length>10</Length>
+      <Unicode>0</Unicode>
+      <CodePage>0</CodePage>
+      <ZeroTerminate>1</ZeroTerminate>
+      <Address>"Weixin.dll"+08916E90</Address>
+      <Offsets>
+        <Offset>48</Offset>
+        <Offset>58</Offset>
+      </Offsets>
+    </CheatEntry>
+  </CheatEntries>
+</CheatTable>
+```
+
+- key没有发现规律，不过可以参考 **[wechat-dump-rs](https://github.com/0xlane/wechat-dump-rs)** 进行暴力内存搜索。
+
+----
+
+如下为V4版本之前的方法。
+
 # 分析过程
 
 ## CE分析（推荐）
