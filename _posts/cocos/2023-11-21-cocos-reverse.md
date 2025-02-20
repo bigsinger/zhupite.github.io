@@ -101,22 +101,7 @@ ZipUtils::isGZipBuffer
 ZipUtils::inflateMemory 
 ```
 
-
-
-**动态HOOK获取密码：**
-
-```js
-Interceptor.attach(Module.findBaseAddress("libcocos2djs.so").add(0x22E5CC), {
-    onEnter: function(args) {
-        console.log(Memory.readUtf8String(args[2]));
-    },
-
-    onLeave: function(retval) {
-    }
-});
-```
-
-
+**注意**：有些游戏可能会使用加密，解析出的密钥不对，这个时候就要用frida动态HOOK获取密码：[Cocos2d-js XXTEA 密钥提取工具](https://github.com/bigsinger/awesomeFrida/blob/main/cocos2djs-xxtea-key.js)
 
 
 
