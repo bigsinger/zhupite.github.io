@@ -4,7 +4,7 @@
 
         <div class="site-footer" role="contentinfo">
             <div class="copyright left mobile-block">
-                    © 2015
+                    © {{ site.since }}
                     <span title="{{ site.author}}">{{ site.author }}</span>
                     <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
             </div>
@@ -47,15 +47,42 @@
       });
     </script>
 
+    {% if site.components.fancybox.enabled %}
+    <script src="https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+    <script>
+      $(document).ready(function() {
+        $("p img").each(function() {
+          var strA = "<a href='" + this.src + "' itemscope=\"\" itemtype=\"http://schema.org/ImageObject\" itemprop=\"url\" data-fancybox=\"default\" rel=\"default\"></a>";
+          $(this).wrapAll(strA);
+        });
+      });
+    </script>
+    {% endif %}
+
     {% if page.mermaid %}
-    <script src="{{ assets_base_url }}/assets/js/mermaid.min.js"></script>
-    <script>mermaid.initialize({startOnLoad:true});</script>
+    <script type="module">
+      import mermaid from 'https://fastly.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: false });
+      await mermaid.run({
+        nodes: document.querySelectorAll('pre code.language-mermaid'),
+      });
+    </script>
+    <script type="text/javascript">
+  (function(){
+    $("pre code.language-mermaid").each(function(index, element) {
+      var preBlock = element.parentNode;
+      element.style.backgroundColor = 'initial';
+      preBlock.style.border = 'none';
+      preBlock.style.backgroundColor = 'initial';
+    });
+  })()
+    </script>
     {% endif %}
 
     {% if page.sequence %}
     <script src="{{ assets_base_url }}/assets/js/webfont.js"></script>
     <script src="{{ assets_base_url }}/assets/js/snap.svg-min.js"></script>
-    <script src="{{ assets_base_url }}/assets/js/underscore-min.js"></script>
+    <script src="https://fastly.jsdelivr.net/npm/underscore@1.13.1/underscore-umd-min.js"></script>
     <script src="{{ assets_base_url }}/assets/vendor/js-sequence-diagrams/dist/sequence-diagram-min.js"></script>
     <link rel="stylesheet" href="{{ assets_base_url }}/assets/vendor/js-sequence-diagrams/dist/sequence-diagram-min.css">
     <script>
@@ -70,13 +97,13 @@
     {% endif %}
 
     {% if page.mathjax %}
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/mathjax/MathJax@2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/mathjax/MathJax@2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     {% endif %}
 
     {% if page.mindmap %}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mzlogin/kityminder-core@dev/dist/kityminder.core.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/mzlogin/kity@dev/dist/kity.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/mzlogin/kityminder-core@dev/dist/kityminder.core.min.js"></script>
+    <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/mzlogin/kityminder-core@dev/dist/kityminder.core.css">
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/mzlogin/kity@dev/dist/kity.min.js"></script>
+    <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/mzlogin/kityminder-core@dev/dist/kityminder.core.min.js"></script>
     <script>
 $(document).ready(function(){
   $('.language-mindmap').each(function(index, element) {
@@ -111,8 +138,94 @@ $(document).ready(function(){
     {% endif %}
   });
 });
-</script>
-{% endif %}
+    </script>
+    {% endif %}
+{% if page.mindmap2 %}
+    <script src="https://fastly.jsdelivr.net/npm/d3@6"></script>
+    <script src="https://fastly.jsdelivr.net/npm/markmap-view"></script>
+    <script src="https://fastly.jsdelivr.net/npm/markmap-autoloader@0.1.2/dist/index.min.js"></script>
+    <style>
+        .markmap > svg {
+          width: 100%;
+          height: 100%;
+          background: rgba(255, 255, 255, 0.9);
+        }
+    </style>
+    <script>
+        function fullScreen(nodeId) {
+            var element= document.getElementById(nodeId);  
+            if (window.ActiveXObject) {
+                var WsShell = new ActiveXObject('WScript.Shell');
+                WsShell.SendKeys('{F11}');
+            }
+            else if (element.requestFullScreen) {
+                element.requestFullScreen();
+            }
+            else if (element.msRequestFullscreen) {
+                element.msRequestFullscreen();
+            }
+            else if (element.webkitRequestFullScreen) {
+                element.webkitRequestFullScreen();
+            }
+            else if (element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+            }
+        }
 
+        function fullExit() {
+            var element= document.getElementById("ddd");  
+            if (window.ActiveXObject) {
+                var WsShell = new ActiveXObject('WScript.Shell');
+                WsShell.SendKeys('{F11}');
+            }
+            else if (element.requestFullScreen) {
+                document.exitFullscreen();
+            }
+            else if (element.msRequestFullscreen) {
+                document.msExitFullscreen();
+            }
+            else if (element.webkitRequestFullScreen) {
+                document.webkitCancelFullScreen();
+            }
+            else if (element.mozRequestFullScreen) {
+                document.mozCancelFullScreen();
+            }
+        }
+
+        function insertAfter(newElement, targetElement) {
+            var parent = targetElement.parentNode;
+            if (parent.lastChild == targetElement) {
+                parent.appendChild(targetElement);
+            } else {
+                parent.insertBefore(newElement, targetElement.nextSibling);
+            }
+        }
+       
+        $(document).ready(function(){
+            $('.language-mindmap').each(function(index, element) {
+                window.markmap = {
+                    autoLoader: { manual: false },
+                };
+                var markdownText = element.textContent.trim();
+                var parentNode = element.parentNode.parentNode;
+                element.setAttribute('class', "markmap");
+                var nodeName = '.language-mindmap-' + index;
+                element.setAttribute("id", nodeName);
+                var viewerTipNode1 = document.createElement("a");
+                viewerTipNode1.appendChild(document.createTextNode("全屏"));
+                viewerTipNode1.setAttribute('onclick', 'fullScreen("' + nodeName + '")');
+                viewerTipNode1.setAttribute('style', 'font-size:0.8rem;font-style:italic;font-color:grey;');
+                viewerTipNode1.setAttribute('href', 'javascript:void(0)');
+                insertAfter(viewerTipNode1, element.parentNode);
+                var viewerTipNode2 = document.createElement("a");
+                viewerTipNode2.appendChild(document.createTextNode("语法提示"));
+                viewerTipNode2.setAttribute('href', 'https://markmap.js.org/');
+                viewerTipNode2.setAttribute('target', '_blank');
+                viewerTipNode2.setAttribute('style', 'font-size:0.8rem;font-style:italic;font-color:grey;padding-left:0.5rem;');
+                insertAfter(viewerTipNode2, viewerTipNode1);
+            });
+        });
+    </script>
+{% endif %}
 </body>
 </html>

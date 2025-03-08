@@ -1,26 +1,19 @@
 ---
-layout: page
-title: 求职内推，上传简历就有机会
+layout: wiki
+title: Wiki
 description: 人越学越觉得自己无知
-keywords: 求职内推, job
+keywords: 维基, Wiki
 comments: false
-menu: 求职内推
+copyright: false
+menu: 维基
 permalink: /wiki/
 ---
 
-# 定期更新，长期有效，欢迎上传简历
+> 记多少命令和快捷键会让脑袋爆炸呢？
 
-猛戳链接：[网易招聘内部职位推荐](https://zhupite.com/categories/#job)
+{% case site.components.wiki.view %}
 
-可以在右侧搜索框内搜索感兴趣的岗位。
-
-岗位搜索技巧：
-- 筛选学历要求，搜索关键词：大专，本科，硕士，博士，学历不限
-- 筛选工作年限要求，搜索关键词：3年，5年，经验不限
-- 筛选工作城市，搜索关键词：杭州，上海，北京，日本，海外，衢州
-- 也可以按照岗位分类或岗位名称筛选，例如搜索：iOS，java，开发，产品经理，设计师……
-
-
+{% when 'list' %}
 
 <ul class="listing">
 {% for wiki in site.wiki %}
@@ -34,3 +27,26 @@ permalink: /wiki/
 {% endif %}
 {% endfor %}
 </ul>
+
+{% when 'cate' %}
+
+{% assign item_grouped = site.wiki | where_exp: 'item', 'item.title != "Wiki Template"' | group_by: 'cate1' | sort: 'name' %}
+{% for group in item_grouped %}
+### {{ group.name }}
+{% assign cate_items = group.items | sort: 'title' %}
+{% assign item2_grouped = cate_items | group_by: 'cate2' | sort: 'name' %}
+{% for sub_group in item2_grouped %}
+{% assign name_len = sub_group.name | size %}
+{% if name_len > 0 -%}
+<i>{{ sub_group.name }}: <sup>{{ sub_group.items | size }}</sup></i>
+{%- endif -%}
+{%- assign item_count = sub_group.items | size -%}
+{%- assign item_index = 0 -%}
+{%- for item in sub_group.items -%}
+{%- assign item_index = item_index | plus: 1 -%}
+<a href="{%- if item.type == 'link' -%}{{ item.link }}{%- else -%}{{ site.url }}{{ item.url }}{%- endif -%}" style="display:inline-block;padding:0.5em" {% if item.type == 'link' %} target="_blank" {% endif %} >{{ item.title }}<span style="font-size:12px;color:red;font-style:italic;">{%if item.layout == 'mindmap' %}  mindmap{% endif %}</span></a>{%- if item_index < item_count -%}<span> <b>·</b></span>{%- endif -%}
+{%- endfor -%}
+{% endfor %}
+{% endfor %}
+
+{% endcase %}

@@ -16,11 +16,14 @@
     <link rel="stylesheet" href="{{ assets_base_url }}/assets/vendor/octicons/octicons/octicons.css">
     {% assign highlight_base_url = 'https://mazhuang.org/rouge-themes/dist' %}
     {% if site.cdn.jsdelivr.enabled %}
-    {% assign highlight_base_url = 'https://cdn.jsdelivr.net/gh/mzlogin/rouge-themes@master/dist' %}
+    {% assign highlight_base_url = 'https://fastly.jsdelivr.net/gh/mzlogin/rouge-themes@master/dist' %}
     {% endif %}
     <link rel="stylesheet" href="{{ highlight_base_url }}/{{ site.highlight_theme}}.css">
     {% if site.components.share.enabled %}
     <link rel="stylesheet" href="{{ assets_base_url }}/assets/vendor/share.js/dist/css/share.min.css">
+    {% endif %}
+    {% if site.components.fancybox.enabled %}
+    <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css"/>
     {% endif %}
     <!-- Latest compiled and minified CSS -->
     {% for css in page.css %}
@@ -73,33 +76,24 @@
     {% endif %}
 
     <script src="{{ assets_base_url }}/assets/vendor/jquery/dist/jquery.min.js"></script>
-    <script src="{{ assets_base_url }}/assets/js/jquery-ui.js"></script>
     <script src="{{ assets_base_url }}/assets/js/main.js"></script>
 
+    {% if site.google.adsense.enabled and site.url contains 'mazhuang.org' %}
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7093222719567591" crossorigin="anonymous"></script>
+    {% endif %}
+
+    {% if site.google.analytics_id %}
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google.analytics_id }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', '{{ site.google.analytics_id }}');
+    </script>
+    {% endif %}
 </head>
-
-
-<script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?8f1dbba458073aee9fd905b2515e62c1";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-LXMGB07CK3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-LXMGB07CK3');
-</script>
-
-
 <body class="{{ page.class }}" data-mz="{{ page.class }}">
     <header class="site-header">
         <div class="container">
@@ -111,8 +105,9 @@ var _hmt = _hmt || [];
             </button>
             <nav class="site-header-nav" role="navigation">
                 {% for nav in site.navs %}
-                <a href="{{ site.url }}{{ nav.href }}" class="{% if page.menu == nav.label %} selected {% endif %} site-header-nav-item" target="{{ nav.target | default: _self }}" title="{{ nav.label }}">{{ nav.label }}</a>
+                <a href="{{ site.url }}{{ nav.href }}" class="{% if nav.mobile-hidden %}mobile-hidden {% endif %}{% if page.menu == nav.label %}selected {% endif %}site-header-nav-item" target="{{ nav.target | default: _self }}" title="{{ nav.label }}">{{ nav.label }}</a>
                 {% endfor %}
+                <a class="mobile-hidden" href="{{ site.url }}{{ site.subscribe_rss }}"><span class="octicon octicon-rss" style="color:orange;"></span></a>
             </nav>
         </div>
     </header>
