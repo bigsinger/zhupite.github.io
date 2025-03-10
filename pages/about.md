@@ -1,4 +1,3 @@
-@ -1,23 +1,20 @@
 ---
 layout: page
 title: About
