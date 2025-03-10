@@ -1,5 +1,5 @@
 # ---------------- #
-#   Main Configs   #
+#   Main Configs#
 # ---------------- #
 baseurl:
 url: https://zhupite.com
@@ -10,7 +10,6 @@ description: "你不必等到非常厉害，才敢开始；你需要开始，才
 keywords: 朱皮特, 程序员
 timezone: Asia/Shanghai
 encoding: "utf-8"
-side_bar_repo_limit: 5
 repository: bigsinger/bigsinger.github.io
 # 对 css 和 js 资源的 cdn 加速配置
 cdn:
@@ -23,8 +22,18 @@ components:
         enabled: false
     # 不蒜子访问统计
     busuanzi:
-        enabled: true
+        enabled: false
         start_date: 2020-05-03
+    # My Popular Repositories
+    side_bar_repo:
+        enabled: true
+        limit: 5
+    # 文章字数统计
+    word_count:
+        enabled: true
+    # 图片灯箱效果功能
+    fancybox:
+        enabled: false
 # 压缩页面内容
 compress_html:
   clippings: all
@@ -57,9 +66,9 @@ navs:
     href: /categories/
     label: 分类
 
-#   -
-#     href: /archives/
-#     label: 归档
+  -
+    href: /archives/
+    label: 文章
 
 #   -
 #     href: /open-source/
@@ -109,10 +118,10 @@ collections:
         permalink: /wiki/:path/
 
 # ---------------- #
-#      Comments    #
+#      Comments #
 # ---------------- #
-# support provider: disqus, gitment, gitalk
-comments_provider: gitalk
+# support provider: disqus, gitment, gitalk, utterances, beaudar, giscus
+comments_provider: giscus
 # !!!重要!!! 请修改下面这些信息为你自己申请的
 # !!!Important!!! Please modify infos below to yours
 # https://disqus.com
