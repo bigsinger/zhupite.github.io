@@ -1,5 +1,4 @@
-﻿
----
+﻿---
 layout:		post
 category:	"sec"
 title:		"绕过libmsaoaidsec.so进行frida检测的方法汇总"
@@ -12,7 +11,7 @@ tags:		[]
 
 
 
-# 绕过
+# 绕过方案
 
 在 [绕过bilibili frida反调试](https://bbs.kanxue.com/thread-277034.htm) （测试目标为bilibili7.26.1版本） 基础上做了一些优化。
 
@@ -30,6 +29,12 @@ tags:		[]
 3. 替换init函数；
 4. patch目标so崩溃；
 
+**方法优势**：
+
+1. 无须hook `_system_property_get`。
+2. 全部根据日志输出的信息来获取关键信息，几乎不需要在IDA里进行分析。
+3. 泛化能力强，理论上可以通杀很多版本（待验证）。
+
 
 
 详细具体步骤如下。
@@ -37,11 +42,9 @@ tags:		[]
 先使用如下脚本（`dlopen.js`）跑一下。
 
 ```js
-// 目标动态库名称
 const TARGET_LIB_NAME = "libmsaoaidsec.so";
 
-
-function hook_dlopen(target_so_name) {
+function hook_dlopen() {
     ["android_dlopen_ext", "dlopen"].forEach(funcName => {
         let addr = Module.findExportByName(null, funcName);
         if (addr) {
@@ -60,7 +63,6 @@ function hook_dlopen(target_so_name) {
     });
 }
 
-// 执行加载动态库并 Hook 的逻辑
 hook_dlopen();
 ```
 
@@ -99,10 +101,10 @@ Process terminated
 const TARGET_LIB_NAME = "libmsaoaidsec.so";
 
 function hook_JNI_OnLoad() {
-  // 1. 先尝试通过 `findExportByName`
+  // 先尝试通过 `findExportByName`
   let jniOnLoad = Module.findExportByName(TARGET_LIB_NAME, "JNI_OnLoad");
 
-  // 2. 如果找不到，就遍历所有导出符号
+  // 如果找不到，就遍历所有导出符号
   if (!jniOnLoad) {
     console.log("[Info] `JNI_OnLoad` 未导出，尝试遍历导出符号...");
     for (let symbol of module.enumerateSymbols()) {
@@ -114,13 +116,12 @@ function hook_JNI_OnLoad() {
     }
   }
 
-  // 3. 如果还是找不到，终止
   if (!jniOnLoad) {
-    console.log("[Error] 未找到 `JNI_OnLoad` 函数");
+    console.error("[Error] 未找到 `JNI_OnLoad` 函数");
     return;
   }
 
-  // 4. Hook `JNI_OnLoad`
+  // Hook `JNI_OnLoad`
   Interceptor.attach(jniOnLoad, {
     onEnter(args) {
       console.log("[Hooked] JNI_OnLoad 被调用");
@@ -129,26 +130,29 @@ function hook_JNI_OnLoad() {
 }
 
 function hook_dlopen() {
-  Interceptor.attach(Module.findExportByName(null, "android_dlopen_ext"), {
-    onEnter: function (args) {
-      var pathptr = args[0];
-      if (pathptr) {
-        var path = ptr(pathptr).readCString();
-        console.log("[android_dlopen_ext]", path)
-        if (path.indexOf(TARGET_LIB_NAME) > -1) {
-          this.is_can_hook = true;
+  ["android_dlopen_ext", "dlopen"].forEach(funcName => {
+    let addr = Module.findExportByName(null, funcName);
+    if (addr) {
+      Interceptor.attach(addr, {
+        onEnter(args) {
+          let libName = ptr(args[0]).readCString();
+          if (libName && libName.indexOf(TARGET_LIB_NAME) >= 0) {
+            this.is_can_hook = true;
+            console.log(`[+] ${funcName} onEnter: ${libName}`);
+          }
+        },
+        onLeave: function (retval) {
+          if (this.is_can_hook) {
+            console.log(`[+] ${funcName} onLeave, start hook JNI_OnLoad `);
+            hook_JNI_OnLoad()
+          }
         }
-      }
-    },
-    onLeave: function (retval) {
-      if (this.is_can_hook) {
-        hook_JNI_OnLoad()
-      }
+      });
     }
   });
 }
 
-hook_dlopen()
+hook_dlopen();
 ```
 
 输出日志：
@@ -168,31 +172,23 @@ Process terminated
 
 ```js
 const TARGET_LIB_NAME = "libmsaoaidsec.so";
-var TargetLibModule = null;  // 存储目标库模块信息
-var ptr_call_constructors;
-
 
 function find_call_constructors() {
   is64Bit = Process.pointerSize === 8;
   var linkerModule = Process.getModuleByName(is64Bit ? "linker64" : "linker");
-  var Symbols = linkerModule.enumerateSymbols();
-  for (var i = 0; i < Symbols.length; i++) {
-    if (Symbols[i].name.indexOf('call_constructors') > 0) {
-      console.warn(`call_constructors: ${Symbols[i].name} at ${Symbols[i].address}`,);
-      return Symbols[i].address;
+  var symbols = linkerModule.enumerateSymbols();
+  for (var i = 0; i < symbols.length; i++) {
+    if (symbols[i].name.indexOf('call_constructors') > 0) {
+      console.warn(`call_constructors symbol name: ${symbols[i].name} address: ${symbols[i].address}`);
+      return symbols[i].address;
     }
   }
 }
 
 function hook_call_constructors() {
-  if (!ptr_call_constructors) {
-    ptr_call_constructors = find_call_constructors();
-  }
+  var ptr_call_constructors = find_call_constructors();
   var listener = Interceptor.attach(ptr_call_constructors, {
     onEnter: function (args) {
-      if (!TargetLibModule) {
-        TargetLibModule = Process.findModuleByName(TARGET_LIB_NAME);
-      }
       console.warn(`call_constructors onEnter`);
       listener.detach();
     },
@@ -200,20 +196,21 @@ function hook_call_constructors() {
 }
 
 function hook_dlopen() {
-  Interceptor.attach(Module.findExportByName(null, "android_dlopen_ext"),
-    {
-      onEnter: function (args) {
-        var pathptr = args[0];
-        if (pathptr) {
-          var path = ptr(pathptr).readCString();
-          console.log("[android_dlopen_ext]", path)
-          if (path.indexOf(TARGET_LIB_NAME) > -1) {
+  ["android_dlopen_ext", "dlopen"].forEach(funcName => {
+    let addr = Module.findExportByName(null, funcName);
+    if (addr) {
+      Interceptor.attach(addr, {
+        onEnter(args) {
+          let libName = ptr(args[0]).readCString();
+          if (libName && libName.indexOf(TARGET_LIB_NAME) >= 0) {
             hook_call_constructors();
           }
+        },
+        onLeave: function (retval) {
         }
-      }
+      });
     }
-  )
+  });
 }
 
 var is64Bit = Process.pointerSize === 8;
@@ -257,13 +254,8 @@ Process terminated
 这里先使用线程的方法，跑一下脚本`pthread_create.js`
 
 ```js
-/**
- * Frida Hook - 直接 Hook pthread_create，动态检测目标库
- */
-
 const TARGET_LIB_NAME = "libmsaoaidsec.so";
 var TargetLibModule = null;  // 存储目标库模块信息
-var ptr_call_constructors;
 
 /////////////////////////////////////////
 
@@ -304,58 +296,26 @@ function hook_pthread_create() {
 	});
 }
 
-function hook_JNI_OnLoad(target_so_name) {
-	// 1. 先尝试通过 `findExportByName`
-	let jniOnLoad = Module.findExportByName(TARGET_LIB_NAME, "JNI_OnLoad");
-
-	// 2. 如果找不到，就遍历所有导出符号
-	if (!jniOnLoad) {
-		console.log("[Info] `JNI_OnLoad` 未导出，尝试遍历导出符号...");
-		for (let symbol of module.enumerateSymbols()) {
-			if (symbol.name.indexOf("JNI_OnLoad") >= 0) {
-				jniOnLoad = symbol.address;
-				console.log("[Success] 找到 JNI_OnLoad: ", jniOnLoad);
-				break;
-			}
-		}
-	}
-
-	// 3. 如果还是找不到，终止
-	if (!jniOnLoad) {
-		console.log("[Error] 未找到 `JNI_OnLoad` 函数");
-		return;
-	}
-
-	// 4. Hook `JNI_OnLoad`
-	Interceptor.attach(jniOnLoad, {
-		onEnter(args) {
-			console.log("[Hooked] JNI_OnLoad 被调用");
-		}
-	});
-}
-
 function find_call_constructors() {
 	is64Bit = Process.pointerSize === 8;
 	var linkerModule = Process.getModuleByName(is64Bit ? "linker64" : "linker");
-	var Symbols = linkerModule.enumerateSymbols();
-	for (var i = 0; i < Symbols.length; i++) {
-		if (Symbols[i].name.indexOf('call_constructors') > 0) {
-			console.warn(`call_constructors: ${Symbols[i].name} at ${Symbols[i].address}`,);
-			return Symbols[i].address;
+	var symbols = linkerModule.enumerateSymbols();
+	for (var i = 0; i < symbols.length; i++) {
+		if (symbols[i].name.indexOf('call_constructors') > 0) {
+			console.warn(`call_constructors symbol name: ${symbols[i].name} address: ${symbols[i].address}`);
+			return symbols[i].address;
 		}
 	}
 }
 
 function hook_call_constructors() {
-	if (!ptr_call_constructors) {
-		ptr_call_constructors = find_call_constructors();
-	}
+	var ptr_call_constructors = find_call_constructors();
 	var listener = Interceptor.attach(ptr_call_constructors, {
 		onEnter: function (args) {
+			console.warn(`call_constructors onEnter`);
 			if (!TargetLibModule) {
 				TargetLibModule = Process.findModuleByName(TARGET_LIB_NAME);
 			}
-			console.warn(`call_constructors onEnter`);
 			hook_pthread_create();
 			listener.detach();
 		},
@@ -363,22 +323,19 @@ function hook_call_constructors() {
 }
 
 function hook_dlopen() {
-	Interceptor.attach(Module.findExportByName(null, "android_dlopen_ext"), {
-		onEnter: function (args) {
-			var pathptr = args[0];
-			if (pathptr) {
-				var path = ptr(pathptr).readCString();
-				console.log("[android_dlopen_ext]", path)
-				if (path.indexOf(TARGET_LIB_NAME) > -1) {
-					this.is_can_hook = true;
-					hook_call_constructors();
+	["android_dlopen_ext", "dlopen"].forEach(funcName => {
+		let addr = Module.findExportByName(null, funcName);
+		if (addr) {
+			Interceptor.attach(addr, {
+				onEnter(args) {
+					let libName = ptr(args[0]).readCString();
+					if (libName && libName.indexOf(TARGET_LIB_NAME) >= 0) {
+						hook_call_constructors();
+					}
+				},
+				onLeave: function (retval) {
 				}
-			}
-		},
-		onLeave: function (retval) {
-			if (this.is_can_hook) {
-				hook_JNI_OnLoad()
-			}
+			});
 		}
 	});
 }
@@ -488,24 +445,17 @@ function bypass() {
 现在试下patch掉init的那些函数（在`call_constructors`回调里调用）。
 
 ```js
-function replaceInitArray() {
-	if (TargetLibModule) {
-		Interceptor.replace(TargetLibModule.base.add(0xc40d), new NativeCallback(function () {
-			console.log("replace 0xc40d")
-		}, "void", []));
+function replace_init_proc() {
+	if (!TargetLibModule) return;
 
-		Interceptor.replace(TargetLibModule.base.add(0x53a9), new NativeCallback(function () {
-			console.log("replace 0x53a9")
-		}, "void", []));
+	// 需要替换的偏移地址列表
+	const offsets = [0xc40d, 0x53a9, 0x53e5, 0x53f5];
 
-		Interceptor.replace(TargetLibModule.base.add(0x53e5), new NativeCallback(function () {
-			console.log("replace 0x53e5")
+	offsets.forEach(offset => {
+		Interceptor.replace(TargetLibModule.base.add(offset), new NativeCallback(function () {
+			console.log(`replace ${offset.toString(16)}`);
 		}, "void", []));
-
-		Interceptor.replace(TargetLibModule.base.add(0x53f5), new NativeCallback(function () {
-			console.log("replace 0x53f5")
-		}, "void", []));
-	}
+	});
 }
 ```
 
@@ -556,17 +506,96 @@ backtrace:
 
 同理，nop掉`0000c74d-1`试试看。
 
+```js
+function nop_code(addr) {
+	Memory.patchCode(ptr(addr), 4, code => {
+		const cw = new ThumbWriter(code, { pc: ptr(addr) });
+		cw.putNop();
+		cw.putNop();
+		cw.flush();
+	})
+}
+
+function bypass() {
+	nop_code(TargetLibModule.base.add(0xc74d - 1));
+}
+```
+
 再次运行，App正常运行。
 
 
 
+## 7.76.0
 
+bilibili的7.76.0版本同xhsv8.31.0
+
+经验证`pthread_create.js`脚本就可以绕过了，一共创建三个线程，替换掉之后不会崩溃，无须进行额外的指令patch。
+
+```assembly
+call_constructors symbol name: __dl__ZN6soinfo17call_constructorsEv address: 0x7b41385830call_constructors onEnter
+[+] pthread_create called, thread function address: 0x7a882e6544
+[!] Intercepted thread function at: 0x7a882e6544 (Offset: 0x1c544)
+[+] pthread_create called, thread function address: 0x7a882e58d4
+[!] Intercepted thread function at: 0x7a882e58d4 (Offset: 0x1b8d4)
+[*] Fake thread function executed, doing nothing...
+[+] pthread_create called, thread function address: 0x7a882f0e5c
+[!] Intercepted thread function at: 0x7a882f0e5c (Offset: 0x26e5c)
+[+] pthread_create called, thread function address: 0x7abb7f0390
+[*] Fake thread function executed, doing nothing...
+[*] Fake thread function executed, doing nothing...
+```
+
+init函数有6个：
+
+```assembly
+[call_constructors] libmsaoaidsec.so count:6
+[call_constructors] init_array_ptr:0x7a8a55df80
+[call_constructors] init_func:0x7a8a52b400 -> [libmsaoaidsec.so + 0x14400]
+[call_constructors] init_array:0 0x7a8a51f3fc -> [libmsaoaidsec.so + 0x83fc]
+[call_constructors] init_array:1 0x7a8a51f448 -> [libmsaoaidsec.so + 0x8448]
+[call_constructors] init_array:2 0x7a8a51f460 -> [libmsaoaidsec.so + 0x8460]
+[call_constructors] init_array:3 0x7a8a51f4b4 -> [libmsaoaidsec.so + 0x84b4]
+[call_constructors] init_array:4 0x7a8a51f5a8 -> [libmsaoaidsec.so + 0x85a8]
+[call_constructors] init_array:5 0x0 -> null
+```
+
+替换掉之后运行出错：
+
+```assembly
+backtrace:
+    #00 pc 000000000000edb0  /data/app/tv.danmaku.bili-TOAI0fFsSTjAYF_K8CfbHg==/lib/arm64/libmsaoaidsec.so (offset 0x9000)
+    #01 pc 0000000000008750  /data/app/tv.danmaku.bili-TOAI0fFsSTjAYF_K8CfbHg==/lib/arm64/libmsaoaidsec.so (offset 0x8000)
+    #02 pc 0000000000013b24  /data/app/tv.danmaku.bili-TOAI0fFsSTjAYF_K8CfbHg==/lib/arm64/libmsaoaidsec.so (offset 0x9000)
+```
+
+这里经过测试nop掉0x13b24不行，后续还会出错，但是nop掉0x8750就没事。又因为7.76.0只有64位模式了，所以这块的代码修改为：
+
+```js
+function nop_code(addr) {
+	Memory.patchCode(ptr(addr), 4, code => {
+		const cw = new Arm64Writer(code, { pc: ptr(addr) });// 64位
+		cw.putNop();
+		cw.putNop();
+		cw.flush();
+	})
+}
+
+function bypass() {
+	nop_code(TargetLibModule.base.add(0x8750));	// 64位不用减一
+}
+```
+
+综上，两个方法在7.76.0版本中均有效。
+
+## 8.36.0
+
+这个版本为2025年03月06日更新，完全同7.76.0，包括xhsv8.74.0也一样。基本上可以认为这两个方法是通杀方案了。
 
 # 参考
 
-- [绕过bilibili frida反调试](https://bbs.kanxue.com/thread-277034.htm) 
-- [关于libmsaoaidsec.so反Frida](https://www.52pojie.cn/forum.php?mod=viewthread&tid=2008459)
 - [frida hook init_array自吐新解](https://blog.seeflower.dev/archives/299/)
-- [绕过最新版bilibili app反frida机制](https://bbs.kanxue.com/thread-281584.htm) （7.76.0）
+- [绕过bilibili frida反调试](https://bbs.kanxue.com/thread-277034.htm) （bilibili7.26.1）
+- [关于libmsaoaidsec.so反Frida](https://www.52pojie.cn/forum.php?mod=viewthread&tid=2008459)
+- [绕过最新版bilibili app反frida机制](https://bbs.kanxue.com/thread-281584.htm) （bilibili7.76.0，两个方法有效）
 - [bilibili XHS frida检测分析绕过](https://www.52pojie.cn/thread-2012106-1-1.html)（XHS 8.32.0）
 - [某书Frida检测绕过记录_libmsaoaidsec.so](https://blog.csdn.net/weixin_45582916/article/details/137973006)
