@@ -13,30 +13,30 @@ tags:		[]
 
 # 绕过方案
 
-在 [绕过bilibili frida反调试](https://bbs.kanxue.com/thread-277034.htm) （测试目标为bilibili7.26.1版本） 基础上做了一些优化。
+综合了一下网上的帖子（见文末参考部分），做了一些优化，总结方法如下：
 
-**方法一：替换线程+patch**
+## 1、替换线程+patch
 
 1. 监控so的加载，锁定目标so；
 2. 锁定目标so的检测时机；
 3. 替换目标so创建的线程（或替换目标so使用的`pthread_create`函数）
 4. patch目标so崩溃；
 
-**方法二：替换init+patch**
+## 2、替换init+patch
 
 1. 监控so的加载，锁定目标so；
 2. 锁定目标so的检测时机；
 3. 替换init函数；
 4. patch目标so崩溃；
 
-**方法三：替换so的加载**
+## 3、替换so的加载
 
 1. 监控so的加载，锁定目标so；
 2. 替换so的加载为虚假库；
 
 
 
-**方法优势**：
+## **方法优势**
 
 1. 无须hook `_system_property_get`。
 2. 全部根据日志输出的信息来获取关键信息，几乎不需要在IDA里进行分析。
@@ -45,6 +45,10 @@ tags:		[]
 
 
 详细具体步骤如下。
+
+# 绕过记录
+
+## bilibili7.26.1
 
 先使用如下脚本（`dlopen.js`）跑一下。
 
@@ -817,7 +821,7 @@ hook();
 
 
 
-## 7.76.0
+## bilibili7.76.0
 
 bilibili的7.76.0版本同xhsv8.31.0
 
@@ -879,9 +883,256 @@ function bypass() {
 
 综上，以上方法在7.76.0版本中均有效。
 
-## 8.36.0
+## bilibiliv8.36.0
 
 这个版本为2025年03月06日更新，完全同7.76.0，包括xhsv8.74.0也一样。基本上可以认为以上方法是通杀方案了。
+
+## 追书神器v4.85.75
+
+方案通用，不过需要稍微增加点东西。上来使用的是**替换线程**的方法看看崩溃情况，结果并不是native层的崩溃而是Java层崩溃：
+
+```java
+FATAL EXCEPTION: main
+Process: com.ushaqi.zhuishushenqi, PID: 17726
+java.lang.UnsatisfiedLinkError: No implementation found for int com.bun.miitmdid.e.a() (tried Java_com_bun_miitmdid_e_a and Java_com_bun_miitmdid_e_a__)
+        at com.bun.miitmdid.e.a(Native Method)
+        at com.bun.miitmdid.core.MdidSdkHelper.<clinit>(Unknown Source:0)
+        at com.ushaqi.zhuishushenqi.util.msa.MsaHelper.<init>(SourceFile:8)
+        at com.yuewen.ow2.a(SourceFile:7)
+        at com.yuewen.zq.b(SourceFile:7)
+        at com.yuewen.zq.c(SourceFile:8)
+        at com.ushaqi.zhuishushenqi.MyApplication.onCreate(SourceFile:2)
+        at com.sagittarius.v6.StubApplication.onCreate(Unknown Source:35)
+        at android.app.Instrumentation.callApplicationOnCreate(Instrumentation.java:1154)
+        at android.app.ActivityThread.handleBindApplication(ActivityThread.java:5882)
+        at android.app.ActivityThread.access$1100(ActivityThread.java:200)
+        at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1651)
+        at android.os.Handler.dispatchMessage(Handler.java:106)
+        at android.os.Looper.loop(Looper.java:193)
+        at android.app.ActivityThread.main(ActivityThread.java:6680)
+        at java.lang.reflect.Method.invoke(Native Method)
+        at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:493)
+        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:858)
+```
+
+这下就有趣了。说明我们替换线程之后，导致某些jni函数没有注册成功，所以在后续的Java代码中再调用这些jni函数时就会出现找不到的情况。猜测`libmsaoaidsec`可能会在`JNI_OnLoad`里做一些判断，如果某些初始化没有成功的话就不会注册jni函数。
+
+我们不去细究细节，先按照原方案思路patch掉崩溃的函数试试看。崩溃是说没有实现函数：`com.bun.miitmdid.e.a()`，那咱们就实现个假的给它调用不就行了嘛。构造的时机比较重要，在`call_constructors`的时候还不行，时机太早，会找不到目标类。但是在`JNI_OnLoad`的时候就可以，因此我们在`pthread_create.js`脚本的基础上增加对`JNI_OnLoad`的监控，并在`JNI_OnLoad`的时候去构造假函数即可。新脚本`pthread_create-replace-jni.js`如下：
+
+```js
+/**
+ * Frida Hook - 监视 `pthread_create`，检测目标库创建的线程
+ * 
+ * 目标：
+ * - 监视 `dlopen` 和 `android_dlopen_ext`，检测目标库何时加载。
+ * - 通过 `call_constructors` 确保 `pthread_create` Hook 在目标库加载后执行。
+ * - 拦截 `pthread_create`，检查线程函数是否在目标库 `so` 的范围内。
+ * - 若发现目标库创建的线程，则替换线程函数，阻止其执行。
+ * - 并在 JNI_OnLoad 里替换未注册成功的jni函数。
+ * 
+ * 说明：
+ * - `pthread_create` 是创建线程的标准函数，Hook 它可以拦截所有新建线程。
+ * - `call_constructors` 由 `linker` 调用，用于执行动态库的全局构造函数。
+ * - `hook_call_constructors()` 确保 `TargetLibModule` 记录目标库的基地址，并在适当时机 Hook `pthread_create`。
+ */
+
+const TARGET_LIB_NAME = "libmsaoaidsec.so";
+var TargetLibModule = null;  // 存储目标库模块信息
+
+/////////////////////////////////////////
+
+/**
+ * Hook pthread_create，拦截目标库创建的线程
+ */
+function hook_pthread_create() {
+	let pthread_create_addr = Module.findExportByName("libc.so", "pthread_create");
+	if (!pthread_create_addr) {
+		console.error("Failed to find pthread_create!");
+		return;
+	}
+
+	Interceptor.attach(pthread_create_addr, {
+		onEnter(args) {
+			let thread_func_ptr = args[2];  // 线程函数地址
+			console.log("[+] pthread_create called, thread function address: " + thread_func_ptr);
+
+			// 确保目标库已加载
+			if (!TargetLibModule) {
+				//console.warn("Target library not loaded yet!");
+				return;
+			}
+
+			// 判断线程函数是否在目标库 `so` 的范围内
+			if (thread_func_ptr.compare(TargetLibModule.base) > 0 &&
+				thread_func_ptr.compare(TargetLibModule.base.add(TargetLibModule.size)) < 0) {
+
+				console.warn("[!] Intercepted thread function at: " + thread_func_ptr +
+					" (Offset: " + thread_func_ptr.sub(TargetLibModule.base) + ")");
+
+				// 替换线程函数，防止执行
+				Interceptor.replace(thread_func_ptr, new NativeCallback(() => {
+					console.log("[*] Fake thread function executed, doing nothing...");
+				}, "void", []));
+			}
+		}
+	});
+}
+
+function hook_JNI_OnLoad() {
+	// 先尝试通过 `findExportByName`
+	let jniOnLoad = Module.findExportByName(TARGET_LIB_NAME, "JNI_OnLoad");
+
+	// 如果找不到，就遍历所有导出符号
+	if (!jniOnLoad) {
+		console.log("[Info] `JNI_OnLoad` 未导出，尝试遍历导出符号...");
+		for (let symbol of module.enumerateSymbols()) {
+			if (symbol.name.indexOf("JNI_OnLoad") >= 0) {
+				jniOnLoad = symbol.address;
+				console.log("[Success] 找到 JNI_OnLoad: ", jniOnLoad);
+				break;
+			}
+		}
+	}
+
+	if (!jniOnLoad) {
+		console.error("[Error] 未找到 `JNI_OnLoad` 函数");
+		return;
+	}
+
+	// Hook `JNI_OnLoad`
+	Interceptor.attach(jniOnLoad, {
+		onEnter(args) {
+			console.log("[Hooked] JNI_OnLoad 被调用");
+			bypass();
+		}
+	});
+}
+
+function bypass() {
+	try {
+		var targetClassName = "com.bun.miitmdid.e";
+		var targetClass = Java.use(targetClassName);
+		console.log("[*] Successfully loaded class: " + targetClass);
+
+		targetClass.a.overloads.forEach(function (overload) {
+			overload.implementation = function () {
+				console.log("[*] Hooked " + targetClass + ".a() with args: " + JSON.stringify(arguments));
+				return 0; // 理论上要返回对应的值，这里粗暴一点随便返回个数值，不影响App正常运行即可。
+			};
+		});
+	} catch (e) {
+		console.log("[!] Error: " + e);
+	}
+}
+
+function find_call_constructors() {
+	is64Bit = Process.pointerSize === 8;
+	var linkerModule = Process.getModuleByName(is64Bit ? "linker64" : "linker");
+	var symbols = linkerModule.enumerateSymbols();
+	for (var i = 0; i < symbols.length; i++) {
+		if (symbols[i].name.indexOf('call_constructors') > 0) {
+			console.warn(`call_constructors symbol name: ${symbols[i].name} address: ${symbols[i].address}`);
+			return symbols[i].address;
+		}
+	}
+}
+
+function hook_call_constructors() {
+	var ptr_call_constructors = find_call_constructors();
+	var listener = Interceptor.attach(ptr_call_constructors, {
+		onEnter: function (args) {
+			console.warn(`call_constructors onEnter`);
+			if (!TargetLibModule) {
+				TargetLibModule = Process.findModuleByName(TARGET_LIB_NAME);
+			}
+			hook_pthread_create();
+			listener.detach();
+		},
+	})
+}
+
+function hook_dlopen() {
+	["android_dlopen_ext", "dlopen"].forEach(funcName => {
+		let addr = Module.findExportByName(null, funcName);
+		if (addr) {
+			Interceptor.attach(addr, {
+				onEnter(args) {
+					let libName = ptr(args[0]).readCString();
+					if (libName && libName.indexOf(TARGET_LIB_NAME) >= 0) {
+						this.is_can_hook = true;
+						hook_call_constructors();
+					}
+				},
+				onLeave: function (retval) {
+					if (this.is_can_hook) {
+						console.log(`[+] ${funcName} onLeave, start hook JNI_OnLoad `);
+						hook_JNI_OnLoad();
+					}
+				}
+			});
+		}
+	});
+}
+
+var is64Bit = Process.pointerSize === 8;
+hook_dlopen()
+```
+
+大部分脚本没变，无非是增加了`hook_JNI_OnLoad`，并在`JNI_OnLoad`进入的时候调用了`bypass()`：
+
+```js
+function bypass() {
+	try {
+		var targetClassName = "com.bun.miitmdid.e";
+		var targetClass = Java.use(targetClassName);
+		console.log("[*] Successfully loaded class: " + targetClass);
+
+		targetClass.a.overloads.forEach(function (overload) {
+			overload.implementation = function () {
+				console.log("[*] Hooked " + targetClass + ".a() with args: " + JSON.stringify(arguments));
+				return 0; // 理论上要返回对应的值，这里粗暴一点随便返回个数值，不影响App正常运行即可。
+			};
+		});
+	} catch (e) {
+		console.log("[!] Error: " + e);
+	}
+}
+```
+
+这里我们不管目标类有多少个重载函数，一律都给它替换掉，并增加了参数的输出（可以发现有趣的数据）。运行后：
+
+```assembly
+call_constructors symbol name: __dl__ZN6soinfo17call_constructorsEv address: 0x745a26f830
+call_constructors onEnter
+[+] pthread_create called, thread function address: 0x73b1fec544
+[!] Intercepted thread function at: 0x73b1fec544 (Offset: 0x1c544)
+[+] pthread_create called, thread function address: 0x73b1feb8d4
+[!] Intercepted thread function at: 0x73b1feb8d4 (Offset: 0x1b8d4)
+[*] Fake thread function executed, doing nothing...
+[+] pthread_create called, thread function address: 0x73b1ff6e5c
+[!] Intercepted thread function at: 0x73b1ff6e5c (Offset: 0x26e5c)
+[*] Fake thread function executed, doing nothing...
+[+] pthread_create called, thread function address: 0x73d4637390
+[+] android_dlopen_ext onLeave, start hook JNI_OnLoad
+[Hooked] JNI_OnLoad 被调用
+[*] Successfully loaded class: <class: com.bun.miitmdid.e>
+[*] Hooked <class: com.bun.miitmdid.e>.a() with args: {}
+[*] Hooked <class: com.bun.miitmdid.e>.a() with args: {"0":"<instance: android.content.Context, $className: com.ushaqi.zhuishushenqi.MyApplication>","1":""}
+Error: expected an unsigned integer
+Error: Implementation for a expected return value compatible with boolean
+    at re (frida/node_modules/frida-java-bridge/lib/class-factory.js:678)
+    at <anonymous> (frida/node_modules/frida-java-bridge/lib/class-factory.js:655)
+[*] Hooked <class: com.bun.miitmdid.e>.a() with args: {"0":"<instance: android.content.Context, $className: com.ushaqi.zhuishushenqi.MyApplication>","1":"-----BEGIN CERTIFICATE-----脱敏-----END CERTIFICATE-----\n"}
+Error: expected an unsigned integer
+Error: Implementation for a expected return value compatible with boolean
+    at re (frida/node_modules/frida-java-bridge/lib/class-factory.js:678)
+    at <anonymous> (frida/node_modules/frida-java-bridge/lib/class-factory.js:655)
+[+] pthread_create called, thread function address: 0x73d4637390
+```
+
+App可以正常运行，Frida也未退出。上面的Error信息意思是需要适配原jni函数原型需要的返回值类型，因为咱们是随便返回的数值，故有此异常信息输出，但是并不影响App和Frida的正常运行。如果想要完美的话，就可以根据日志情况去逐个构造函数并返回对应的类型数值即可。
+
+总结下，其实这个思路没有变，无非是path掉Java层的函数解决因为替换线程调用而出现的掉崩溃问题。
 
 # 参考
 
