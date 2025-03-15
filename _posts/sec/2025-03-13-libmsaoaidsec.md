@@ -1,7 +1,7 @@
 ﻿---
 layout:		post
 category:	"sec"
-title:		"绕过libmsaoaidsec.so进行frida检测的方法汇总"
+title:		"绕过libmsaoaidsec.so检测frida的方法汇总"
 
 tags:		[]
 ---
@@ -15,19 +15,26 @@ tags:		[]
 
 在 [绕过bilibili frida反调试](https://bbs.kanxue.com/thread-277034.htm) （测试目标为bilibili7.26.1版本） 基础上做了一些优化。
 
-**方法一：**
+**方法一：替换线程+patch**
 
 1. 监控so的加载，锁定目标so；
 2. 锁定目标so的检测时机；
-3. 替换目标so创建的线程；
+3. 替换目标so创建的线程（或替换目标so使用的`pthread_create`函数）
 4. patch目标so崩溃；
 
-**方法二：**
+**方法二：替换init+patch**
 
 1. 监控so的加载，锁定目标so；
 2. 锁定目标so的检测时机；
 3. 替换init函数；
 4. patch目标so崩溃；
+
+**方法三：替换so的加载**
+
+1. 监控so的加载，锁定目标so；
+2. 替换so的加载为虚假库；
+
+
 
 **方法优势**：
 
@@ -442,6 +449,111 @@ function bypass() {
 
 
 
+然后再试下替换目标so使用的`pthread_create`函数，运行脚本`pthread_create-fake.js`：
+
+```js
+/**
+ * 替换目标库使用的pthread_create函数。
+ * @description 该脚本使用 Frida 进行动态分析，主要目标是：
+ *  1. 监听 `dlopen` / `android_dlopen_ext`，在加载目标库时执行后续 Hook 操作。
+ *  2. 监听 `call_constructors` 以确保目标库完全初始化后再 Hook `dlsym`。
+ *  3. Hook `dlsym` 并拦截特定符号（如 `pthread_create`），替换其返回值。
+ *  4. 通过 `fake_pthread_create` 生成虚假 `pthread_create` 实现，使目标库无法正确调用线程创建函数。
+ */
+
+const TARGET_LIB_NAME = "libmsaoaidsec.so";
+var TargetLibModule = null;  // 存储目标库模块信息
+
+
+function create_fake_pthread_create() {
+	const fake_pthread_create = Memory.alloc(4096)
+	Memory.protect(fake_pthread_create, 4096, "rwx")
+	Memory.patchCode(fake_pthread_create, 4096, code => {
+		const cw = new Arm64Writer(code, { pc: ptr(fake_pthread_create) })
+		cw.putRet()
+	})
+	return fake_pthread_create
+}
+
+function hook_dlsym() {
+	var dlsym = Module.findExportByName(null, "dlsym");
+	if (dlsym !== null) {
+		Interceptor.attach(dlsym, {
+			onEnter: function (args) {
+				// 获取调用 dlsym 的返回地址
+				let caller = this.context.lr;
+				if (caller.compare(TargetLibModule.base) > 0 &&
+					caller.compare(TargetLibModule.base.add(TargetLibModule.size)) < 0) {
+					var name = ptr(args[1]).readCString(); 		// 读取符号名
+					if (name == 'pthread_create') {
+						console.warn(`replace symbol name: pthread_create`);
+						this.canFake = true;
+					}
+				}
+			},
+			onLeave: function (retval) {
+				if (this.canFake) {
+					retval.replace(fake_pthread_create);
+				}
+			}
+		});
+	}
+}
+
+function find_call_constructors() {
+	is64Bit = Process.pointerSize === 8;
+	var linkerModule = Process.getModuleByName(is64Bit ? "linker64" : "linker");
+	var symbols = linkerModule.enumerateSymbols();
+	for (var i = 0; i < symbols.length; i++) {
+		if (symbols[i].name.indexOf('call_constructors') > 0) {
+			console.warn(`call_constructors symbol name: ${symbols[i].name} address: ${symbols[i].address}`);
+			return symbols[i].address;
+		}
+	}
+}
+
+function hook_call_constructors() {
+	var ptr_call_constructors = find_call_constructors();
+	var listener = Interceptor.attach(ptr_call_constructors, {
+		onEnter: function (args) {
+			if (!TargetLibModule) {
+				TargetLibModule = Process.findModuleByName(TARGET_LIB_NAME);
+			}
+			console.warn(`call_constructors onEnter: ${TARGET_LIB_NAME} Module Base: ${TargetLibModule.base}`);
+			hook_dlsym();
+			listener.detach();
+		},
+	})
+}
+
+function hook_dlopen() {
+	["android_dlopen_ext", "dlopen"].forEach(funcName => {
+		let addr = Module.findExportByName(null, funcName);
+		if (addr) {
+			Interceptor.attach(addr, {
+				onEnter(args) {
+					let libName = ptr(args[0]).readCString();
+					if (libName && libName.indexOf(TARGET_LIB_NAME) >= 0) {
+						hook_call_constructors();
+					}
+				},
+				onLeave: function (retval) {
+				}
+			});
+		}
+	});
+}
+
+var is64Bit = Process.pointerSize === 8;
+// 创建虚假pthread_create
+var fake_pthread_create = create_fake_pthread_create();
+hook_dlopen()
+```
+
+再次运行，App正常运行。
+
+
+
 现在试下patch掉init的那些函数（在`call_constructors`回调里调用）。
 
 ```js
@@ -457,6 +569,101 @@ function replace_init_proc() {
 		}, "void", []));
 	});
 }
+```
+
+完整脚本`replaceInitProcAndPatch.js`：
+
+```js
+/*
+ * - 监视 `dlopen` 和 `android_dlopen_ext`，拦截 `libmsaoaidsec.so` 的加载。
+ * - 跳过其init_proc函数的调用，并通过补丁nop的方式跳过崩溃的函数调用。
+ */
+
+const TARGET_LIB_NAME = "libmsaoaidsec.so";
+const init_offsets = [0x14400, 0x83fc, 0x8448, 0x8460, 0x84b4, 0x85a8]; // 这里填init函数列表，先通过init_array.js脚本获取
+const patch_offsets = [0x8750]; // 这里填需要nop掉的偏移地址
+var TargetLibModule = null;     // 存储目标库模块信息
+
+
+
+function nop_code(addr) {
+    Memory.patchCode(ptr(addr), 4, code => {
+        const cw = new Arm64Writer(code, { pc: ptr(addr) });// 64位
+        cw.putNop();
+        cw.putNop();
+        cw.flush();
+    })
+}
+
+function bypass() {
+    patch_offsets.forEach(offset => {
+        console.log(`patch ${offset.toString(16)}`);
+        nop_code(TargetLibModule.base.add(offset));	// 64位不用减一
+    });
+}
+
+
+function find_call_constructors() {
+    is64Bit = Process.pointerSize === 8;
+    var linkerModule = Process.getModuleByName(is64Bit ? "linker64" : "linker");
+    var symbols = linkerModule.enumerateSymbols();
+    for (var i = 0; i < symbols.length; i++) {
+        if (symbols[i].name.indexOf('call_constructors') > 0) {
+            console.warn(`call_constructors symbol name: ${symbols[i].name} address: ${symbols[i].address}`);
+            return symbols[i].address;
+        }
+    }
+}
+
+function hook_call_constructors() {
+    var ptr_call_constructors = find_call_constructors();
+    var listener = Interceptor.attach(ptr_call_constructors, {
+        onEnter(args) {
+            if (!TargetLibModule) {
+                TargetLibModule = Process.findModuleByName(TARGET_LIB_NAME);
+            }
+
+            if (TargetLibModule != null) {
+                init_offsets.forEach(offset => {
+                    Interceptor.replace(TargetLibModule.base.add(offset), new NativeCallback(function () {
+                        console.log(`replace ${offset.toString(16)}`);
+                    }, "void", []));
+                });
+
+                bypass();
+                listener.detach()
+            }
+
+        },
+        onLeave(retval) {
+            if (this.shouldSkip) {
+                retval.replace(0); // 直接返回，不执行 `.init_array`
+            }
+        }
+    });
+}
+
+function hook_dlopen() {
+    ["android_dlopen_ext", "dlopen"].forEach(funcName => {
+        let addr = Module.findExportByName(null, funcName);
+        if (addr) {
+            Interceptor.attach(addr, {
+                onEnter(args) {
+                    let libName = ptr(args[0]).readCString();
+                    if (libName && libName.indexOf(TARGET_LIB_NAME) >= 0) {
+                        console.warn(`[!] Blocking ${funcName} loading: ${libName}`);
+                        hook_call_constructors();
+                    }
+                },
+                onLeave(retval) {
+                }
+            });
+        }
+    });
+}
+
+var is64Bit = Process.pointerSize === 8;
+hook_dlopen();
 ```
 
 hook掉这几个函数之后，日志输出：
@@ -525,6 +732,49 @@ function bypass() {
 
 
 
+再试下方法三，替换目标库的加载，运行脚本`dlopen-replace.js`：
+
+```js
+/**
+ * 替换模板库的加载
+ */
+
+const TARGET_LIB_NAME = "libmsaoaidsec.so";
+const REPLACE_LIB_NAME = "libdummy.so";
+
+
+function hook_dlopen() {
+    ["android_dlopen_ext", "dlopen"].forEach(funcName => {
+        let addr = Module.findExportByName(null, funcName);
+        if (addr) {
+            Interceptor.attach(addr, {
+                onEnter(args) {
+                    let libName = ptr(args[0]).readCString();
+                    if (libName && libName.indexOf(TARGET_LIB_NAME) >= 0) {
+                        console.log(`[+] ${funcName} onEnter: ${libName}`);
+
+                        // 替换为加载 REPLACE_LIB_NAME
+                        let newLib = Memory.allocUtf8String(REPLACE_LIB_NAME);
+                        args[0] = newLib;
+                        console.log(`[+] ${funcName}: 替换 ${libName} -> ${REPLACE_LIB_NAME}`);
+                    }
+                },
+                onLeave: function (retval) {
+                }
+            });
+        }
+    });
+}
+
+hook_dlopen();
+```
+
+再次运行，App正常运行。测试中忘记复制`libdummy.so`了，也即该文件并不存在，居然App也可以正常运行。
+
+
+
+
+
 ## 7.76.0
 
 bilibili的7.76.0版本同xhsv8.31.0
@@ -585,11 +835,11 @@ function bypass() {
 }
 ```
 
-综上，两个方法在7.76.0版本中均有效。
+综上，以上方法在7.76.0版本中均有效。
 
 ## 8.36.0
 
-这个版本为2025年03月06日更新，完全同7.76.0，包括xhsv8.74.0也一样。基本上可以认为这两个方法是通杀方案了。
+这个版本为2025年03月06日更新，完全同7.76.0，包括xhsv8.74.0也一样。基本上可以认为以上方法是通杀方案了。
 
 # 参考
 
