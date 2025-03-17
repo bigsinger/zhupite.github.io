@@ -31,9 +31,14 @@ wxapkg unpack -o unpack -r "D:\Tencent\WeChat Files\Applet\wx32348465709"
 
 # 抓包
 
-[HttpDebuggerPro](https://www.httpdebugger.com/)
+[HttpDebuggerPro](https://www.httpdebugger.com/) 抓包就很方便。
 
+推荐抓包方式：
 
+- 安卓：Reqable/HttpCanary
+- iOS：Reqable/Stream
+- Windows：Fiddler+Burp/Yakit 、 Proxifer+Burp/Yakit 、Reqable+Burp/Yakit 
+- MacOS：Reqable+Burp/Yakit
 
 # 解包
 
@@ -53,3 +58,13 @@ DragonBones 骨骼动画资源包括：
 - `.json` 图集数据
 - `.png` 图集纹理
 
+# Debug
+
+[WeChatOpenDevTools-Python: WeChatOpenDevTool 微信小程序强制开启开发者工具](https://github.com/JaveleyQAQ/WeChatOpenDevTools-Python)
+
+
+
+1. 首先 USB 数据线连接手机进入调试模式。
+2. 手机微信访问 http://debugxweb.qq.com/?inspector=true 确定是否可以用(能打开就可用)
+3. 微信上打开你需要调试的页面
+4. 谷歌浏览器地址栏输入 chrome://inspect/#devices
