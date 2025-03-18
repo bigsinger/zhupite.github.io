@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      基于Xposed和Substrate的通用性SO注入
+title:      "安卓注入方案汇总"
 category: 	android
 tags:		[android]
 date:		2017-03-01
@@ -8,7 +8,35 @@ description:
 ---
 
 
+
+# 2025更新
+
+1. [linjector-rs: Code injection on Android without ptrace](https://github.com/erfur/linjector-rs)
+
+2. Xposed的方案依然有效，配合Magisk+LSPosed。编译好的版本在`XTOOL\release`目录下，名为：`soloader.apk`，可以直接安装使用。
+
+   当需要为某个App注入so时，则需要手动在App的数据目录 `/data/data/<packagexxx>/files`  下创建子目录：`soloader` ，并在该子目录下创建配置文件 `soloader.txt` 或 `<packagexxx>.txt` ，二者选其一即可，内容为逐行文本，表示要加载的so文件，可以填全路径也可以填名称，例如：
+
+   ```
+   /data/app/<packagexxx>/lib/arm64/libabc.so
+   libabc.so
+   libabc
+   abc.so
+   abc
+   ```
+
+3. Frida注入：
+
+```js
+Runtime.getRuntime().loadLibrary0(VMStack.getCallingClassLoader(), 'dummy');
+```
+
+4. Substrate失效，太久没更新了。
+
+# 基于Xposed和Substrate的通用性SO注入
+
 ## 需求来源
+
 如果需要注入SO且HOOK一些功能做研究分析，必然需要**注入**、**HOOK**，而对于不同的分析目标除了HOOK的函数不同之外，注入部分是相同的，可以把相同部分的代码提出来，做成一个功能，那么以后注入部分就不用再次编写了，分析的时候只需要编写HOOK代码即可。
 
 ## 设计
