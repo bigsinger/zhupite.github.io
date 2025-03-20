@@ -72,8 +72,9 @@ cp .env.example .env
 
 ```ini
 REASONING_API_KEY=sk-***
-REASONING_BASE_URL=http://localhost:11434
-REASONING_MODEL=ollama_chat/deepseek-r1:7b
+REASONING_MODEL=deepseek-reasoner
+# REASONING_BASE_URL=http://localhost:11434
+# REASONING_MODEL=ollama_chat/deepseek-r1:7b
 ```
 
 
