@@ -618,6 +618,12 @@ bool Image::initWithImageFile(const std::string& path) {
 
 **需要注意**：反编译的文件可能存在错误或丢失内容的情况，因此在重建工程的时候需要仔细检查并修复，然后再通过`CocosStudio`重新发布出`CSB`文件使用。
 
+可以参考[cocos2dx使用汇总备查](./cocos2dx.html) 关于`CocosStudio`的使用，在逆向工程里推荐的做法：
+
+1. 如果不需要修改plist、csb等文件，完全可以不用CocosStudio，直接把对应的资源配置到cocos2dx项目的对应目录下即可。
+2. 如果需要修改csb文件，则可以先将其转换为csd文件导入到CocosStudio里进行修改，最后发布资源重新生成csb文件。
+3. 如果需要查看或修改plist文件，也可以导入到CocosStudio里。
+
 
 
 ## 反编译Java
