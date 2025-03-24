@@ -11,7 +11,10 @@ description:
 
 # 2025更新
 
-1. [linjector-rs: Code injection on Android without ptrace](https://github.com/erfur/linjector-rs)
+1. 三方工具（测试不行，以后看更新吧）：
+
+   - [linjector-rs: Code injection on Android without ptrace](https://github.com/erfur/linjector-rs)
+   - [revercc/ELFinjection: A simple android utility for inject so （suport arm, aarch64)](https://github.com/revercc/ELFinjection)
 
 2. Xposed的方案依然有效，配合Magisk+LSPosed。编译好的版本在`XTOOL\release`目录下，名为：`soloader.apk`，可以直接安装使用。
 
