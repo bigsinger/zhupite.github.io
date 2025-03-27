@@ -9,6 +9,8 @@ tags:		[]
 {:toc}
 
 
+如果可以使用unidbg模拟调用，也可以使用unidbg进行[指令跟踪](https://zhupite.com/sec/unidbg.html#指令跟踪)、[HOOK函数找关键CALL](https://zhupite.com/sec/unidbg.html#hook函数找关键call)
+
 # 准备工作
 
 1. 使用真机设备，root环境，模拟器下不稳定。
@@ -3083,6 +3085,6 @@ unsigned int __fastcall sub_12190(void *a1, int a2, unsigned int a3, unsigned in
 }
 ```
 
-这里面看到了字符串`expand 32-byte k`，大概了解是跟`ChaCha20`算法相关的，这个后面去分析下。
+这里面看到了字符串`expand 32-byte k`，大概了解是跟[ChaCha20](https://github.com/turbo/ptls/blob/master/nutls.c)算法相关的，这个后面去分析下。
 
 没有详细看了，综合下来，解密规则是：使用URL Safe的base64解码，有时直接解密出明文，有时需要进行ChaCha20解密。
