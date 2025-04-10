@@ -1011,4 +1011,4 @@ import JSZip from 'jszip/dist/jszip.min.js'; // 扩展名是需要的并且需�
 
 - [Cocos Creator 官网手册](https://docs.cocos.com/creator/manual/zh/)
 - [Cocos中文社区](https://forum.cocos.org)
-- [Cocos 资料大全](https://fusijie.github.io/Cocos-Resource/index.html)
+- [Cocos资料大全](https://tidys.github.io/#/dev/index)  [Cocos 资料大全](https://fusijie.github.io/Cocos-Resource/index.html)

@@ -789,4 +789,5 @@ void hook() {
 - cocos studio v3.10 的下载地址http://download.cocos.com/CocosStudio/v3.10/CocosForWin-v3.10.exe
   MAC版本：[http://download.cocos.com/CocostudioMac/Download/v3.10/CocosForMac-v3.10.dmg 618](http://download.cocos.com/CocostudioMac/Download/v3.10/CocosForMac-v3.10.dmg)
 - [Cocos Studio 3.10 Mac](http://cocos2d-x.org/filedown/CocosForMac-v3.10.dmg)    [Cocos Studio 3.10 Win](http://cocos2d-x.org/filedown/CocosForWin-v3.10.exe)
+- [ccc-devtools: Cocos Creator 网页调试工具，运行时查看、修改节点树，实时更新节点属性，可视化显示缓存资源。](https://github.com/potato47/ccc-devtools)
 
