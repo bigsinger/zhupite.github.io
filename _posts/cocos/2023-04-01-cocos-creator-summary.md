@@ -1,18 +1,17 @@
 ﻿---
-layout:		post
-category:	"cocos"
-title:		"Cocos Creator使用汇总备查"
+layout:        post
+category:    "cocos"
+title:        "Cocos Creator使用汇总备查"
 
-tags:		[c++]
+tags:        [c++]
 ---
+
 - Content
-{:toc}
+  {:toc}
 - 下载：[Cocos Creator - 高效轻量的跨平台3D/2D图形引擎](https://www.cocos.com/creator)
 - 文档：[Cocos Creator 用户手册](https://docs.cocos.com/creator/manual/zh/)
 - 视频：[Cocos Creator 官方 YouTube 频道](https://www.youtube.com/c/CocosCreator/videos)
 - 资源：[awesome-CocosCreator: Cocos Creator 游戏资源合集](https://github.com/Leo501/awesome-CocosCreator)
-
-
 
 # Cocos Creator编辑器相关
 
@@ -42,8 +41,6 @@ tags:		[c++]
 - 创建龙骨动画：为节点添加组件：`dragonbones.ArmatureDisplay`，拖放龙骨动画的`dbbin`文件到`Dragon Asset`，拖放龙骨动画的json文件到 `Dragon Atlas Asset` 。 选择`Armature` 和 `Animation` 。
 - `Tiledmap`（瓦块地图）：
 
-
-
 # API
 
 ## 场景
@@ -52,8 +49,6 @@ tags:		[c++]
 
 - 加载和切换场景：`director.loadScene`
 - 预加载：`director.preloadScene`
-
-
 
 ## 生命周期
 
@@ -92,8 +87,6 @@ resources.load('audio/bg', AudioClip, (err, audio) => {
     this.backgroud.play();
 })
 ```
-
-
 
 封装 `AudioHelper` 脚本，添加到场景的任意一个节点上（可以是根节点），然后为该节点添加组件：`AudioSource` ，然后把音频资源拖放到该组件的`Clip`上（可以勾选`Loop`进行循环播放），再把该`AudioSource` 组件拖放到`AudioHelper`的`Backgroud`属性上。
 
@@ -176,8 +169,6 @@ override start() {
     });
 }
 ```
-
-
 
 另外贴一个简单版的音效和背景音乐播放类，需要在编辑器中做资源绑定。
 
@@ -327,8 +318,6 @@ export class GameAudioAdapter extends Component {
 }
 ```
 
-
-
 ## 动画
 
 ```js
@@ -336,8 +325,6 @@ const node:Node = find('Canvas/nodeName');
 const ani = node.getComponent(Animation);
 ani.play();
 ```
-
-
 
 切换龙骨动画：
 
@@ -361,16 +348,10 @@ ChangeDragonBonesAnim(name: string, animationName: string) {
 - [基于 CocosCreator 3.4.0 版本创建的**龙骨动画指定帧播放**工程](https://github.com/cocos/cocos-awesome-tech-solutions/tree/3.6.x-release/demo/Creator3.6.0_2D_DragonBonesSpecifiedFrame)
 - [从服务器远程加载 DragonBones](https://docs.cocos.com/creator/2.4/manual/zh/getting-started/faq.html)
 
-
-
 **Spine动画**
 
 - [基于 CocosCreator 3.4.0 版本创建的**Spine动画指定帧播放**工程](https://github.com/cocos/cocos-awesome-tech-solutions/tree/3.6.x-release/demo/Creator3.6.0_2D_SpineSpecifiedFrame)
 - [从服务器远程加载 Spine](https://docs.cocos.com/creator/2.4/manual/zh/getting-started/faq.html)
-
-
-
-
 
 ## 动作
 
@@ -386,10 +367,8 @@ var action = cc.tintTo(2, 255, 0, 255);//修改颜色到指定值
 var action = cc.fadeTo(1.0, 0);//修改透明度到指定值
 ```
 
-
-
 ```ts
-tween(this.node).delay(3).hide().start();		// 3s 后隐藏
+tween(this.node).delay(3).hide().start();        // 3s 后隐藏
 
 
 _tweenSpeakUI: any = null;
@@ -399,8 +378,6 @@ this._tweenSpeakUI = tween(this.node).delay(3).call(() => {
     this.node.active = false;
 }).start();
 ```
-
-
 
 ```ts
 // 说话：显示对话框，3秒后消失。如果对话框消失前再次调用，则重新计时。
@@ -452,16 +429,14 @@ private scaleBtn() {
     this._resetPosition();
     cc.tween(this.picNode)
         .to(1, { scale: 2 })
-        .to(1, { position: cc.v2(300, 0) })		// 
-        .by(1, { position: cc.v2(0, 50) })		// by是相对
+        .to(1, { position: cc.v2(300, 0) })        // 
+        .by(1, { position: cc.v2(0, 50) })        // by是相对
         .call(() => {
         this.picNode.scale = 0.5;
     })
         .start();
 }
 ```
-
-
 
 ## 坐标
 
@@ -472,30 +447,23 @@ private scaleBtn() {
 - **屏幕坐标系**：顾名思义，就是看着显示器，按照人眼的阅读习惯的顺序，从左到右从上到下。所有原生编程的坐标都是用这个，例如Android、iOS、Windows的原生代码的开发，均使用该坐标系。
 - **笛卡尔坐标系**：就是我们上学的时候，学习数学用的坐标系，左下角为原点，向右X变大，向上Y变大。又称为：左手坐标系、`OpenGL`坐标系。`Cocos`系列均使用该坐标系，一般默认就是指该坐标系。
 
-
-
 **世界坐标：**
 
 - **世界坐标**：又叫全局坐标，它不是坐标系，是一个绝对概念，即该坐标是全局范围的一个**绝对坐标**值。是游戏世界里的绝对坐标。可以简单理解为：**游戏世界坐标**。
+
 - **本地坐标**：是一个**相对坐标**，是相当于其父节点的坐标。是游戏世界里的相对坐标。
 
-
-
 - **屏幕坐标：** 它是考虑到屏幕分辨率的坐标，可以简单理解为：**屏幕分辨率坐标**（注意，仍然是笛卡尔坐标系，而非屏幕坐标系）。其实处理这个屏幕坐标意义不大，因为都是在游戏世界，建议直接从游戏世界里的坐标进行操作处理。这个非常容易误解。
-
-
 
 在`Cocos Creator`的鼠标事件中：
 
 - `touchEvent.getUILocation()` 获取的是笛卡尔坐标系下的世界坐标（全局坐标）。
 - `touchEvent.getLocation()`  获取的是鼠标的屏幕坐标（并不是屏幕坐标系，仍然是笛卡尔坐标系），是结合了屏幕分辨率后的坐标，可以简单理解为：屏幕分辨率坐标（笛卡尔坐标系）。该坐标可以使用函数 `screenToWorld `转换为游戏世界坐标。
 
-
-
 cocos提供了API在世界坐标和本地坐标之间相互转换：
 
 ```typescript
-let location = touchEvent.getUILocation();  		// 获取世界坐标，注意不要用getLocation
+let location = touchEvent.getUILocation();          // 获取世界坐标，注意不要用getLocation
 let position = new Vec3(location.x, location.y);
 let point = node.getComponent(UITransform).convertToNodeSpaceAR(position); // 转换为相对节点的本地坐标
 ```
@@ -534,8 +502,6 @@ export class SaveSystem {
 }
 ```
 
-
-
 ## JSON
 
 [JSON 资源 - Cocos Creator 3.8 手册](https://docs.cocos.com/creator/manual/zh/asset/json.html)
@@ -571,8 +537,6 @@ resources.load('Level1/things', (err: any, res: JsonAsset) => {
 })
 ```
 
-
-
 # 组件
 
 ## 布局
@@ -587,8 +551,8 @@ resources.load('Level1/things', (err: any, res: JsonAsset) => {
 
 ```
 nodeDialogA
-	nodeDialog
-		nodeLabel
+    nodeDialog
+        nodeLabel
 ```
 
 - nodeDialogA（可以不用这个节点）
@@ -615,7 +579,7 @@ nodeDialogA
 - 子节点view 为显示区域，也为设计和显示区域（最早叫mask，现在叫view更妥一些）。content为内容区域，按照实际内容大小来设计，再怎么大都没关系。
 
 - 设计技巧：scrollview和bgs大小保持一致。view为显示区域，尺寸大小设计为去掉top bottom后的中间部分。设置：Content 为一个真实内容的根节点，content按照实际内容大小来，再怎么大都没关系。考虑到topbar和bottombar的情况，可以如下设计：
-
+  
   ```
   方案1：
   root
@@ -623,41 +587,41 @@ nodeDialogA
     |-topbar
     |-bgs
     |-bottombar
-    
+  
   1、root作为根节点需要添加一个sprite用来铺设背景图，大小尺寸应该和手机分辨率保持一致，保证铺满。
   2、topbar作为顶部工具栏区域
   3、bgs作为scrollview的位置占位，这样就无须考虑上中下的渲染顺序及遮盖问题了，动态运行时只需要创建scrollview并添加到bgs的子节点即可。并设置：scrollview的大小 = scrollview的view的大小 = bgs的大小，这三个大小保持一致。
   4、bottombar作为底部工具栏区域
-  
+  ```
   
   方案2：
   root
     |-Camera
     |-topbar
     |-sv
-    	|-view
+  
+        |-view
           |-content
+  
     |-bottombar
-    
+  
   1、root作为根节点需要添加一个sprite用来铺设背景图，大小尺寸应该和手机分辨率保持一致，保证铺满。
   2、对sv组件删除sprite组件，保证透明效果。
   3、运行时获取root/sv/view/content节点，命名为scrollview，后面父节点名为scrollview的均在此下添加子节点。
-  
-  
   
   方案3（推荐）：
   scrollview
     |-Camera
     |-topbar
     |-view
-       |-content
-    |-bottombar
-    
-  scrollview直接作为根节点，不再删除sprite，为其设置背景图；
-  ```
-
   
+       |-content
+  
+    |-bottombar
+  
+  scrollview直接作为根节点，不再删除sprite，为其设置背景图；
 
+```
 # 代码汇总
 
 ## 示例教程
@@ -683,34 +647,32 @@ nodeDialogA
 
 ```ts
 export class AppRoot extends Component {
-    @property(AudioPlayer) private audio: AudioPlayer;
-    @property(JsonAsset) private settingsAsset: JsonAsset;
+  @property(AudioPlayer) private audio: AudioPlayer;
+  @property(JsonAsset) private settingsAsset: JsonAsset;
 
-    private static instance: AppRoot;
+  private static instance: AppRoot;
 
-    // 外部调用该接口函数
-    public static get Instance(): AppRoot {
-        return this.instance;
-    }
-    
-    // 初始化操作
-   	public onLoad()  {
-        if (AppRoot.Instance == null) {
-            AppRoot.instance = this;
-            director.addPersistRootNode(this.node);
-            this.init();
-        } else {
-            this.node.destroy();
-        }
-    }
+  // 外部调用该接口函数
+  public static get Instance(): AppRoot {
+      return this.instance;
+  }
+
+  // 初始化操作
+     public onLoad()  {
+      if (AppRoot.Instance == null) {
+          AppRoot.instance = this;
+          director.addPersistRootNode(this.node);
+          this.init();
+      } else {
+          this.node.destroy();
+      }
+  }
 }
 ```
 
 ## 资源加载
 
 [入门一定要会的几种资源加载](https://forum.cocos.org/t/creator3d/98389)
-
-
 
 ## 精灵
 
@@ -728,8 +690,6 @@ resources.load(url, ImageAsset, (err: any, imageAsset) => {
 });
 ```
 
-
-
 ```tsx
 // 加载 SpriteFrame，image 是 ImageAsset，spriteFrame 是 image/spriteFrame，texture 是 image/texture
 resources.load("test_assets/image/spriteFrame", SpriteFrame, (err, spriteFrame) => {
@@ -744,8 +704,6 @@ resources.load("test_assets/image/texture", Texture2D, (err: any, texture: Textu
 });
 ```
 
-
-
 ```tsx
 // 加载 SpriteAtlas（图集），并且获取其中的一个 SpriteFrame
 // 注意 atlas 资源文件（plist）通常会和一个同名的图片文件（png）放在一个目录下, 所以需要在第二个参数指定资源类型
@@ -754,8 +712,6 @@ resources.load("test_assets/sheep", SpriteAtlas, (err, atlas) => {
     sprite.spriteFrame = frame;
 });
 ```
-
-
 
 ## 加载ZIP资源
 
@@ -842,28 +798,18 @@ export class MainScene extends Component {
 }
 ```
 
-
-
 参考Demo：
 
 - [cocos creator 3.x 加载与读取zip文件](https://gitee.com/superfinger/cocoscrator-load-zip-demo)
 - https://gitee.com/carlosyzy/creator3d_jszip
 
-
-
 ## 事件回调
 
 参考：Cocos Creator事件回调
 
-
-
 ## 对话框
 
-
-
 ## 碰撞
-
-
 
 ## 延时
 
@@ -959,8 +905,6 @@ export class UIButtonAudioPlayer extends Component {
 }
 ```
 
-
-
 # 构建发布
 
 - 菜单「文件」-「偏好设置」-「程序管理器」
@@ -978,34 +922,24 @@ import JSZip from 'jszip/dist/jszip.min.js'; // 扩展名是需要的并且需�
 
 [Cocos Creator之如何使用第三方类库](https://developer.moduyun.com/article/5d9b3029-7df0-11ee-b225-6c92bf60bba4.html)
 
-
-
-
-
 # 碎图/图集
 
 - [Cocos Creator 图集 (TexturePacker、自动图集功能 、压缩纹理、压缩插件)](https://www.jianshu.com/p/f8f1e830d112)
 - [How to create and use sprite sheets with CocosCreator 3.x](https://www.codeandweb.com/texturepacker/tutorials/how-to-create-and-usesprite-sheets-with-cocoscreator)
 - 
 
-
-
 # 三方工具
 
 - 瓦片地图编辑：[Tiled Map Editor](https://www.mapeditor.org/)，GitHub地址：https://github.com/mapeditor/tiled
 - 合图工具：[FreeTexturePacker](http://free-tex-packer.com/)（免费推荐） [TexturePacker](https://www.codeandweb.com/texturepacker)（收费）
-- 碎图工具：[TextureUnpacker](https://www.onlinedown.net/soft/1114992.htm)
+- 碎图工具：[开源一个基于Unity的Plist解析工具——TextureUnpacker](https://blog.csdn.net/NRatel/article/details/85009462) （[github地址](https://github.com/NRatel/TextureUnpacker)，成品下载地址[TextureUnpacker_x86_64（v1.0）](https://download.csdn.net/download/nratel/10853196)）
 - JavaScript代码混淆：https://obfuscator.io/ （[GitHub](https://github.com/javascript-obfuscator/javascript-obfuscator)） 使用教程：[微信小程序代码混淆（代码被扒盗用上架，如何保证代码安全](https://cloud.tencent.com/developer/article/2345810)
 - 配色提取：[Rickrack: Generate harmonious colors freely.](https://github.com/eigenmiao/Rickrack)
-
-
 
 # 常见问题
 
 - [警告: WebGL 1.0 平台不支持非 2 次贴图的 Repeat 过滤模式，运行时会自动改为 Clamp 模式，这会使材质的 tilingOfiset 等属性完全失效](https://forum.cocos.org/t/topic/144127/2)，解决：在「属性检查器」中修改「类型」为`sprite-frame` ，然后保存即可。  全局解决：打开「文件」-「偏好设置」-「资源数据库」-「默认资源导入类型配置」-「图片」的类型选择 `sprite-frame`，默认是`texture`。
 - 
-
-
 
 # 参考资料
 
