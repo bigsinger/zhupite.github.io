@@ -66,8 +66,9 @@ tags:        [c++]
 
 [AudioSource 组件参考](https://docs.cocos.com/creator/manual/zh/audio-system/audiosource.html)
 
-- 播放长音乐：play
-- 播放短音效：playOneShot
+播放长音乐：play
+
+播放短音效：playOneShot
 
 ```js
 // 播放音效, filename: 文件名，例如：click（相对于resources/audio的路径）
@@ -910,6 +911,42 @@ export class UIButtonAudioPlayer extends Component {
 - 菜单「文件」-「偏好设置」-「程序管理器」
   - 微信开发者工具：从这里下载并安装：[微信开发者工具（小游戏版 Minigame Build）](https://developers.weixin.qq.com/minigame/dev/devtools/download.html)，然后选择安装好的`exe`文件。
 - 菜单「项目」-「构建发布」，「发布平台」选择「微信小游戏」，在最后填上正确的`Appid`。
+
+## 设置Bundle
+
+编辑器中选择某个目录，勾选「配置为Bundle」，点击「目标平台」旁边的「编辑」按钮，在弹出的「项目设置-Bundle配置」中切换到「小游戏」选项卡，在下面的「统一配置」中勾选「远程包」，压缩类型选择「合并依赖」。
+
+
+
+## Build构建
+
+- Platform 勾选：WeChat Mini Game
+
+- Main Bundle Config：zip
+
+- Resource Server：**服务器地址**
+
+
+
+## 测试
+
+微信开发工具选择「小游戏」选项卡，导入build下的工程目录，类型要选择「小游戏」。
+
+
+
+## 裁剪体积
+
+「项目设置-功能裁剪」里面根据工程的实际情况去除一些不需要的，例如：
+
+- Tiled地图
+
+- Spine动画
+
+- Dragon Bones
+
+切换「2D物理系统」为「内置2D物理系统」
+
+
 
 # 三方库
 
