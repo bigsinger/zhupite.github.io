@@ -691,7 +691,7 @@ resources.load(url, ImageAsset, (err: any, imageAsset) => {
 });
 ```
 
-```tsx
+```ts
 // 加载 SpriteFrame，image 是 ImageAsset，spriteFrame 是 image/spriteFrame，texture 是 image/texture
 resources.load("test_assets/image/spriteFrame", SpriteFrame, (err, spriteFrame) => {
     this.node.getComponent(Sprite).spriteFrame = spriteFrame;
@@ -705,7 +705,7 @@ resources.load("test_assets/image/texture", Texture2D, (err: any, texture: Textu
 });
 ```
 
-```tsx
+```ts
 // 加载 SpriteAtlas（图集），并且获取其中的一个 SpriteFrame
 // 注意 atlas 资源文件（plist）通常会和一个同名的图片文件（png）放在一个目录下, 所以需要在第二个参数指定资源类型
 resources.load("test_assets/sheep", SpriteAtlas, (err, atlas) => {
@@ -729,7 +729,7 @@ resources.load("test_assets/sheep", SpriteAtlas, (err, atlas) => {
 3. 资源文件压缩为`zip`格式，微信平台需要将文件后缀改为`bin`，才能以二进制模式读取文件。
 4. 代码：
 
-```tsx
+```ts
 import { _decorator, Component, assetManager, resources, BufferAsset, LabelComponent, Label, Texture2D, SpriteFrame, Sprite, ImageAsset } from 'cc';
 
 // 新版不支持这种导入方式，如果有 jszip.d.ts 文件，则不需要显式导入。
@@ -756,6 +756,7 @@ export class MainScene extends Component {
             });
     }
 
+    // 加载zip包。资源在resources目录中必须以.bin为后缀
     private loadZip(url: string): Promise<any> {
         return new Promise((resolve, reject) => {
             resources.load(url, BufferAsset, (err, asset) => {
@@ -763,6 +764,54 @@ export class MainScene extends Component {
                 resolve(asset.buffer());
             })
         });
+    }
+
+    /**
+     * @method LoadSpriteFromZip
+     * @description 从 zip 包中加载图像并更新节点的贴图。
+     * @param {Node} node - 目标节点。
+     * @param {string} name - 资源名称。
+     * @param {JSZip} zipData - zip 包数据。
+     * @param {boolean} isCustomSize - 是否自定义大小。
+     * 
+     * // 加载zip包。资源在resources目录中必须以.bin为后缀
+        const data = await BundleLoader.load(this.currentBundle, levelId, BufferAsset);
+        if (data instanceof ArrayBuffer) {
+            this.zipData = await JSZip.loadAsync(data);
+        } else if (data instanceof Error) {
+            console.log(data);
+        }
+     */
+    async LoadSpriteFromZip(node: Node, name: string, zipData: JSZip, isCustomSize: boolean) {
+        try {
+            const f = zipData.file(name + ".png") || zipData.file(name + ".jpg");
+            if (f) {
+                const buf = await f.async("base64");
+                const img = new Image();
+                img.src = 'data:image/png;base64,' + buf;
+
+                await new Promise<void>((resolve, reject) => {
+                    img.onload = () => {
+                        try {
+                            const texture = new Texture2D();
+                            texture.reset({ width: img.width, height: img.height });
+                            texture.uploadData(img););
+                            resolve();
+                        } catch (e) {
+                            console.error('Image load error: ', name, ;
+                            reject(error);
+                        }
+                    };
+
+                    img.onerror = (e) => {
+                        console.error('Image load error: ', name, e);
+                        //reject(new Error(`Failed to load image: ${name}`));
+                    };
+                });
+            }
+        } catch (e) {
+            console.error('err: ', name, e);
+        }
     }
 
     private async readZipFile(file: any) {
@@ -916,8 +965,6 @@ export class UIButtonAudioPlayer extends Component {
 
 编辑器中选择某个目录，勾选「配置为Bundle」，点击「目标平台」旁边的「编辑」按钮，在弹出的「项目设置-Bundle配置」中切换到「小游戏」选项卡，在下面的「统一配置」中勾选「远程包」，压缩类型选择「合并依赖」。
 
-
-
 ## Build构建
 
 - Platform 勾选：WeChat Mini Game
@@ -925,8 +972,6 @@ export class UIButtonAudioPlayer extends Component {
 - Main Bundle Config：zip
 
 - Resource Server：**服务器地址**，如果是本地测试可以设置为：`http://127.0.0.1:8080/`
-
-
 
 ## 测试
 
@@ -938,8 +983,6 @@ export class UIButtonAudioPlayer extends Component {
 
 - 打开微信开发者工具，点击顶部菜单栏：详情（或项目配置） -> 本地设置，启用 “`不校验合法域名、web-view（业务域名）、TLS 版本以及 HTTPS 证书`”，否则无法访问本地服务。
 
-
-
 ## 功能裁剪
 
 「项目设置-功能裁剪」里面根据工程的实际情况去除一些不需要的，例如：
@@ -950,17 +993,11 @@ export class UIButtonAudioPlayer extends Component {
 
 - Dragon Bones
 
-
-
 切换「2D物理系统」为「内置2D物理系统」
-
-
 
 **勾选：**
 
 - 动画 - 骨骼动画。
-
-
 
 # 三方库
 
