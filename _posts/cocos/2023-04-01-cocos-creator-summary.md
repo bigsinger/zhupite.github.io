@@ -971,7 +971,7 @@ export class UIButtonAudioPlayer extends Component {
 
 - Main Bundle Config：zip
 
-- Resource Server：**服务器地址**，如果是本地测试可以设置为：`http://127.0.0.1:8080/`
+- Resource Server：**服务器地址**，如果是本地测试可以设置为：`http://127.0.0.1:8080/` 如果发布可以使用云厂商的**文件对象存储**服务。
 
 ## 测试
 
