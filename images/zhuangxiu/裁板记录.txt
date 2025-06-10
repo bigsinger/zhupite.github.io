@@ -1,0 +1,109 @@
+Input Panel	角落-盖板	1020 mm	505 mm	1		AllowIfNoGrain	18mm板材					False							1	1															0	0
+Input Panel	角落-左右立板	982 mm	450 mm	2		AllowIfNoGrain	18mm板材					False							2	2															0	0
+Input Panel	角落-后板	469 mm	450 mm	1		AllowIfNoGrain	18mm板材					False							3	3															0	0
+Input Panel	角落-上下板	964 mm	469 mm	2		AllowIfNoGrain	18mm板材					False							4	4															0	0
+Input Panel	书桌-面板	1340 mm	530 mm	1		AllowIfNoGrain	18mm板材					False							5	5															0	0
+Input Panel	书桌-侧板（桌腿）	730 mm	530 mm	2		AllowIfNoGrain	18mm板材					False							6	6															0	0
+Input Panel	书桌-横隔板	1100 mm	450 mm	1		AllowIfNoGrain	18mm板材					False							7	7															0	0
+Input Panel	书桌-小立板	450 mm	130 mm	2		AllowIfNoGrain	18mm板材					False							8	8															0	0
+Input Panel	书桌-抽屉背板	1100 mm	148 mm	1		AllowIfNoGrain	18mm板材					False							9	9															0	0
+Input Panel	书桌-抽屉左右围板	450 mm	120 mm	4		AllowIfNoGrain	18mm板材					False							10	10															0	0
+Input Panel	床底抽屉-底板	630 mm	520 mm	6		AllowIfNoGrain	18mm板材					False							11	11															0	0
+Input Panel	床底抽屉-左右侧板	630 mm	360 mm	12		AllowIfNoGrain	18mm板材					False							12	12															0	0
+Input Panel	床底抽屉-前后侧板	484 mm	360 mm	8		AllowIfNoGrain	18mm板材					False							13	13															0	0
+Input Panel	柜子-左立板	2174 mm	481 mm	1		AllowIfNoGrain	18mm板材					False							14	14															0	0
+Input Panel	柜子-右立板	2174 mm	481 mm	1		AllowIfNoGrain	18mm板材					False							15	15															0	0
+Input Panel	柜子-顶板	985 mm	481 mm	1		AllowIfNoGrain	18mm板材					False							16	16															0	0
+Input Panel	柜子-底板	985 mm	481 mm	1		AllowIfNoGrain	18mm板材					False							17	17															0	0
+Input Panel	柜子-隔板	949 mm	481 mm	3		AllowIfNoGrain	18mm板材					False							18	18															0	0
+Input Panel	柜子-上立板	481 mm	400 mm	1		AllowIfNoGrain	18mm板材					False							19	19															0	0
+Input Panel	柜子-下立板	678 mm	481 mm	1		AllowIfNoGrain	18mm板材					False							20	20															0	0
+Input Panel	柜子-抽屉左右围板	450 mm	150 mm	4		AllowIfNoGrain	18mm板材					False							21	21															0	0
+Input Panel	柜子-背板	2210 mm	985 mm	1		AllowIfNoGrain	6mm背板					False							22	22															0	0
+
+
+
+
+Input Panel	小书房-床底抽屉-前后侧板	484 mm	360 mm	5		AllowIfNoGrain	18mm板材					False							1	1															0	0
+Input Panel	下柜-左右立板	1982 mm	567 mm	2		AllowIfNoGrain	18mm板材					False							2	2															0	0
+Input Panel	下柜-顶板	1940 mm	567 mm	1		AllowIfNoGrain	18mm板材					False							3	3															0	0
+Input Panel	下柜-底板	1904 mm	567 mm	1		AllowIfNoGrain	18mm板材					False							4	4															0	0
+Input Panel	下柜-隔板	1904 mm	567 mm	2		AllowIfNoGrain	18mm板材					False							5	5															0	0
+Input Panel	下柜-立板	1884 mm	567 mm	2		AllowIfNoGrain	18mm板材					False							6	6															0	0
+Input Panel	下柜-隔板小	567 mm	450 mm	1		AllowIfNoGrain	18mm板材					False							7	7															0	0
+Input Panel	下柜-踢脚面板背板	1904 mm	80 mm	2		AllowIfNoGrain	18mm板材					False							8	8															0	0
+Input Panel	下柜-踢脚面板支撑	507 mm	80 mm	2		AllowIfNoGrain	18mm板材					False							9	9															0	0
+Input Panel	上柜-背板	1950 mm	640 mm	1		AllowIfNoGrain	6mm背板					False							10	10															0	0
+Input Panel	上柜-左右立板	662 mm	567 mm	2		AllowIfNoGrain	18mm板材					False							11	11															0	0
+Input Panel	上柜-顶板	1950 mm	567 mm	1		AllowIfNoGrain	18mm板材					False							12	12															0	0
+Input Panel	上柜-隔板	1914 mm	567 mm	2		AllowIfNoGrain	18mm板材					False							13	13															0	0
+Input Panel	上柜-立板	604 mm	567 mm	2		AllowIfNoGrain	18mm板材					False							14	14															0	0
+Input Panel	上柜-踢脚面板背板	1914 mm	40 mm	2		AllowIfNoGrain	18mm板材					False							15	15															0	0
+Input Panel	上柜-踢脚支撑	507 mm	40 mm	2		AllowIfNoGrain	18mm板材					False							16	16															0	0
+Input Panel	书桌-面板	1276 mm	450 mm	1	外侧封边	AllowIfNoGrain	18mm板材					False							17	17															0	0
+Input Panel	书桌-侧板	732 mm	420 mm	2	侧板底部和外侧需要封边；	AllowIfNoGrain	18mm板材					False							18	18															0	0
+Input Panel	书桌-隔板	960 mm	364 mm	1	内缩一个板厚度做免拉手抽屉，外侧封边	AllowIfNoGrain	18mm板材					False							19	19															0	0
+Input Panel	书桌-小立板	364 mm	130 mm	2	外侧封边	AllowIfNoGrain	18mm板材					False							20	20															0	0
+Input Panel	书桌-抽屉背板	960 mm	148 mm	1		AllowIfNoGrain	18mm板材					False							21	21															0	0
+Input Panel	书桌-抽屉面板	314 mm	160 mm	3	四边封边	AllowIfNoGrain	18mm板材					False							22	22															0	0
+Input Panel	书桌-抽屉底板	359 mm	278 mm	3		AllowIfNoGrain	6mm背板					False							23	23															0	0
+Input Panel	桌抽前后围板	242 mm	114 mm	6		AllowIfNoGrain	18mm板材					False							24	24															0	0
+Input Panel	桌抽左右围板	359 mm	114 mm	6		AllowIfNoGrain	18mm板材					False							25	25															0	0
+Input Panel	郦桌侧板	1350 mm	550 mm	2		AllowIfNoGrain	18mm板材					False							26	26															0	0
+Input Panel	郦桌面板	690 mm	550 mm	1		AllowIfNoGrain	18mm板材					False							27	27															0	0
+Input Panel	郦桌上抽立板	200 mm	150 mm	2		AllowIfNoGrain	18mm板材					False							28	28															0	0
+Input Panel	郦桌下抽立板	500 mm	150 mm	1		AllowIfNoGrain	18mm板材					False							29	29															0	0
+Input Panel	我桌抽左右围板	300 mm	80 mm	2		AllowIfNoGrain	18mm板材					False							30	30															0	0
+Input Panel	我桌抽后围板	486 mm	80 mm	1		AllowIfNoGrain	18mm板材					False							31	31															0	0
+Input Panel	我桌抽面板	550 mm	122 mm	1		AllowIfNoGrain	18mm板材					False							32	32															0	0
+Input Panel	下柜右背板	1920 mm	1204 mm	1		AllowIfNoGrain	6mm背板					False							33	33															0	0
+Input Panel	下柜左背板	1920 mm	736 mm	1		AllowIfNoGrain	6mm背板					False							34	34															0	0
+
+
+
+
+Input Panel	西下柜-顶板	1180 mm	520 mm	1		AllowIfNoGrain	18mm板材					False							1	1															0	0
+Input Panel	西下柜-左右立板	1882 mm	520 mm	2		AllowIfNoGrain	18mm板材					False							2	2															0	0
+Input Panel	西下柜-隔板	1144 mm	520 mm	3		AllowIfNoGrain	18mm板材					False							3	3															0	0
+Input Panel	西下柜-立板	1784 mm	520 mm	1		AllowIfNoGrain	18mm板材					False							4	4															0	0
+Input Panel	西下柜-小隔板	400 mm	520 mm	1		AllowIfNoGrain	18mm板材					False							5	5															0	0
+Input Panel	西下柜-踢脚面背	1144 mm	60 mm	2		AllowIfNoGrain	18mm板材					False							6	6															0	0
+Input Panel	西下柜-踢脚支撑	464 mm	60 mm	2		AllowIfNoGrain	18mm板材					False							7	7															0	0
+Input Panel	西下柜-背板	1840 mm	1180 mm	1		AllowIfNoGrain	6mm背板					False							8	8															0	0
+Input Panel	西上柜-顶板	1180 mm	520 mm	1		AllowIfNoGrain	18mm板材					False							9	9															0	0
+Input Panel	西上柜-左右立板	762 mm	520 mm	2		AllowIfNoGrain	18mm板材					False							10	10															0	0
+Input Panel	西上柜-隔板	1144 mm	520 mm	2		AllowIfNoGrain	18mm板材					False							11	11															0	0
+Input Panel	西上柜-立板	704 mm	520 mm	1		AllowIfNoGrain	18mm板材					False							12	12															0	0
+Input Panel	西上柜-背板	1180 mm	780 mm	1		AllowIfNoGrain	6mm背板					False							13	13															0	0
+Input Panel	西桌-面板	800 mm	450 mm	1		AllowIfNoGrain	18mm板材					False							14	14															0	0
+Input Panel	西桌-左侧板	732 mm	450 mm	1	左侧见光，封口好看	AllowIfNoGrain	18mm板材					False							15	15															0	0
+Input Panel	西桌-右侧板	732 mm	420 mm	1	右侧不见光，且有插头，需要有孔走线	AllowIfNoGrain	18mm板材					False							16	16															0	0
+Input Panel	西桌-隔板	764 mm	364 mm	1		AllowIfNoGrain	18mm板材					False							17	17															0	0
+Input Panel	西桌-小立板	364 mm	130 mm	1		AllowIfNoGrain	18mm板材					False							18	18															0	0
+Input Panel	西桌-抽-背板	764 mm	148 mm	1		AllowIfNoGrain	18mm板材					False							19	19															0	0
+Input Panel	西桌-抽-面板	376 mm	160 mm	2		AllowIfNoGrain	18mm板材					False							20	20															0	0
+Input Panel	西桌-抽-底板	359 mm	343 mm	2		AllowIfNoGrain	6mm背板					False							21	21															0	0
+Input Panel	西桌-抽-前后围	307 mm	114 mm	4		AllowIfNoGrain	18mm板材					False							22	22															0	0
+Input Panel	西桌-抽-左右围	359 mm	114 mm	4		AllowIfNoGrain	18mm板材					False							23	23															0	0
+Input Panel	角底板	230 mm	190 mm	1		AllowIfNoGrain	18mm板材					False							24	24															0	0
+Input Panel	角前后	510 mm	270 mm	2		AllowIfNoGrain	18mm板材					False							25	25															0	0
+Input Panel	角后	510 mm	190 mm	1		AllowIfNoGrain	18mm板材					False							26	26															0	0
+Input Panel	角盖板	285 mm	245 mm	1		AllowIfNoGrain	18mm板材					False							27	27															0	0
+Input Panel	角左长立板	2440 mm	230 mm	1		AllowIfNoGrain	18mm板材					False							28	28															0	0
+Input Panel	角右长立板	1930 mm	230 mm	1		AllowIfNoGrain	18mm板材					False							29	29															0	0
+Input Panel	角层板	278 mm	230 mm	6		AllowIfNoGrain	18mm板材					False							30	30															0	0
+Input Panel	角顶板	314 mm	230 mm	1		AllowIfNoGrain	18mm板材					False							31	31															0	0
+Input Panel	角背板	2440 mm	314 mm	1		AllowIfNoGrain	6mm背板					False							32	32															0	0
+Input Panel	哼隔板	750 mm	365 mm	1		AllowIfNoGrain	18mm板材					False							33	33															0	0
+Input Panel	郦桌隔板下	654 mm	500 mm	1		AllowIfNoGrain	18mm板材					False							34	34															0	0
+Input Panel	郦桌隔板上+顶板	654 mm	200 mm	2		AllowIfNoGrain	18mm板材					False							35	35															0	0
+Input Panel	虚拟木板不切	1518 mm	738 mm	1		AllowIfNoGrain	18mm板材					False							36	36															0	0
+Input Panel	虚拟木板不切	1528 mm	1220 mm	1		AllowIfNoGrain	18mm板材					False							37	37															0	0
+Input Panel	二鞋柜顶板	1560 mm	270 mm	1		AllowIfNoGrain	18mm板材					False							38	38															0	0
+Input Panel	二鞋柜左右立板	902 mm	270 mm	2		AllowIfNoGrain	18mm板材					False							39	39															0	0
+Input Panel	二鞋柜隔板	1524 mm	270 mm	3		AllowIfNoGrain	18mm板材					False							40	40															0	0
+
+
+
+
+
