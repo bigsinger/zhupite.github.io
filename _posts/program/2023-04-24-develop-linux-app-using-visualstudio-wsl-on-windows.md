@@ -1,37 +1,36 @@
 ﻿---
-layout:		post
-category:	"program"
-title:		"在Windows上使用VisualStudio配合WSL进行Linux程序开发"
+layout:        post
+category:    "program"
+title:        "在Windows上使用VisualStudio配合WSL进行Linux程序开发"
 
-tags:		[c++]
+tags:        [c++]
 ---
+
 - Content
-{:toc}
-先说结论：爽歪歪。
-
-
+  {:toc}
+  先说结论：爽歪歪。
 
 # GPT
 
 在Windows上使用WSL (Windows Subsystem for Linux) 进行Linux编程和动态调试，可以让你在同一台机器上享受Windows和Linux的优势。以下是在Windows上使用Visual Studio和WSL进行Linux编程和动态调试的步骤：
 
 1. 安装WSL： 在Windows 10上，打开PowerShell，然后以管理员身份运行以下命令：
-
+   
    ```bash
    wsl --install
    ```
-
+   
    安装完成后，重启计算机。你也可以在微软商店中手动下载并安装你喜欢的Linux发行版。
 
 2. 更新Linux发行版： 启动你的Linux发行版，然后运行以下命令来更新包列表和已安装的包：
-
+   
    ```bash
    sudo apt update
    sudo apt upgrade
    ```
 
 3. 安装编译和调试工具： 在Linux发行版中，运行以下命令来安装必要的编译和调试工具，如`build-essential`和`gdb`：
-
+   
    ```bash
    sudo apt install build-essential gdb
    ```
@@ -50,14 +49,45 @@ tags:		[c++]
 
 现在，你已经成功设置了在Windows上使用Visual Studio和WSL进行Linux编程和动态调试的环境。祝你编程愉快！
 
-
-
 # 实际
+
+- WSL安装并开启SSH服务：
+  
+  ```bash
+  PasswordAuthentication yes
+  PermitRootLogin yes
+  UsePAM yes
+  sudo service ssh restart
+  ```
+
+批处理：
+
+```bash
+# Step 1: 安装 OpenSSH Server
+sudo apt update && sudo apt install -y openssh-server
+
+# Step 2: 修改配置，启用密码登录
+sudo sed -i 's/^#\?PasswordAuthentication .*/PasswordAuthentication yes/' /etc/ssh/sshd_config
+sudo sed -i 's/^#\?PermitRootLogin .*/PermitRootLogin yes/' /etc/ssh/sshd_config
+sudo sed -i 's/^#\?UsePAM .*/UsePAM yes/' /etc/ssh/sshd_config
+```
+
+启动服务：
+
+```bash
+sudo service ssh start
+```
+
+在WSL里测试SSH连接：
+
+```bash
+ssh localhost
+```
 
 - VisualStudio2022新建工程，平台选择：Linux，开发语言选择：C++，然后选择一个控制台的项目，直接创建即可。
 
 - 修改工程的配置属性 - 常规 - `平台工具集`，修改为下面中的一个：
-
+  
   ```bash
   # WSL系统默认有GCC编译工具链
   WSL2 GCC Toolset
@@ -67,9 +97,9 @@ tags:		[c++]
   WSL2 Clang Toolset
   Clang for Windows Subsystem for Linux
   ```
-
+  
   如需安装clang编译工具链，可以参考：[Linux - Ubuntu的常用命令收集汇总方便查询](https://zhupite.com/soft/linux-ubuntu.html)
-
+  
   ```bash
   sudo apt update
   sudo apt install clang
@@ -78,18 +108,16 @@ tags:		[c++]
   clang --version
   ```
 
-  
-
 - WSL distro名称，选择：`在此计算机上使用默认 WSL 分发。`
 
-
-
 这样配置后就不用设置什么远程Linux机器的IP和端口了，直接就本地运行和调试，跟在Windows上开发体验几乎是一样的。
+
+
+
+一个诡异的问题，g++在Ubuntu22.04下无论如何都不能生成编译产物，导致VisualStudio跨平台编译的时候无法生成编译文件，一开始以为是VisualStudio的问题，后来GPT指点才定位到是g++的问题，后来在WSL使用了Ubuntu24.04正常了。
 
 
 
 # 参考
 
 - [Linux - Ubuntu的常用命令收集汇总方便查询](https://zhupite.com/soft/linux-ubuntu.html)
-
-  
