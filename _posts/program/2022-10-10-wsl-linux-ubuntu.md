@@ -395,7 +395,88 @@ tar -jcvf archive_name.tar.bz2 directory_to_compress
 tar -jxvf archive_name.tar.bz2 -C /tmp/extract_here/
 ```
 
-# 注意事项及避坑指南
+# VisualStudio+WSL跨平台开发
+
+无须额外的机器设备和操作系统，只需要Windows10或Windows11电脑一台即可完成跨平台开发。
+
+首先要在电脑里开启WSL并安装Linux分发版本，推荐`Ubuntu24.04`，参考前文安装基础配置。
+
+1. 安装Visual Studio和相关组件： 安装最新版的Visual Studio，确保在安装过程中选择“使用C++的Linux开发”组件。这将安装用于Linux开发的C++扩展和其他必要组件。
+
+2. 配置Visual Studio的WSL连接： 打开Visual Studio，然后转到“工具”>“选项”>“跨平台”>“连接管理器”。单击“添加”按钮，输入WSL的IP地址（通常为localhost或127.0.0.1），并设置端口为默认的22。输入Linux发行版的用户名和密码，然后单击“连接”。
+
+3. VisualStudio新建工程，平台选择：Linux，开发语言选择：C++，然后选择一个控制台的项目，直接创建即可。
+
+4. 修改工程的配置属性 - 常规 - `平台工具集`，修改为下面中的一个：
+
+   ```bash
+   # WSL系统默认有GCC编译工具链
+   WSL2 GCC Toolset
+   GCC for Windows Subsystem for Linux
+   
+   # 选择Clang模式，前提要在WSL系统里安装Clang编译工具链
+   WSL2 Clang Toolset
+   Clang for Windows Subsystem for Linux
+   ```
+
+   如需安装clang编译工具链，可以参考：[Linux - Ubuntu的常用命令收集汇总方便查询](https://zhupite.com/soft/linux-ubuntu.html)
+
+   ```bash
+   sudo apt update
+   sudo apt install clang
+   
+   # 查看是否安装成功以及clang版本
+   clang --version
+   ```
+
+   WSL distro名称，选择：`在此计算机上使用默认 WSL 分发。`
+
+   这样配置后就不用设置什么远程Linux机器的IP和端口了，直接就本地运行和调试，跟在Windows上开发体验几乎是一样的。
+
+5. WSL安装并启动SSH服务：
+
+- ```bash
+  PasswordAuthentication yes
+  PermitRootLogin yes
+  UsePAM yes
+  sudo service ssh restart
+  ```
+
+批处理：
+
+```bash
+# Step 1: 安装 OpenSSH Server
+sudo apt update && sudo apt install -y openssh-server
+
+# Step 2: 修改配置，启用密码登录
+sudo sed -i 's/^#\?PasswordAuthentication .*/PasswordAuthentication yes/' /etc/ssh/sshd_config
+sudo sed -i 's/^#\?PermitRootLogin .*/PermitRootLogin yes/' /etc/ssh/sshd_config
+sudo sed -i 's/^#\?UsePAM .*/UsePAM yes/' /etc/ssh/sshd_config
+```
+
+启动SSH服务：
+
+```bash
+sudo service ssh start
+```
+
+在WSL里测试SSH连接：
+
+```bash
+ssh localhost
+```
+
+
+
+6. 安装编译和调试工具： 在Linux发行版中，运行以下命令来安装必要的编译和调试工具，如`build-essential`和`gdb`：
+
+```bash
+sudo apt install build-essential gdb
+```
+
+
+
+# 意事项及避坑指南
 
 ## git clone源码
 
