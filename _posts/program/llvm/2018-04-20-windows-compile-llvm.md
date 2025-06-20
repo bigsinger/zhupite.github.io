@@ -1,13 +1,10 @@
 ﻿---
-
 layout:        post
 category:    "llvm"
 title:        "Windows下CMakeGUI生成LLVM的VisualStudio项目并编译"
 tags:        [llvm]
 
 ---
-
-
 
 # LLVM6.0
 
@@ -40,15 +37,11 @@ host=x64
 
 VisualStudio2017打开，我靠，尼玛 **501** 个项目，够喝一壶的了。第一次编译很长，耗时5个多小时，机器环境：i5-4590 3.3GHz CPU 8G内存Win764位。
 
-
-
 ** 参考：**
 
 - !!Windows编译LLVM vs2013 cmake-gui http://www.360doc.com/content/18/0116/16/9200790_722421475.shtml
 - [WINDOWS\+CMAKE\+VS2017编译OLLVM并整合到VS2017 NDK \- CSDN博客](https://blog.csdn.net/rrrfff/article/details/78105905)
 - [Getting Started with the LLVM System using Microsoft Visual Studio — LLVM 7 documentation](https://llvm.org/docs/GettingStartedVS.html)
-
-
 
 # LLVM3.8.1
 
@@ -67,14 +60,10 @@ cmake ../llvm-3.8.1 \
  -DPYTHON_EXECUTABLE=$(pyenv which python)
 ```
 
-
-
 ```bash
 make -j$(nproc)
 make install
 ```
-
-
 
 编译错误有一处，需要手动修改下LLVM源码，源码文件 `/mnt/e/linux/llvm/llvm-3.8.1/include/llvm/IR/ValueMap.h` ：
 
@@ -88,19 +77,15 @@ bool hasMD() const { return MDMap; }  // 错误写法
 bool hasMD() const { return MDMap != nullptr; }
 ```
 
-
-
 # LLVM3.3安卓定制版
 
+## Ubuntu
+
 环境：Windows11+WSL（Ubuntu24.04）
-
-
 
 该版本为安卓源码的定制版吧，非官方LLVM的源码。
 
 地址：[release_33 - toolchain/llvm - Git at Google](https://android.googlesource.com/toolchain/llvm/+/release_33)
-
-
 
 注意一定要在Linux环境下clone，在Windows下clone后文件内容会发生变化（换行符），文件属性也会发生变化，导致后期编译各种问题。
 
@@ -140,8 +125,6 @@ make install
 ```
 
 就会生成完整的头文件了，还有可执行文件和lib库文件，就可以供三方项目引用了。
-
-
 
 老的LLVM源码默认编译出的文件是有很多.a文件，并没有一个单独的庞大的libLLVM.so文件，这样在三方项目引用链接的时候就会比较麻烦，需要链接多个.a文件。为了避免这种麻烦，我们使用命令把这些.a文件合并为一个so文件，方便后面使用。
 
@@ -192,11 +175,7 @@ g++ -fPIC -shared -o libLLVM.so \
 
 需要注意的是，这里并没有使用`*.a`进行合并操作，是因为有顺序要求，否则最后在三方项目中链接libLLVM.so文件时会出现一些链接错误。
 
-
-
 假如我们的项目为test，后面需要使用上述步骤产出的头文件和lib库文件。
-
-
 
 编译错误：找不到：`llvm::sys::fs::F_Binary`
 
@@ -206,15 +185,11 @@ g++ -fPIC -shared -o libLLVM.so \
 
 可以替换为：`std::ios::binary`（也是4）
 
-
-
 链接错误：如果test链接出错是`string`不一致，需要将test项目的C编译器和C++编译器设置为默认的，一定不能加：
 
 ```bash
 g++  -D_GLIBCXX_USE_CXX11_ABI=0 
 ```
-
-
 
 链接错误：
 
@@ -226,12 +201,6 @@ undefined reference to typeinfo for llvm::cl::Option
 
 在test项目里修改属性：C/C++语言 - 启用运行时类型信息，修改为：`否 (-fno-rtti)`
 
-
-
-
-
-
-
 参考：
 
 - https://github.com/ParkHanbum/dex2ir
@@ -239,3 +208,151 @@ undefined reference to typeinfo for llvm::cl::Option
 - https://github.com/zyq8709/DexHunter
 
 - [x86-android-5.0/art at eb1029956682072bb7404192a80214189f0dc73b · mirek190/x86-android-5.0 · GitHub](https://github.com/mirek190/x86-android-5.0/tree/eb1029956682072bb7404192a80214189f0dc73b/art)
+
+## Windows
+
+使用CMake3.24版本，GUI版本识别本地Python2的路径的时候有误，不能用界面版来操作，只能用命令行版本：
+
+```bash
+D:/cmake/3.24/bin/cmake.exe -G "Visual Studio 17 2022" -A x64  -Thost=x64   -DCMAKE_BUILD_TYPE=Release -DLLVM_TARGETS_TO_BUILD="X86"    -DLLVM_BUILD_STATIC=ON    -DLLVM_LINK_LLVM_DYLIB=OFF  -DBUILD_SHARED_LIBS=OFF  -DLLVM_ENABLE_ASSERTIONS=OFF   -DLLVM_ENABLE_TERMINFO=OFF  -DLLVM_ENABLE_ZLIB=OFF  -DPYTHON_EXECUTABLE=D:/pyenv/pyenv-win/versions/2.7.18/python.exe  -DCMAKE_INSTALL_PREFIX=../llvm-install-win32  ../llvm 
+```
+
+生成VisualStudio的解决方案后，打开sln，先修改下编译选项为MT或MTD，编译有大量的失败，但是也有不少成功的，单就成功的基本上就足够我们的项目使用了。
+
+
+
+其中有一个编译出错信息： 
+
+```c
+error C1083: 无法打开包括文件: “llvm/IR/Intrinsics.gen”: No such file or directory
+```
+
+这个是因为在前面的cmake.exe过程中并没有正确地生成这个文件，好在之前我们在Ubuntu下生成过一次，虽然说平台不同，但是这个文件也许可以用，于是复制：`llvm/install/include/llvm/IR/Intrinsics.gen` 到 `llvm\build-win\include\llvm\IR`目录下即可。
+
+
+
+类似地，还有一个文件：`X86MCTargetDesc.h` 也复制到这个目录下。
+
+
+
+编译后生成的一堆lib里，只用到了如下的这些：
+
+```c
+#ifdef _WIN32
+#pragma comment(lib, "LLVMBitWriter.lib")
+#pragma comment(lib, "LLVMCore.lib")
+#pragma comment(lib, "LLVMInstCombine.lib")
+#pragma comment(lib, "LLVMInstrumentation.lib")
+#pragma comment(lib, "LLVMipa.lib")
+#pragma comment(lib, "LLVMipo.lib")
+#pragma comment(lib, "LLVMObjCARCOpts.lib")
+#pragma comment(lib, "LLVMScalarOpts.lib")
+#pragma comment(lib, "LLVMSupport.lib")
+#pragma comment(lib, "LLVMTarget.lib")
+#pragma comment(lib, "LLVMTransformUtils.lib")
+#pragma comment(lib, "LLVMVectorize.lib")
+#pragma comment(lib, "LLVMAnalysis.lib")
+#endif // _WIN32
+```
+
+
+
+因为我们最终是要编译我们的项目为Windows下的exe程序，这个项目代码之前是在Linux环境下开发的，很多代码不能跨平台，需要做一些调整。想到的一个思路是：让VisualStudio2022使用clang编译，这样至少在语法上可以规避很多问题。
+
+
+
+直接修改`.vcxproj`文件，先备份后修改。  `.vcxproj.filters`文件不需要动。
+删除跟`Linux`相关的配置，保存后重新加载项目即可。
+
+
+然后右键项目，选择`重定向项目`，升级SDK到最新。
+
+
+
+点开VisualStudio的菜单项：工具 > 获取工具和功能，启动 `Visual Studio Installer`，安装单个组件，搜索`clang`，把搜到的都勾选上安装。
+
+
+
+安装成功后，再次启动项目，修改`平台工具集`，可以看到`LLVM (clang-cl)`的选项，选择它。
+
+选择了`LLVM (clang-cl)`之后，VisualStudio就找不到Windows编程的那些库文件了，需要手动设置下库文件的搜索目录。设置的内容见后。
+
+
+
+
+
+设置头文件包含目录：
+
+```c
+e:/linux/llvm/install/include
+../thirdparty/pthreads-w32/include
+%(AdditionalIncludeDirectories)
+```
+
+
+
+设置库文件包含目录：
+
+```c
+D:\Windows Kits\10\Lib\10.0.26100.0\um\x64
+D:\Windows Kits\10\Lib\10.0.26100.0\ucrt\x64
+D:\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\\lib\x64\
+/mnt/e/linux/llvm/install/lib
+E:\linux\llvm\build-win\lib\Debug
+..\thirdparty\pthreads-w32\lib\x64
+%(Link.AdditionalLibraryDirectories)
+%(AdditionalLibraryDirectories)
+```
+
+
+
+项目代码有很多pthread的头文件和代码，这个Windows下是没有的，借助三方SDK来兼容。主要是[POSIX Threads for Windows](https://sourceforge.net/projects/pthreads4w/files/) ，下载[pthreads-w32-2-9-1-release.zip](https://sourceforge.net/projects/pthreads4w/files/pthreads-w32-2-9-1-release.zip/download "Click to download pthreads-w32-2-9-1-release.zip") ，使用`Pre-built.2`目录下的文件。 （据说也可以用这个：[GerHobbelt/pthread-win32: clone of pthread-win32 (a.k.a. pthreads4w) + local tweaks (including MSVC2008](https://github.com/GerHobbelt/pthread-win32)，以后可以试下。）
+
+
+
+还有头文件`dirent.h`，一律替换为这个 [tronkko/dirent: C/C++ library for retrieving information on files and directories](https://github.com/tronkko/dirent) include下的[dirent.h](https://github.com/tronkko/dirent/blob/master/include/dirent.h "dirent.h")
+
+
+
+还有`mmap`的操作，用这两个文件：[windows-mmap.c](https://github.com/cran/rcqp/blob/master/src/cwb/cl/windows-mmap.c "windows-mmap.c") [windows-mmap.h](https://github.com/cran/rcqp/blob/master/src/cwb/cl/windows-mmap.h "windows-mmap.h") 
+
+
+
+其他的就是一些文件操作、类型定义上的差别，还有一些宏定义，问题不是很大，手动修改下。
+
+
+
+需要修改的工作量还是蛮大的，耐心细心点就可以搞定了。
+
+需要注意的是一些会重名的宏，例如`CONST min max`这些需要先在附近代码处`#undefine`一下，避免冲突。
+
+
+
+最后就是链接错误。
+
+```c
+lld-link : error : could not open 'kernel32.lib': no such file or directory
+1>lld-link : error : could not open 'user32.lib': no such file or directory
+```
+
+这个就是前面所述，因为使用了clang编译，环境发生变化，需要手动指定下VisualStudio的库的搜索目录：`D:\Windows Kits\10\Lib\10.0.26100.0\um\x64`
+
+
+
+```c
+lld-link : error : could not open 'libucrtd.lib': no such file or directory
+```
+
+解决方法：这个库在VisualStudio的这个目录下：`D:\Windows Kits\10\Lib\10.0.26100.0\ucrt\x6`，将路径添加到库的附加目录即可。
+
+
+
+```c
+lld-link : error : undefined symbol: __msan_allocated_memory
+```
+
+解决方法：找到调用这个函数的代码处，直接注释掉。
+
+
+
+最终全部解决！成功编译出Windows下的exe，然后把[POSIX Threads for Windows](https://sourceforge.net/projects/pthreads4w/files/)里的`pthreadVC2.dll`复制到程序的同级目录下即可成功运行exe。
