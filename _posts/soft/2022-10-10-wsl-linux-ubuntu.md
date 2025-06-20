@@ -1,13 +1,14 @@
 ﻿---
-layout:		post
-category:	"soft"
-title:		"Linux - Ubuntu（WSL）的常用命令汇总"
 
-tags:		[linux]
+layout:        post
+category:    "soft"
+title:        "Linux - Ubuntu（WSL）的常用命令汇总"
+
+tags:        [linux]
 ---
-- Content
-{:toc}
 
+- Content
+  {:toc}
 
 # WSL
 
@@ -49,9 +50,25 @@ wsl --set-default-version 2
 wsl --set-default-version Ubuntu 2
 ```
 
-
-
 # 首次配置
+
+## 国内镜像
+
+配置国内镜像是为了后面升级安装速度快一些，节省时间，强烈建议，速度可以快一个数量级。
+
+```bash
+UBU_VER=$(lsb_release -cs)
+sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+sudo bash -c "cat > /etc/apt/sources.list" <<EOF
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ $UBU_VER main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ $UBU_VER-updates main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ $UBU_VER-backports main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ $UBU_VER-security main restricted universe multiverse
+EOF
+sudo apt update
+```
+
+## 基础安装
 
 参考：[Get started with Linux using WSL](https://learn.microsoft.com/en-us/windows/wsl/tutorials/linux)
 
@@ -86,15 +103,72 @@ git config --global https.sslverify false
 alias python=python3
 ```
 
-
-
 - 扩展子系统的虚拟硬盘空间：[扩展 WSL 2 虚拟硬盘的大小 | Microsoft Learn](https://learn.microsoft.com/zh-cn/windows/wsl/vhd-size)
-
-
 
 ## 默认root密码修改
 
-root的默认密码在未设置的情况下该如何修改呢？ 执行命令：`sudo passwd root` ，即可修改root密码。
+root的默认密码在未设置的情况下该如何修改呢？ 执行如下命令：
+
+```bash
+sudo passwd root
+```
+
+## 安装pyenv
+
+为了后面快速切换Python，可以使用pyenv来管理。
+
+```bash
+curl https://pyenv.run | bash
+```
+
+执行完后，终端会提示你添加这些到 `~/.bashrc`：
+
+```bash
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+```
+
+复制它们，粘贴进 ~/.bashrc，然后运行：
+
+```bash
+source ~/.bashrc
+```
+
+如果需要安装Python2环境，首先安装Python2的依赖包：
+
+```bash
+sudo apt update
+sudo apt install -y \
+  build-essential \
+  libssl-dev \
+  zlib1g-dev \
+  libbz2-dev \
+  libreadline-dev \
+  libsqlite3-dev \
+  libffi-dev \
+  liblzma-dev \
+  tk-dev \
+  libncursesw5-dev \
+  libgdbm-dev \
+  libnss3-dev \
+  libsqlite3-dev \
+  wget curl llvm \
+  xz-utils
+```
+
+然后再安装：
+
+```bash
+pyenv install 2.7.18
+pyenv global 2.7.18
+```
+
+切换Python版本后，需要使用如下命令刷新生效：
+
+```bash
+pyenv rehash
+```
 
 
 
@@ -107,8 +181,6 @@ sudo apt install clang
 # 查看是否安装成功以及clang版本
 clang --version
 ```
-
-
 
 ## 安装Java环境
 
@@ -144,7 +216,29 @@ unzip xxx.zip
 ./gradlew assemble
 ```
 
+## SSH
 
+```bash
+# Step 1: 安装 OpenSSH Server
+sudo apt update && sudo apt install -y openssh-server
+
+# Step 2: 修改配置，启用密码登录
+sudo sed -i 's/^#\?PasswordAuthentication .*/PasswordAuthentication yes/' /etc/ssh/sshd_config
+sudo sed -i 's/^#\?PermitRootLogin .*/PermitRootLogin yes/' /etc/ssh/sshd_config
+sudo sed -i 's/^#\?UsePAM .*/UsePAM yes/' /etc/ssh/sshd_config
+```
+
+启动服务：
+
+```bash
+sudo service ssh start
+```
+
+测试SSH连接：
+
+```bash
+ssh localhost
+```
 
 # 文件操作
 
@@ -159,8 +253,6 @@ unzip xxx.zip
 
 Windows上的子系统是命令行方式，暂不支持gui工具。
 
-
-
 # Windows共享目录
 
 参考：[玩转WSL 2(三)——Windows和Linux之间的文件操作_wsl2访问windows本地文件](https://blog.csdn.net/Caoyang_He/article/details/107898883)
@@ -168,8 +260,6 @@ Windows上的子系统是命令行方式，暂不支持gui工具。
 ## 子系统访问Windows文件
 
 子系统里面使用Windows上的文件，路径形式为 /mnt/盘符/路径，例如Windows上的文件：E:/test/123.txt，则使用时为：/mnt/e/test/123.txt
-
-
 
 ## Windows访问子系统文件
 
@@ -194,8 +284,6 @@ Get-AppxPackage -Name "*<distro>*" | Select PackageFamilyName
 Get-AppxPackage -Name "*Ubuntu*" | Select PackageFamilyName
 ```
 
-
-
 **WSL2（推荐）**
 
 `%USERPROFILE%\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState` 命令下只有 `ext4.vhdx` 文件，不能按照WSL1的方式访问了，但是可以通过网络路径来访问：
@@ -206,8 +294,6 @@ Get-AppxPackage -Name "*Ubuntu*" | Select PackageFamilyName
 
 也是可以直接操作文件的，比较方便。
 
-
-
 # 其他常用命令
 
 - 上传文件： `rz`
@@ -216,10 +302,6 @@ Get-AppxPackage -Name "*Ubuntu*" | Select PackageFamilyName
 - 删除文件夹：`rm -rf dirname`
 - 删除文件：`rm filename`
 - 设置变量：`export XX_DIR = /xx`，撤销设置：`unset XX_DIR` 列出所有的shell赋予程序的环境变量：`export -p`
-
-
-
-
 
 ## rz Windows通过xshell远程传输文件到Linux
 
@@ -231,16 +313,8 @@ sudo apt-get install lrzsz
 
 然后xshell下输入名 **rz** 回车后会打开文件选择对话框 并传输文件到ubuntu中。
 
-
-
-
-
 `sudo apt-get install rar unrar p7zip p7zip-rar p7zip-full cabextract `
 基本上大部分都可以解压
-
-
-
-
 
 ## **ZIP**压缩解压缩
 
@@ -259,7 +333,6 @@ unzip [压缩文件名]
 
 ```bash
 zip -r archive_name.zip directory_to_compress
-
 ```
 
 解压一个zip文档：
@@ -268,8 +341,6 @@ zip -r archive_name.zip directory_to_compress
 unzip archive_name.zip
 ```
 
-
-
 ## **TAR**打包解包
 
 如何打包一个目录：
@@ -277,8 +348,6 @@ unzip archive_name.zip
 ```bash
 tar -cvf archive_name.tar directory_to_compress
 ```
-
-
 
 如何解包：
 
@@ -291,8 +360,6 @@ tar -xvf archive_name.tar.gz
 ```bash
 tar -xvf archive_name.tar -C /tmp/extract_here/
 ```
-
-
 
 **TAR.GZ**
 
@@ -328,3 +395,58 @@ tar -jcvf archive_name.tar.bz2 directory_to_compress
 tar -jxvf archive_name.tar.bz2 -C /tmp/extract_here/
 ```
 
+# 注意事项及避坑指南
+
+## git clone源码
+
+```bash
+git clone https://android.googlesource.com/toolchain/llvm
+cd llvm
+git checkout release_33
+```
+
+如果项目源码是基于Linux环境的，那就一定要在Linux环境下clone，一定不要先在Windows下clone好后再在Linux环境下编译。因为在Windows下clone后文件内容会发生变化（换行符），文件属性也会发生变化，导致后期编译各种问题。
+
+## g++
+
+如果是使用WSL进行跨平台编程的话，曾经在Ubuntu22.04系统下出现过g++无法正常编译出产物但也不报错的情况，起初表现是VisualStudio2022编译后提示成功但是就是没有out文件，经过GPT提示可能是g++的问题，于是直接用g++编译一个简单的cpp测试，果然发现了问题。后面无论如何修复都不能解决，最终是换了Ubuntu24.04的系统就好了。
+
+## cmake
+
+有些项目需要Python2的环境，但是cmake对Python的搜索逻辑有点奇怪，有时候通过pyenv切换了Python版本也是无效，则可以在cmake的时候强制指定Python路径，添加如下选项：
+
+```bash
+-DPYTHON_EXECUTABLE=$(pyenv which python)
+```
+
+例如：
+
+```bash
+cmake ../llvm \
+  -G "Unix Makefiles" \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_INSTALL_PREFIX=../install \
+  -DLLVM_TARGETS_TO_BUILD="X86" \
+  -DBUILD_SHARED_LIBS=ON \
+  -DLLVM_BUILD_LLVM_DYLIB=ON \
+  -DLLVM_LINK_LLVM_DYLIB=ON \
+  -DLLVM_ENABLE_RTTI=ON \
+  -DLLVM_ENABLE_TERMINFO=OFF \
+  -DPYTHON_EXECUTABLE=$(pyenv which python)
+```
+
+编译：
+
+```bash
+make -j$(nproc)
+```
+
+`-j$(nproc)` 表示开启多线程，自动使用你 CPU 的所有核数，加快编译速度。
+
+编译成功后安装： 
+
+```bash
+make install
+```
+
+就会生成完整的头文件了，还有可执行文件和lib库文件，就可以供三方项目引用了。
