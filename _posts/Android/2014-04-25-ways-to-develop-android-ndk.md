@@ -5,8 +5,6 @@ title:        "Windows下Android NDK开发的几种方法总结"
 tags:        [android,ndk]
 ---
 
-
-
 # AndroidStudio开发+NDK发布
 
 2025-6-30新增。
@@ -35,13 +33,13 @@ tags:        [android,ndk]
    LOCAL_MODULE    := demo
    LOCAL_SRC_FILES := demo.cpp
    
-   LOCAL_LDLIBS 	:= -llog  -ldl
+   LOCAL_LDLIBS     := -llog  -ldl
    LOCAL_CFLAGS    := -D_STLP_USE_NEWALLOC
    LOCAL_CFLAGS    += -fvisibility=hidden -ffunction-sections -fdata-sections
    LOCAL_CFLAGS    += -fPIC
    
-   LOCAL_LDFLAGS	:= -Wl,--gc-sections
-   LOCAL_LDFLAGS	+= -Wl,--version-script=$(LOCAL_PATH)/ld_script
+   LOCAL_LDFLAGS    := -Wl,--gc-sections
+   LOCAL_LDFLAGS    += -Wl,--version-script=$(LOCAL_PATH)/ld_script
    
    include $(BUILD_SHARED_LIBRARY)
    ```
@@ -68,8 +66,6 @@ ndkversion=16.1.4479499
 ```
 
 当需要修改NDK的路径和版本时，只需要修改本文件即可。
-
-
 
 以及读取该配置文件的批处理：`ndk-config.bat`：
 
@@ -190,8 +186,6 @@ echo -------------------------------
 endlocal
 ```
 
-
-
 `clean.bat`
 
 ```batch
@@ -218,8 +212,6 @@ endlocal
 ```
 
 并将上述的文件都放在与`mk`相同目录下。
-
-
 
 ## AndroidStudio环境配置
 
@@ -248,6 +240,7 @@ endlocal
            minSdk 21
            externalNativeBuild {
                ndkBuild {
+                   arguments "NDK_APPLICATION_MK=jni/Application.mk"
                    cppFlags ''
                }
            }
@@ -287,10 +280,6 @@ tasks.register("buildSoAll") {
 }
 ```
 
-
-
-
-
 ## 方案总结
 
 1. 开发阶段，直接在AndroidStudio里编写代码，不会出现类型找不到的情况，也不用像在VisualStudio里需配置包含目录了。借助于AndroidStudio提供的SDK Manager，可以方便地安装和切换不同的版本。
@@ -303,13 +292,7 @@ tasks.register("buildSoAll") {
 
 5. 综合来看，就是开发阶段不影响效率，发布阶段保证文件体积。
 
-
-
-
-
 # 以前的方案
-
-
 
 **准备工作：**
 
