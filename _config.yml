@@ -158,6 +158,7 @@ simple_jekyll_search:
 google:
     analytics_id: G-LXMGB07CK3
     adsense:
+        publisher_id: pub-8721821812073236
         footer: true
         sidebar: true 
         content_header: true
