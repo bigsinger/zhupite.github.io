@@ -30,7 +30,7 @@ tags:		[ai]
 
 `BLIP`（Bootstrapping Language-Image Pretraining）
 
-效果还可以，个人电脑就可以使用。
+效果还可以，个人电脑就可以使用。第一次运行需要缓存模型文件速度会慢一些，后面运行就快多了。
 
 安装依赖：
 
@@ -38,7 +38,7 @@ tags:		[ai]
 pip install transformers timm pillow torch torchvision
 ```
 
-`blip_rename.py`：
+`renameImages.py`：
 
 ```python
 """
@@ -49,6 +49,7 @@ pip install transformers timm pillow torch torchvision
     并将图片复制到输出目录，以描述作为文件名。
 
 依赖项：
+pip install transformers timm pillow torch torchvision
     - Python 3.8+
     - transformers（用于 BLIP 模型）
     - Pillow（用于图片处理）
@@ -59,7 +60,7 @@ pip install transformers timm pillow torch torchvision
     python script.py --input <输入目录> --output <输出目录>
 
 示例：
-    python script.py --input ./images --output ./output
+    python ./renameImages.py --input ./input_images  --output ./output_images
 
 注意：
     - 支持常见图片格式：.jpg, .jpeg, .png, .bmp, .gif
@@ -76,8 +77,16 @@ from tqdm import tqdm
 import re
 
 # -------- 初始化 BLIP 模型 --------
-processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base", use_fast=True)
-model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base")
+# 设置 Hugging Face 镜像，提高模型缓存速度，如果想使用Hugging Face上的模型，注释该句即可。
+os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
+
+# 模型名称（Hugging Face Hub 上的仓库名）
+MODEL_NAME = "Salesforce/blip-image-captioning-base"
+
+# 本地保存目录（脚本当前目录下）
+LOCAL_DIR = "./models"
+processor = BlipProcessor.from_pretrained(MODEL_NAME, use_fast=True, cache_dir=LOCAL_DIR)
+model = BlipForConditionalGeneration.from_pretrained(MODEL_NAME, cache_dir=LOCAL_DIR)
 
 # -------- 处理Windows非法文件名字符 --------
 def valid_filename(caption: str) -> str:
@@ -133,13 +142,14 @@ def caption_and_copy(input_dir: str, output_dir: str) -> None:
         except Exception as e:
             print(f"[ERROR] Processing {img_file.name}: {e}")
 
-# -------- 启动入口 --------
+
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Caption and copy images using BLIP model")
     parser.add_argument("--input", required=True, help="Input directory containing images")
     parser.add_argument("--output", required=True, help="Output directory for copied images")
     args = parser.parse_args()
+    print(args)
 
     caption_and_copy(args.input, args.output)
 ```
