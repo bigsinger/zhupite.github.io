@@ -13,10 +13,10 @@ tags:		[ai]
 
 ## deepseek
 
-官方模型&价格：https://api-docs.deepseek.com/zh-cn/quick_start/pricing
+- 官方模型&价格：https://api-docs.deepseek.com/zh-cn/quick_start/pricing
+- 配置参考：[接入 nanobot - DeepSeek API Docs](https://api-docs.deepseek.com/zh-cn/quick_start/agent_integrations/nanobot)
 
-- BASE URL (OpenAI 格式)：https://api.deepseek.com
-- BASE URL (Anthropic 格式)：https://api.deepseek.com/anthropic
+BASE URL (OpenAI 格式)：https://api.deepseek.com/v1
 
 模型ID：
 
