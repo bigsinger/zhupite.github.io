@@ -299,6 +299,199 @@ Get-AppxPackage -Name "*Ubuntu*" | Select PackageFamilyName
 
 也是可以直接操作文件的，比较方便。
 
+# DNS配置
+
+**WSL2 Hermes 飞书机器人偶发 `Temporary failure in name resolution` 问题排查记录**
+
+在 WSL2 Ubuntu 环境中运行：
+
+- Hermes
+- 飞书机器人
+- WebSocket 长连接
+
+运行一段时间后，经常出现：
+
+```bash
+Failed to resolve 'open.feishu.cn'
+Temporary failure in name resolution
+```
+
+Hermes 日志：
+
+```bash
+HTTPSConnectionPool(host='open.feishu.cn', port=443):
+Max retries exceeded
+Caused by NameResolutionError
+```
+
+表现为：
+
+- 飞书机器人无法发送消息
+- WebSocket 断连
+- requests 请求失败
+- 重启电脑后恢复正常
+
+------
+
+**问题本质**
+
+WSL2 默认：
+
+```text
+WSL -> Hyper-V DNS Proxy -> Windows DNS
+```
+
+而 WSL 默认 DNS 经常：
+
+- 与 Windows 不一致
+- 调度海外 CDN
+- DNS cache 异常
+- NAT/DNS proxy 不稳定
+
+最终导致：
+
+```bash
+Temporary failure in name resolution
+```
+
+------
+
+**解决方案**
+
+核心思路：
+
+- 禁止 WSL 自动 DNS
+- 手动指定国内 DNS
+- 锁定 resolv.conf
+- 推荐额外配置（推荐）
+
+**配置步骤：**
+
+1. 编辑 wsl.conf
+
+```bash
+sudo nano /etc/wsl.conf
+```
+
+内容：
+
+```ini
+[network]
+generateResolvConf=false
+```
+
+------
+
+2. 如果 resolv.conf 被锁定，先解锁
+
+```bash
+sudo chattr -i /etc/resolv.conf
+```
+
+------
+
+3. 删除旧 resolv.conf
+
+```bash
+sudo rm -f /etc/resolv.conf
+```
+
+------
+
+4. 创建新的 resolv.conf
+
+```bash
+sudo nano /etc/resolv.conf
+```
+
+内容：
+
+```text
+nameserver 223.5.5.5
+nameserver 119.29.29.29
+```
+
+推荐：
+
+- 223.5.5.5（阿里 DNS）
+- 119.29.29.29（腾讯 DNS）
+
+不要使用：
+
+```text
+8.8.8.8
+1.1.1.1
+```
+
+否则可能再次调度到海外节点。
+
+------
+
+5. 锁定 resolv.conf（推荐）
+
+```bash
+sudo chattr +i /etc/resolv.conf
+```
+
+防止：
+
+- WSL 自动覆盖
+- DNS 被改回默认
+
+------
+
+6. 重启 WSL
+
+Windows PowerShell：
+
+```powershell
+wsl --shutdown
+```
+
+重新打开 Ubuntu。
+
+------
+
+**验证**
+
+重新执行：
+
+```bash
+ping open.feishu.cn
+```
+
+现在：
+
+- 延迟明显降低
+- 不再丢包
+- 命中国内飞书 CDN
+- Hermes WebSocket 恢复稳定
+
+------
+
+**推荐额外配置（推荐）**
+
+Windows：
+
+```text
+C:\Users\用户名\.wslconfig
+```
+
+内容：
+
+```ini
+[wsl2]
+networkingMode=mirrored
+dnsTunneling=true
+autoProxy=true
+```
+
+作用：
+
+- 提升 WSL 网络稳定性
+- 改善 WebSocket 长连接
+- 改善 NAT/DNS 问题
+
 # 其他常用命令
 
 - 上传文件： `rz`
