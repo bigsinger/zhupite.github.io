@@ -56,11 +56,11 @@ tags:		[android,ndk]
 这里主要是把NDK开发的include目录包含进来，
 打开vs“工具”-“选项”-“项目和解决方案”-“VC++目录”，设置包含文件目录新增“D:\ndk\platforms\android-19\arch-x86\usr\include”：
 
-![](https://img-my.csdn.net/uploads/201709/08/1504865780_8509.png)
+![使用VisualStudio高效开发调试Android NDK - 操作截图](https://img-my.csdn.net/uploads/201709/08/1504865780_8509.png)
 
 手动把D:\ndk\platforms\android-19\arch-x86\usr\include目录下的jni.h拖入VS中打开，此时VAX开始自动索引，这时候JNI开发相关的关键字便可以正常识别了。使用自动提示写起来就比较快速，而且也不容易出错。
 
-![](https://img-my.csdn.net/uploads/201709/08/1504866255_1396.png)
+![使用VisualStudio高效开发调试Android NDK - 操作截图](https://img-my.csdn.net/uploads/201709/08/1504866255_1396.png)
 
 ## 配置自动化脚本
 ![image](http://img.my.csdn.net/uploads/201709/08/1504865751_8662.png)

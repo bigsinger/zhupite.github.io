@@ -11,9 +11,9 @@ tags:		[Windows,service]
 
 
 
-![](https://t11.baidu.com/it/u=2522340688,1801666634&fm=173&app=49&f=JPEG?w=640&h=430&s=CD52E813372E750940F440DA0200C0B2)
+![禁用Windows系统无用服务，解决占用内存过高磁盘使用过高提升电脑速度性能的解决方法 - 示意图](https://t11.baidu.com/it/u=2522340688,1801666634&fm=173&app=49&f=JPEG?w=640&h=430&s=CD52E813372E750940F440DA0200C0B2)
 
-![](https://filestore.community.support.microsoft.com/api/images/05fcb00c-4656-4a3d-aa9e-99443fcab2fa?upload=true)
+![05fcb00c 4656 4a3d aa9e 99443fcab2fa?upload=true](https://filestore.community.support.microsoft.com/api/images/05fcb00c-4656-4a3d-aa9e-99443fcab2fa?upload=true)
 
 # 1、禁用无用系统服务
 

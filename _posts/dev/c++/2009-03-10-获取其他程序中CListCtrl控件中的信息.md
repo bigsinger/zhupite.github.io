@@ -10,7 +10,7 @@ tags:		[c++]
 
 如获取任务管理器的进程列表信息：
 
-![](http://hiphotos.baidu.com/asmcvc/pic/item/23b28124d356be204d088d17.jpg)
+![如获取任务管理器的进程列表信息：](http://hiphotos.baidu.com/asmcvc/pic/item/23b28124d356be204d088d17.jpg)
 
 
 ```cpp

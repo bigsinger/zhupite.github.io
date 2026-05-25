@@ -119,6 +119,9 @@
 
     <!-- Google Search Console verification -->
     <meta name="google-site-verification" content="n0F87pINVqmLFTdLFij2-S3t-oDdYKFsidQHLQN-h1E">
+    {% if site.baidu and site.baidu.verification %}
+    <meta name="baidu-site-verification" content="{{ site.baidu.verification }}">
+    {% endif %}
 
     {% include seo-structured-data.html %}
 </head>

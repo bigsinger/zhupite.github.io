@@ -51,20 +51,20 @@ Output:
 
 ## 创建项目：
 运行AndroidStudio后，创建新项目，新项目会有一个默认的Module，这里项目名称为JNIDemo，Module为app。
-![](http://img.blog.csdn.net/20160331135105379)
+![创建项目：](http://img.blog.csdn.net/20160331135105379)
 
 然后通过向导完成项目的创建。
 
 AndroidStudio还是非常慢的，长时间处于这种状态：
 
-![](http://img.blog.csdn.net/20160331135110973)
+![AndroidStudio还是非常慢的，长时间处于这种状态：](http://img.blog.csdn.net/20160331135110973)
 
 经过漫长的等待后终于完成项目的创建，然后在这个项目下创建一个Module，New Module->Android Library：
-![](http://img.blog.csdn.net/20160331135116364)
+![CSDN博客截图](http://img.blog.csdn.net/20160331135116364)
 
 不勾选“Create activity”然后点击“Finish”完成创建，此时项目结构如图：
 
-![](http://img.blog.csdn.net/20160331135120301)
+![不勾选“Create activity”然后点击“Finish”完成创建，此时项目结构如图：](http://img.blog.csdn.net/20160331135120301)
 
 app和hellojni均为JNIDemo下的两个Module，这里把hellojni作为生成so库的NDK开发层，把app作为调用so库的APK引用开发层。
 
@@ -320,7 +320,7 @@ dependencies {
 }
 ```
 然后选择hellojni项目右键“Make Module hellojni”，等待一段时间后会在项目下生成build-ndk目录，目录下会有一些不同版本的so库文件生成，如图：
-![](http://img.blog.csdn.net/20160331135123739)
+![Android Studio生成so库结果截图](http://img.blog.csdn.net/20160331135123739)
 
 注意这里的Android.mk文件每次编译都会重新由工具自动生成，而非手动编辑的，我觉得这一点设计就比较差劲。例如如果想要使用log输出函数__android_log_print，需要添加“LOCAL_LDLIBS :=  -llog”，则在build.gradle文件中添加如下的配置：
 ```groovy
@@ -333,7 +333,7 @@ debug {
 由gradle根据配置再去生成Android.mk文件，最后再调用ndk进行编译。
 
 右键工程选择Open Module Settings，选择Modules-app，打开Dependencies选项卡点击“+”号，选择Module dependency，在打开的对话框中选择hellojni。
-![](http://img.blog.csdn.net/20160331135126676)
+![CSDN博客截图](http://img.blog.csdn.net/20160331135126676)
 
 但是测试发现设置依赖没有效果，如果直接编译app，hellojni并没有编译，仍需要手动编译hellojni。
 
@@ -377,7 +377,7 @@ tasks.withType(com.android.build.gradle.tasks.PackageApplication) { pkgTask ->
 
 其中copyNativeLibs任务是从相对app的项目路径'../hellojni/build/ndk/arm/debug/lib'下复制所有armeabi子目录的so文件到本项目build目录下的lib目录中，执行效果：
 
-![](http://img.blog.csdn.net/20160331135130192)
+![CSDN博客截图](http://img.blog.csdn.net/20160331135130192)
 
 这样最后打包生成的apk包才会包含有hellojni的so库文件。
 
@@ -414,7 +414,7 @@ Could not determine the dependencies of task ':hellojni:compileArmDebugJava'.
 
 ### 解决方案：
 这个Build Tools是指“Android SDK Build-tools”，打开SDK Manager勾选相应版本（例如这里是19.0.3）安装即可。
-![](http://img.blog.csdn.net/20160331135134333)
+![解决方案：](http://img.blog.csdn.net/20160331135134333)
 
 
 ### 错误：
@@ -496,10 +496,10 @@ Execution failed for task ':hellojni:compileDebugNdk'.
 > java.io.IOException: Cannot run program "D:\ndk\ndk-build": CreateProcess error=193, %1 ??????Ч?? Win32 ??ó
 ```
 无论使用哪个版本都有问题，后来仔细查看了下'AppPlugin'这个错误是出现在‘app’模块上的而非‘hellojni’模块上，于是考虑新建工程项目并且只在该工程下建立一个库模块，不再创建app模块，如图：
-![](http://img.blog.csdn.net/20160331135134333)
+![Android SDK Build-tools版本截图](http://img.blog.csdn.net/20160331135134333)
 
 这里不勾选**Create custom launcher icon**和**Create activity**，直接finish完成，其他配置参考前述，最后编译后可以生成so库文件：
-![](http://img.blog.csdn.net/20160331135137286)
+![CSDN博客截图](http://img.blog.csdn.net/20160331135137286)
 
 ### 错误：
 这个错误忘记记录了囧
@@ -508,4 +508,4 @@ Execution failed for task ':hellojni:compileDebugNdk'.
 ```
 File-Settings-Gradle-Gradle VM options：-Xmx512m
 ```
-![](http://img.blog.csdn.net/20160331135140208)
+![File-Settings-Gradle-Gradle VM options：-Xmx512m](http://img.blog.csdn.net/20160331135140208)

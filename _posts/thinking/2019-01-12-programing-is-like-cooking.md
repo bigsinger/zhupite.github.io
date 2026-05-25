@@ -9,7 +9,7 @@ tags:		[]
 
 # 朱元璋微服私访遇瓜农
 
-![](https://graph.baidu.com/resource/1192a1d40c9decbcd456601547291121.jpg)
+![朱元璋微服私访遇瓜农](https://graph.baidu.com/resource/1192a1d40c9decbcd456601547291121.jpg)
 
 夏日的某天，朱元璋微服私访，经过一处瓜田时，口渴难耐，于是派人去叫瓜农，想买几个瓜吃。一会，瓜农来了，是个老者。人虽老，但精神头非常棒。
 

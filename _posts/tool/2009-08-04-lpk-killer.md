@@ -14,7 +14,7 @@ lpk专杀工具，usp10专杀工具（lpk.dll，usp10.dll）更新啦
 原帖地址：http://bbs.ggsafe.com/viewthread.php?tid=120近期在各大知道社区、安全论坛看到较多网友被lpk.dll/usp10.dll犇牛下载器困扰。
 因此，我们已经分析了RAR,ZIP压缩包的压缩算法，可以快速清除用户机器中感染的文件、压缩包。
 
-![](http://hiphotos.baidu.com/asmcvc/pic/item/5003e80a8fc6c00cb1351db7.jpg)
+![因此，我们已经分析了RAR,ZIP压缩包的压缩算法，可以快速清除用户机器中感染的文件、压缩包。](http://hiphotos.baidu.com/asmcvc/pic/item/5003e80a8fc6c00cb1351db7.jpg)
 
 
 # 中毒现象

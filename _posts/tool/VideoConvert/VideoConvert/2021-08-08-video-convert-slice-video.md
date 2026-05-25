@@ -29,16 +29,16 @@ tags:		[video,mp4,convert]
 
 下载安装：[全能视频转换专家-转换任意格式视频](https://xcxzq.com/soft/videomaster.exe)，运行，软件首界面如下：
 
-![](../../../images/VideoConvert/VideoConvert_Main.png)
+![视频转换工具主界面](../../../images/VideoConvert/VideoConvert_Main.png)
 
 
 
 把视频文件添加进来，勾选「切割分段」，设置时间段（单位是秒），如果想要一分钟一段设置60即可，如果想要一小时一段设置为3600。
 
-![](../../../images/VideoConvert/VideoConvert_Cut_1.png)
+![视频剪切参数设置](../../../images/VideoConvert/VideoConvert_Cut_1.png)
 
 
 
 点击「开始转换」按钮，开始切割视频，切割完成后，软件提示完成并会自动打开视频保存目录。如下图所示，视频的时长均为设置的等时间段，非常精确。
 
-![](../../../images/VideoConvert/VideoConvert_Cut_Result.png)
+![视频剪切后效果](../../../images/VideoConvert/VideoConvert_Cut_Result.png)

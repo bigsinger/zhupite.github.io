@@ -17,11 +17,11 @@ tags:		[mfc,c++]
 
 但是在我准备从头写的时候还是想到了一个用ListView实现的办法，那就是把两行并为一行。几经周折，终于通过从CListCtrl派生一个类实现了大致的效果：
 
-![](http://hiphotos.baidu.com/asmcvc/pic/item/4a90f60369725f4a3812bb59.jpg)
+![用ListView CListCtrl实现QQ风格的好友列表 - 示意图](http://hiphotos.baidu.com/asmcvc/pic/item/4a90f60369725f4a3812bb59.jpg)
 
 加入了头像的好友列表：
 
-![](http://hiphotos.baidu.com/asmcvc/pic/item/3912b31baeae0e248718bf59.jpg)
+![加入了头像的好友列表：](http://hiphotos.baidu.com/asmcvc/pic/item/3912b31baeae0e248718bf59.jpg)
 
 原理就是在用户单击某行后，在此行下面插入一个新行，用自绘把这两行画成1行，当选中其他行时再把此行删除。具体方法为：
 
@@ -45,4 +45,4 @@ http://www.cppblog.com/Files/getborn/class%20CFriendList.rar
 
 最后修改完善了下，效果图：
 
-![](http://hiphotos.baidu.com/asmcvc/pic/item/e5b1a095fd888875d0135eef.jpg)
+![最后修改完善了下，效果图：](http://hiphotos.baidu.com/asmcvc/pic/item/e5b1a095fd888875d0135eef.jpg)

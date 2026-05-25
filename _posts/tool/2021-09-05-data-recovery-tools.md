@@ -11,7 +11,7 @@ tags:		[数据恢复,恢复数据]
 
 
 
-![](https://www.cgsecurity.org/mw/images/Photorec.png)
+![Photorec](https://www.cgsecurity.org/mw/images/Photorec.png)
 
 
 

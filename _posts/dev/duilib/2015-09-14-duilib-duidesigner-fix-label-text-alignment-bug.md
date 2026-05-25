@@ -231,7 +231,7 @@ if( uTextStyle==0 ) tstrAlgin = _T("left");
 ### 新的问题：
 我们回到上面的CLabelUI::SetAttribute看，发现里面有一个vcenter属性，属性的设置是又外部属性编辑器中发生改变时调用的，但是编辑器中并没有提供vcenter属性：
 
-![](http://wx2.sinaimg.cn/mw690/006C9P7Ugy1fpelltgau3j309003bq2r.jpg)
+![DuiDesigner控件Label无法设置文本对齐属性的BUG解决方案 - 截图](http://wx2.sinaimg.cn/mw690/006C9P7Ugy1fpelltgau3j309003bq2r.jpg)
 
 而且保存的时候有一个wrap属性：
 ```c
@@ -292,7 +292,7 @@ pProp->AllowEdit(FALSE);
 pPropUI->AddSubItem(pProp);
 ```
 
-![](http://wx2.sinaimg.cn/mw690/006C9P7Ugy1fpellt3oi8j3085063gli.jpg)
+![DuiDesigner控件Label无法设置文本对齐属性的BUG解决方案 - 截图](http://wx2.sinaimg.cn/mw690/006C9P7Ugy1fpellt3oi8j3085063gli.jpg)
 
 属性保存时：
 ```c

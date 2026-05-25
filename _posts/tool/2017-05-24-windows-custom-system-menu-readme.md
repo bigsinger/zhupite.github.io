@@ -157,6 +157,6 @@ oncommand.py tag file files
 也即出现开关files，也可以认为多了一个参数标志。当出现这个标志时，file是一个纯文本的文件全路径，内容是用户选择的多个文件列表，逐行列出。可以在py文件中自行处理多个文件的菜单响应事件，这里并没有实现。
 
 # 六、效果截图
-![](https://github.com/bigsinger/CustomContextMenu/blob/master/screenshot1.png?raw=true)
+![自定义右键菜单效果截图](https://github.com/bigsinger/CustomContextMenu/blob/master/screenshot1.png?raw=true)
 
-![](https://github.com/bigsinger/CustomContextMenu/blob/master/screenshot2.png?raw=true)
+![自定义右键菜单效果截图](https://github.com/bigsinger/CustomContextMenu/blob/master/screenshot2.png?raw=true)

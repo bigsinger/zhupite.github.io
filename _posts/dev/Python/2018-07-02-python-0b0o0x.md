@@ -28,7 +28,7 @@ tags:	[python]
    
    注意新增的环境变量的位置最好移动到Windows目录和system32目录之前，以免出现输入Python命令的时候打开的是微软应用商店。
 
-![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7d90f1da629749aaa2b96a5902f96eb0~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp)
+![使用pyenv创建多版本Python环境 - 封面](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7d90f1da629749aaa2b96a5902f96eb0~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp)
 
 # 常用命令
 

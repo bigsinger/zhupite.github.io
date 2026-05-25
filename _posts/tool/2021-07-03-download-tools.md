@@ -25,7 +25,7 @@ aria2因为是命令行模式，使用起来不是很方便，可以用一些基
 
 [AriaNgGUI](https://aria-ng.xmader.com/)，GitHub仓库是：[aria-ng-gui: 一个 Aria2 图形界面客户端](https://github.com/Xmader/aria-ng-gui)
 
-![](https://aria-ng.xmader.com/Screenshot1.png)
+![AriaNG下载管理截图](https://aria-ng.xmader.com/Screenshot1.png)
 
 
 

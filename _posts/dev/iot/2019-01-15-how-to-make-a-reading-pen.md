@@ -53,9 +53,9 @@ tags:		[iot]
 1.不干胶电子标签广泛应用于货物供应管理、包裹和邮政服务，物流仓储管理系统、图书馆和出租服务、航空行李箱标签、产品证明、品牌防伪保护、通常的识别系统、压容器标签等非金属物品物流贴纸。
 ```
 
-![](https://gd4.alicdn.com/imgextra/i1/2663782869/TB2dnM_mlsmBKNjSZFFXXcT9VXa_!!2663782869.jpg)
+![如何使用手机实现一个简易的“点读笔” - 产品图](https://gd4.alicdn.com/imgextra/i1/2663782869/TB2dnM_mlsmBKNjSZFFXXcT9VXa_!!2663782869.jpg)
 
-![](https://gd4.alicdn.com/imgextra/i4/2663782869/O1CN01YRQ4My1X42o01EiKj_!!2663782869.jpg)
+![如何使用手机实现一个简易的“点读笔” - 产品图](https://gd4.alicdn.com/imgextra/i4/2663782869/O1CN01YRQ4My1X42o01EiKj_!!2663782869.jpg)
 
 
 

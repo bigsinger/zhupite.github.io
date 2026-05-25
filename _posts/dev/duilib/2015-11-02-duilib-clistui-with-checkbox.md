@@ -69,7 +69,7 @@ m_pHoriz->Add(m_pCheckBox);
 m_pHoriz->Add(pItemButton);
 ```
 运行崩溃：
-![](http://wx4.sinaimg.cn/mw690/006C9P7Ugy1fpeimo83ijj30d009nt8v.jpg)
+![duilib对CListUI的改造：支持checkbox - 截图](http://wx4.sinaimg.cn/mw690/006C9P7Ugy1fpeimo83ijj30d009nt8v.jpg)
 
 我们看移除函数：
 ```c

@@ -16,7 +16,7 @@ tags:		[camera]
 
 解决办法就是把同名的摄像头设备，修改下名称即可，后面看具体的解决办法。
 
-![](../../images/2020/camera_same_name.png)
+![同名摄像头设备](../../images/2020/camera_same_name.png)
 
 
 

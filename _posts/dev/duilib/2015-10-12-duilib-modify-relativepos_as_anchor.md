@@ -6,9 +6,9 @@ tags:		[duilib,ui,duidesigner]
 ---
 duilib里面的relativepos设计的感觉不是很好用，采用CAnchorCtrl的模式以及C#窗口设计的模式，我们重新把相对位置的概念定义为“锚”。
 
-![](http://wx2.sinaimg.cn/mw690/006C9P7Ugy1fper06as6sj306z0a1q2x.jpg)
+![DUILIB相对位置修改为锚概念 - 截图](http://wx2.sinaimg.cn/mw690/006C9P7Ugy1fper06as6sj306z0a1q2x.jpg)
 
-![](http://wx2.sinaimg.cn/mw690/006C9P7Ugy1fper05vnzmj308u03mjr8.jpg)
+![DUILIB相对位置修改为锚概念 - 截图](http://wx2.sinaimg.cn/mw690/006C9P7Ugy1fper05vnzmj308u03mjr8.jpg)
 
 如图所示，锚可以设置为相对父窗口：顶部，底部，左侧，右侧，以及它们中间的任意组合：
 ```c
@@ -406,4 +406,4 @@ void CContainerUI::SetPos(RECT rc, BOOL bInitedData)
 CContainerUI作为填充容器，默认撑满其余空间，这一点要好好利用。CContainerUI放在
 例如在一个HorizontalLayout里的控件，子控件的Float属性设置为false则会自动排列，这一点也要好好利用。
 
-![](http://wx3.sinaimg.cn/mw690/006C9P7Ugy1fper05j65fj30b301g0sl.jpg)
+![DUILIB相对位置修改为锚概念 - 截图](http://wx3.sinaimg.cn/mw690/006C9P7Ugy1fper05j65fj30b301g0sl.jpg)

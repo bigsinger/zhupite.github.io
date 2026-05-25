@@ -45,10 +45,10 @@ tags:		[android,hook]
 第一步要完成的工作是：**对三方App（非自己开发的App）生成trace文件**。如果项目是自己开发的，是可以通过AndroidStudio的调试功能来监控App性能分析，进而导出trace文件，这个不是难事。难就难在我们逆向App的时候，用的都是他人的App，不是自己的项目，这个要怎么生成trace文件呢？
 
 笔者试了很多手机和模拟器，很多都不支持对其他进程的监控，只有雷电模拟器是可以的。真机可能需要root吧，但是没有找到合适的root机，这个就没验证了。但是雷电模拟器的安卓系统版本略低，在分析的时候可能也会有一些问题。这个profiler监控在安卓9.0、10.0系统上会有更好的支持。
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200107110627599.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzbWN2Yw==,size_16,color_FFFFFF,t_70)
+![Android逆向安全-无侵入找关键call之trace日志分析大法 - 操作截图](https://img-blog.csdnimg.cn/20200107110627599.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzbWN2Yw==,size_16,color_FFFFFF,t_70)
 
 能跑起来就不错，试试UI上点击 5 次之后的trace：
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200107110716420.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzbWN2Yw==,size_16,color_FFFFFF,t_70)
+![Android逆向安全-无侵入找关键call之trace日志分析大法 - 操作截图](https://img-blog.csdnimg.cn/20200107110716420.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzbWN2Yw==,size_16,color_FFFFFF,t_70)
 摸索着跑了两次trace，一次UI上点击了5次，一次UI上点击了7次，最后根据函数调用次数过滤，最后求交集，得出以下函数：
 ```
 com.tencent.mm.view.SmileySubGrid$b.run()V
@@ -81,14 +81,14 @@ com.tencent.mm.plugin.fts.b.a$1.a(ILcom/tencent/mm/sdk/e/n;Ljava/lang/Object;)V
 
 **需要创建自定义的捕获**。勾选“Trace Java Methods”，File size limit这里选择大一点，默认是8MB是远远不够的，也不要太大，建议小于200MB吧，我这里设置了198MB。
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200107110843154.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzbWN2Yw==,size_16,color_FFFFFF,t_70)
+![Android逆向安全-无侵入找关键call之trace日志分析大法 - 操作截图](https://img-blog.csdnimg.cn/20200107110843154.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzbWN2Yw==,size_16,color_FFFFFF,t_70)
 一共统计了两次：
 
  - 第一次投 **1** 次骰子。
  - 第二次投 **3** 次骰子。
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200107110921229.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzbWN2Yw==,size_16,color_FFFFFF,t_70)
+![Android逆向安全-无侵入找关键call之trace日志分析大法 - 操作截图](https://img-blog.csdnimg.cn/20200107110921229.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzbWN2Yw==,size_16,color_FFFFFF,t_70)
 日志处理过程：
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200107111631275.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzbWN2Yw==,size_16,color_FFFFFF,t_70)
+![Android逆向安全-无侵入找关键call之trace日志分析大法 - 操作截图](https://img-blog.csdnimg.cn/20200107111631275.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzbWN2Yw==,size_16,color_FFFFFF,t_70)
 ## 相关命令
  - trace文件文本化：dmtracedump -ho xxx.trace > xxx.txt
  - trace文件文本化且按条件过滤：dmtracedump -ho xxx.trace | grep ".* ent .*" 
@@ -255,7 +255,7 @@ def find_pos_sort(file_name, file_name2):
 该关键call的利用可以参考文章：[Android主流HOOK框架介绍与应用--游戏破解游戏外挂的必杀技_大星星的专栏-CSDN博客](https://blog.csdn.net/asmcvc/article/details/55047842)，此处不再介绍。
 
 以上是只保留了目标包名的函数，实际上在分析的时候会丢失一些信息，笔者试着不过滤包名看看会发现什么。
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200107111340524.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzbWN2Yw==,size_16,color_FFFFFF,t_70)
+![Android逆向安全-无侵入找关键call之trace日志分析大法 - 操作截图](https://img-blog.csdnimg.cn/20200107111340524.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FzbWN2Yw==,size_16,color_FFFFFF,t_70)
 最后这里出的日志文件如下（共160个）：
 ```
 68281483	java.util.ArrayList.ensureCapacity(I)V

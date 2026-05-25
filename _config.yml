@@ -155,6 +155,15 @@ simple_jekyll_search:
 # ---------------- #
 #      Google      #
 # ---------------- #
+# ---------------- #
+#      Baidu      #
+# ---------------- #
+baidu:
+    verification:  # 百度站长平台验证码，请从 https://ziyuan.baidu.com 获取
+
+# ---------------- #
+#      Google      #
+# ---------------- #
 google:
     analytics_id: G-LXMGB07CK3
     adsense:

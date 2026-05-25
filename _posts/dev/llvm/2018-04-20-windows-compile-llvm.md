@@ -31,7 +31,7 @@ host=x64
 
 如果不出现这个选择对话框，请选择菜单File - Delete Cache，然后重新配置。
 
-![](https://img-blog.csdn.net/20170926205552382)
+![如果不出现这个选择对话框，请选择菜单File - Delete Cache，然后重新配置。](https://img-blog.csdn.net/20170926205552382)
 
 经过几分钟后，会有飘红出现，不管它，再点一次，不再飘红。然后再点Generate，成功生成sln。
 

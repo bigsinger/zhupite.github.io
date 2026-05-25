@@ -89,7 +89,7 @@ LLVM（**Low Level Virtual Machine**），是以 BSD 许可来开发的开源的
 
 基于这个认知，我们可以认为 LLVM 包括了两个概念：一个广义的 LLVM 和一个狭义的 LLVM 。广义的 LLVM 指的是一个完整的 LLVM 编译器框架系统，包括了前端、优化器、后端、众多的库函数以及很多的模块；而狭义的 LLVM 则是聚焦于编译器后端功能的一系列模块和库，包括代码优化、代码生成、JIT 等。
 
-![](https://xuhehuan.com/wp-content/uploads/2018/07/Clang-LLVM.jpg)
+![Clang-LLVM架构图](https://xuhehuan.com/wp-content/uploads/2018/07/Clang-LLVM.jpg)
 
 对应到这个图中，可以非常明确的找出它们的关系。整体的编译器架构就是 LLVM 架构；Clang 大致可以对应到编译器的前端，主要处理一些和具体机器无关的针对语言的分析操作；编译器的优化器和后端部分就是之前提到的 LLVM 后端，即狭义的 LLVM。
 
@@ -294,7 +294,7 @@ endif()
 
 在CLion中打开菜单： File | Settings | Build, Execution, Deployment | **Toolchains**，
 
-![](https://intellij-support.jetbrains.com/hc/user_images/iHmhND9ptdWQ9hxYZH0xEQ.png)
+![JetBrains配置截图](https://intellij-support.jetbrains.com/hc/user_images/iHmhND9ptdWQ9hxYZH0xEQ.png)
 
 
 

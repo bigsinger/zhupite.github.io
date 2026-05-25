@@ -21,7 +21,7 @@ if (strcmp(szRetTypeClassName,"int")==0 && strstr(sParams.c_str(), "int"))
 ## 分析日志
 连续扔几次骰子：
 
-![](http://img.my.csdn.net/uploads/201712/12/1513051649_8452.png)
+![连续扔几次骰子：](http://img.my.csdn.net/uploads/201712/12/1513051649_8452.png)
 
 拦截输出：
 

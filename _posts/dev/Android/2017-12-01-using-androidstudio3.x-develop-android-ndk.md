@@ -17,11 +17,11 @@ tags:		[android,AndroidStudio,ndk]
 
 新建项目，没有发现**Include C++ Support** 选项。因为印象中是有过该选项的，找了半天没找到。
 
-![](http://img.my.csdn.net/uploads/201712/01/1512125795_4480.png)
+![Android Studio 3.x新建项目截图](http://img.my.csdn.net/uploads/201712/01/1512125795_4480.png)
 
 后来无意间拖了下窗口大小，原来是被隐藏了，真特么坑。
 
-![](http://img.my.csdn.net/uploads/201712/01/1512125852_7403.png)
+![后来无意间拖了下窗口大小，原来是被隐藏了，真特么坑。](http://img.my.csdn.net/uploads/201712/01/1512125852_7403.png)
 
 
 
@@ -121,7 +121,7 @@ target_link_libraries( # Specifies the target library.
 
 默认的工程属性不用配置，debugger默认为auto会自动适配，直接在cpp里下断点，调试方式运行App，会自动断下，变量数值均能在调试状态下看到。
 
-![](http://img.my.csdn.net/uploads/201712/01/1512125630_1078.png)
+![Android Studio NDK配置界面](http://img.my.csdn.net/uploads/201712/01/1512125630_1078.png)
 
 试用了下AndroidStudio对NDK的调试支持的还不错，于是打算把过去的项目也支持起来，方法请看下节。
 
@@ -134,20 +134,20 @@ target_link_libraries( # Specifies the target library.
 
 这里有个另类的方法：“**Edit Configurations**”打开程序配置，在**debugger**里选择**Native**(默认为auto)，然后运行App，因为工程之前一直是只有Java代码的，所以这里选择了Native，AndroidStudio会提示并没有安装C++的调试器，根据提示安装即可。
 
-![](http://img.my.csdn.net/uploads/201712/01/1512125743_2359.png)
+![Android Studio配置截图](http://img.my.csdn.net/uploads/201712/01/1512125743_2359.png)
 
 可以看出，安装的调试器是LLDB。
 
-![](http://img.my.csdn.net/uploads/201712/01/1512125604_5796.png)
+![可以看出，安装的调试器是LLDB。](http://img.my.csdn.net/uploads/201712/01/1512125604_5796.png)
 
 ### 2、Link C++ Project with Gradle
 在老项目里面添加NDK的支持，可以右键项目选择菜单：**Link C++ Project with Gradle**
 
-![](http://img.my.csdn.net/uploads/201712/01/1512125781_6322.png)
+![Gradle配置界面截图](http://img.my.csdn.net/uploads/201712/01/1512125781_6322.png)
 
 编译方式有两种：CMake和ndk-build，其中ndk-build是传统方式，AndroidStudio默认推荐CMake方式，也许这是以后的主流方式，所以我们选择默认的**CMake**.
 
-![](http://img.my.csdn.net/uploads/201712/01/1512125756_5982.png)
+![NDK版本设置截图](http://img.my.csdn.net/uploads/201712/01/1512125756_5982.png)
 
 然后是指定CMakeLists.txt文件的路径，这里可以复制新建项目的CMakeLists.txt文件到现有项目的app目录下，把它放到和proguard-rules.pro相同的文件夹下即可。然后把这个CMakeLists.txt文件的全路径输入进去，点OK。
 

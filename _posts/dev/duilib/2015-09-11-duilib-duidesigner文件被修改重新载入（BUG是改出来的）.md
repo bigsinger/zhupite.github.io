@@ -178,7 +178,7 @@ void CUIDesignerView::SaveSkinFile(LPCTSTR pstrPathName)
 ### 新的BUG：
 改完后，流程上没有问题，但是会出现崩溃：
 
-![](http://wx3.sinaimg.cn/mw690/006C9P7Ugy1fper7ikgo1j30lq0cg3z3.jpg)
+![改完后，流程上没有问题，但是会出现崩溃：](http://wx3.sinaimg.cn/mw690/006C9P7Ugy1fper7ikgo1j30lq0cg3z3.jpg)
 
 崩溃堆栈比较复杂，不是很好排查，按照经验习惯性地把工程的编译属性改为了静态MFC链接方式，这样方便在不同的机器上运行，避免出现某某dll找不到的情况。崩溃不再出现，以为BUG解决了，时隔多日，差不多都忘记这茬了，在一次使用DuiDesigner设计资源时，发现拖拽手型图标不见了，找找原因。
 

@@ -120,4 +120,4 @@ static LRESULT CALLBACK HookWndProc(HWND hWnd, UINT message, WPARAM wParam, LPAR
 
 这样就能显示系统菜单的子菜单项了,效果如图:
 
-![](http://hiphotos.baidu.com/asmcvc/pic/item/acd0f0229668cdd1d6cae268.jpg)
+![这样就能显示系统菜单的子菜单项了,效果如图:](http://hiphotos.baidu.com/asmcvc/pic/item/acd0f0229668cdd1d6cae268.jpg)

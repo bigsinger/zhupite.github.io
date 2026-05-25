@@ -28,7 +28,7 @@ GitHub：[flameshot-org/flameshot: Powerful yet simple to use screenshot softwar
 - **序号**，每次点一下序号自动加一，比较适合做教程演示步骤的时候打序号。
 - 高亮背景
 
-![](https://flameshot.org/media/animatedUsage.gif)
+![- 高亮背景](https://flameshot.org/media/animatedUsage.gif)
 
 
 

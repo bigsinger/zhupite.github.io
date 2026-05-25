@@ -7,7 +7,7 @@ tags:		[duilib,ui]
 
 如图，运行后RichEdit的滚动条显示如下：
 
-![](http://wx3.sinaimg.cn/mw690/006C9P7Ugy1fpel04csm2j301109t0ks.jpg)
+![如图，运行后RichEdit的滚动条显示如下：](http://wx3.sinaimg.cn/mw690/006C9P7Ugy1fpel04csm2j301109t0ks.jpg)
 
 滚动条的属性设置是在Window节点下设置的，无论在xml里怎么样设置都不行：
 ```xml
@@ -23,7 +23,7 @@ duilib核心代码的版本不对？因为duilib的版本网上有很多，googl
 第一步，验证googlecode的代码RichEdit是否能正确显示滚动条。
 网上下载了一个duilib的显示程序，使其引用googlecode这一版本的duilib代码，修改使之编译通过（省略N个步骤）：
 
-![](http://wx2.sinaimg.cn/mw690/006C9P7Ugy1fpel03y78dj30m80fwmxq.jpg)
+![duilib问题解决：滚动条不见了 - 截图](http://wx2.sinaimg.cn/mw690/006C9P7Ugy1fpel03y78dj30m80fwmxq.jpg)
 
 证实是可以正确显示滚动条的。于是就打算把项目中的duilib代码更换为googlecode这一版本的。
 
@@ -122,4 +122,4 @@ g_PM = &m_pm;
 ```
 我们在CPaintManagerUI初始化后保存其指针，然后在IDialogBuilderCallback中创建CPageWrapperUI的时候把该指针传递进去，编译运行大功告成！
 
-![](http://wx3.sinaimg.cn/mw690/006C9P7Ugy1fpel03i0ktj300y09l3y9.jpg)
+![duilib问题解决：滚动条不见了 - 截图](http://wx3.sinaimg.cn/mw690/006C9P7Ugy1fpel03i0ktj300y09l3y9.jpg)

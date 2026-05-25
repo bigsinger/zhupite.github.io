@@ -29,13 +29,13 @@ tags:		[fiddler,Android]
 
 - 点击**HTTPS**，勾选Decrypt HTTPS traffic和Ignore server certificate(unsafe)
 
-  ![](https://img-blog.csdnimg.cn/20200531161239132.png)
+  ![CSDN博客截图](https://img-blog.csdnimg.cn/20200531161239132.png)
 
 - 点击**Actions**，点击**Export Root Certificate to Desktop** ，此时电脑上会生成 一个证书：**FiddlerRoot.cer**
 
 - **Connections**设置，勾选选择项:
 
-  ![](https://img-blog.csdnimg.cn/202005311612393.png)
+  ![- **Connections**设置，勾选选择项:](https://img-blog.csdnimg.cn/202005311612393.png)
 
 
 

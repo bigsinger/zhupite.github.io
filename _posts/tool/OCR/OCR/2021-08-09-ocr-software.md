@@ -16,7 +16,7 @@ tags:		[ocr]
 
 之前有个[旧版](https://github.com/miaomiaosoft/PandaOCR)，完全免费使用，主要是使用的各个厂家的演示用OCR接口，每日调用次数使用完后需要换一家接着用。可能是现在用户多起来了，接口就会不够，经常会出现不可用的情况。加上作者自己解释说，代码写的有点乱，需要重新架构设计，推荐使用新版，谓之 [专业版：PandaOCR.Pro](https://github.com/miaomiaosoft/PandaOCR.Pro)。
 
-![](../../../images/OCR/PandaOCR_Main.jpg)
+![PandaOCR主界面](../../../images/OCR/PandaOCR_Main.jpg)
 
 
 
@@ -61,7 +61,7 @@ tags:		[ocr]
 - 识别搜索：识别图片后自动搜索
 - 截图功能：丰富的截图标注功能
 
-![](http://ocr.tianruo.net/server/image/main.png)
+![- 截图功能：丰富的截图标注功能](http://ocr.tianruo.net/server/image/main.png)
 
 
 

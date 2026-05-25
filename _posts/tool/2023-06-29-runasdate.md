@@ -11,7 +11,7 @@ tags:		[]
 
 [RunAsDate](https://www.nirsoft.net/utils/run_as_date.html) 使用指定的日期时间运行应用程序
 
-![](https://www.nirsoft.net/utils/runasdate.gif)
+![RunAsDate工具截图](https://www.nirsoft.net/utils/runasdate.gif)
 
 
 

@@ -59,7 +59,7 @@ tags:		[c#,blazor,net]
 
 全程是以逆向工程的思路去实现的，遇到了非常多的问题，基本就是遇到一个解决一个，最终把项目跑起来了，效果图如下：
 
-![](../../../images/2022/blazor_demo.png)
+![Blazor演示项目截图](../../../images/2022/blazor_demo.png)
 
 主要功能介绍：
 

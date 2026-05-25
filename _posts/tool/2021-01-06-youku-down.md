@@ -11,7 +11,7 @@ tags:		[youku,优酷,视频,kux,视频下载]
 
 
 
-![](https://pic2.zhimg.com/v2-b0b081c501ddf7ab0f02e812d0be6b5c_1440w.jpg?source=172ae18b)
+![视频下载工具](https://pic2.zhimg.com/v2-b0b081c501ddf7ab0f02e812d0be6b5c_1440w.jpg?source=172ae18b)
 
 # 在线直接下载
 
@@ -77,7 +77,7 @@ tags:		[youku,优酷,视频,kux,视频下载]
 - 自动使用系统代{过}{滤}理（可禁止）
 - 提供SimpleG简易的GUI生成常用参数
 
-![](https://nilaoda.github.io/N_m3u8DL-CLI/source/images/%E7%9B%B4%E6%8E%A5%E4%BD%BF%E7%94%A8.gif)
+![%E7%9B%B4%E6%8E%A5%E4%BD%BF%E7%94%A](https://nilaoda.github.io/N_m3u8DL-CLI/source/images/%E7%9B%B4%E6%8E%A5%E4%BD%BF%E7%94%A8.gif)
 
 N_m3u8DL使用比较简单，下面详细说下步骤：
 
@@ -109,7 +109,7 @@ N_m3u8DL使用比较简单，下面详细说下步骤：
 
 **VSO Downloader**破解版是一款功能强大，使用非常方便简单的批量下载网页视频工具，会在右下角提示你智能识别视频并可以直接下载。VSO Downloader破解版支持youtube视频下载，而且也能够正确下载土豆、优酷网站中的视频，支持所有的浏览器，全自动侦测网页视频播放。
 
-![](https://pic3.zhimg.com/80/v2-767af216d71e56a452085954c3e89cd2_720w.jpg)
+![优酷下载](https://pic3.zhimg.com/80/v2-767af216d71e56a452085954c3e89cd2_720w.jpg)
 
 
 
