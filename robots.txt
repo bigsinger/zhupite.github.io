@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://zhupite.com/sitemap.xml
+
+# Crawl delay (reduce server load)
+Crawl-delay: 10
+
+# Disallow admin/internal paths
+Disallow: /assets/
+Disallow: /vendor/
+Disallow: /page*
+Disallow: /404.html

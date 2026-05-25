@@ -1,0 +1,111 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "zhupite",
+  "alternateName": "朱皮特",
+  "url": "https://zhupite.com",
+  "description": "{{ site.description }}",
+  "sameAs": [
+    "https://github.com/bigsinger"
+  ],
+  "knowsAbout": ["编程技术", "软件开发", "逆向工程"]
+}
+</script>
+
+{% if page.layout == 'post' and page.title %}
+<!-- BreadcrumbList structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "首页",
+      "item": "{{ site.url }}/"
+    }
+    {% if page.categories %}
+    {% for cat in page.categories %}
+    ,{
+      "@type": "ListItem",
+      "position": {{ forloop.index | plus: 1 }},
+      "name": "{{ cat }}",
+      "item": "{{ site.url }}/categories/#{{ cat }}"
+    }
+    {% endfor %}
+    {% endif %}
+    ,{
+      "@type": "ListItem",
+      "position": {% if page.categories %}{{ page.categories.size | plus: 2 }}{% else %}2{% endif %},
+      "name": "{{ page.title | escape }}",
+      "item": "{{ site.url }}{{ page.url }}"
+    }
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "{{ page.title | escape }}",
+  "url": "{{ site.url }}{{ page.url }}",
+  "datePublished": "{{ page.date | date: '%Y-%m-%d' }}",
+  "dateModified": "{{ page.date | date: '%Y-%m-%d' }}",
+  "author": {
+    "@type": "Person",
+    "name": "zhupite",
+    "url": "https://zhupite.com"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "zhupite",
+    "url": "https://zhupite.com"
+  },
+  "description": "{% if page.description %}{{ page.description | escape }}{% else %}{{ page.excerpt | strip_html | strip_newlines | escape | truncate: 200 }}{% endif %}",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ site.url }}{{ page.url }}"
+  },
+  "wordCount": "{{ page.content | strip_html | strip_newlines | remove: ' ' | size }}",
+  "inLanguage": "zh-CN",
+  "isAccessibleForFree": true
+}
+{% if page.categories %}
+  ,"keywords": "{{ page.categories | join: ', ' }}"
+{% endif %}
+}
+</script>
+{% endif %}
+
+{% if page.layout == 'page' and page.title != '404' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "{{ page.title | escape }}",
+  "url": "{{ site.url }}{{ page.url }}",
+  "description": "{% if page.description %}{{ page.description | escape }}{% else %}{{ site.description }}{% endif %}",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "{{ site.title }}",
+    "url": "https://zhupite.com"
+  },
+  "inLanguage": "zh-CN"
+}
+</script>
+{% endif %}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "{{ site.title }}",
+  "alternateName": "朱皮特",
+  "url": "https://zhupite.com",
+  "description": "{{ site.description }}",
+  "inLanguage": "zh-CN"
+}
+</script>

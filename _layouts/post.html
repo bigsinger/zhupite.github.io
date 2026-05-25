@@ -54,6 +54,22 @@ layout: default
       {% include sns-share.html %}
     </div>
     {% include content-footer-ad.html %}
+    <!-- Related Posts -->
+    {% if page.layout == 'post' and page.categories %}
+    <div class="related-posts">
+      <h2>📖 相关文章</h2>
+      <ul>
+      {% assign related = site.posts | where_exp:"p","p.url != page.url" %}
+      {% assign related = related | where_exp:"p","p.categories contains page.categories[0]" %}
+      {% for post in related limit:5 %}
+        <li>
+          <a href="{{ site.url }}{{ post.url }}">{{ post.title }}</a>
+          <small>{{ post.date | date: "%Y-%m-%d" }}</small>
+        </li>
+      {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
     <div class="comment">
       {% include comments.html %}
     </div>

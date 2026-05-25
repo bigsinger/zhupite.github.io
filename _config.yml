@@ -10,7 +10,7 @@ description: "你不必等到非常厉害，才敢开始；你需要开始，才
 keywords: 朱皮特, 程序员
 timezone: Asia/Shanghai
 encoding: "utf-8"
-repository: bigsinger/bigsinger.github.io
+repository: bigsinger/zhupite.github.io
 # 对 css 和 js 资源的 cdn 加速配置
 cdn:
     jsdelivr:

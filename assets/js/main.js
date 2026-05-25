@@ -31,4 +31,13 @@ jQuery(function() {
   }
 
   toTop();
+
+  // 图片懒加载
+  if ('loading' in HTMLImageElement.prototype) {
+    document.querySelectorAll('article.content img[src]').forEach(function(img) {
+      if (!img.hasAttribute('loading')) {
+        img.setAttribute('loading', 'lazy');
+      }
+    });
+  }
 });

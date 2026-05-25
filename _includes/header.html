@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{{ assets_base_url }}/assets/css/globals/responsive.css">
     <link rel="stylesheet" href="{{ assets_base_url }}/assets/css/posts/index.css">
     <link rel="stylesheet" href="{{ assets_base_url }}/assets/vendor/octicons/octicons/octicons.css">
-    {% assign highlight_base_url = 'https://mazhuang.org/rouge-themes/dist' %}
+    {% assign highlight_base_url = 'https://zhupite.com/rouge-themes/dist' %}
     {% if site.cdn.jsdelivr.enabled %}
     {% assign highlight_base_url = 'https://fastly.jsdelivr.net/gh/mzlogin/rouge-themes@master/dist' %}
     {% endif %}
@@ -37,6 +37,14 @@
     <link rel="canonical" href="{{ page.url | prepend: site.url }}">
     <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="{{ site.url }}{{ site.subscribe_rss }}">
     <link rel="shortcut icon" href="{{ assets_base_url }}/favicon.ico">
+
+    <!-- DNS Prefetch / Preconnect for performance -->
+    <link rel="dns-prefetch" href="//fastly.jsdelivr.net">
+    <link rel="preconnect" href="https://fastly.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+    <link rel="dns-prefetch" href="//www.googletagmanager.com">
+    <link rel="preconnect" href="https://www.googletagmanager.com">
     {% if page.title %}
     <meta property="og:title" content="{{ page.title }}">
       {% if page.keywords %}
@@ -47,14 +55,14 @@
     <meta name="keywords" content="{{ keywords | strip_html | strip_newlines}}">
     <meta name="og:keywords" content="{{ keywords | strip_html | strip_newlines}}">
       {% if page.excerpt %}
-    <meta name="description" content="{{ page.excerpt | strip_html | strip_newlines}}">
-    <meta name="og:description" content="{{ page.excerpt | strip_html | strip_newlines}}">
-      {% else if page.description %}
-    <meta name="description" content="{{ page.description | strip_html | strip_newlines}}">
-    <meta name="og:description" content="{{ page.description | strip_html | strip_newlines}}">
-      {% else if content %}
-    <meta name="description" content="{{ content | strip_html | strip_newlines | truncatewords: 100 }}">
-    <meta name="og:description" content="{{ content | strip_html | strip_newlines | truncatewords: 100 }}">
+    <meta name="description" content="{{ page.excerpt | strip_html | strip_newlines | truncate: 200 }}">
+    <meta name="og:description" content="{{ page.excerpt | strip_html | strip_newlines | truncate: 200 }}">
+      {% elsif page.description %}
+    <meta name="description" content="{{ page.description | strip_html | strip_newlines | truncate: 200 }}">
+    <meta name="og:description" content="{{ page.description | strip_html | strip_newlines | truncate: 200 }}">
+      {% elsif content %}
+    <meta name="description" content="{{ content | strip_html | strip_newlines | truncate: 200 }}">
+    <meta name="og:description" content="{{ content | strip_html | strip_newlines | truncate: 200 }}">
       {% endif %}
     {% else %}
     <meta name="keywords" content="{{ site.keywords }}">
@@ -71,6 +79,19 @@
     <meta property="og:site_name" content="{{ site.title }}">
     <meta property="og:type" content="article">
     <meta property="og:locale" content="zh_CN" />
+    {% if page.categories %}
+    {% for cat in page.categories %}
+    <meta property="article:tag" content="{{ cat }}">
+    {% endfor %}
+    {% endif %}
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@bigsinger">
+    <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
+    <meta name="twitter:description" content="{% if page.description %}{{ page.description | strip_html | strip_newlines | truncate: 200 }}{% elsif page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 200 }}{% else %}{{ site.description }}{% endif %}">
+    <meta name="twitter:image" content="{% if page.og_image_url %}{{ page.og_image_url }}{% elsif page.photo_url %}{{ page.photo_url }}{% else %}{{ site.url }}/favicon.ico{% endif %}">
+
     {% if page.date %}
     <meta property="article:published_time" content="{{ page.date | date: '%Y-%m-%d' }}">
     {% endif %}
@@ -78,7 +99,7 @@
     <script src="{{ assets_base_url }}/assets/vendor/jquery/dist/jquery.min.js"></script>
     <script src="{{ assets_base_url }}/assets/js/main.js"></script>
 
-    {% if site.google.adsense.enabled and site.url contains 'mazhuang.org' %}
+    {% if site.google.adsense.enabled and site.url contains 'zhupite.com' %}
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7093222719567591" crossorigin="anonymous"></script>
     {% endif %}
 
@@ -95,6 +116,11 @@
       gtag('config', '{{ site.google.analytics_id }}');
     </script>
     {% endif %}
+
+    <!-- Google Search Console verification -->
+    <meta name="google-site-verification" content="n0F87pINVqmLFTdLFij2-S3t-oDdYKFsidQHLQN-h1E">
+
+    {% include seo-structured-data.html %}
 </head>
 <body class="{{ page.class }}" data-mz="{{ page.class }}">
     <header class="site-header">
