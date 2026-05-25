@@ -70,10 +70,10 @@
     {% endif %}
     {% if page.og_image_url %}
     <meta property="og:image" content="{{ page.og_image_url }}">
-    {% else %}
-        {% if page.photo_url %}
+    {% elsif page.photo_url %}
     <meta property="og:image" content="{{ page.photo_url }}">
-        {% endif %}
+    {% else %}
+    <meta property="og:image" content="{{ site.url }}/favicon.ico">
     {% endif %}
     <meta property="og:url" content="{{ site.url }}{{ page.url | remove_first:'index.html' }}">
     <meta property="og:site_name" content="{{ site.title }}">

@@ -72,10 +72,9 @@
   "wordCount": "{{ page.content | strip_html | strip_newlines | remove: ' ' | size }}",
   "inLanguage": "zh-CN",
   "isAccessibleForFree": true
-}
-{% if page.categories %}
+  {% if page.categories %}
   ,"keywords": "{{ page.categories | join: ', ' }}"
-{% endif %}
+  {% endif %}
 }
 </script>
 {% endif %}
