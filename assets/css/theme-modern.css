@@ -231,6 +231,10 @@ a:hover { color: var(--primary-dark); text-decoration: underline; }
 }
 @media (max-width: 50em) {
   .columns { flex-direction: column; }
+  .column.two-thirds, .column.three-fourths {
+    width: 100% !important;
+    flex: none !important;
+  }
   .column.one-third, .column.one-fourth {
     width: 100% !important;
     flex: none !important;
