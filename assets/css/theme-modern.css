@@ -1075,6 +1075,8 @@ img { max-width: 100%; height: auto; }
   box-shadow: var(--animal-shadow-base);
   transition: all 0.2s;
   text-decoration: none;
+  opacity: 0;
+  pointer-events: none;
 }
 .gotop:hover {
   transform: translateY(-2px);
@@ -1401,7 +1403,28 @@ img[loading="lazy"] {
   transition: opacity 0.3s;
 }
 
-/* ===== 18. Dark mode override for old Primer elements ===== */
+/* ===== 18. Dark mode: copyright block (inline-style override) ===== */
+.dark .markdown-body div[style*="background-color:#deebf7"],
+.dark .markdown-body div[style*="background-color: #deebf7"] {
+  background-color: var(--animal-bg-card) !important;
+  border-color: var(--animal-border) !important;
+  color: var(--animal-text) !important;
+}
+.dark .markdown-body div[style*="background-color:#deebf7"] h3,
+.dark .markdown-body div[style*="background-color: #deebf7"] h3 {
+  color: var(--animal-text) !important;
+}
+.dark .markdown-body div[style*="background-color:#deebf7"] a {
+  color: var(--animal-primary) !important;
+}
+
+/* ===== 19. Dark mode: archive page posts-list-meta ===== */
+.dark .posts-list-meta {
+  background: transparent !important;
+  color: var(--animal-text-secondary) !important;
+}
+
+/* ===== 20. Dark mode override for old Primer elements ===== */
 .dark .site-header { background: var(--animal-bg-header); }
 
 /* ===== 19. Responsive ===== */
