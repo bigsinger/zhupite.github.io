@@ -112,12 +112,18 @@
           if (btn) btn.textContent = '☀️';
         }
       }
-      // 初始化按钮图标
+      // 暗色模式初始化 — 渲染前设置 html class
       (function() {
-        var html = document.documentElement;
-        var btn = document.querySelector('.theme-toggle-icon');
-        if (btn) btn.textContent = html.classList.contains('dark') ? '☀️' : '🌙';
+        var theme = localStorage.getItem('theme');
+        if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        }
       })();
+      // 页面加载后更新按钮图标
+      document.addEventListener('DOMContentLoaded', function() {
+        var btn = document.querySelector('.theme-toggle-icon');
+        if (btn) btn.textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
+      });
     </script>
 
     {% if site.google.adsense.enabled and site.url contains 'zhupite.com' %}
@@ -146,15 +152,6 @@
 
     {% include seo-structured-data.html %}
     <link rel="stylesheet" href="{{ site.url }}/assets/css/theme-modern.css?v={{ site.time | date: '%s' }}">
-    <script>
-      // 暗色模式初始化 — 必须在渲染前执行
-      (function() {
-        var theme = localStorage.getItem('theme');
-        if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-          document.documentElement.classList.add('dark');
-        }
-      })();
-    </script>
     <!-- Google Fonts: Nunito for itbug.shop style -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -177,7 +174,11 @@
 
         <nav class="header-nav-desktop" aria-label="主导航">
           {% for nav in site.navs %}
-          <a href="{{ site.url }}{{ nav.href }}" class="header-nav-item {% if page.menu == nav.label %}active{% endif %}" title="{{ nav.label }}">{{ nav.label }}</a>
+          {% assign nav_active = false %}
+          {% if page.menu == nav.label %}{% assign nav_active = true %}{% endif %}
+          {% if nav.href == '/' and page.url == '/' %}{% assign nav_active = true %}{% endif %}
+          {% if nav.href != '/' and page.url contains nav.href %}{% assign nav_active = true %}{% endif %}
+          <a href="{{ site.url }}{{ nav.href }}" class="header-nav-item {% if nav_active %}active{% endif %}" title="{{ nav.label }}">{{ nav.label }}</a>
           {% endfor %}
         </nav>
 
@@ -197,7 +198,11 @@
       <nav class="mobile-nav-wrapper" aria-label="移动端主导航">
         <div class="mobile-nav-inner">
           {% for nav in site.navs %}
-          <a href="{{ site.url }}{{ nav.href }}" class="mobile-nav-item {% if page.menu == nav.label %}active{% endif %}">{{ nav.label }}</a>
+          {% assign nav_active_m = false %}
+          {% if page.menu == nav.label %}{% assign nav_active_m = true %}{% endif %}
+          {% if nav.href == '/' and page.url == '/' %}{% assign nav_active_m = true %}{% endif %}
+          {% if nav.href != '/' and page.url contains nav.href %}{% assign nav_active_m = true %}{% endif %}
+          <a href="{{ site.url }}{{ nav.href }}" class="mobile-nav-item {% if nav_active_m %}active{% endif %}">{{ nav.label }}</a>
           {% endfor %}
         </div>
       </nav>

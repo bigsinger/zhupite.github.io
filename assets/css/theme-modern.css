@@ -238,12 +238,17 @@ img { max-width: 100%; height: auto; }
 }
 .header-nav-item.active {
   background: var(--animal-bg-card);
-  border-color: var(--animal-border-card);
-  box-shadow: 0 3px 0 var(--animal-border);
+  border-color: var(--animal-border);
+  box-shadow: 0 4px 0 var(--animal-text-secondary);
+  background: linear-gradient(180deg, var(--animal-bg-card) 0%, var(--animal-bg-secondary) 100%);
 }
 .header-nav-item.active:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 0 var(--animal-border);
+  box-shadow: 0 5px 0 var(--animal-text-secondary);
+}
+.header-nav-item.active:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--animal-text-secondary);
 }
 
 /* Header actions - theme toggle */
@@ -334,7 +339,8 @@ img { max-width: 100%; height: auto; }
 .mobile-nav-item.active {
   background: var(--animal-bg-card);
   border-color: var(--animal-border);
-  box-shadow: 0 3px 0 var(--animal-border);
+  box-shadow: 0 3px 0 var(--animal-text-secondary);
+  background: linear-gradient(180deg, var(--animal-bg-card) 0%, var(--animal-bg-secondary) 100%);
 }
 
 /* ===== 5. Main Layout ===== */

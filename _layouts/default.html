@@ -13,11 +13,15 @@ layout: compress
       {{ content | replace: '<img src="/images', assets_images_url }}
     </main>
     <aside class="sidebar-content">
-      {% include sidebar-profile.html %}
-      {% include sidebar-search.html %}
-      {% include sidebar-categories-cloud.html %}
-      {% include sidebar-tags.html %}
-      {% include sidebar-popular-repo.html %}
+      {% if page.layout == 'post' %}
+        {% include sidebar-post.html %}
+      {% else %}
+        {% include sidebar-profile.html %}
+        {% include sidebar-search.html %}
+        {% include sidebar-categories-cloud.html %}
+        {% include sidebar-tags.html %}
+        {% include sidebar-popular-repo.html %}
+      {% endif %}
     </aside>
 </div>
 {% include footer.html %}
