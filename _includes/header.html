@@ -145,7 +145,7 @@
     {% endif %}
 
     {% include seo-structured-data.html %}
-    <link rel="stylesheet" href="{{ assets_base_url }}/assets/css/theme-modern.css">
+    <link rel="stylesheet" href="{{ site.url }}/assets/css/theme-modern.css?v={{ site.time | date: '%s' }}">
     <script>
       // 暗色模式初始化
       (function() {
