@@ -159,7 +159,13 @@
 <body class="{{ page.class }}" data-mz="{{ page.class }}">
     <header class="site-header">
         <div class="container">
-            <h1><a href="{{ site.url }}/" title="{{ site.title }}">{{ site.title }}</a></h1>
+            <a class="site-brand" href="{{ site.url }}/" title="{{ site.title }}">
+                <span class="brand-avatar">朱</span>
+                <span class="brand-text">
+                    <span class="brand-name">{{ site.title }}</span>
+                    <span class="brand-subtitle">{{ site.subtitle }}</span>
+                </span>
+            </a>
             <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>

@@ -827,3 +827,355 @@ html.dark .markdown-body table td,
 html.dark .markdown-body table th { border-color: var(--border); }
 html.dark hr { background-color: var(--border) !important; }
 html.dark .markdown-body img { opacity: 0.9; }
+
+/* ==================== 品牌头部（头像+两行文字） ==================== */
+.site-brand {
+  display: flex !important;
+  align-items: center;
+  gap: 0.65rem;
+  text-decoration: none !important;
+  flex-shrink: 0;
+}
+.site-brand:hover { text-decoration: none !important; }
+.brand-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  border: 2px solid var(--primary-border);
+  box-shadow: 0 2px 6px rgba(114, 93, 66, 0.15);
+}
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+.brand-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  display: block;
+}
+.brand-subtitle {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  display: block;
+}
+
+/* ==================== 文章区标题（Latest + 最新文章） ==================== */
+.repo-list-section-header {
+  grid-column: 1 / -1 !important;
+  list-style: none !important;
+  padding: 0.25rem 0 0.5rem !important;
+  margin: 0 0 0.5rem !important;
+  display: flex !important;
+  flex-direction: column;
+  gap: 0.2rem;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.repo-list-section-header::before { display: none !important; }
+.repo-list-section-header:hover { transform: none !important; box-shadow: none !important; }
+.section-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+}
+.section-title {
+  font-size: 1.35rem !important;
+  font-weight: 800 !important;
+  color: var(--primary) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.3;
+}
+.section-stat {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ==================== 侧边栏博主简介 ==================== */
+.sidebar-profile { padding: 0 !important; overflow: hidden; }
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1.5rem 1.5rem;
+  text-align: center;
+}
+.profile-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.85rem;
+  border: 3px solid var(--primary-border);
+  box-shadow: 0 4px 12px rgba(114, 93, 66, 0.2);
+}
+.profile-avatar-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+}
+.profile-info h3 {
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  color: var(--text) !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  margin: 0 0 0.35rem !important;
+}
+.profile-bio {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+.profile-social {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.profile-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: var(--text-muted);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  text-decoration: none !important;
+  transition: all 0.2s;
+  font-size: 1rem;
+}
+.profile-social-link:hover {
+  color: var(--primary);
+  border-color: var(--primary-border);
+  background: var(--primary-bg);
+  text-decoration: none !important;
+}
+
+/* ==================== 侧边栏标签云 ==================== */
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.7rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--primary) !important;
+  background: var(--primary-bg);
+  border: 1px solid var(--primary-border);
+  border-radius: var(--radius-full);
+  text-decoration: none !important;
+  transition: all 0.2s;
+}
+.tag-pill:hover {
+  color: #fff !important;
+  background: var(--primary);
+  border-color: var(--primary);
+  text-decoration: none !important;
+}
+
+/* ==================== 侧边栏分类云（药丸增强） ==================== */
+.sidebar-card-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.sidebar-card-categories a[style] {
+  display: inline-flex !important;
+  align-items: center;
+  padding: 0.25rem 0.75rem !important;
+  margin: 0 !important;
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  background: var(--primary-bg) !important;
+  color: var(--primary) !important;
+  border: 1px solid var(--primary-border) !important;
+  border-radius: var(--radius-full) !important;
+  text-decoration: none !important;
+  transition: all 0.2s !important;
+  line-height: 1.5 !important;
+}
+.sidebar-card-categories a[style]:hover {
+  color: #fff !important;
+  background: var(--primary) !important;
+  border-color: var(--primary) !important;
+  text-decoration: none !important;
+}
+
+/* ==================== 文章卡片增强（分类药丸、视觉层次） ==================== */
+.repo-list-item {
+  position: relative;
+}
+.repo-list-name {
+  font-size: 1.05rem !important;
+  line-height: 1.4 !important;
+}
+.repo-list-name a {
+  color: var(--text) !important;
+  display: inline;
+}
+.repo-list-name a:hover {
+  color: var(--primary) !important;
+}
+.repo-list-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.6rem;
+  align-items: center;
+  padding-top: 0.65rem;
+  margin-top: auto;
+  border-top: 1px solid var(--border-light);
+  font-size: 0.75rem !important;
+}
+.repo-list-meta .meta-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.75rem;
+}
+.repo-list-meta .meta-info .octicon { font-size: 0.8rem; }
+/* 分类标签-药丸 */
+.repo-list-meta .meta-info a[href*="/categories/"] {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.08rem 0.45rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--primary) !important;
+  background: var(--primary-bg);
+  border-radius: var(--radius-full);
+  text-decoration: none !important;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+.repo-list-meta .meta-info a[href*="/categories/"]:hover {
+  color: #fff !important;
+  background: var(--primary);
+  border-color: var(--primary);
+  text-decoration: none !important;
+}
+
+/* 置顶标签增强 */
+.top-most-flag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.1rem 0.45rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  background: var(--primary);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  vertical-align: middle;
+  margin-right: 0.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* 文章卡片内分类药丸颜色（按位置分配不同色） */
+.repo-list-meta .meta-info a[href*="/categories/"]:nth-of-type(1) {
+  border-color: #8ac68a;
+}
+.repo-list-meta .meta-info a[href*="/categories/"]:nth-of-type(2) {
+  border-color: #889df0;
+}
+.repo-list-meta .meta-info a[href*="/categories/"]:nth-of-type(3) {
+  border-color: #e59266;
+}
+
+/* ==================== 热门仓库卡片样式 ==================== */
+.card.text-center {
+  display: block !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-lg) !important;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+  text-decoration: none !important;
+  transition: all 0.3s;
+  background: var(--bg-card);
+}
+.card.text-center:last-child { margin-bottom: 0; }
+.card.text-center:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--primary-border);
+}
+.card.text-center .thumbnail {
+  margin: 0 !important;
+  border: none !important;
+  padding: 0 !important;
+}
+.card-image-cell {
+  padding: 1rem;
+  background: var(--primary-bg);
+}
+.card-image-cell .card-title {
+  font-size: 0.9rem !important;
+  font-weight: 700 !important;
+  margin: 0 !important;
+  color: var(--primary) !important;
+}
+.caption {
+  padding: 0.65rem 0.85rem !important;
+}
+.card-description .card-text {
+  font-size: 0.78rem !important;
+  color: var(--text-secondary) !important;
+  line-height: 1.4;
+  margin: 0 0 0.4rem !important;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.card-text .meta-info {
+  font-size: 0.72rem !important;
+  color: var(--text-muted) !important;
+  margin-right: 0.6rem;
+}
+
+/* ==================== 移动端适配补充 ==================== */
+@media (max-width: 50em) {
+  .site-brand { gap: 0.5rem; }
+  .brand-avatar { width: 30px; height: 30px; font-size: 0.75rem; }
+  .brand-name { font-size: 0.88rem; }
+  .brand-subtitle { display: none; }
+
+  .repo-list-section-header { padding: 0 0 0.25rem !important; }
+  .section-title { font-size: 1.15rem !important; }
+  .section-stat { font-size: 0.72rem; }
+
+  .profile-card { padding: 1.5rem 1rem 1.25rem; }
+  .profile-avatar { width: 48px; height: 48px; }
+  .profile-avatar-text { font-size: 1.2rem; }
+
+  .sidebar-card-categories a[style] {
+    font-size: 0.75rem !important;
+    padding: 0.2rem 0.55rem !important;
+  }
+  .tag-pill { font-size: 0.72rem; padding: 0.15rem 0.55rem; }
+}
+

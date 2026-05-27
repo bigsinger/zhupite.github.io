@@ -1,0 +1,22 @@
+<div class="sidebar-card sidebar-profile">
+  <div class="profile-card">
+    <div class="profile-avatar">
+      <span class="profile-avatar-text">{{ site.author | slice: 0, 1 | upcase }}</span>
+    </div>
+    <div class="profile-info">
+      <h3 class="profile-name">{{ site.title }}</h3>
+      <p class="profile-bio">{{ site.description | truncate: 60 }}</p>
+    </div>
+    <div class="profile-social">
+      <a href="https://github.com/{{ site.github_username }}" target="_blank" rel="noopener" title="GitHub" class="profile-social-link">
+        <span class="octicon octicon-mark-github"></span>
+      </a>
+      <a href="{{ site.url }}{{ site.subscribe_rss }}" target="_blank" rel="noopener" title="RSS" class="profile-social-link">
+        <span class="octicon octicon-rss"></span>
+      </a>
+      <a href="mailto:{{ site.email }}" title="Email" class="profile-social-link">
+        <span class="octicon octicon-mail"></span>
+      </a>
+    </div>
+  </div>
+</div>

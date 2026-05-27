@@ -10,6 +10,12 @@ comments: false
 <section class="container content">
     <div class="columns">
         <div class="column two-thirds" >
+            <!-- section header -->
+            <div class="repo-list-section-header">
+                <span class="section-label">Latest</span>
+                <h2 class="section-title">最新文章</h2>
+                <span class="section-stat">{{ paginator.total_posts }} 篇 · {{ site.categories | size }} 个分类</span>
+            </div>
             <ol class="repo-list">
               {% for post in site.posts %}
               {% if paginator.page == 1 %}
@@ -63,9 +69,10 @@ comments: false
             </ol>
         </div>
         <div class="column one-third">
+            {% include sidebar-profile.html %}
             {% include sidebar-search.html %}
             {% include sidebar-categories-cloud.html %}
-            {% include sidebar-ad.html %}
+            {% include sidebar-tags.html %}
             {% include sidebar-popular-repo.html %}
         </div>
     </div>
