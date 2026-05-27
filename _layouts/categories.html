@@ -6,30 +6,25 @@ layout: default
 {% if site.cdn.jsdelivr.enabled %}
 {% assign assets_base_url = "https://fastly.jsdelivr.net/gh/" | append: site.repository | append: '@master' %}
 {% endif %}
-<div class="page-header">
-    <div class="container">
-        <h1 class="page-title">{{ page.title }}</h1>
+
+<div class="page-detail">
+  <header class="page-detail-header">
+    <h1 class="page-detail-title">{{ page.title }}</h1>
+  </header>
+
+  <div class="categories-index">
+    {% for category in site.categories %}
+    <div class="category-group">
+      <h2 id="{{ category[0] }}" class="category-group-title">{{ category[0] }}</h2>
+      <ul class="category-post-list">
+      {% for post in category[1] %}
+        <li>
+          <a href="{{ site.url }}{{ post.url }}">{{ post.title }}</a>
+          <span class="category-post-date">{{ post.date | date: "%Y/%m/%d" }}</span>
+        </li>
+      {% endfor %}
+      </ul>
     </div>
+    {% endfor %}
+  </div>
 </div>
-<!-- / .page-header -->
-<section class="container content">
-    <div class="columns">
-        <div class="column two-thirds" >
-            <article class="article-content markdown-body">
-                {{ content }}
-            </article>
-            <div class="share">
-                {% include sns-share.html %}
-            </div>
-            <div class="comment">
-                {% include comments.html %}
-            </div>
-        </div>
-        <div class="column one-third">
-            {% include sidebar-search.html %}
-            {% include sidebar-categories-nav.html %}
-            {% include sidebar-ad.html %}
-        </div>
-    </div>
-</section>
-<!-- /section.content -->

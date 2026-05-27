@@ -1,32 +1,38 @@
     {% include footer-ad.html %}
 
-    <footer class="site-footer" role="contentinfo">
-        <div class="copyright">
-            © {{ site.since }}
-            <span title="{{ site.author}}">{{ site.author }}</span>
+    </div><!-- /main-wrapper -->
+
+    <footer class="site-footer-modern">
+      <div class="footer-container">
+        <div class="footer-info">
+          <div class="footer-brand">
+            <span class="brand-avatar small">{{ site.author | slice: 0, 1 | upcase }}</span>
+            <span class="footer-brand-name">{{ site.title }}</span>
+          </div>
+          <p class="footer-desc">{{ site.description }}</p>
+          <div class="footer-links">
+            <span>&copy; {{ site.time | date: '%Y' }}</span>
+            <span title="{{ site.author }}">{{ site.author }}</span>
+          </div>
         </div>
-        <ul class="site-footer-links">
-            <li>
-                <a href="javascript:window.scrollTo(0,0)" title="回到顶部">TOP</a>
-            </li>
-            <li>
-                <a href="{{ site.github.repository_url }}" target="_blank" aria-label="view source code">
-                    <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
-                </a>
-            </li>
-            {% for nav in site.navs %}
-            <li>
-                <a href="{{ site.url }}{{ nav.href }}" title="{{ nav.label }}" target="{{ nav.target | default: _self }}">{{ nav.label }}</a>
-            </li>
-            {% endfor %}
-            <li><a href="{{ site.url }}{{ site.subscribe_rss }}" title="RSS"><span class="octicon octicon-rss" style="color:var(--color-primary);"></span></a></li>
-        </ul>
-        {% include visit-stat.html %}
+        <div class="footer-social">
+          <a href="https://github.com/{{ site.github_username }}" target="_blank" rel="noopener" aria-label="GitHub">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+          </a>
+          <a href="{{ site.url }}{{ site.subscribe_rss }}" target="_blank" rel="noopener" aria-label="RSS">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+          </a>
+          <a href="mailto:{{ site.email }}" aria-label="Email">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+          </a>
+        </div>
+      </div>
     </footer>
+
     <div class="tools-wrapper">
       <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a>
     </div>
-    <!-- / footer -->
+
     {% if site.components.share.enabled %}
     <script src="{{ assets_base_url }}/assets/vendor/share.js/dist/js/share.min.js"></script>
     {% endif %}
@@ -52,173 +58,12 @@
     </script>
     {% endif %}
 
-    {% if page.mermaid %}
-    <script type="module">
-      import mermaid from 'https://fastly.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-      mermaid.initialize({ startOnLoad: false });
-      await mermaid.run({
-        nodes: document.querySelectorAll('pre code.language-mermaid'),
-      });
-    </script>
-    <script type="text/javascript">
-  (function(){
-    $("pre code.language-mermaid").each(function(index, element) {
-      var preBlock = element.parentNode;
-      element.style.backgroundColor = 'initial';
-      preBlock.style.border = 'none';
-      preBlock.style.backgroundColor = 'initial';
-    });
-  })()
-    </script>
+    {% include comments.html %}
+
+    {% if site.components.busuanzi.enabled %}
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     {% endif %}
 
-    {% if page.sequence %}
-    <script src="{{ assets_base_url }}/assets/js/webfont.js"></script>
-    <script src="{{ assets_base_url }}/assets/js/snap.svg-min.js"></script>
-    <script src="https://fastly.jsdelivr.net/npm/underscore@1.13.1/underscore-umd-min.js"></script>
-    <script src="{{ assets_base_url }}/assets/vendor/js-sequence-diagrams/dist/sequence-diagram-min.js"></script>
-    <link rel="stylesheet" href="{{ assets_base_url }}/assets/vendor/js-sequence-diagrams/dist/sequence-diagram-min.css">
-    <script>
-      $(".language-sequence").sequenceDiagram({theme: 'simple'});
-    </script>
-    {% endif %}
-
-    {% if page.flow %}
-    <script src="{{ assets_base_url }}/assets/js/raphael.min.js"></script>
-    <script src="{{ assets_base_url }}/assets/vendor/flowchart.js/dist/flowchart.min.js"></script>
-    <script src="{{ assets_base_url }}/assets/js/flow.js"></script>
-    {% endif %}
-
-    {% if page.mathjax %}
-    <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/mathjax/MathJax@2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    {% endif %}
-
-    {% if page.mindmap %}
-    <link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/mzlogin/kityminder-core@dev/dist/kityminder.core.css">
-    <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/mzlogin/kity@dev/dist/kity.min.js"></script>
-    <script type="text/javascript" src="https://fastly.jsdelivr.net/gh/mzlogin/kityminder-core@dev/dist/kityminder.core.min.js"></script>
-    <script>
-$(document).ready(function(){
-  $('.language-mindmap').each(function(index, element) {
-    var markdownText = element.textContent.trim();
-    var parentNode = element.parentNode.parentNode;
-    var nodeName = '.language-mindmap-' + index;
-    var node = document.createElement("div");
-    node.className = 'language-mindmap-' + index;
-    node.style.height = '' + $(element).height() + 'px';
-    parentNode.insertBefore(node, element.parentNode);
-    var minder = new kityminder.Minder({
-      renderTo: nodeName
-    });
-    minder.importData('markdown', markdownText);
-    /* minder.disable(); */
-    minder.execCommand('hand');
-
-    var viewerTipNode = document.createElement("a");
-    viewerTipNode.setAttribute('href', '{{ site.url }}/mindmap-viewer/?data=' + encodeURIComponent(markdownText));
-    viewerTipNode.setAttribute('target', '_blank');
-    viewerTipNode.setAttribute('style', 'font-size:0.8rem;font-style:italic;font-color:grey;');
-    viewerTipNode.innerText = '全屏查看';
-    parentNode.insertBefore(viewerTipNode, element.parentNode);
-
-    element.parentNode.style.display = 'none';
-
-    {% if page.mindmap-template %}
-    setTimeout(function() {
-      minder.setTemplate('{{ page.mindmap-template }}');
-      minder.refresh();
-    }, 100);
-    {% endif %}
-  });
-});
-    </script>
-    {% endif %}
-{% if page.mindmap2 %}
-    <script src="https://fastly.jsdelivr.net/npm/d3@6"></script>
-    <script src="https://fastly.jsdelivr.net/npm/markmap-view"></script>
-    <script src="https://fastly.jsdelivr.net/npm/markmap-autoloader@0.1.2/dist/index.min.js"></script>
-    <style>
-        .markmap > svg {
-          width: 100%;
-          height: 100%;
-          background: rgba(255, 255, 255, 0.9);
-        }
-    </style>
-    <script>
-        function fullScreen(nodeId) {
-            var element= document.getElementById(nodeId);  
-            if (window.ActiveXObject) {
-                var WsShell = new ActiveXObject('WScript.Shell');
-                WsShell.SendKeys('{F11}');
-            }
-            else if (element.requestFullScreen) {
-                element.requestFullScreen();
-            }
-            else if (element.msRequestFullscreen) {
-                element.msRequestFullscreen();
-            }
-            else if (element.webkitRequestFullScreen) {
-                element.webkitRequestFullScreen();
-            }
-            else if (element.mozRequestFullScreen) {
-                element.mozRequestFullScreen();
-            }
-        }
-
-        function fullExit() {
-            var element= document.getElementById("ddd");  
-            if (window.ActiveXObject) {
-                var WsShell = new ActiveXObject('WScript.Shell');
-                WsShell.SendKeys('{F11}');
-            }
-            else if (element.requestFullScreen) {
-                document.exitFullscreen();
-            }
-            else if (element.msRequestFullscreen) {
-                document.msExitFullscreen();
-            }
-            else if (element.webkitRequestFullScreen) {
-                document.webkitCancelFullScreen();
-            }
-            else if (element.mozRequestFullScreen) {
-                document.mozCancelFullScreen();
-            }
-        }
-
-        function insertAfter(newElement, targetElement) {
-            var parent = targetElement.parentNode;
-            if (parent.lastChild == targetElement) {
-                parent.appendChild(targetElement);
-            } else {
-                parent.insertBefore(newElement, targetElement.nextSibling);
-            }
-        }
-       
-        $(document).ready(function(){
-            $('.language-mindmap').each(function(index, element) {
-                window.markmap = {
-                    autoLoader: { manual: false },
-                };
-                var markdownText = element.textContent.trim();
-                var parentNode = element.parentNode.parentNode;
-                element.setAttribute('class', "markmap");
-                var nodeName = '.language-mindmap-' + index;
-                element.setAttribute("id", nodeName);
-                var viewerTipNode1 = document.createElement("a");
-                viewerTipNode1.appendChild(document.createTextNode("全屏"));
-                viewerTipNode1.setAttribute('onclick', 'fullScreen("' + nodeName + '")');
-                viewerTipNode1.setAttribute('style', 'font-size:0.8rem;font-style:italic;font-color:grey;');
-                viewerTipNode1.setAttribute('href', 'javascript:void(0)');
-                insertAfter(viewerTipNode1, element.parentNode);
-                var viewerTipNode2 = document.createElement("a");
-                viewerTipNode2.appendChild(document.createTextNode("语法提示"));
-                viewerTipNode2.setAttribute('href', 'https://markmap.js.org/');
-                viewerTipNode2.setAttribute('target', '_blank');
-                viewerTipNode2.setAttribute('style', 'font-size:0.8rem;font-style:italic;font-color:grey;padding-left:0.5rem;');
-                insertAfter(viewerTipNode2, viewerTipNode1);
-            });
-        });
-    </script>
-{% endif %}
+    {% include visit-stat.html %}
 </body>
 </html>

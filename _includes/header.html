@@ -105,11 +105,11 @@
         if (html.classList.contains('dark')) {
           html.classList.remove('dark');
           localStorage.setItem('theme', 'light');
-          btn.textContent = '🌙';
+          if (btn) btn.textContent = '🌙';
         } else {
           html.classList.add('dark');
           localStorage.setItem('theme', 'dark');
-          btn.textContent = '☀️';
+          if (btn) btn.textContent = '☀️';
         }
       }
       // 初始化按钮图标
@@ -147,7 +147,7 @@
     {% include seo-structured-data.html %}
     <link rel="stylesheet" href="{{ site.url }}/assets/css/theme-modern.css?v={{ site.time | date: '%s' }}">
     <script>
-      // 暗色模式初始化
+      // 暗色模式初始化 — 必须在渲染前执行
       (function() {
         var theme = localStorage.getItem('theme');
         if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -155,31 +155,52 @@
         }
       })();
     </script>
+    <!-- Google Fonts: Nunito for itbug.shop style -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body class="{{ page.class }}" data-mz="{{ page.class }}">
-    <header class="site-header">
-        <div class="container">
-            <a class="site-brand" href="{{ site.url }}/" title="{{ site.title }}">
-                <span class="brand-avatar">朱</span>
-                <span class="brand-text">
-                    <span class="brand-name">{{ site.title }}</span>
-                    <span class="brand-subtitle">{{ site.subtitle }}</span>
-                </span>
-            </a>
-            <button class="collapsed mobile-visible" type="button" onclick="toggleMenu();">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <nav class="site-header-nav" role="navigation">
-                {% for nav in site.navs %}
-                <a href="{{ site.url }}{{ nav.href }}" class="{% if nav.mobile-hidden %}mobile-hidden {% endif %}{% if page.menu == nav.label %}selected {% endif %}site-header-nav-item" target="{{ nav.target | default: _self }}" title="{{ nav.label }}">{{ nav.label }}</a>
-                {% endfor %}
-                <a class="mobile-hidden" href="{{ site.url }}{{ site.subscribe_rss }}" title="RSS"><span class="octicon octicon-rss" style="color:var(--color-primary);"></span></a>
-            </nav>
-            <button class="theme-toggle" onclick="toggleTheme()" title="切换主题" aria-label="切换主题">
-              <span class="theme-toggle-icon">🌙</span>
-            </button>
+    <!-- Skip to main content -->
+    <a href="#main-content" class="skip-link">跳到主内容</a>
+
+    <!-- ====== HEADER: itbug.shop style ====== -->
+    <header class="site-header-modern">
+      <div class="header-container">
+        <a class="header-brand" href="{{ site.url }}/" aria-label="返回首页">
+          <span class="brand-avatar">{{ site.author | slice: 0, 1 | upcase }}</span>
+          <span class="brand-text">
+            <span class="brand-name">{{ site.title }}</span>
+            <span class="brand-subtitle">{{ site.subtitle }}</span>
+          </span>
+        </a>
+
+        <nav class="header-nav-desktop" aria-label="主导航">
+          {% for nav in site.navs %}
+          <a href="{{ site.url }}{{ nav.href }}" class="header-nav-item {% if page.menu == nav.label %}active{% endif %}" title="{{ nav.label }}">{{ nav.label }}</a>
+          {% endfor %}
+        </nav>
+
+        <div class="header-actions">
+          <button class="theme-toggle" onclick="toggleTheme()" title="切换主题" aria-label="切换主题">
+            <span class="theme-toggle-icon">🌙</span>
+          </button>
         </div>
+
+        <!-- Mobile hamburger -->
+        <button class="mobile-menu-btn" onclick="document.querySelector('.mobile-nav-wrapper').classList.toggle('open')" aria-label="菜单">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+      <!-- Mobile nav -->
+      <nav class="mobile-nav-wrapper" aria-label="移动端主导航">
+        <div class="mobile-nav-inner">
+          {% for nav in site.navs %}
+          <a href="{{ site.url }}{{ nav.href }}" class="mobile-nav-item {% if page.menu == nav.label %}active{% endif %}">{{ nav.label }}</a>
+          {% endfor %}
+        </div>
+      </nav>
     </header>
-    <!-- / header -->
+
+    <div id="main-content" class="main-wrapper">

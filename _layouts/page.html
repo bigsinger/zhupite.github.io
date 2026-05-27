@@ -6,34 +6,25 @@ layout: default
 {% if site.cdn.jsdelivr.enabled %}
 {% assign assets_base_url = "https://fastly.jsdelivr.net/gh/" | append: site.repository | append: '@master' %}
 {% endif %}
-<div class="page-header">
-    <div class="container">
-      <h1 class="page-title">{{ page.title }}</h1>
-      {% if page.subtitle %}
-      <div class="page-subtitle">{{ page.subtitle }}</div>
-      {% endif %}
-    </div>
-    </div>
-<!-- / .page-header -->
- <section class="container content">
-        <div class="columns">
-            <div class="column two-thirds" >
-                <article class="article-content markdown-body">
-                    {{ content }}
-                </article>
-                <div class="share">
-                    {% include sns-share.html %}
-                </div>
-                <div class="comment">
-                    {% include comments.html %}
-                </div>
-            </div>
-            <div class="column one-third">
-                {% include sidebar-search.html %}
-                {% include sidebar-categories-cloud.html %}
-                {% include sidebar-ad.html %}
-                {% include sidebar-popular-repo.html %}
-            </div>
-        </div>
-    </section>
-    <!-- /section.content -->
+
+<div class="page-detail">
+  <header class="page-detail-header">
+    <h1 class="page-detail-title">{{ page.title }}</h1>
+    {% if page.subtitle %}
+    <p class="page-detail-subtitle">{{ page.subtitle }}</p>
+    {% endif %}
+  </header>
+
+  <article class="article-content markdown-body">
+    {% include content-header-ad.html %}
+    {{ content }}
+  </article>
+
+  <div class="share">
+    {% include sns-share.html %}
+  </div>
+
+  <div class="comment">
+    {% include comments.html %}
+  </div>
+</div>

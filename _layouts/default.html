@@ -8,5 +8,18 @@ layout: compress
 {% endif %}
 {% assign assets_images_url = '<img src="' | append: site.url | append: "/images" %}
 {% include header.html %}
-    {{ content | replace: '<img src="/images', assets_images_url }}
+<div class="blog-layout">
+  <div class="blog-container">
+    <main class="main-content">
+      {{ content | replace: '<img src="/images', assets_images_url }}
+    </main>
+    <aside class="sidebar-content">
+      {% include sidebar-profile.html %}
+      {% include sidebar-search.html %}
+      {% include sidebar-categories-cloud.html %}
+      {% include sidebar-tags.html %}
+      {% include sidebar-popular-repo.html %}
+    </aside>
+  </div>
+</div>
 {% include footer.html %}

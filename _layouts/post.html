@@ -6,65 +6,58 @@ layout: default
 {% if site.cdn.jsdelivr.enabled %}
 {% assign assets_base_url = "https://fastly.jsdelivr.net/gh/" | append: site.repository | append: '@master' %}
 {% endif %}
-|<section class="container content">
-|<div class="columns">
-|  <div class="column three-fourths" >
-|    {% include content-header-ad.html %}
-|    <div class="post-header">
-|      <h1 class="post-title">{{ page.title }}</h1>
-|      <div class="post-meta">
-|        {% if page.date %}
-|        <span class="meta-info">
-|          <span class="octicon octicon-calendar"></span> {{ page.date | date: "%Y/%m/%d" }}
-|        </span>
-|        {% endif %}
-|        {% for cat in page.categories %}
-|        <span class="meta-info">
-|          <span class="octicon octicon-file-directory"></span>
-|          <a href="{{ site.url }}/categories/#{{ cat }}" title="{{ cat }}">{{ cat }}</a>
-|        </span>
-|        {% endfor %}
-|        {% if site.components.word_count.enabled %}
-|        <span class="meta-info">
-|          <span class="octicon octicon-clock"></span>
-|          共 {{ page.content | strip_html | strip_newlines | remove: " " | size }} 字，约 {{ page.content | strip_html | strip_newlines | remove: " " | size | divided_by: 350 | plus: 1 }} 分钟
-|        </span>
-|        {% endif %}
-|      </div>
-|    </div>
-|    <article class="article-content markdown-body">
+
+<article class="post-detail">
+  <header class="post-detail-header">
+    <h1 class="post-detail-title">{{ page.title }}</h1>
+    <div class="post-detail-meta">
+      {% if page.date %}
+      <span class="meta-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v4"/><path d="M16 2v4"/><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18"/></svg>
+        {{ page.date | date: "%Y/%m/%d" }}
+      </span>
+      {% endif %}
+      {% for cat in page.categories %}
+      <span class="meta-item">
+        <a href="{{ site.url }}/categories/#{{ cat }}">{{ cat }}</a>
+      </span>
+      {% endfor %}
+      {% if site.components.word_count.enabled %}
+      <span class="meta-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 6v6h4"/><circle cx="12" cy="12" r="10"/></svg>
+        共 {{ page.content | strip_html | strip_newlines | remove: " " | size | divided_by: 350 | plus: 1 }} 分钟
+      </span>
+      {% endif %}
+    </div>
+  </header>
+
+  <article class="article-content markdown-body">
+    {% include content-header-ad.html %}
     {{ content }}
     {% include copyright.html %}
-    </article>
-    <div class="share">
-      {% include sns-share.html %}
-    </div>
-    {% include content-footer-ad.html %}
-    <!-- Related Posts -->
-    {% if page.layout == 'post' and page.categories %}
-    <div class="related-posts">
-      <h2>📖 相关文章</h2>
-      <ul>
-      {% assign related = site.posts | where_exp:"p","p.url != page.url" %}
-      {% assign related = related | where_exp:"p","p.categories contains page.categories[0]" %}
-      {% for post in related limit:5 %}
-        <li>
-          <a href="{{ site.url }}{{ post.url }}">{{ post.title }}</a>
-          <small>{{ post.date | date: "%Y-%m-%d" }}</small>
-        </li>
-      {% endfor %}
-      </ul>
-    </div>
-    {% endif %}
-    <div class="comment">
-      {% include comments.html %}
+  </article>
+
+  <div class="share">
+    {% include sns-share.html %}
+  </div>
+
+  {% include content-footer-ad.html %}
+
+  <!-- Related Posts -->
+  {% if page.layout == 'post' and page.categories %}
+  <div class="related-posts-widget">
+    <h3 class="sidebar-card-title">相关文章</h3>
+    <div class="related-posts-grid">
+    {% assign related = site.posts | where_exp:"p","p.url != page.url" %}
+    {% assign related = related | where_exp:"p","p.categories contains page.categories[0]" %}
+    {% for post in related limit:4 %}
+      <a href="{{ site.url }}{{ post.url }}" class="related-post-item">{{ post.title }}</a>
+    {% endfor %}
     </div>
   </div>
-  <div class="column one-fourth">
-    {% include sidebar-search.html %}
-    {% include sidebar-post-nav.html %}
-    {% include sidebar-detail-ad.html %}
+  {% endif %}
+
+  <div class="comment">
+    {% include comments.html %}
   </div>
-</div>
-</section>
-<!-- /section.content -->
+</article>
