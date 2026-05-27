@@ -1085,8 +1085,9 @@ html.dark .pagination .btn-outline[disabled] {
 .sidebar-card-categories {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem;
+  gap: 0.4rem;
 }
+.sidebar-card-categories a,
 .sidebar-card-categories a[style] {
   display: inline-flex !important;
   align-items: center;
