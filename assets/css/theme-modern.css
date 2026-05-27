@@ -470,9 +470,16 @@ article.article-content {
   transition: border-color 0.2s;
   background: var(--bg);
   color: var(--text);
-  box-sizing: border-box;
+  box-sizing: border-box !important;
 }
 #search_box:focus { border-color: var(--primary) !important; }
+/* 搜索列表 */
+#search_results {
+  font-size: 0.85rem !important;
+  list-style: none !important;
+  padding: 0.5rem 0 0 !important;
+  margin: 0 !important;
+}
 
 /* 分类云 - 药丸样式 */
 .sidebar-card-categories {
@@ -743,11 +750,70 @@ div[id*="sidebar_ad"], div[class*="sidebar-ad"] {
 }
 @media (max-width: 50em) {
   .repo-list { grid-template-columns: 1fr !important; }
-  .site-header-nav-item { font-size: 0.8rem !important; padding: 0.3rem 0.6rem !important; }
+
+  /* 覆盖旧 responsive.css：导航始终显示（不用汉堡菜单） */
+  .site-header .site-header-nav {
+    display: flex !important;
+    flex-direction: row !important;
+    float: none !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    gap: 0.15rem !important;
+    white-space: nowrap;
+    scrollbar-width: none; /* Firefox */
+  }
+  .site-header .site-header-nav::-webkit-scrollbar { display: none !important; }
+  .site-header-nav-item {
+    font-size: 0.8rem !important;
+    padding: 0.3rem 0.5rem !important;
+    text-align: center !important;
+  }
+
+  /* 隐藏旧的汉堡菜单 */
+  .collapsed.mobile-visible { display: none !important; }
+
+  /* 头部标题不缩小 */
+  .site-header h1 { font-size: 1rem !important; }
+  .site-header h1::before { width: 6px; height: 6px; }
+
+  /* 暗色切换按钮调小 */
+  .theme-toggle { width: 30px; height: 30px; font-size: 0.85rem; }
+
+  /* 头部容器 flex-wrap 保证换行 */
+  .site-header .container {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  /* nav 放单独一行占满宽 */
+  .site-header .site-header-nav {
+    order: 3;
+    width: 100%;
+    padding: 0.3rem 0;
+  }
+
   .post-title { font-size: 1.35rem !important; }
+
+  /* 文章卡片内边距减小 */
+  .repo-list-item { padding: 1rem !important; }
+
+  /* 侧边栏卡片 */
+  .sidebar-card { padding: 1rem 1.15rem; }
+  #site_search { padding: 1rem 1.15rem; }
+
+  /* 文章内容容器 */
+  article.article-content { padding: 1.25rem 1rem; }
+
+  /* 底部 */
+  .site-footer { padding: 1.5rem 1rem !important; flex-direction: column; gap: 0.5rem; }
 }
 @media (max-width: 35em) {
-  article.article-content { padding: 1.25rem 1rem; }
+  article.article-content { padding: 1rem 0.75rem !important; }
+  .repo-list { gap: 0.75rem !important; }
+  .repo-list-item { padding: 0.85rem !important; }
+  .sidebar-card { padding: 0.85rem 1rem; }
+  #site_search { padding: 0.85rem 1rem; }
 }
 
 /* ==================== 暗色模式额外覆盖 ==================== */
