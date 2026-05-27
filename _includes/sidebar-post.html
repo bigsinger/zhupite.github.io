@@ -26,8 +26,6 @@
 (function() {
   var tocCard = document.getElementById('toc-sidebar');
   if (!tocCard) return;
-
-  // Find the main content area and get all h2/h3/h4 inside it
   var main = document.querySelector('.main-content');
   if (!main) {
     tocCard.style.display = 'none';
@@ -35,35 +33,31 @@
     if (mb) mb.style.display = 'none';
     return;
   }
-
   var hs = main.querySelectorAll('h2, h3, h4');
-  var headings = [];
-  for (var i = 0; i < hs.length; i++) { headings.push(hs[i]); }
-
-  if (headings.length < 2) {
+  if (hs.length < 2) {
     tocCard.style.display = 'none';
     var mb = document.getElementById('tocMobileBtn');
     if (mb) mb.style.display = 'none';
     return;
   }
-
   var list = document.getElementById('toc-list-generated');
   var mobileList = document.getElementById('toc-mobile-list');
   if (!list) return;
 
-  // Generate TOC HTML
   var tocHtml = '';
-  for (var i = 0; i < headings.length; i++) {
-    var h = headings[i];
-    if (!h.id) { h.id = 'toc-' + i; }
-    var tag = h.tagName.toLowerCase();
-    var cls = tag === 'h2' ? 'toc-h2' : (tag === 'h3' ? 'toc-h3' : (tag === 'h4' ? 'toc-h4' : 'toc-h2'));
-    tocHtml += '<li class="' + cls + '"><a href="#' + h.id + '">' + (h.textContent || '').trim() + '</a></li>';
+  for (var i = 0; i < hs.length; i++) {
+    var h = hs[i];
+    if (!h.id) h.id = 'toc-' + i;
+    var tag = (h.tagName || '').toLowerCase();
+    var cls = 'toc-h2';
+    if (tag === 'h3') cls = 'toc-h3';
+    else if (tag === 'h4') cls = 'toc-h4';
+    var text = (h.textContent || '').trim();
+    tocHtml += '<li class="' + cls + '"><a href="#' + h.id + '">' + text + '</a></li>';
   }
   list.innerHTML = tocHtml;
   if (mobileList) mobileList.innerHTML = tocHtml;
 
-  // --- Active section tracking via IntersectionObserver ---
   var allLinks = list.querySelectorAll('a');
   if (allLinks.length > 0 && typeof IntersectionObserver !== 'undefined') {
     var observer = new IntersectionObserver(function(entries) {
@@ -73,7 +67,7 @@
         var tocLink = null;
         for (var l = 0; l < allLinks.length; l++) {
           var href = allLinks[l].getAttribute('href');
-          if (href === '#' + targetId || href.indexOf('#' + targetId) !== -1) {
+          if (href === '#' + targetId) {
             tocLink = allLinks[l];
             break;
           }
@@ -86,37 +80,30 @@
         }
       }
     }, { rootMargin: '-20px 0px -60% 0px' });
-
-    for (var i = 0; i < headings.length; i++) {
-      observer.observe(headings[i]);
+    for (var i = 0; i < hs.length; i++) {
+      observer.observe(hs[i]);
     }
   }
 
-  // --- Mobile toggle: floating button -> overlay drawer ---
   var btn = document.getElementById('tocMobileBtn');
   var overlay = document.getElementById('tocMobileOverlay');
   var closeBtn = document.getElementById('tocDrawerClose');
-
   if (btn && overlay) {
     btn.addEventListener('click', function(e) {
       e.stopPropagation();
       overlay.classList.add('open');
       document.body.style.overflow = 'hidden';
     });
-
     function closeOverlay() {
       overlay.classList.remove('open');
       document.body.style.overflow = '';
     }
-
     if (closeBtn) {
       closeBtn.addEventListener('click', closeOverlay);
     }
-
     overlay.addEventListener('click', function(e) {
       if (e.target === overlay) closeOverlay();
     });
-
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') closeOverlay();
     });
