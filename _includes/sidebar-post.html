@@ -27,30 +27,20 @@
   var tocCard = document.getElementById('toc-sidebar');
   if (!tocCard) return;
 
-  // Find all h2/h3/h4 in the ENTIRE document, but skip sidebars and footer
-  var allHeadings = document.querySelectorAll('h2, h3, h4');
-  var contentHeadings = [];
-  for (var i = 0; i < allHeadings.length; i++) {
-    var h = allHeadings[i];
-    // Skip headings inside sidebar, footer, or the TOC card itself
-    var p = h.parentElement;
-    var skip = false;
-    while (p) {
-      if (p.classList && (
-          p.classList.contains('sidebar-content') ||
-          p.classList.contains('site-footer-modern') ||
-          p.id === 'toc-sidebar')) {
-        skip = true;
-        break;
-      }
-      p = p.parentElement;
-    }
-    if (!skip) {
-      contentHeadings.push(h);
-    }
+  // Find the main content area and get all h2/h3/h4 inside it
+  var main = document.querySelector('.main-content');
+  if (!main) {
+    tocCard.style.display = 'none';
+    var mb = document.getElementById('tocMobileBtn');
+    if (mb) mb.style.display = 'none';
+    return;
   }
 
-  if (contentHeadings.length < 2) {
+  var hs = main.querySelectorAll('h2, h3, h4');
+  var headings = [];
+  for (var i = 0; i < hs.length; i++) { headings.push(hs[i]); }
+
+  if (headings.length < 2) {
     tocCard.style.display = 'none';
     var mb = document.getElementById('tocMobileBtn');
     if (mb) mb.style.display = 'none';
@@ -63,8 +53,8 @@
 
   // Generate TOC HTML
   var tocHtml = '';
-  for (var i = 0; i < contentHeadings.length; i++) {
-    var h = contentHeadings[i];
+  for (var i = 0; i < headings.length; i++) {
+    var h = headings[i];
     if (!h.id) { h.id = 'toc-' + i; }
     var tag = h.tagName.toLowerCase();
     var cls = tag === 'h2' ? 'toc-h2' : (tag === 'h3' ? 'toc-h3' : (tag === 'h4' ? 'toc-h4' : 'toc-h2'));
@@ -97,8 +87,8 @@
       }
     }, { rootMargin: '-20px 0px -60% 0px' });
 
-    for (var i = 0; i < contentHeadings.length; i++) {
-      observer.observe(contentHeadings[i]);
+    for (var i = 0; i < headings.length; i++) {
+      observer.observe(headings[i]);
     }
   }
 
