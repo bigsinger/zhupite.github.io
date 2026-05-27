@@ -1,34 +1,27 @@
-    <footer class="container">
+    {% include footer-ad.html %}
 
-      {% include footer-ad.html %}
-
-        <div class="site-footer" role="contentinfo">
-            <div class="copyright left mobile-block">
-                    © {{ site.since }}
-                    <span title="{{ site.author}}">{{ site.author }}</span>
-                    <a href="javascript:window.scrollTo(0,0)" class="right mobile-visible">TOP</a>
-            </div>
-
-            <ul class="site-footer-links right mobile-hidden">
-                <li>
-                    <a href="javascript:window.scrollTo(0,0)" >TOP</a>
-                </li>
-            </ul>
-            <a href="{{ site.github.repository_url }}" target="_blank" aria-label="view source code">
-                <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
-            </a>
-            <ul class="site-footer-links mobile-hidden">
-                {% for nav in site.navs %}
-                <li>
-                    <a href="{{ site.url }}{{ nav.href }}" title="{{ nav.label }}" target="{{ nav.target | default: _self }}">{{ nav.label }}</a>
-                </li>
-                {% endfor %}
-                <li><a href="{{ site.url }}{{ site.subscribe_rss }}"><span class="octicon octicon-rss" style="color:orange;"></span></a></li>
-            </ul>
-
-          {% include visit-stat.html %}
-
+    <footer class="site-footer" role="contentinfo">
+        <div class="copyright">
+            © {{ site.since }}
+            <span title="{{ site.author}}">{{ site.author }}</span>
         </div>
+        <ul class="site-footer-links">
+            <li>
+                <a href="javascript:window.scrollTo(0,0)" title="回到顶部">TOP</a>
+            </li>
+            <li>
+                <a href="{{ site.github.repository_url }}" target="_blank" aria-label="view source code">
+                    <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+                </a>
+            </li>
+            {% for nav in site.navs %}
+            <li>
+                <a href="{{ site.url }}{{ nav.href }}" title="{{ nav.label }}" target="{{ nav.target | default: _self }}">{{ nav.label }}</a>
+            </li>
+            {% endfor %}
+            <li><a href="{{ site.url }}{{ site.subscribe_rss }}" title="RSS"><span class="octicon octicon-rss" style="color:var(--color-primary);"></span></a></li>
+        </ul>
+        {% include visit-stat.html %}
     </footer>
     <div class="tools-wrapper">
       <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a>

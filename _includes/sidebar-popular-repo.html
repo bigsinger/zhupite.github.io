@@ -1,4 +1,5 @@
 {% if site.components.side_bar_repo.enabled and site.github.public_repositories != false %}
+<div class="sidebar-card">
 <h3 class="popular-repo-title mobile-hidden">My Popular Repositories</h3>
 {% assign repos = site.github.public_repositories | sort: "stargazers_count" | reverse %}
 {% for repo in repos | limit: site.components.side_bar_repo.limit %}
@@ -31,4 +32,5 @@
     </div>
 </a>
 {% endfor %}
+</div>
 {% endif %}
