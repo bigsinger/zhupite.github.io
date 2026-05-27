@@ -36,23 +36,28 @@
     {% if site.components.share.enabled %}
     <script src="{{ assets_base_url }}/assets/vendor/share.js/dist/js/share.min.js"></script>
     {% endif %}
-    <script src="{{ assets_base_url }}/assets/js/geopattern.js"></script>
+    <script src="{{ assets_base_url }}/assets/js/geopattern.js" defer></script>
     <script>
-      jQuery(document).ready(function($) {
-        $('.geopattern').each(function(){
-          $(this).geopattern($(this).data('pattern-id'));
+      document.addEventListener('DOMContentLoaded', function() {
+        if (typeof jQuery === 'undefined') { console.warn('jQuery not loaded for geopattern'); return; }
+        jQuery(document).ready(function($) {
+          $('.geopattern').each(function(){
+            $(this).geopattern($(this).data('pattern-id'));
+          });
         });
-       /* hljs.initHighlightingOnLoad(); */
       });
     </script>
 
     {% if site.components.fancybox.enabled %}
-    <script src="https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+    <script src="https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js" defer></script>
     <script>
-      $(document).ready(function() {
-        $("p img").each(function() {
-          var strA = "<a href='" + this.src + "' itemscope=\"\" itemtype=\"http://schema.org/ImageObject\" itemprop=\"url\" data-fancybox=\"default\" rel=\"default\"></a>";
-          $(this).wrapAll(strA);
+      document.addEventListener('DOMContentLoaded', function() {
+        if (typeof jQuery === 'undefined') { console.warn('jQuery not loaded for fancybox'); return; }
+        jQuery(document).ready(function($) {
+          $("p img").each(function() {
+            var strA = "<a href='" + this.src + "' itemscope itemtype='http://schema.org/ImageObject' itemprop='url' data-fancybox='default' rel='default'></a>";
+            $(this).wrapAll(strA);
+          });
         });
       });
     </script>

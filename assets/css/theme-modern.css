@@ -1286,9 +1286,18 @@ img { max-width: 100%; height: auto; }
 }
 .dark .highlight,
 .dark .highlight pre,
-.dark .highlight table {
+.dark .highlight table,
+.dark .highlighter-rouge {
   background: #1e1c1a !important;
   border-color: var(--animal-border);
+}
+.dark .highlighter-rouge {
+  border-radius: var(--animal-radius-sm);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.dark .highlighter-rouge .highlight {
+  background: transparent !important;
 }
 .dark .highlight .c1,
 .dark .highlight .c,
