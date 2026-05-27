@@ -112,7 +112,7 @@
           if (btn) btn.textContent = '☀️';
         }
       }
-      // 暗色模式初始化 — 渲染前设置 html class（含 bfcache 兼容）
+      /* 暗色模式初始化 — 渲染前设置 html class（含 bfcache 兼容） */
       (function() {
         function applyTheme() {
           var theme = localStorage.getItem('theme');
@@ -126,7 +126,7 @@
         /* 处理浏览器前进/后退时的 bfcache 恢复 */
         window.addEventListener('pageshow', applyTheme);
       })();
-      // 页面加载后更新按钮图标
+      /* 页面加载后更新按钮图标 */
       document.addEventListener('DOMContentLoaded', function() {
         var btn = document.querySelector('.theme-toggle-icon');
         if (btn) btn.textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
