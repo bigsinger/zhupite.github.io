@@ -1,8 +1,7 @@
 <div class="sidebar-card sidebar-tags">
   <h3>热门标签</h3>
   <div class="tag-cloud">
-    {% assign tags = site.tags | sort %}
-    {% for tag in tags limit: 20 %}
+    {% for tag in site.tags limit: 20 %}
     <a href="{{ site.url }}/categories/#{{ tag[0] }}" class="tag-pill">{{ tag[0] }}</a>
     {% endfor %}
   </div>
