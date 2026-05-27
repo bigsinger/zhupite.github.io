@@ -10,7 +10,7 @@ layout: compress
 {% include header.html %}
 <div class="blog-layout">
     <main class="main-content">
-      {{ content | replace: '<img src="/images', assets_images_url }}
+      {{ content | replace: '<img src="/images', assets_images_url | replace: '<img ', '<img loading="lazy" ' }}
     </main>
     <aside class="sidebar-content">
       {% if page.layout == 'post' %}
