@@ -23,26 +23,34 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+(function() {
   var tocCard = document.getElementById('toc-sidebar');
   if (!tocCard) return;
 
-  // Try to find article headings: .article-content or .post-detail
-  var article = document.querySelector('.article-content') || document.querySelector('.post-detail');
-
-  if (!article) {
-    tocCard.style.display = 'none';
-    var mb = document.getElementById('tocMobileBtn');
-    if (mb) mb.style.display = 'none';
-    return;
+  // Find all h2/h3/h4 in the ENTIRE document, but skip sidebars and footer
+  var allHeadings = document.querySelectorAll('h2, h3, h4');
+  var contentHeadings = [];
+  for (var i = 0; i < allHeadings.length; i++) {
+    var h = allHeadings[i];
+    // Skip headings inside sidebar, footer, or the TOC card itself
+    var p = h.parentElement;
+    var skip = false;
+    while (p) {
+      if (p.classList && (
+          p.classList.contains('sidebar-content') ||
+          p.classList.contains('site-footer-modern') ||
+          p.id === 'toc-sidebar')) {
+        skip = true;
+        break;
+      }
+      p = p.parentElement;
+    }
+    if (!skip) {
+      contentHeadings.push(h);
+    }
   }
 
-  // Get all heading elements
-  var headings = [];
-  var hs = article.querySelectorAll('h2, h3, h4');
-  for (var i = 0; i < hs.length; i++) { headings.push(hs[i]); }
-
-  if (headings.length < 2) {
+  if (contentHeadings.length < 2) {
     tocCard.style.display = 'none';
     var mb = document.getElementById('tocMobileBtn');
     if (mb) mb.style.display = 'none';
@@ -55,8 +63,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Generate TOC HTML
   var tocHtml = '';
-  for (var i = 0; i < headings.length; i++) {
-    var h = headings[i];
+  for (var i = 0; i < contentHeadings.length; i++) {
+    var h = contentHeadings[i];
     if (!h.id) { h.id = 'toc-' + i; }
     var tag = h.tagName.toLowerCase();
     var cls = tag === 'h2' ? 'toc-h2' : (tag === 'h3' ? 'toc-h3' : (tag === 'h4' ? 'toc-h4' : 'toc-h2'));
@@ -69,32 +77,32 @@ document.addEventListener('DOMContentLoaded', function() {
   var allLinks = list.querySelectorAll('a');
   if (allLinks.length > 0 && typeof IntersectionObserver !== 'undefined') {
     var observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
+      for (var e = 0; e < entries.length; e++) {
+        var entry = entries[e];
         var targetId = decodeURIComponent(entry.target.id);
-        // Find matching TOC link
         var tocLink = null;
-        for (var i = 0; i < allLinks.length; i++) {
-          var href = allLinks[i].getAttribute('href');
+        for (var l = 0; l < allLinks.length; l++) {
+          var href = allLinks[l].getAttribute('href');
           if (href === '#' + targetId || href.indexOf('#' + targetId) !== -1) {
-            tocLink = allLinks[i];
+            tocLink = allLinks[l];
             break;
           }
         }
         if (entry.isIntersecting && tocLink) {
-          for (var i = 0; i < allLinks.length; i++) {
-            allLinks[i].parentElement.classList.remove('toc-active');
+          for (var l = 0; l < allLinks.length; l++) {
+            allLinks[l].parentElement.classList.remove('toc-active');
           }
           tocLink.parentElement.classList.add('toc-active');
         }
-      });
+      }
     }, { rootMargin: '-20px 0px -60% 0px' });
 
-    for (var i = 0; i < headings.length; i++) {
-      observer.observe(headings[i]);
+    for (var i = 0; i < contentHeadings.length; i++) {
+      observer.observe(contentHeadings[i]);
     }
   }
 
-  // --- Mobile toggle: floating button → overlay drawer ---
+  // --- Mobile toggle: floating button -> overlay drawer ---
   var btn = document.getElementById('tocMobileBtn');
   var overlay = document.getElementById('tocMobileOverlay');
   var closeBtn = document.getElementById('tocDrawerClose');
@@ -123,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (e.key === 'Escape') closeOverlay();
     });
   }
-});
+})();
 </script>
 
 {% include sidebar-search.html %}
