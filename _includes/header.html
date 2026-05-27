@@ -98,6 +98,27 @@
 
     <script src="{{ assets_base_url }}/assets/vendor/jquery/dist/jquery.min.js"></script>
     <script src="{{ assets_base_url }}/assets/js/main.js"></script>
+    <script>
+      function toggleTheme() {
+        var html = document.documentElement;
+        var btn = document.querySelector('.theme-toggle-icon');
+        if (html.classList.contains('dark')) {
+          html.classList.remove('dark');
+          localStorage.setItem('theme', 'light');
+          btn.textContent = '🌙';
+        } else {
+          html.classList.add('dark');
+          localStorage.setItem('theme', 'dark');
+          btn.textContent = '☀️';
+        }
+      }
+      // 初始化按钮图标
+      (function() {
+        var html = document.documentElement;
+        var btn = document.querySelector('.theme-toggle-icon');
+        if (btn) btn.textContent = html.classList.contains('dark') ? '☀️' : '🌙';
+      })();
+    </script>
 
     {% if site.google.adsense.enabled and site.url contains 'zhupite.com' %}
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7093222719567591" crossorigin="anonymous"></script>
@@ -125,6 +146,15 @@
 
     {% include seo-structured-data.html %}
     <link rel="stylesheet" href="{{ assets_base_url }}/assets/css/theme-modern.css">
+    <script>
+      // 暗色模式初始化
+      (function() {
+        var theme = localStorage.getItem('theme');
+        if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
 </head>
 <body class="{{ page.class }}" data-mz="{{ page.class }}">
     <header class="site-header">
@@ -141,6 +171,9 @@
                 {% endfor %}
                 <a class="mobile-hidden" href="{{ site.url }}{{ site.subscribe_rss }}" title="RSS"><span class="octicon octicon-rss" style="color:var(--color-primary);"></span></a>
             </nav>
+            <button class="theme-toggle" onclick="toggleTheme()" title="切换主题" aria-label="切换主题">
+              <span class="theme-toggle-icon">🌙</span>
+            </button>
         </div>
     </header>
     <!-- / header -->
