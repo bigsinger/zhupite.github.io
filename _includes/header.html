@@ -176,7 +176,7 @@
           {% for nav in site.navs %}
           {% assign nav_active = false %}
           {% if page.menu == nav.label %}{% assign nav_active = true %}{% endif %}
-          {% if nav.href == '/' and page.url == '/' %}{% assign nav_active = true %}{% endif %}
+          {% if nav.href == '/' and (page.url == '/' or page.url contains '/index.html') %}{% assign nav_active = true %}{% endif %}
           {% if nav.href != '/' and page.url contains nav.href %}{% assign nav_active = true %}{% endif %}
           <a href="{{ site.url }}{{ nav.href }}" class="header-nav-item {% if nav_active %}active{% endif %}" title="{{ nav.label }}">{{ nav.label }}</a>
           {% endfor %}
@@ -200,7 +200,7 @@
           {% for nav in site.navs %}
           {% assign nav_active_m = false %}
           {% if page.menu == nav.label %}{% assign nav_active_m = true %}{% endif %}
-          {% if nav.href == '/' and page.url == '/' %}{% assign nav_active_m = true %}{% endif %}
+          {% if nav.href == '/' and (page.url == '/' or page.url contains '/index.html') %}{% assign nav_active_m = true %}{% endif %}
           {% if nav.href != '/' and page.url contains nav.href %}{% assign nav_active_m = true %}{% endif %}
           <a href="{{ site.url }}{{ nav.href }}" class="mobile-nav-item {% if nav_active_m %}active{% endif %}">{{ nav.label }}</a>
           {% endfor %}
