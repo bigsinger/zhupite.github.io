@@ -1518,3 +1518,64 @@ img[loading="lazy"] {
 
 /* ===== 18. Old redundant styles kept for compatibility ===== */
 .page-header, .post-header { display: none; }
+
+/* ===== 21. Primer Compatibility Layer =====
+  Replaces primer.css 28KB with ~100 lines of essential base styles.
+  Added 2026-05-28 as part of old theme stripping (Round 2). */
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; }
+
+/* Base Typography */
+h1, h2, h3, h4, h5, h6 { margin-top: 0; margin-bottom: 0.5em; line-height: 1.2; }
+p { margin: 0 0 1em; }
+ul, ol { padding-left: 2em; margin-top: 0; margin-bottom: 1em; }
+blockquote { margin: 0 0 1em; }
+hr { height: 0; margin: 1em 0; border: 0; border-bottom: 1px solid var(--animal-border-light); }
+
+/* Tables */
+table { border-collapse: collapse; border-spacing: 0; }
+td, th { padding: 0; }
+
+/* Code / Pre */
+pre, code, kbd, samp { font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+pre { overflow: auto; word-wrap: normal; }
+kbd { font-size: 0.85em; }
+
+/* Container / Columns grid (for old content compatibility) */
+.container { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+.container::before, .container::after { display: table; content: ""; clear: both; }
+.columns { margin: 0 -10px; }
+.columns::before, .columns::after { display: table; content: ""; clear: both; }
+.column { float: left; padding: 0 10px; }
+.one-third { width: 33.333%; }
+.two-thirds { width: 66.667%; }
+.one-fourth { width: 25%; }
+.three-fourths { width: 75%; }
+.one-half { width: 50%; }
+.one-fifth { width: 20%; }
+.four-fifths { width: 80%; }
+.single-column { padding: 0 10px; }
+
+/* Utility classes */
+.clearfix::before, .clearfix::after { display: table; content: ""; clear: both; }
+.text-center { text-align: center; }
+.hidden { display: none; }
+.left { float: left; }
+.right { float: right; }
+
+/* Footnotes */
+a.footnote:hover { border-bottom: none; }
+a.footnote::before { content: "["; padding: 0 2px; }
+a.footnote::after { content: "]"; padding: 0 2px; }
+div.footnotes > ol { padding-left: 1.5rem; font-size: 0.9rem; }
+div.footnotes > ol p { margin-bottom: 0.5rem; }
+div.footnotes::before { content: ""; display: block; margin: 1.5rem 0; border: 0; border-top: 1px solid var(--animal-border-light); width: 20%; }
+
+/* img caption */
+img + em { color: var(--animal-text-muted); display: block; text-align: center; font-size: 0.9em; }
+
+/* Responsive Ad */
+.content-header-ad { display: inline-block; width: 320px; height: 50px; }
+@media (max-width: 400px) { .content-header-ad { display: none; } }
+@media (min-width: 500px) { .content-header-ad { width: 468px; height: 60px; } }
+@media (min-width: 800px) { .content-header-ad { width: 728px; height: 90px; } }
