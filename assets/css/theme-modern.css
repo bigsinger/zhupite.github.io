@@ -903,6 +903,7 @@ img { max-width: 100%; height: auto; }
   border-left-color: var(--animal-primary);
   font-weight: 700;
 }
+.toc-list .toc-h1 { padding-left: 0; font-size: 14px; font-weight: 600; }
 .toc-list .toc-h2 { padding-left: 0; }
 .toc-list .toc-h3 { padding-left: 16px; font-size: 12px; }
 .toc-list .toc-h4 { padding-left: 32px; font-size: 11px; }
