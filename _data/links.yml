@@ -1,120 +1,307 @@
-- name: GitHub
-  url: https://github.com/
-  src: life
-
+# ===== 技术资讯 / Tech News =====
+- name: Hacker News
+  url: https://news.ycombinator.com/
+  src: tech-news
+- name: TechCrunch
+  url: https://techcrunch.com/
+  src: tech-news
+- name: The Verge
+  url: https://www.theverge.com/
+  src: tech-news
+- name: Ars Technica
+  url: https://arstechnica.com/
+  src: tech-news
+- name: Wired
+  url: https://www.wired.com/
+  src: tech-news
+- name: CNET
+  url: https://www.cnet.com/
+  src: tech-news
+- name: ZDNet
+  url: https://www.zdnet.com/
+  src: tech-news
+- name: Engadget
+  url: https://www.engadget.com/
+  src: tech-news
+- name: Gizmodo
+  url: https://gizmodo.com/
+  src: tech-news
+- name: Slashdot
+  url: https://slashdot.org/
+  src: tech-news
+- name: InfoQ
+  url: https://www.infoq.com/
+  src: tech-news
 - name: ReadHub
   url: https://www.readhub.cn/topics
-  src: life
+  src: tech-news
+- name: 36氪
+  url: https://36kr.com/
+  src: tech-news
+- name: 虎嗅
+  url: https://www.huxiu.com/
+  src: tech-news
+- name: Solidot
+  url: https://www.solidot.org/
+  src: tech-news
 
-- name: CSDN
-  url: https://www.csdn.net/
-  src: life
-
-- name: 吾爱破解
-  url: https://www.52pojie.cn/
-  src: life
-
-- name: 简书
-  url: https://www.jianshu.com/
-  src: life
-
-- name: 无忧技术网51CTO
-  url: https://www.51cto.com/
-  src: life
-
+# ===== 开发者社区 / Dev Community =====
+- name: GitHub
+  url: https://github.com/
+  src: dev
+- name: GitLab
+  url: https://gitlab.com/
+  src: dev
+- name: Bitbucket
+  url: https://bitbucket.org/
+  src: dev
+- name: Stack Overflow
+  url: https://stackoverflow.com/
+  src: dev
+- name: Dev.to
+  url: https://dev.to/
+  src: dev
+- name: Medium (Programming)
+  url: https://medium.com/tag/programming
+  src: dev
+- name: Reddit Programming
+  url: https://www.reddit.com/r/programming/
+  src: dev
+- name: CodePen
+  url: https://codepen.io/
+  src: dev
+- name: LeetCode
+  url: https://leetcode.com/
+  src: dev
+- name: Replit
+  url: https://replit.com/
+  src: dev
+- name: SourceForge
+  url: https://sourceforge.net/
+  src: dev
+- name: npm
+  url: https://www.npmjs.com/
+  src: dev
+- name: PyPI
+  url: https://pypi.org/
+  src: dev
+- name: Docker Hub
+  url: https://hub.docker.com/
+  src: dev
 - name: 掘金
   url: https://juejin.cn/
-  src: life
-
+  src: dev
+- name: CSDN
+  url: https://www.csdn.net/
+  src: dev
 - name: 博客园
   url: https://www.cnblogs.com/
-  src: life
-
-- name: 无忧技术网51CTO
+  src: dev
+- name: 简书
+  url: https://www.jianshu.com/
+  src: dev
+- name: 无忧技术网 51CTO
   url: https://www.51cto.com/
-  src: life
+  src: dev
+- name: 吾爱破解
+  url: https://www.52pojie.cn/
+  src: dev
+- name: Gitee
+  url: https://gitee.com/
+  src: dev
 
+# ===== 网络安全 / Security =====
+- name: The Hacker News
+  url: https://thehackernews.com/
+  src: security
+- name: Krebs on Security
+  url: https://krebsonsecurity.com/
+  src: security
+- name: BleepingComputer
+  url: https://www.bleepingcomputer.com/
+  src: security
+- name: SecurityWeek
+  url: https://www.securityweek.com/
+  src: security
+- name: Dark Reading
+  url: https://www.darkreading.com/
+  src: security
+- name: OWASP
+  url: https://owasp.org/
+  src: security
+- name: HackerOne
+  url: https://www.hackerone.com/
+  src: security
+- name: Exploit Database
+  url: https://www.exploit-db.com/
+  src: security
+- name: NIST NVD
+  url: https://nvd.nist.gov/
+  src: security
+- name: PortSwigger Research
+  url: https://portswigger.net/research
+  src: security
+- name: Cisco Talos Blog
+  url: https://blog.talosintelligence.com/
+  src: security
+- name: SANS ISC
+  url: https://isc.sans.edu/
+  src: security
+- name: 360网络安全响应中心
+  url: https://cert.360.cn/report
+  src: security
+
+# ===== 设计 / Design =====
+- name: Dribbble
+  url: https://dribbble.com/
+  src: design
+- name: Behance
+  url: https://www.behance.net/
+  src: design
+- name: Awwwards
+  url: https://www.awwwards.com/
+  src: design
+- name: Smashing Magazine
+  url: https://www.smashingmagazine.com/
+  src: design
+- name: Codrops
+  url: https://tympanus.net/codrops/
+  src: design
+- name: SiteInspire
+  url: https://www.siteinspire.com/
+  src: design
+- name: Color Hunt
+  url: https://colorhunt.co/
+  src: design
+- name: UI Movement
+  url: https://uimovement.com/
+  src: design
+- name: Collect UI
+  url: https://collectui.com/
+  src: design
+- name: 站酷
+  url: https://www.zcool.com.cn/
+  src: design
+
+# ===== 云服务 / Cloud =====
+- name: Amazon Web Services
+  url: https://aws.amazon.com/
+  src: cloud
+- name: Microsoft Azure
+  url: https://azure.microsoft.com/
+  src: cloud
+- name: Google Cloud
+  url: https://cloud.google.com/
+  src: cloud
+- name: Cloudflare
+  url: https://www.cloudflare.com/
+  src: cloud
+- name: Vercel
+  url: https://vercel.com/
+  src: cloud
+- name: Netlify
+  url: https://www.netlify.com/
+  src: cloud
+- name: DigitalOcean
+  url: https://www.digitalocean.com/
+  src: cloud
+- name: Docker
+  url: https://www.docker.com/
+  src: cloud
+- name: Kubernetes
+  url: https://kubernetes.io/
+  src: cloud
 - name: 阿里云
   url: https://www.aliyun.com/
-  src: www
-
+  src: cloud
 - name: 腾讯云
   url: https://cloud.tencent.com/
-  src: www
-
+  src: cloud
 - name: 华为云
   url: https://www.huaweicloud.com/
-  src: www
-
+  src: cloud
 - name: 百度云
   url: https://cloud.baidu.com/
-  src: www
+  src: cloud
 
-- name: 360网络安全响应中心（360CERT）
-  url: https://cert.360.cn/report
-  src: www
-
-- name: 杭州国际博览中心 展览计划
-  url: http://www.onezh.com/hall/plan_687.html
-  src: www
-
-- name: 中国会展门户->国内展会->【浙江展会信息】
-  url: http://www.cnena.com/showroom/list_city.php?cityid=47
-  src: www
-
-- name: 活动行
-  url: https://www.huodongxing.com/
-  src: www
-
-- name: 活动家
-  url: http://www.41huiyi.com/business/
-  src: www
-
-- name: 人民网
-  url: http://www.people.com.cn/
-  src: www
-
-- name: 知乎
-  url: https://www.zhihu.com/
-  src: www
-
-- name: 电影天堂
-  url: https://www.dytt8.net/
-  src: www
-
-- name: 哔哩哔哩bilibili
-  url: https://www.bilibili.com/
-  src: www
-
-- name: 猫扑
-  url: https://www.mop.com/
-  src: www
-
-- name: 天涯社区
-  url: https://bbs.tianya.cn/
-  src: www
-
-- name: 豆瓣
-  url: https://www.douban.com/
-  src: www
-
-- name: 华军软件园
-  url: https://www.onlinedown.net/
-  src: www
-
+# ===== 在线工具 / Tools =====
+- name: Canva
+  url: https://www.canva.com/
+  src: tools
+- name: Figma
+  url: https://www.figma.com/
+  src: tools
+- name: Notion
+  url: https://www.notion.so/
+  src: tools
+- name: TinyPNG
+  url: https://tinypng.com/
+  src: tools
+- name: Regex101
+  url: https://regex101.com/
+  src: tools
+- name: JSON Formatter
+  url: https://jsonformatter.org/
+  src: tools
+- name: Coolors
+  url: https://coolors.co/
+  src: tools
+- name: Can I Use
+  url: https://caniuse.com/
+  src: tools
+- name: Grammarly
+  url: https://www.grammarly.com/
+  src: tools
+- name: Remove.bg
+  url: https://www.remove.bg/
+  src: tools
+- name: Miro
+  url: https://miro.com/
+  src: tools
 - name: 阿里妈妈
   url: https://www.alimama.com/
-  src: www
+  src: tools
 
-- name: 支付宝
-  url: https://www.alipay.com/
-  src: www
-
+# ===== 生活娱乐 / Life =====
+- name: 知乎
+  url: https://www.zhihu.com/
+  src: life
+- name: 哔哩哔哩
+  url: https://www.bilibili.com/
+  src: life
+- name: 豆瓣
+  url: https://www.douban.com/
+  src: life
+- name: 人民网
+  url: http://www.people.com.cn/
+  src: life
+- name: 天涯社区
+  url: https://bbs.tianya.cn/
+  src: life
 - name: 中国铁路12306
   url: https://www.12306.cn/index/
-  src: www
-
-
-
-
-
+  src: life
+- name: 支付宝
+  url: https://www.alipay.com/
+  src: life
+- name: 电影天堂
+  url: https://www.dytt8.net/
+  src: life
+- name: 华军软件园
+  url: https://www.onlinedown.net/
+  src: life
+- name: 猫扑
+  url: https://www.mop.com/
+  src: life
+- name: 活动行
+  url: https://www.huodongxing.com/
+  src: life
+- name: 活动家
+  url: http://www.41huiyi.com/business/
+  src: life
+- name: 杭州国际博览中心 展览计划
+  url: http://www.onezh.com/hall/plan_687.html
+  src: life
+- name: 中国会展门户
+  url: http://www.cnena.com/showroom/list_city.php?cityid=47
+  src: life
