@@ -36,9 +36,10 @@
       body { opacity: 0; }
       body.body-ready { opacity: 1; transition: opacity 0.35s ease; }
     </style>
-    <link rel="preload" href="{{ site.url }}/assets/css/theme-modern.css?v={{ site.time | date: '%s' }}" as="style" onload="this.onload=null;this.rel='stylesheet';!function(){var p=document.getElementById('pg-bar');if(p)p.classList.add('bar-done');var r=function(){document.body.classList.add('body-ready')};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',r):r()}()">
+    <link rel="preload" href="{{ site.url }}/assets/css/theme-modern.css?v={{ site.time | date: '%s' }}" as="style" onload="this.onload=null;this.rel='stylesheet';!function(){var d=document;function r(){var p=d.getElementById('pg-bar');if(p)p.classList.add('bar-done');d.body.classList.add('body-ready')}d.readyState==='loading'?d.addEventListener('DOMContentLoaded',r):r()}()">
     <noscript><link rel="stylesheet" href="{{ site.url }}/assets/css/theme-modern.css?v={{ site.time | date: '%s' }}"></noscript>
     <noscript><style>body{opacity:1}#pg-bar{display:none}</style></noscript>
+    <script>setTimeout(function(){var p=document.getElementById('pg-bar');if(p&&!p.classList.contains('bar-done')){p.classList.add('bar-done');document.body.classList.add('body-ready')}},3000)</script>
     <!-- Disabled: share, fancybox, jquery — removed in 2026-05-28 cleanup -->
 
     <!-- Latest compiled and minified CSS -->
