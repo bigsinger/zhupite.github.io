@@ -5,9 +5,7 @@ comments: false
 menu: 首页
 ---
 
-{% if site.cdn.jsdelivr.enabled %}
-{% assign assets_base_url = "https://fastly.jsdelivr.net/gh/" | append: site.repository | append: '@master' %}
-{% endif %}
+{% assign assets_base_url = site.url %}
 
 <div class="page-content">
 

@@ -140,25 +140,7 @@ navs:
 
 ### 评论系统
 
-目前使用 **Utterances**（基于 GitHub Issues 的 GitHub App）。无需 OAuth App，直接在仓库上安装 Utterances 即可。
-
-#### 安装配置
-
-1. 访问 [Utterances GitHub App](https://github.com/apps/utterances) → **Install**
-2. 选择用于存储评论的仓库（如 `用户名/blog-comments`）
-3. 在 `_config.yml` 中配置：
-
-```yaml
-comments_provider: utterances
-utterances:
-    repo: 用户名/blog-comments     # 存储评论的仓库
-    issue_term: pathname          # 页面路径映射方式
-    theme: github-light           # 主题：github-light / github-dark / preferred-color-scheme
-```
-
-#### 页面控制
-
-在文章或页面的 frontmatter 中设置 `comments: false` 可禁用评论区。
+评论区已移除（无第三方服务依赖）。如果需要恢复，推荐使用 **Giscus**（基于 GitHub Discussions）或自行添加其他方案。
 
 ---
 

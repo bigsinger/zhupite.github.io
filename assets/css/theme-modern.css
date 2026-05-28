@@ -931,13 +931,6 @@ img { max-width: 100%; height: auto; }
   }
 }
 
-/* Mobile: hide tools-wrapper (gotop) to avoid overlapping with TOC button */
-@media (max-width: 1023px) {
-  .tools-wrapper {
-    display: none;
-  }
-}
-
 /* Mobile TOC overlay — drawer from bottom */
 .toc-mobile-overlay {
   display: none;
@@ -1128,6 +1121,13 @@ img { max-width: 100%; height: auto; }
   transform: translateY(-2px);
   box-shadow: var(--animal-shadow-lg);
   color: var(--animal-text);
+}
+
+/* Mobile: hide tools-wrapper (gotop) to avoid overlapping with TOC button */
+@media (max-width: 1023px) {
+  .tools-wrapper {
+    display: none !important;
+  }
 }
 
 /* ===== 13. Page Content (for index.html) ===== */

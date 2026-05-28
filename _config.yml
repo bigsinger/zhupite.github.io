@@ -1,6 +1,4 @@
-# ---------------- #
-#   Main Configs#
-# ---------------- #
+# ===== 站点信息 =====
 baseurl:
 url: https://zhupite.com
 date_format: "ordinal"
@@ -11,159 +9,67 @@ keywords: 朱皮特, 程序员
 timezone: Asia/Shanghai
 encoding: "utf-8"
 repository: bigsinger/zhupite.github.io
-# 对 css 和 js 资源的 cdn 加速配置
-cdn:
-    jsdelivr:
-        enabled: true
-# 组件配置
-components:
-    # 分享
-    share:
-        enabled: false
-    # 不蒜子访问统计
-    busuanzi:
-        enabled: false
-        start_date: 2020-05-03
-    # 文章字数统计
-    word_count:
-        enabled: true
-    # 图片灯箱效果功能
-    fancybox:
-        enabled: false
-# 压缩页面内容
-compress_html:
-  clippings: all
-# 文章字数统计
-word_count:
-    enabled: true
-# 代码高亮风格，支持的 theme 列表见 https://github.com/mzlogin/rouge-themes
-highlight_theme: github
 
-# ---------------- #
-#      Author      #
-# ---------------- #
+# ===== 作者信息 =====
 author: zhupite
-organization: 
-organization_url: 
 github_username: bigsinger
-location: Hangzhou, China
 email: pushebp#163.com
 
-# ---------------- #
-#    Navigation    #
-# ---------------- #
+# ===== 导航 =====
 navs:
-  -
-    href: /
+  - href: /
     label: 首页
-
-  -
-    href: /categories/
+  - href: /categories/
     label: 分类
-
-  -
-    href: /archives/
+  - href: /archives/
     label: 文章
-
-#   -
-#     href: /open-source/
-#     label: 开源
-
-#   -
-#     href: /wiki/
-
-  -
-    href: /links/
+  - href: /links/
     label: 链接
-
-  -
-    href: /about/
+  - href: /about/
     label: 关于
 
-# ---------------- #
-#       RSS        #
-# ---------------- #
+# ===== RSS =====
 subscribe_rss: /feed.xml
 
-# ---------------- #
-#      Jekyll      #
-# ---------------- #
+# ===== Jekyll 构建配置 =====
 markdown: kramdown
 kramdown:
-    input: GFM
+  input: GFM
 highlighter: rouge
 paginate: 10
 lsi: false
 quiet: false
 excerpt_separator: "\n\n"
 permalink: /:categories/:title.html
-#permalink: /:year/:month/:day/:title/
+
 plugins:
-    - jekyll-github-metadata
-    - rouge
-#     - jekyll-html-pipeline
-    - jekyll-paginate
-    - jekyll-sitemap
-    - jekyll-feed
-    - jemoji
-#     - jekyll-mentions
-# ---------------- #
-#      Comments #
-# ---------------- #
-# support provider: disqus, gitment, gitalk, utterances, beaudar, giscus
-comments_provider: utterances
-# !!!重要!!! 请先安装 Utterances GitHub App：
-# https://github.com/apps/utterances → 选择 bigsinger/blog-comments 仓库安装
-utterances:
-    repo: bigsinger/blog-comments
-    issue_term: pathname
-    theme: github-light
-# !!!Important!!! Please modify infos below to yours
-# https://disqus.com
-disqus:
-    username: 
-# https://imsun.net/posts/gitment-introduction/
-gitment:
-    owner: bigsinger
-    repo: blog-comments
-    oauth:
-        client_id: edc88f091827bc6d94e3
-        client_secret: 76b470f021596b0eac8f1b0be0dd0a741d0ba3e9
-# https://github.com/gitalk/gitalk#install
-gitalk:
-    owner: bigsinger
-    repo: blog-comments
-    clientID: edc88f091827bc6d94e3
-    clientSecret: 76b470f021596b0eac8f1b0be0dd0a741d0ba3e9
-# 在使用其它评论组件时可点击显示 Disqus
-lazy_load_disqus : false
+  - jekyll-github-metadata
+  - rouge
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-feed
+  - jemoji
 
-# ---------------- #
-#      Search      #
-# ---------------- #
+# ===== 压缩 =====
+compress_html:
+  clippings: all
+
+# ===== 文章字数统计 =====
+components:
+  word_count:
+    enabled: true
+
+# ===== 搜索 =====
 simple_jekyll_search:
-    # 是否支持全文搜索
-    fulltext: false
-    # 最多显示多少条搜索结果
-    limit: 20
+  fulltext: false
+  limit: 20
 
-# ---------------- #
-#      Google      #
-# ---------------- #
-# ---------------- #
-#      Baidu      #
-# ---------------- #
-baidu:
-    verification:  # 百度站长平台验证码，请从 https://ziyuan.baidu.com 获取
-
-# ---------------- #
-#      Google      #
-# ---------------- #
+# ===== Google =====
 google:
-    analytics_id: G-LXMGB07CK3
-    adsense:
-        publisher_id: pub-8721821812073236
-        footer: true
-        sidebar: true 
-        content_header: true
-        content_footer: false
+  analytics_id: G-LXMGB07CK3
+  adsense:
+    publisher_id: pub-8721821812073236
+    footer: true
+    sidebar: true
+    content_header: true
+    content_footer: false

@@ -3,9 +3,6 @@ layout: default
 ---
 
 {% assign assets_base_url = site.url %}
-{% if site.cdn.jsdelivr.enabled %}
-{% assign assets_base_url = "https://fastly.jsdelivr.net/gh/" | append: site.repository | append: '@master' %}
-{% endif %}
 
 <article class="post-detail">
   <header class="post-detail-header">
@@ -37,10 +34,6 @@ layout: default
     {% include copyright.html %}
   </article>
 
-  <div class="share">
-    {% include sns-share.html %}
-  </div>
-
   {% include content-footer-ad.html %}
 
   <!-- Related Posts -->
@@ -56,8 +49,4 @@ layout: default
     </div>
   </div>
   {% endif %}
-
-  <div class="comment">
-    {% include comments.html %}
-  </div>
 </article>
