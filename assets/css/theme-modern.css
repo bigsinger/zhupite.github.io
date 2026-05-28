@@ -1547,3 +1547,182 @@ img + em { color: var(--animal-text-muted); display: block; text-align: center; 
 @media (max-width: 400px) { .content-header-ad { display: none; } }
 @media (min-width: 500px) { .content-header-ad { width: 468px; height: 60px; } }
 @media (min-width: 800px) { .content-header-ad { width: 728px; height: 90px; } }
+
+/* ===== 22. Code Block: Language Label + Copy Button ===== */
+.markdown-body pre {
+  position: relative;
+}
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: var(--animal-bg-secondary);
+  border-bottom: 1px solid var(--animal-border-card);
+  border-radius: var(--animal-radius-sm) var(--animal-radius-sm) 0 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--animal-text-secondary);
+  user-select: none;
+}
+.code-lang-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.code-lang-label svg {
+  width: 14px;
+  height: 14px;
+}
+.code-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border: 2px solid var(--animal-border-card);
+  border-radius: var(--animal-radius-full);
+  background: var(--animal-bg-card);
+  color: var(--animal-text-secondary);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: 0 2px 0 var(--animal-border-light);
+  font-family: var(--animal-font);
+}
+.code-copy-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 0 var(--animal-border);
+  color: var(--animal-text);
+  border-color: var(--animal-border);
+}
+.code-copy-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 var(--animal-border-light);
+}
+.code-copy-btn.copied {
+  background: var(--card-green);
+  color: #fff;
+  border-color: var(--card-green);
+  box-shadow: 0 2px 0 #6aaa6a;
+}
+.dark .code-header {
+  background: var(--animal-bg-card);
+  border-bottom-color: var(--animal-border-light);
+}
+.dark .code-copy-btn {
+  background: var(--animal-bg-secondary);
+}
+.dark .code-copy-btn.copied {
+  background: var(--card-green);
+}
+
+/* ===== 23. Previous / Next Post Navigation ===== */
+.post-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--animal-gap-md);
+  margin: 24px 0;
+}
+.post-nav-link {
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 20px;
+  background: var(--animal-bg-card);
+  border: 2px solid var(--animal-border-card);
+  border-radius: var(--animal-radius-xl);
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: var(--animal-shadow-sm);
+}
+.post-nav-link:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--animal-shadow-lg);
+  border-color: var(--animal-border);
+}
+.post-nav-link.next { text-align: right; }
+.post-nav-label {
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--animal-text-muted);
+  margin-bottom: 4px;
+}
+.post-nav-title {
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--animal-text);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.post-nav-link:hover .post-nav-title {
+  color: var(--animal-primary);
+}
+.post-nav-link.disabled {
+  opacity: 0.3;
+  cursor: default;
+  pointer-events: none;
+}
+.dark .post-nav-link {
+  background: var(--animal-bg-card);
+  border-color: var(--animal-border-card);
+}
+.dark .post-nav-link:hover {
+  border-color: var(--animal-border);
+}
+
+/* ===== 24. Article Pinned / Sticky Badge ===== */
+.post-card.sticky {
+  position: relative;
+}
+.post-card.sticky::after {
+  content: '📌 置顶';
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  background: rgba(255,255,255,0.9);
+  color: var(--animal-text);
+  padding: 3px 10px;
+  border-radius: var(--animal-radius-full);
+  border: 2px solid var(--animal-border-card);
+  box-shadow: var(--animal-shadow-sm);
+  backdrop-filter: blur(4px);
+}
+.dark .post-card.sticky::after {
+  background: rgba(26,24,22,0.85);
+}
+
+/* ===== 25. TOC Scroll Highlight Enhancement ===== */
+.toc-list .toc-active > a {
+  color: var(--animal-primary) !important;
+  font-weight: 700;
+  position: relative;
+}
+.toc-list .toc-active > a::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 16px;
+  background: var(--animal-primary);
+  border-radius: 2px;
+  transition: opacity 0.3s;
+}
+.toc-list a {
+  transition: color 0.2s ease, padding-left 0.2s ease;
+}
+.toc-drawer-body .toc-list .toc-active > a {
+  color: var(--animal-primary) !important;
+  font-weight: 700;
+}

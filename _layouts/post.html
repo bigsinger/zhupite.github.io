@@ -52,6 +52,32 @@ layout: default
   </div>
   {% endif %}
 
+  <!-- Previous / Next Post Navigation -->
+  <nav class="post-nav">
+    {% if page.previous %}
+    <a href="{{ site.url }}{{ page.previous.url }}" class="post-nav-link prev">
+      <span class="post-nav-label">← 上一篇</span>
+      <span class="post-nav-title">{{ page.previous.title }}</span>
+    </a>
+    {% else %}
+    <span class="post-nav-link prev disabled">
+      <span class="post-nav-label">← 上一篇</span>
+      <span class="post-nav-title">已是第一篇</span>
+    </span>
+    {% endif %}
+    {% if page.next %}
+    <a href="{{ site.url }}{{ page.next.url }}" class="post-nav-link next">
+      <span class="post-nav-label">下一篇 →</span>
+      <span class="post-nav-title">{{ page.next.title }}</span>
+    </a>
+    {% else %}
+    <span class="post-nav-link next disabled">
+      <span class="post-nav-label">下一篇 →</span>
+      <span class="post-nav-title">已是最后一篇</span>
+    </span>
+    {% endif %}
+  </nav>
+
   <div class="comment">
     {% include comments.html %}
   </div>

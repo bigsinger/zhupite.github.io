@@ -65,32 +65,7 @@
   list.innerHTML = tocHtml;
   if (mobileList) mobileList.innerHTML = tocHtml;
 
-  var allLinks = list.querySelectorAll('a');
-  if (allLinks.length > 0 && typeof IntersectionObserver !== 'undefined') {
-    var observer = new IntersectionObserver(function(entries) {
-      for (var e = 0; e < entries.length; e++) {
-        var entry = entries[e];
-        var targetId = decodeURIComponent(entry.target.id);
-        var tocLink = null;
-        for (var l = 0; l < allLinks.length; l++) {
-          var href = allLinks[l].getAttribute('href');
-          if (href === '#' + targetId) {
-            tocLink = allLinks[l];
-            break;
-          }
-        }
-        if (entry.isIntersecting && tocLink) {
-          for (var l = 0; l < allLinks.length; l++) {
-            allLinks[l].parentElement.classList.remove('toc-active');
-          }
-          tocLink.parentElement.classList.add('toc-active');
-        }
-      }
-    }, { rootMargin: '-20px 0px -60% 0px' });
-    for (var i = 0; i < hs.length; i++) {
-      observer.observe(hs[i]);
-    }
-  }
+  // Scroll highlight handled in main.js
 
   var btn = document.getElementById('tocMobileBtn');
   var overlay = document.getElementById('tocMobileOverlay');
