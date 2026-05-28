@@ -140,28 +140,20 @@ navs:
 
 ### 评论系统
 
-目前使用 **Gitalk**（基于 GitHub Issues）。评论数据存储在独立仓库，通过 GitHub 账号登录后可发表评论。
+目前使用 **Utterances**（基于 GitHub Issues 的 GitHub App）。无需 OAuth App，直接在仓库上安装 Utterances 即可。
 
-#### 前置条件
+#### 安装配置
 
-1. 创建一个公开的 GitHub 仓库用于存储评论（如 `用户名/blog-comments`）
-2. 在该仓库的 **Settings → Issues** 确保勾选 "Issues" 功能
-3. 注册一个 GitHub OAuth App：
-   - 访问 [GitHub Developer Settings → OAuth Apps](https://github.com/settings/developers) → **New OAuth App**
-   - **Application name**: 任意，如 `博客评论`
-   - **Homepage URL**: 你的博客地址
-   - **Authorization callback URL**: 你的博客地址
-   - 创建后复制 `Client ID` 和 `Client Secret`
-
-#### 配置 `_config.yml`
+1. 访问 [Utterances GitHub App](https://github.com/apps/utterances) → **Install**
+2. 选择用于存储评论的仓库（如 `用户名/blog-comments`）
+3. 在 `_config.yml` 中配置：
 
 ```yaml
-comments_provider: gitalk
-gitalk:
-    owner: 你的GitHub用户名
-    repo: blog-comments          # 存储评论的仓库名
-    clientID: xxx                # OAuth App 的 Client ID
-    clientSecret: xxx            # OAuth App 的 Client Secret
+comments_provider: utterances
+utterances:
+    repo: 用户名/blog-comments     # 存储评论的仓库
+    issue_term: pathname          # 页面路径映射方式
+    theme: github-light           # 主题：github-light / github-dark / preferred-color-scheme
 ```
 
 #### 页面控制

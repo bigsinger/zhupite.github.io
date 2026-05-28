@@ -111,8 +111,13 @@ plugins:
 #      Comments #
 # ---------------- #
 # support provider: disqus, gitment, gitalk, utterances, beaudar, giscus
-comments_provider: gitalk
-# !!!重要!!! 请修改下面这些信息为你自己申请的
+comments_provider: utterances
+# !!!重要!!! 请先安装 Utterances GitHub App：
+# https://github.com/apps/utterances → 选择 bigsinger/blog-comments 仓库安装
+utterances:
+    repo: bigsinger/blog-comments
+    issue_term: pathname
+    theme: github-light
 # !!!Important!!! Please modify infos below to yours
 # https://disqus.com
 disqus:

@@ -1,22 +1,12 @@
 {% if page.comments != false %}
   {% case site.comments_provider %}
-  {% when 'gitalk' %}
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
-  <div id="gitalk-container"></div>
-  <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
-  <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var gitalk = new Gitalk({
-      clientID: '{{ site.gitalk.clientID }}',
-      clientSecret: '{{ site.gitalk.clientSecret }}',
-      repo: '{{ site.gitalk.repo }}',
-      owner: '{{ site.gitalk.owner }}',
-      admin: ['{{ site.gitalk.owner }}'],
-      id: location.pathname,
-      distractionFreeMode: false
-    });
-    gitalk.render('gitalk-container');
-  });
+  {% when 'utterances' %}
+  <script src="https://utteranc.es/client.js"
+          repo="{{ site.utterances.repo }}"
+          issue-term="{{ site.utterances.issue_term | default: 'pathname' }}"
+          theme="{{ site.utterances.theme | default: 'github-light' }}"
+          crossorigin="anonymous"
+          async>
   </script>
   {% endcase %}
 {% endif %}
