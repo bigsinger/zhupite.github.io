@@ -14,15 +14,37 @@
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', function() {
   if (typeof SimpleJekyllSearch === 'undefined') return;
-  SimpleJekyllSearch({
-    searchInput: document.getElementById('search_box'),
-    resultsContainer: document.getElementById('search_results'),
-    json: '{{ site.url }}/assets/search_data.json?v={{ "now" | date: "%s"}}',
-    searchResultTemplate: '<li><a href="{url}" title="{title}">{title}</a></li>',
-    noResultsText: 'No results found',
-    limit: {{ site.simple_jekyll_search.limit }},
-    fuzzy: false,
-    exclude: ['Welcome']
-  });
+  /* Sidebar search */
+  var sidebarBox = document.getElementById('search_box');
+  var sidebarResults = document.getElementById('search_results');
+  var json = '{{ site.url }}/assets/search_data.json?v={{ "now" | date: "%s"}}';
+  var tmpl = '<li><a href="{url}" title="{title}">{title}</a></li>';
+  if (sidebarBox && sidebarResults) {
+    SimpleJekyllSearch({
+      searchInput: sidebarBox,
+      resultsContainer: sidebarResults,
+      json: json,
+      searchResultTemplate: tmpl,
+      noResultsText: 'No results found',
+      limit: {{ site.simple_jekyll_search.limit }},
+      fuzzy: false,
+      exclude: ['Welcome']
+    });
+  }
+  /* Mobile overlay search (same init, different elements) */
+  var mobileBox = document.getElementById('mobileSearchBox');
+  var mobileResults = document.getElementById('mobileSearchResults');
+  if (mobileBox && mobileResults) {
+    SimpleJekyllSearch({
+      searchInput: mobileBox,
+      resultsContainer: mobileResults,
+      json: json,
+      searchResultTemplate: tmpl,
+      noResultsText: 'No results found',
+      limit: {{ site.simple_jekyll_search.limit }},
+      fuzzy: false,
+      exclude: ['Welcome']
+    });
+  }
 });
 </script>
