@@ -1318,14 +1318,62 @@ img { max-width: 100%; height: auto; }
 .share { margin-top: 24px; }
 
 /* ===== 16. Article Tables ===== */
+/* Wrapper for border-radius + scroll */
+.table-wrapper {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--animal-border);
+  margin: 20px 0;
+  position: relative;
+}
+.table-wrapper > table {
+  border: none;
+  margin: 0;
+}
+/* Table header with copy button */
+.table-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 6px 12px;
+  background: var(--animal-bg-secondary);
+  border-bottom: 1px solid var(--animal-border-light);
+  gap: 8px;
+}
+.table-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--animal-text-secondary);
+  background: transparent;
+  border: 1px solid var(--animal-border-card);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--animal-font);
+}
+.table-copy-btn:hover {
+  color: var(--animal-text);
+  background: var(--animal-bg);
+  border-color: var(--animal-border);
+}
+.table-copy-btn.copied {
+  color: #22c55e;
+  border-color: #22c55e;
+}
+.table-copy-btn svg { width: 14px; height: 14px; }
+
+/* Table base styles */
 .markdown-body table {
   display: block;
+  width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   border-collapse: collapse;
   border-spacing: 0;
-  width: 100%;
-  margin: 20px 0;
   font-size: 14px;
   line-height: 1.6;
 }
@@ -1335,25 +1383,28 @@ img { max-width: 100%; height: auto; }
 }
 .markdown-body table th {
   font-weight: 700;
-  padding: 10px 14px;
-  border: 1px solid var(--animal-border);
+  font-size: 15px;
+  padding: 11px 16px;
+  border-bottom: 2px solid var(--animal-border);
   background: var(--animal-bg-secondary);
   color: var(--animal-text);
   text-align: left;
   white-space: nowrap;
 }
 .markdown-body table td {
-  padding: 9px 14px;
-  border: 1px solid var(--animal-border-light);
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--animal-border-light);
   color: var(--animal-text);
   vertical-align: top;
 }
 .markdown-body table tr {
   background: var(--animal-bg);
-  border-top: 1px solid var(--animal-border-light);
 }
 .markdown-body table tr:nth-child(2n) {
   background: var(--animal-bg-secondary);
+}
+.markdown-body table tr:last-child td {
+  border-bottom: none;
 }
 .markdown-body table tr:hover {
   background: var(--animal-bg-hover, rgba(0,0,0,0.03));
@@ -1362,9 +1413,10 @@ img { max-width: 100%; height: auto; }
 @media (max-width: 639px) {
   .markdown-body table th,
   .markdown-body table td {
-    padding: 7px 10px;
+    padding: 8px 12px;
     font-size: 13px;
   }
+  .markdown-body table th { font-size: 14px; }
 }
 
 /* ===== 17. Search Toggle Button (mobile header) ===== */
@@ -1495,25 +1547,36 @@ img { max-width: 100%; height: auto; }
 }
 
 /* ===== 18. Dark mode: tables, code blocks, blockquotes, images ===== */
-.dark .markdown-body table,
-.dark .markdown-body table tr,
-.dark .markdown-body table td,
-.dark .markdown-body table th {
+.dark .table-wrapper {
   border-color: var(--animal-border);
 }
-.dark .markdown-body table tr {
-  background-color: var(--animal-bg-card);
-  border-top-color: var(--animal-border);
+.dark .table-header {
+  background: var(--animal-bg-card);
+  border-bottom-color: var(--animal-border-light);
 }
-.dark .markdown-body table tr:nth-child(2n) {
-  background-color: var(--animal-bg-secondary);
+.dark .table-copy-btn {
+  border-color: var(--animal-border-card);
+  color: var(--animal-text-muted);
+}
+.dark .table-copy-btn:hover {
+  color: var(--animal-text);
+  border-color: var(--animal-border);
+  background: var(--animal-bg-secondary);
 }
 .dark .markdown-body table th {
-  background-color: var(--animal-bg-secondary);
+  background-color: var(--animal-bg-card);
+  border-bottom-color: var(--animal-border);
   color: var(--animal-text);
 }
 .dark .markdown-body table td {
+  border-bottom-color: var(--animal-border-light);
   color: var(--animal-text-secondary);
+}
+.dark .markdown-body table tr {
+  background-color: var(--animal-bg-card);
+}
+.dark .markdown-body table tr:nth-child(2n) {
+  background-color: var(--animal-bg-secondary);
 }
 
 /* Code blocks */

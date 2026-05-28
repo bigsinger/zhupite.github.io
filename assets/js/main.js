@@ -166,6 +166,83 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // ===== 5. Tables: wrapper + copy button =====
+  var articleBody = document.querySelector('.article-content.markdown-body');
+  if (articleBody) {
+    var tables = articleBody.querySelectorAll('table');
+    tables.forEach(function(table, idx) {
+      if (table.getAttribute('data-table-processed')) return;
+      table.setAttribute('data-table-processed', 'true');
+
+      /* Wrap table in a div for border-radius + scroll */
+      var wrapper = document.createElement('div');
+      wrapper.className = 'table-wrapper';
+
+      /* Create table header with copy button */
+      var header = document.createElement('div');
+      header.className = 'table-header';
+
+      var copyBtn = document.createElement('button');
+      copyBtn.className = 'table-copy-btn';
+      copyBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制 Markdown';
+      copyBtn.addEventListener('click', function() {
+        var md = htmlTableToMarkdown(table);
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(md).then(function() {
+            copyBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> 已复制';
+            copyBtn.classList.add('copied');
+            setTimeout(function() {
+              copyBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制 Markdown';
+              copyBtn.classList.remove('copied');
+            }, 2000);
+          });
+        }
+      });
+      header.appendChild(copyBtn);
+
+      /* Insert wrapper before table */
+      table.parentNode.insertBefore(wrapper, table);
+      wrapper.appendChild(header);
+      wrapper.appendChild(table);
+    });
+  }
+
+  /* Helper: convert HTML table to pipe-style Markdown */
+  function htmlTableToMarkdown(table) {
+    var rows = table.querySelectorAll('tr');
+    if (!rows.length) return '';
+    var lines = [];
+    var colCount = 0;
+
+    for (var r = 0; r < rows.length; r++) {
+      var cells = rows[r].querySelectorAll('th, td');
+      var cellTexts = [];
+      for (var c = 0; c < cells.length; c++) {
+        var text = cells[c].textContent || '';
+        text = text.trim().replace(/\n/g, ' ');
+        cellTexts.push(text);
+      }
+      if (cellTexts.length > colCount) colCount = cellTexts.length;
+      lines.push(cellTexts);
+    }
+
+    /* Build markdown */
+    var mdLines = [];
+    for (var r = 0; r < lines.length; r++) {
+      var cells = lines[r];
+      /* Pad with empty cells to match column count */
+      while (cells.length < colCount) cells.push('');
+      mdLines.push('| ' + cells.join(' | ') + ' |');
+      /* Add separator after header row */
+      if (r === 0) {
+        var sep = [];
+        for (var c = 0; c < colCount; c++) sep.push('---');
+        mdLines.push('| ' + sep.join(' | ') + ' |');
+      }
+    }
+    return mdLines.join('\n');
+  }
+
   // ===== 6. Mobile Search Toggle =====
   window.toggleSearch = function() {
     var overlay = document.getElementById('searchOverlay');
