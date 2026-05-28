@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     admin: ['{{ site.gitalk.owner }}'],
     id: window.location.pathname,
     distractionFreeMode: false,
-    proxy: '{{ site.gitalk.proxy | default: "https://corsproxy.io/?url=" }}'
+    proxy: '{{ site.gitalk.proxy | default: "https://thingproxy.freeboard.io/fetch/" }}'
   });
   gitalk.render('gitalk-container');
 });

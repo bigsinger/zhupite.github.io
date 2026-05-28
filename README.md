@@ -156,7 +156,7 @@ gitalk:
   repo: blog-comments
   clientID: <你的 Client ID>
   clientSecret: <你的 Client Secret>
-  proxy: https://corsproxy.io/?url=
+  proxy: https://thingproxy.freeboard.io/fetch/
 ```
 
 #### 页面控制
