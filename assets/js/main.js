@@ -52,10 +52,18 @@ document.addEventListener('DOMContentLoaded', function() {
         var match = cls.match(/language-(\w+)/);
         if (match) lang = match[1];
         if (!lang) {
-          // Try highlight-xxx class (Rouge convention)
+          /* Try highlight-xxx class (Rouge convention) */
           match = cls.match(/highlight-(\w+)/) || cls.match(/lang-(\w+)/);
           if (match) lang = match[1];
         }
+      }
+      /* If still no language, check the <pre> or parent <div> class */
+      if (!lang) {
+        var preCls = pre.className || '';
+        var parentCls = (pre.parentNode ? pre.parentNode.className : '') || '';
+        var combinedCls = preCls + ' ' + parentCls;
+        var outerMatch = combinedCls.match(/language-(\w+)/) || combinedCls.match(/highlight-(\w+)/);
+        if (outerMatch) lang = outerMatch[1];
       }
 
       // Create header with language label + copy button
@@ -109,8 +117,8 @@ document.addEventListener('DOMContentLoaded', function() {
   var tocLists = document.querySelectorAll('.toc-list');
   tocLists.forEach(function(tocList) {
     var links = tocList.querySelectorAll('a');
-    // Only process if not already handled by IntersectionObserver in sidebar-post.html
-    if (links.length > 2 && typeof IntersectionObserver !== 'undefined') {
+    /* Only process if there are links */
+    if (links.length > 0 && typeof IntersectionObserver !== 'undefined') {
       // Find all heading elements in main content
       var main = document.querySelector('.main-content');
       if (!main) return;
