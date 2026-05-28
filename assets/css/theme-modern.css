@@ -1317,7 +1317,184 @@ img { max-width: 100%; height: auto; }
 /* Share section */
 .share { margin-top: 24px; }
 
-/* ===== 16. Dark mode: tables, code blocks, blockquotes, images ===== */
+/* ===== 16. Article Tables ===== */
+.markdown-body table {
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  margin: 20px 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.markdown-body table thead {
+  display: table-header-group;
+  vertical-align: middle;
+}
+.markdown-body table th {
+  font-weight: 700;
+  padding: 10px 14px;
+  border: 1px solid var(--animal-border);
+  background: var(--animal-bg-secondary);
+  color: var(--animal-text);
+  text-align: left;
+  white-space: nowrap;
+}
+.markdown-body table td {
+  padding: 9px 14px;
+  border: 1px solid var(--animal-border-light);
+  color: var(--animal-text);
+  vertical-align: top;
+}
+.markdown-body table tr {
+  background: var(--animal-bg);
+  border-top: 1px solid var(--animal-border-light);
+}
+.markdown-body table tr:nth-child(2n) {
+  background: var(--animal-bg-secondary);
+}
+.markdown-body table tr:hover {
+  background: var(--animal-bg-hover, rgba(0,0,0,0.03));
+}
+/* Mobile: smaller padding */
+@media (max-width: 639px) {
+  .markdown-body table th,
+  .markdown-body table td {
+    padding: 7px 10px;
+    font-size: 13px;
+  }
+}
+
+/* ===== 17. Search Toggle Button (mobile header) ===== */
+.search-toggle {
+  background: var(--animal-bg-card);
+  border: 2px solid var(--animal-border-card);
+  border-radius: var(--animal-radius-full);
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--animal-text);
+  transition: all 0.2s;
+  box-shadow: 0 3px 0 var(--animal-border-light);
+}
+.search-toggle:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 0 var(--animal-border);
+}
+.search-toggle:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--animal-border);
+}
+@keyframes search-icon-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+.search-toggle:active svg {
+  animation: search-icon-pulse 0.3s ease;
+}
+
+/* Search Overlay */
+.search-overlay {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--animal-bg);
+  border-bottom: 2px solid var(--animal-border-card);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  z-index: 999;
+}
+.search-overlay.open {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.search-overlay-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--animal-border-light);
+}
+.search-overlay-icon {
+  flex-shrink: 0;
+  color: var(--animal-text-muted);
+}
+.search-overlay-header .search-input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 2px solid var(--animal-border-card);
+  border-radius: var(--animal-radius-full);
+  background: var(--animal-bg);
+  color: var(--animal-text);
+  font-size: 15px;
+  font-family: var(--animal-font);
+  font-weight: 500;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+.search-overlay-header .search-input:focus {
+  border-color: var(--animal-primary);
+}
+.search-overlay-header .search-input::placeholder {
+  color: var(--animal-text-muted);
+}
+.search-overlay-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--animal-text-muted);
+  padding: 4px 8px;
+  line-height: 1;
+  transition: color 0.2s;
+}
+.search-overlay-close:hover {
+  color: var(--animal-text);
+}
+.search-overlay-body {
+  padding: 0 16px 16px;
+}
+.search-overlay-body .search-results {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0;
+  font-size: 14px;
+}
+.search-overlay-body .search-results li {
+  padding: 10px 12px;
+  border-radius: var(--animal-radius-md, 8px);
+  transition: background 0.15s;
+}
+.search-overlay-body .search-results li:hover {
+  background: var(--animal-bg-hover, rgba(0,0,0,0.04));
+}
+.search-overlay-body .search-results li + li {
+  border-top: 1px solid var(--animal-border-card);
+}
+.search-overlay-body .search-results a {
+  display: block;
+  color: var(--animal-text);
+  text-decoration: none;
+  font-weight: 500;
+  line-height: 1.4;
+}
+.search-overlay-body .search-results a:hover {
+  color: var(--animal-primary);
+}
+.search-overlay-body .search-results:empty {
+  display: none;
+}
+
+/* ===== 18. Dark mode: tables, code blocks, blockquotes, images ===== */
 .dark .markdown-body table,
 .dark .markdown-body table tr,
 .dark .markdown-body table td,

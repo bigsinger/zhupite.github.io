@@ -166,4 +166,35 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // ===== 6. Mobile Search Toggle =====
+  window.toggleSearch = function() {
+    var overlay = document.getElementById('searchOverlay');
+    if (!overlay) return;
+    overlay.classList.toggle('open');
+    if (overlay.classList.contains('open')) {
+      var box = document.getElementById('mobileSearchBox');
+      if (box) setTimeout(function() { box.focus(); }, 200);
+    }
+  };
+
+  /* Click outside to close search overlay */
+  document.addEventListener('click', function(e) {
+    var overlay = document.getElementById('searchOverlay');
+    var btn = document.querySelector('.search-toggle');
+    if (!overlay || !overlay.classList.contains('open')) return;
+    if (!overlay.contains(e.target) && btn && !btn.contains(e.target)) {
+      overlay.classList.remove('open');
+    }
+  });
+
+  /* ESC key to close search overlay */
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      var overlay = document.getElementById('searchOverlay');
+      if (overlay && overlay.classList.contains('open')) {
+        overlay.classList.remove('open');
+      }
+    }
+  });
+
 });
