@@ -116,8 +116,8 @@
       });
     </script>
 
-    {% if site.google.adsense.enabled and site.url contains 'zhupite.com' %}
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7093222719567591" crossorigin="anonymous"></script>
+    {% if site.google.adsense.publisher_id and site.url contains 'zhupite.com' %}
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-{{ site.google.adsense.publisher_id | remove: 'pub-' }}" crossorigin="anonymous"></script>
     {% endif %}
 
     {% if site.google.analytics_id %}
