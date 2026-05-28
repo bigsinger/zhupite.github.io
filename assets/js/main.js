@@ -57,13 +57,16 @@ document.addEventListener('DOMContentLoaded', function() {
           if (match) lang = match[1];
         }
       }
-      /* If still no language, check the <pre> or parent <div> class */
+      /* If still no language, traverse ancestors of <pre> */
       if (!lang) {
-        var preCls = pre.className || '';
-        var parentCls = (pre.parentNode ? pre.parentNode.className : '') || '';
-        var combinedCls = preCls + ' ' + parentCls;
-        var outerMatch = combinedCls.match(/language-(\w+)/) || combinedCls.match(/highlight-(\w+)/);
-        if (outerMatch) lang = outerMatch[1];
+        var ancestor = pre;
+        for (var _a = 0; _a < 5; _a++) {
+          ancestor = ancestor.parentNode;
+          if (!ancestor) break;
+          var ac = ancestor.className || '';
+          var am = ac.match(/language-(\w+)/);
+          if (am) { lang = am[1]; break; }
+        }
       }
 
       // Create header with language label + copy button
