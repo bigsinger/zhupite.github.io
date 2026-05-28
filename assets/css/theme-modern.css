@@ -907,6 +907,13 @@ img { max-width: 100%; height: auto; }
   }
 }
 
+/* Mobile: hide tools-wrapper (gotop) to avoid overlapping with TOC button */
+@media (max-width: 1023px) {
+  .tools-wrapper {
+    display: none;
+  }
+}
+
 /* Mobile TOC overlay — drawer from bottom */
 .toc-mobile-overlay {
   display: none;
