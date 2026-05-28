@@ -64,12 +64,11 @@ simple_jekyll_search:
   fulltext: false
   limit: 20
 
-# ===== 评论（Gitalk） =====
-gitalk:
-  owner: bigsinger
-  repo: blog-comments
-  clientID: edc88f091827bc6d94e3
-  clientSecret: 76b470f021596b0eac8f1b0be0dd0a741d0ba3e9
+# ===== 评论（Utterances） =====
+utterances:
+  repo: bigsinger/blog-comments
+  issue_term: pathname
+  theme: github-light
 
 # ===== Google =====
 google:
