@@ -1,38 +1,34 @@
-function toggleMenu() {
-  var nav = document.getElementsByClassName("site-header-nav")[0];
-  if (nav.style.display == "inline-flex") {
-    nav.style.display = "none";
-  } else {
-    nav.style.display = "inline-flex";
-  }
-}
+/**
+ * main.js — 原生 JavaScript 版（重写于 2026-05-28）
+ * 替代 jQuery 依赖：gotop 回到顶部、图片懒加载
+ */
 
-jQuery(function() {
-  // 回到顶部
-  function toTop () {
-    var $toTop = $(".gotop");
+document.addEventListener('DOMContentLoaded', function() {
 
-    $(window).on("scroll", function () {
-      if ($(window).scrollTop() >= $(window).height()) {
-        $toTop.css("display", "block").fadeIn();
+  // ===== 1. 回到顶部 (gotop) =====
+  var gotop = document.querySelector('.gotop');
+  if (gotop) {
+    // 显示/隐藏逻辑
+    function checkScroll() {
+      if (window.scrollY >= window.innerHeight) {
+        gotop.style.opacity = '1';
+        gotop.style.pointerEvents = 'auto';
       } else {
-        $toTop.fadeOut();
+        gotop.style.opacity = '0';
+        gotop.style.pointerEvents = 'none';
       }
-    });
+    }
+    window.addEventListener('scroll', checkScroll, { passive: true });
+    checkScroll();
 
-    $toTop.on("click", function (evt) {
-      var $obj = $("body,html");
-      $obj.animate({
-        scrollTop: 0
-      }, 240);
-
-      evt.preventDefault();
+    // 点击回到顶部
+    gotop.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 
-  toTop();
-
-  // 图片懒加载
+  // ===== 2. 图片懒加载 =====
   if ('loading' in HTMLImageElement.prototype) {
     document.querySelectorAll('article.content img[src]').forEach(function(img) {
       if (!img.hasAttribute('loading')) {
@@ -40,4 +36,5 @@ jQuery(function() {
       }
     });
   }
+
 });

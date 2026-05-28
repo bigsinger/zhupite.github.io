@@ -30,38 +30,12 @@
     </footer>
 
     <div class="tools-wrapper">
-      <a class="gotop" href="#" title="回到顶部"><span class="octicon octicon-arrow-up"></span></a>
+      <a class="gotop" href="#" title="回到顶部">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+      </a>
     </div>
-
-    {% if site.components.share.enabled %}
-    <script src="{{ assets_base_url }}/assets/vendor/share.js/dist/js/share.min.js"></script>
-    {% endif %}
-    {% if page.layout != 'post' %}<script src="{{ assets_base_url }}/assets/js/geopattern.js" defer></script>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        if (typeof jQuery === 'undefined') { console.warn('jQuery not loaded for geopattern'); return; }
-        jQuery(document).ready(function($) {
-          $('.geopattern').each(function(){
-            $(this).geopattern($(this).data('pattern-id'));
-          });
-        });
-      });
-    </script>{% endif %}
-
-    {% if site.components.fancybox.enabled %}
-    <script src="https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js" defer></script>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        if (typeof jQuery === 'undefined') { console.warn('jQuery not loaded for fancybox'); return; }
-        jQuery(document).ready(function($) {
-          $("p img").each(function() {
-            var strA = "<a href='" + this.src + "' itemscope itemtype='http://schema.org/ImageObject' itemprop='url' data-fancybox='default' rel='default'></a>";
-            $(this).wrapAll(strA);
-          });
-        });
-      });
-    </script>
-    {% endif %}
 
     {% if site.components.busuanzi.enabled %}
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>

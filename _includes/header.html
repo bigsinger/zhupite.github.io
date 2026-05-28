@@ -5,17 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <title>{% if page.title %}{{ page.title }} &mdash; {% endif %}{{ site.title }}</title>
-    <link rel="stylesheet" href="{{ assets_base_url }}/assets/vendor/primer-css/css/primer.css">
-    <link rel="stylesheet" href="{{ assets_base_url }}/assets/css/bundle-legacy.css">
-    <link rel="stylesheet" href="{{ assets_base_url }}/assets/css/globals/common.css">
-    <link rel="stylesheet" href="{{ assets_base_url }}/assets/vendor/octicons/octicons/octicons.css">
     <link rel="stylesheet" href="{{ assets_base_url }}/assets/css/rouge-github.css">
-    {% if site.components.share.enabled %}
-    <link rel="stylesheet" href="{{ assets_base_url }}/assets/vendor/share.js/dist/css/share.min.css">
-    {% endif %}
-    {% if site.components.fancybox.enabled %}
-    <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css"/>
-    {% endif %}
+    <!-- Disabled: share, fancybox, jquery — removed in 2026-05-28 cleanup -->
+
     <!-- Latest compiled and minified CSS -->
     {% for css in page.css %}
     <link rel="stylesheet" href="{{ assets_base_url }}/assets/css/{{css}}">
@@ -87,7 +79,6 @@
     <meta property="article:published_time" content="{{ page.date | date: '%Y-%m-%d' }}">
     {% endif %}
 
-    <script src="{{ assets_base_url }}/assets/vendor/jquery/dist/jquery.min.js" defer></script>
     <script src="{{ assets_base_url }}/assets/js/main.js" defer></script>
     <script>
       function toggleTheme() {
