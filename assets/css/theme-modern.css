@@ -365,6 +365,13 @@ img { max-width: 100%; height: auto; }
   gap: 24px;
 }
 
+@media (max-width: 1024px) {
+  .blog-layout {
+    padding: 16px 12px;
+    gap: 16px;
+  }
+}
+
 @media (min-width: 1024px) {
   .blog-layout {
     grid-template-columns: minmax(0, 1fr) 320px;
@@ -849,6 +856,11 @@ img { max-width: 100%; height: auto; }
 .toc-card-widget {
   display: block;
 }
+@media (max-width: 1023px) {
+  .toc-card-widget {
+    display: none;
+  }
+}
 .toc-list {
   list-style: none;
   padding: 0;
@@ -1149,6 +1161,15 @@ img { max-width: 100%; height: auto; }
   margin-bottom: 32px;
   padding-bottom: 16px;
   border-bottom: 2px solid var(--animal-border-light);
+}
+@media (max-width: 640px) {
+  .post-detail-header {
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+  }
+  .post-detail-title {
+    font-size: 22px;
+  }
 }
 
 .post-detail-title {
