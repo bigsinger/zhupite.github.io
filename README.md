@@ -140,7 +140,28 @@ navs:
 
 ### 评论系统
 
-评论区已移除（无第三方服务依赖）。如果需要恢复，推荐使用 **Giscus**（基于 GitHub Discussions）或自行添加其他方案。
+目前使用 **Gitalk**（基于 GitHub Issues 的评论系统）。在文章底部通过 GitHub 账号登录后即可评论。
+
+#### 配置说明
+
+需先注册 [GitHub OAuth App](https://github.com/settings/applications/new)：
+- Homepage URL: `https://zhupite.com`
+- Authorization callback URL: `https://zhupite.com`
+
+然后在 `_config.yml` 中配置：
+
+```yaml
+gitalk:
+  owner: bigsinger
+  repo: blog-comments
+  clientID: <你的 Client ID>
+  clientSecret: <你的 Client Secret>
+  proxy: https://corsproxy.io/?url=
+```
+
+#### 页面控制
+
+在文章或页面的 frontmatter 中设置 `comments: false` 可禁用评论区。
 
 ---
 
