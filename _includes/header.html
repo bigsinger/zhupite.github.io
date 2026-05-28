@@ -95,19 +95,21 @@
           if (btn) btn.textContent = '☀️';
         }
       }
-      /* 暗色模式初始化 — 渲染前设置 html class（含 bfcache 兼容） */
+      /* 暗色模式初始化 — 基于 localStorage 纯记忆，不信任 OS 主题偏好 */
       (function() {
         function applyTheme() {
           var theme = localStorage.getItem('theme');
-          if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          if (theme === 'dark') {
             document.documentElement.classList.add('dark');
           } else {
             document.documentElement.classList.remove('dark');
           }
         }
         applyTheme();
-        /* 处理浏览器前进/后退时的 bfcache 恢复 */
-        window.addEventListener('pageshow', applyTheme);
+        /* bfcache 兼容：页面恢复时重新应用 */
+        window.addEventListener('pageshow', function(e) {
+          applyTheme();
+        });
       })();
       /* 页面加载后更新按钮图标 */
       document.addEventListener('DOMContentLoaded', function() {
