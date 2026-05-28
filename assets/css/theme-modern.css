@@ -128,6 +128,14 @@ img { max-width: 100%; height: auto; }
 }
 .skip-link:focus { left: 16px; top: 16px; }
 
+/* Anchor scroll offset — prevent sticky header from covering section headings */
+.main-content h1,
+.main-content h2,
+.main-content h3,
+.main-content h4 {
+  scroll-margin-top: 80px;
+}
+
 /* ===== 4. Header Navigation (itbug.shop style) ===== */
 .site-header-modern {
   position: sticky;
