@@ -9,11 +9,7 @@
     <link rel="stylesheet" href="{{ assets_base_url }}/assets/css/bundle-legacy.css">
     <link rel="stylesheet" href="{{ assets_base_url }}/assets/css/globals/common.css">
     <link rel="stylesheet" href="{{ assets_base_url }}/assets/vendor/octicons/octicons/octicons.css">
-    {% assign highlight_base_url = 'https://zhupite.com/rouge-themes/dist' %}
-    {% if site.cdn.jsdelivr.enabled %}
-    {% assign highlight_base_url = 'https://fastly.jsdelivr.net/gh/mzlogin/rouge-themes@master/dist' %}
-    {% endif %}
-    <link rel="stylesheet" href="{{ highlight_base_url }}/{{ site.highlight_theme}}.css">
+    <link rel="stylesheet" href="{{ assets_base_url }}/assets/css/rouge-github.css">
     {% if site.components.share.enabled %}
     <link rel="stylesheet" href="{{ assets_base_url }}/assets/vendor/share.js/dist/css/share.min.css">
     {% endif %}
