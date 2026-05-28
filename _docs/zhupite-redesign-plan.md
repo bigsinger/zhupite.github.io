@@ -1,7 +1,7 @@
 # 博客框架改造计划
 
 > **状态**：已完成（2026-05-28）
-> **改造来源**：https://itbug.shop/ (源码: https://github.com/mdddj/blog-new)
+> **改造来源**：https://itbug.shop/ (源码: https://github.com/mdddj/blog-new) 以及：https://github.com/guokaigdg/animal-island-ui
 > **目标项目**：/mnt/f/bigsinger/zhupite.github.io (zhupite.com)
 
 ## 基本原则
