@@ -20,6 +20,7 @@ date: 2025-05-28
 author: zhupite
 header-img: /assets/images/banner.jpg（可选）
 catalog: true
+sticky: true                # 设为 true 可在首页置顶（可选）
 tags: [标签1, 标签2]
 ---
 ```
@@ -162,6 +163,7 @@ utterances:
 在文章或页面的 frontmatter 中设置 `comments: false` 可禁用评论区。
 
 ---
+
 ### 文章字数统计
 
 每篇文章底部会显示 **字数** 与 **预估阅读时间**。在 `_config.yml` 中配置：
@@ -172,6 +174,39 @@ components:
     enabled: true              # 开启字数统计
     words_per_minute: 350      # 阅读速度（字/分钟），用于计算阅读时长
 ```
+
+---
+
+### 文章功能配置
+
+以下 5 项功能覆盖文章的阅读与代码体验，大部分是自动启用，少数需要 frontmatter 配置。
+
+#### 自动启用（无需配置）
+
+| 功能 | 触发方式 | 说明 |
+|------|----------|------|
+| 📋 **代码复制按钮** | 鼠标悬停代码块 → 右上角按钮 | 点击复制全文，2 秒反馈"已复制" |
+| 🏷️ **代码语言标签** | 自动检测代码块语言 | 显示在代码块左上角，如 `groovy`、`java` |
+| ⏪ **上一篇 / 下一篇导航** | 文章底部自动生成 | 利用 Jekyll `page.previous` / `page.next`，首末篇自动禁用 |
+| 📚 **TOC 滚动高亮** | 滚动文章时目录自动跟随 | 桌面侧边栏 + 移动端抽屉同步高亮 |
+
+#### Frontmatter 配置
+
+**文章置顶** — 在文章 frontmatter 中添加 `sticky: true`：
+
+```yaml
+---
+layout: post
+title: 置顶文章示例
+sticky: true            # 首页优先显示，带橙色 📌 徽章
+tags: [标签1, 标签2]
+---
+```
+
+- 置顶文章在首页优先于普通文章显示
+- 支持多篇置顶（建议 ≤ 3 篇）
+- 置顶文章卡片自动使用橙色变体（`--card-orange`）
+- 取消置顶只需删除 `sticky: true` 或设为 `false`
 
 ---
 
