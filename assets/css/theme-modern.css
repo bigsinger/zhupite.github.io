@@ -575,7 +575,7 @@ img { max-width: 100%; height: auto; }
 .post-card-footer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   flex-wrap: wrap;
   gap: var(--animal-gap-sm);
   padding-top: var(--animal-gap-md);
@@ -1267,37 +1267,88 @@ img { max-width: 100%; height: auto; }
   font-weight: 500;
 }
 
-/* Categories index page */
+/* ===== 14. Categories index page (cards) ===== */
 .categories-index { max-width: 760px; }
+
+/* Category card base */
 .category-group {
-  margin-bottom: 28px;
+  margin-bottom: 20px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1.5px solid var(--animal-border-card);
+  transition: box-shadow 0.2s;
 }
+.category-group:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+
+/* Card color variants */
+.category-group-teal { background: var(--card-teal); border-color: var(--card-teal); }
+.category-group-red { background: var(--card-red); border-color: var(--card-red); }
+.category-group-orange { background: var(--card-orange); border-color: var(--card-orange); }
+.category-group-green { background: var(--card-green); border-color: var(--card-green); }
+.category-group-purple { background: var(--card-purple); border-color: var(--card-purple); }
+.category-group-pink { background: var(--card-pink); border-color: var(--card-pink); }
+.category-group-yellow { background: var(--card-yellow); border-color: var(--card-yellow); }
+.category-group-blue { background: var(--card-blue); border-color: var(--card-blue); }
+.category-group-default { background: var(--card-default); border-color: var(--animal-border-card); }
+
+/* Category title bar */
 .category-group-title {
   font-size: 18px;
   font-weight: 900;
-  color: var(--animal-text);
-  margin: 0 0 12px;
-  padding-bottom: 8px;
-  border-bottom: 2px solid var(--animal-border-light);
+  margin: 0;
+  padding: 16px 20px;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  letter-spacing: 0.02em;
+  border-bottom: 1px solid rgba(255,255,255,0.25);
 }
+.category-group-yellow .category-group-title { color: var(--animal-text); text-shadow: none; }
+.category-group-default .category-group-title { color: var(--animal-text); text-shadow: none; }
+
+/* Post count badge */
+.category-group-count {
+  font-size: 11px;
+  font-weight: 700;
+  opacity: 0.7;
+  padding: 6px 20px;
+  color: #fff;
+}
+.category-group-yellow .category-group-count,
+.category-group-default .category-group-count {
+  color: var(--animal-text-secondary);
+}
+
+/* Post list area */
 .category-post-list {
   list-style: none;
   padding: 0;
   margin: 0;
+  background: var(--animal-bg);
+  border-radius: 0 0 13px 13px;
 }
 .category-post-list li {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 0;
+  padding: 10px 20px;
   border-bottom: 1px solid var(--animal-border-light);
 }
 .category-post-list li:last-child { border-bottom: none; }
+.category-post-list li:hover {
+  background: var(--animal-bg-hover, rgba(0,0,0,0.02));
+}
 .category-post-list a {
   font-weight: 600;
   font-size: 14px;
   color: var(--animal-text);
   text-decoration: none;
+  flex: 1;
+  margin-right: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .category-post-list a:hover { color: var(--animal-primary); }
 .category-post-date {
@@ -1305,6 +1356,7 @@ img { max-width: 100%; height: auto; }
   color: var(--animal-text-muted);
   font-weight: 500;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 /* Comment section */
@@ -1577,6 +1629,21 @@ img { max-width: 100%; height: auto; }
 }
 .dark .markdown-body table tr:nth-child(2n) {
   background-color: var(--animal-bg-secondary);
+}
+
+/* Dark mode: category cards */
+.dark .category-group {
+  border-color: var(--animal-border);
+}
+.dark .category-group-default {
+  background: var(--animal-bg-card);
+  border-color: var(--animal-border);
+}
+.dark .category-post-list {
+  background: var(--animal-bg-card);
+}
+.dark .category-post-list li:hover {
+  background: var(--animal-bg-secondary);
 }
 
 /* Code blocks */

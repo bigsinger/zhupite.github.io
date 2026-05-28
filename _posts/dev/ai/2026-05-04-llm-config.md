@@ -2,6 +2,7 @@
 layout:		post
 category:	"dev"
 title:		"LLM大模型配置"
+sticky:		true
 
 tags:		[ai]
 ---

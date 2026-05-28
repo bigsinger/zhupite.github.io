@@ -3,6 +3,7 @@
 layout:        post
 category:    "dev"
 title:        "Linux - Ubuntu（WSL）的常用命令汇总"
+sticky:       true
 
 tags:        [linux]
 ---
