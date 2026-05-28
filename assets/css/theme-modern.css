@@ -562,6 +562,7 @@ img { max-width: 100%; height: auto; }
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  min-height: calc(1.6em * 2);
 }
 
 .post-card-footer {
