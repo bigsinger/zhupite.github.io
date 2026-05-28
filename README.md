@@ -140,15 +140,33 @@ navs:
 
 ### 评论系统
 
-目前使用 **Giscus**（基于 GitHub Discussions）。需在 `_config.yml` 配置：
+目前使用 **Gitalk**（基于 GitHub Issues）。评论数据存储在独立仓库，通过 GitHub 账号登录后可发表评论。
+
+#### 前置条件
+
+1. 创建一个公开的 GitHub 仓库用于存储评论（如 `用户名/blog-comments`）
+2. 在该仓库的 **Settings → Issues** 确保勾选 "Issues" 功能
+3. 注册一个 GitHub OAuth App：
+   - 访问 [GitHub Developer Settings → OAuth Apps](https://github.com/settings/developers) → **New OAuth App**
+   - **Application name**: 任意，如 `博客评论`
+   - **Homepage URL**: 你的博客地址
+   - **Authorization callback URL**: 你的博客地址
+   - 创建后复制 `Client ID` 和 `Client Secret`
+
+#### 配置 `_config.yml`
 
 ```yaml
-comments_provider: giscus
-giscus:
-  repo: 用户名/仓库名
-  repo-id: xxx
-  category: Announcements
+comments_provider: gitalk
+gitalk:
+    owner: 你的GitHub用户名
+    repo: blog-comments          # 存储评论的仓库名
+    clientID: xxx                # OAuth App 的 Client ID
+    clientSecret: xxx            # OAuth App 的 Client Secret
 ```
+
+#### 页面控制
+
+在文章或页面的 frontmatter 中设置 `comments: false` 可禁用评论区。
 
 ---
 
