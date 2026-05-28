@@ -5,7 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <title>{% if page.title %}{{ page.title }} &mdash; {% endif %}{{ site.title }}</title>
-    <link rel="stylesheet" href="{{ assets_base_url }}/assets/css/rouge-github.css">
+    <style>{% include rouge-github.css.html %}</style>
+    <!-- Preload critical CSS so it starts downloading ASAP -->
+    <link rel="preload" href="{{ site.url }}/assets/css/theme-modern.css?v={{ site.time | date: '%s' }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ site.url }}/assets/css/theme-modern.css?v={{ site.time | date: '%s' }}"></noscript>
     <!-- Disabled: share, fancybox, jquery — removed in 2026-05-28 cleanup -->
 
     <!-- Latest compiled and minified CSS -->
@@ -22,8 +25,6 @@
     <link rel="shortcut icon" href="{{ assets_base_url }}/favicon.ico">
 
     <!-- DNS Prefetch / Preconnect for performance -->
-    <link rel="dns-prefetch" href="//fastly.jsdelivr.net">
-    <link rel="preconnect" href="https://fastly.jsdelivr.net" crossorigin>
     <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
     <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
     <link rel="dns-prefetch" href="//www.googletagmanager.com">
@@ -122,8 +123,6 @@
     {% if site.google.analytics_id %}
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google.analytics_id }}"></script>
-	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8721821812073236"
-     crossorigin="anonymous"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -137,11 +136,10 @@
     <meta name="google-site-verification" content="n0F87pINVqmLFTdLFij2-S3t-oDdYKFsidQHLQN-h1E">
 
     {% include seo-structured-data.html %}
-    <link rel="stylesheet" href="{{ site.url }}/assets/css/theme-modern.css?v={{ site.time | date: '%s' }}">
-    <!-- Google Fonts: Nunito for itbug.shop style -->
+    <!-- Google Fonts: Nunito for itbug.shop style (lazy-load: 不阻塞渲染) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 </head>
 <body class="{{ page.class }}" data-mz="{{ page.class }}">
     <!-- Skip to main content -->
