@@ -276,3 +276,200 @@ box-shadow: 0 3px 10px 0 rgba(61,52,40,0.1);
 - 卡片 hover 上浮 + 阴影呼应
 - 颜色变体按文章 ID / 分类自动分配
 - 超大圆角（20px）+ 暖色调
+
+---
+
+## 九、新功能开发踩坑实录
+
+> 2026/05/28 从 5 项新功能的反复调试中总结的经验
+
+### 9.1 代码语言标签：Jekyll/Rouge 的嵌套陷阱
+
+**现象**：代码块顶部始终显示 "code" 而非实际语言（如 groovy、java、python）。
+
+**根因**：Jekyll/Rouge 生成的代码块 HTML 结构如下：
+
+```html
+<div class="language-groovy highlighter-rouge">   <!-- ← language-* 在祖父节点 -->
+  <div class="highlight">
+    <pre class="highlight"><code>...</code></pre>
+  </div>
+</div>
+```
+
+`language-*` class 既不在 `<code>` 上、也不在 `<pre>` 上，而是在 **祖父节点**（`<div class="language-groovy highlighter-rouge">`）。
+
+**解决方案 — 多级祖先遍历**：
+
+```javascript
+/* 如果 code / pre 本身没有语言标记，向上遍历祖先节点 */
+if (!lang) {
+  var ancestor = pre;
+  for (var a = 0; a < 5; a++) {
+    ancestor = ancestor.parentNode;
+    if (!ancestor) break;
+    var ac = ancestor.className || '';
+    var am = ac.match(/language-(\w+)/);
+    if (am) { lang = am[1]; break; }
+  }
+}
+```
+
+遍历 5 层足以覆盖 Jekyll/Rouge 的所有已知嵌套深度。
+
+**检查清单**：
+1. `<code>` 的 `className` 是否有 `language-*`
+2. 是否有 `highlight-*` / `lang-*`（Rouge 旧版约定）
+3. `<pre>` 的父节点 `.highlight`
+4. `.highlight` 的父节点 `.language-* highlighter-rouge`
+5. 更外围的容器（极少数自定义模板）
+
+### 9.2 compress_html + inline Script 注释陷阱（增强版）
+
+> 此问题已在第一章中记录，这里补充具体的 debug 过程。
+
+**现象**：推送后控制台报 SyntaxError，TOC 完全消失，页面 JS 功能全部失效。
+
+**根因链**：
+1. `_config.yml` 中配置了 `compress_html: clippings: all`
+2. compress_html 将 `<script>` 内的多行 JS 合并为一行
+3. 合并后，`// 注释` 从"行注释"变成"整段注释"——它吞噬了从该行到行尾的所有代码
+4. 被注释掉的代码包含关键的 IntersectionObserver 初始化逻辑 → TOC 功能失效
+
+**典型示例**（真实踩坑）：
+
+```javascript
+// ❌ 压缩前（多行，看起来没问题）
+// 暗色模式初始化
+(function() {
+  // TOC 高亮逻辑
+  ...
+})();
+
+// ❌ 压缩后（compress_html 合并成单行）
+// 暗色模式初始化 (function() { // TOC 高亮逻辑 ... })();
+// ↑ 后面的函数体全被 // 注释掉了
+```
+
+**铁律**：在 Jekyll + compress_html 环境下，inline `<script>` 中**禁止使用** `//` 注释，只能用 `/* */`。
+
+**验证命令**：
+
+```bash
+# 1. 提交前检查
+grep -rn "^\s*//" _includes/ _layouts/ --include="*.html"
+
+# 2. 推送后验证
+curl -sL https://zhupite.com/path/to/article.html | grep -oP 'SyntaxError|Unexpected token|is not defined'
+```
+
+### 9.3 TOC 滚动高亮阈值：不要设太严格
+
+**现象**：帖子有 TOC，滚动时从不高亮任何章节。
+
+**根因**：初始代码中加了 `if (links.length > 2) return;` 的阈值判断。但：
+
+- 移动端 TOC 可能只显示 2-3 个顶级标题（仅 h1/h2）
+- 短文章可能只有 2 个标题节
+- 阈值 `> 2` 意味着标题数 ≤ 2 时直接跳过高亮
+
+**修复**：改成 `> 0`，只要 TOC 有链接就启用高亮。
+
+```javascript
+/* ❌ 太严格：只有3个以上链接才高亮 */
+if (links.length > 2) return;
+
+/* ✅ 正确：有链接就高亮 */
+if (links.length > 0) { /* 启动 Observer */ }
+```
+
+**通用原则**：IntersectionObserver 开销极低（单个 observer 可监听任意数量元素），不需要设阈值做"优化"。
+
+### 9.4 IntersectionObserver rootMargin 的调参经验
+
+**问题**：TOC 高亮要么太敏感（滚动一点点就跳转到下一个），要么太迟钝（已经滚过两个章节了还不切换）。
+
+**三次调整记录**：
+
+| 版本 | rootMargin | 效果 | 问题 |
+|------|-----------|------|------|
+| 初始 | 无（默认 `0 0 0 0`） | 只有标题完全进入视口才触发 | 滚动过快时错过高亮 |
+| v2 | `-20px 0px -60% 0px` | 改善了部分场景 | 大标题（h1）过渡仍不平滑 |
+| v3（最终） | `-50px 0px -65% 0px` | 准确标记当前阅读章节 | 经过 5+ 篇文章测试稳定 |
+
+**经验公式**：
+- `rootMargin` 的第三个值（底部偏移）控制"当前章节"的判定窗口
+- `-65%` 表示只有当标题滚过视口上 65% 的位置时才算"进入"——阅读区域的中间偏上位置最符合直觉
+- 偏移值需要配合 header sticky 高度（`-50px` 抵消 64px 头部）和预期阅读行为调试
+
+### 9.5 代码块处理防重复：data 属性标记
+
+**现象**：多次触发 `DOMContentLoaded` 或 Ajax 加载时，同一代码块被添加多个 header。
+
+**解决方案**：用 `data-code-processed` 属性标记已处理的代码块：
+
+```javascript
+/* 跳过已处理的代码块 */
+if (pre.getAttribute('data-code-processed')) return;
+pre.setAttribute('data-code-processed', 'true');
+```
+
+**适用场景**：任何对 DOM 元素做增强/注入的 JS 逻辑，都应该做幂等性处理。
+
+### 9.6 复制按钮的 Clipboard API 降级策略
+
+**完整方案**：
+
+```javascript
+copyBtn.addEventListener('click', function() {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    /* ✅ 现代 API：异步，不阻塞 UI */
+    navigator.clipboard.writeText(text).then(function() {
+      // 显示"已复制"反馈
+    });
+  } else {
+    /* ⚠️ 降级方案：select + execCommand */
+    var range = document.createRange();
+    range.selectNodeContents(code || pre);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    document.execCommand('copy');
+    sel.removeAllRanges();
+  }
+});
+```
+
+| 方案 | 优缺点 |
+|------|--------|
+| `navigator.clipboard.writeText()` | ✅ 异步、干净、非阻塞；❌ 需要 HTTPS/localhost |
+| `document.execCommand('copy')` | ✅ 兼容所有浏览器；❌ 已废弃、仅同步操作、需先选中文本 |
+
+### 9.7 新功能添加的自检清单
+
+每次添加新 JS 功能后，按此顺序验证：
+
+```
+1. curl 线上 HTML → 确认 DOM 结构正确
+2. 浏览器 Console → 确认无报错
+3. 检查 <script> 压缩后代码 → 排除 compress_html 副作用
+4. Ctrl+F5 硬刷新 → 排除缓存
+5. 分别在桌面/移动端验证 → 排除响应式问题
+```
+
+**特别注意**：jsDelivr CDN 的缓存极顽固，如果 JS 或 CSS 从 CDN 加载（`@master` 等），做功能性重写后必须切换到本地 URL + 时间戳参数，否则 CDN 缓存的旧代码会覆盖你的修复。
+
+---
+
+## 十、开发周期与资源估算
+
+| 功能 | 迭代次数 | 踩坑数 | 其中 compress_html 相关 |
+|------|---------|--------|------------------------|
+| 代码语言标签 | 4 次 | 2（Rouge 嵌套结构 + 祖先遍历深度） | 0 |
+| 代码复制按钮 | 1 次 | 1（Clipboard API 降级） | 0 |
+| 前/后篇导航 | 1 次 | 0（Jekyll 原生支持） | 0 |
+| 文章置顶 | 1 次 | 0（Liquid 原生支持） | 0 |
+| TOC 滚动高亮 | 3 次 | 3（阈值 >2、rootMargin 调试、// 注释被吞噬） | 1 |
+| **合计** | **10 次** | **6 个** | **1 个** |
+
+**结论**：Jekyll 本身的纯 Liquid 功能（置顶、导航、分页）通常零踩坑。JS 交互功能（代码块、TOC、搜索）容易遇到框架特性和构建工具的隐式副作用（compress_html 是最常见的坑）。
