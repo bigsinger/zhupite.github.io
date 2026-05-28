@@ -6,9 +6,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <title>{% if page.title %}{{ page.title }} &mdash; {% endif %}{{ site.title }}</title>
     <style>{% include rouge-github.css.html %}</style>
-    <!-- Preload critical CSS so it starts downloading ASAP -->
-    <link rel="preload" href="{{ site.url }}/assets/css/theme-modern.css?v={{ site.time | date: '%s' }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <style>
+      /* ===== 页面加载进度条 ===== */
+      #pg-bar {
+        position: fixed; top: 0; left: 0; right: 0; height: 3px;
+        z-index: 99999;
+        background: #f0f0f0;
+        overflow: hidden;
+        transition: opacity 0.4s ease;
+      }
+      #pg-bar.bar-done {
+        opacity: 0;
+        pointer-events: none;
+      }
+      #pg-bar::before {
+        content: '';
+        display: block;
+        height: 100%;
+        width: 30%;
+        background: linear-gradient(90deg, #667eea, #764ba2);
+        border-radius: 2px;
+        animation: bar-sweep 1.5s ease-in-out infinite;
+      }
+      @keyframes bar-sweep {
+        0%   { transform: translateX(-100%); }
+        100% { transform: translateX(400%); }
+      }
+      /* 页面完全加载前隐藏 body，避免 FOUC */
+      body { opacity: 0; }
+      body.body-ready { opacity: 1; transition: opacity 0.35s ease; }
+    </style>
+    <link rel="preload" href="{{ site.url }}/assets/css/theme-modern.css?v={{ site.time | date: '%s' }}" as="style" onload="this.onload=null;this.rel='stylesheet';!function(){var p=document.getElementById('pg-bar');if(p)p.classList.add('bar-done');var r=function(){document.body.classList.add('body-ready')};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',r):r()}()">
     <noscript><link rel="stylesheet" href="{{ site.url }}/assets/css/theme-modern.css?v={{ site.time | date: '%s' }}"></noscript>
+    <noscript><style>body{opacity:1}#pg-bar{display:none}</style></noscript>
     <!-- Disabled: share, fancybox, jquery — removed in 2026-05-28 cleanup -->
 
     <!-- Latest compiled and minified CSS -->
@@ -144,6 +174,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 </head>
 <body class="{{ page.class }}" data-mz="{{ page.class }}">
+    <!-- 页面加载进度条 -->
+    <div id="pg-bar"></div>
     <!-- Skip to main content -->
     <a href="#main-content" class="skip-link">跳到主内容</a>
 
