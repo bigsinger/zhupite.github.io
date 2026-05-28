@@ -70,7 +70,6 @@ gitalk:
   repo: blog-comments
   clientID: edc88f091827bc6d94e3
   clientSecret: 76b470f021596b0eac8f1b0be0dd0a741d0ba3e9
-  proxy: https://thingproxy.freeboard.io/fetch/
 
 # ===== Google =====
 google:

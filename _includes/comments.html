@@ -12,9 +12,9 @@ document.addEventListener('DOMContentLoaded', function() {
     repo: '{{ site.gitalk.repo }}',
     owner: '{{ site.gitalk.owner }}',
     admin: ['{{ site.gitalk.owner }}'],
-    id: window.location.pathname,
-    distractionFreeMode: false,
-    proxy: '{{ site.gitalk.proxy | default: "https://thingproxy.freeboard.io/fetch/" }}'
+    id: window.location.pathname.substr(0, 50),
+    language: 'zh-CN',
+    distractionFreeMode: false
   });
   gitalk.render('gitalk-container');
 });
