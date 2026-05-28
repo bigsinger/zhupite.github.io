@@ -82,19 +82,6 @@ permalink: /about/
 
 ---
 
-## 📬 联系
-
-<ul>
-{% for website in site.data.social %}
-<li>
-微信公众号：<br />
-<img style="height:192px;width:192px;border:1px solid lightgrey;" src="{{ assets_base_url }}/assets/images/qrcode.jpg" alt="朱皮特的烂笔头" />
-</li>
-{% endfor %}
-</ul>
-
----
-
 ## 💡 这里有什么
 
 这个博客从 **2007 年** 写到今天，600+ 篇文章，不求爆款，只求**有用**。
