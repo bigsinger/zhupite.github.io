@@ -36,7 +36,7 @@
     {% if site.components.share.enabled %}
     <script src="{{ assets_base_url }}/assets/vendor/share.js/dist/js/share.min.js"></script>
     {% endif %}
-    <script src="{{ assets_base_url }}/assets/js/geopattern.js" defer></script>
+    {% if page.layout != 'post' %}<script src="{{ assets_base_url }}/assets/js/geopattern.js" defer></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         if (typeof jQuery === 'undefined') { console.warn('jQuery not loaded for geopattern'); return; }
@@ -46,7 +46,7 @@
           });
         });
       });
-    </script>
+    </script>{% endif %}
 
     {% if site.components.fancybox.enabled %}
     <script src="https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js" defer></script>
@@ -62,8 +62,6 @@
       });
     </script>
     {% endif %}
-
-    {% include comments.html %}
 
     {% if site.components.busuanzi.enabled %}
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
