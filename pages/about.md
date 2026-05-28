@@ -2,19 +2,87 @@
 layout: page
 title: About
 description: 朱皮特的烂笔头
-keywords: 
+keywords: bigsinger, 朱皮特, 编程, 读书, 徒步, 反编译
 comments: true
 menu: 关于
 permalink: /about/
 ---
 
-<iframe src="https://githubbadge.appspot.com/bigsinger?s=1" style="border: 0;height: 142px;width: 200px;overflow: hidden;" frameBorder="0"></iframe>
+# 👋 关于我
 
-对编程技术有很高热情，喜欢尝试各种编程技术和框架，喜欢用现有技术解决实际问题。
+嘿，我是 **朱皮特**（GitHub [@bigsinger](https://github.com/bigsinger)），一个写了 600+ 篇博客的技术爱好者。
 
-- [程序员幽默段子](https://www.zhupite.com/other/joke.html )
+> **朱皮特的烂笔头** — 好记性不如烂笔头，写下来才是自己的。
 
-# 联系
+---
+
+## 🔧 技术栈
+
+主业是**软件开发**，涉猎广泛但不浅尝辄止：
+
+| 领域 | 技术 |
+|------|------|
+| **移动端** | Android（签名/逆向/Hook）、ZXing、Cocos Creator |
+| **桌面端** | C++ / MFC、C# / Blazor、.NET |
+| **安全** | Frida（Hook + Stalker）、IDA Pro、Xposed、Substrate、APK 反编译 |
+| **Web** | JavaScript、Python、Jekyll、Hugo |
+| **工程** | SVN、Gradle、Docker、远程控制 |
+
+但技术只是工具，**解决实际问题**才是目的。
+
+---
+
+## 📖 阅读
+
+一年读几十本书，技术、历史、哲学、传记、文学都看：
+
+- **技术**：《图解网络硬件》《人月神话》
+- **历史与社科**：《筚路维艰》《置身事内》《传习录》
+- **人物传记**：《埃隆·马斯克传》《颠覆者：周鸿祎自传》《一网打尽：贝佐斯与亚马逊时代》《东方马车》
+- **哲学与宗教**：《楞严经》《学佛心得》《功勋》观后感
+- **文学**：《我们仨》《解忧杂货店》《望乡台》
+- **商业管理**：《理论大全》《横向领导力》
+
+每一本读完都写笔记，这是我对知识最大的敬意。
+
+---
+
+## 🏔️ 户外
+
+住在杭州，周末最喜欢的事就是**上山**：
+
+爬过吴山、宝石山、北高峰、南高峰、凤凰山、南屏山、五云山、老虎洞山、娘娘山、临平山、半山、皋亭山、烟霞三洞、黄龙洞……还有周边的临安天目山、桐庐马岭古道。
+
+> 流汗、喘气、登顶、吹风 —— 最好的减压方式。
+
+---
+
+## 🧠 思考
+
+偶尔写一些非技术的东西：
+
+- 美国两党制科普
+- 情绪管理心得
+- 密码安全哲学
+- 忆往昔随笔
+- 心理学与交互设计
+
+---
+
+## 🛠️ 折腾
+
+喜欢动手修修补补：
+
+- 装修时自己设计电路和太阳能光伏
+- 泡凤爪（有独家配方）
+- 给老电脑做 DIY 升级
+- 研究远程开机 + 远程控制方案
+- 用 Fiddler 抓包、NFC 模拟门禁卡
+- FM 收音机调频爱好者
+
+---
+
+## 📬 联系
 
 <ul>
 {% for website in site.data.social %}
@@ -25,13 +93,35 @@ permalink: /about/
 {% endfor %}
 </ul>
 
-# Skill Keywords
+---
 
-{% for skill in site.data.skills %}
-## {{ skill.name }}
-<div class="btn-inline">
-{% for keyword in skill.keywords %}
-<button class="btn btn-outline" type="button">{{ keyword }}</button>
-{% endfor %}
-</div>
-{% endfor %}
+## 💡 这里有什么
+
+这个博客从 **2007 年** 写到今天，600+ 篇文章，不求爆款，只求**有用**。
+
+- 技术文章 —— 都是踩坑后的经验总结，不是 API 文档的翻译
+- 读书笔记 —— 每本读过的书留下的痕迹
+- 游记攻略 —— 杭州爬山路线一站式指南
+- 生活记录 —— 装修、做饭、看病、育儿
+
+> 如果你在 Google 里搜到一个技术问题，点进来发现是一篇中文文章写得很清楚，那大概率就是我。
+
+---
+
+## 🔗 链接
+
+- GitHub：[https://github.com/bigsinger](https://github.com/bigsinger)
+- 博客：[https://zhupite.com](https://zhupite.com)
+- [程序员幽默段子](https://www.zhupite.com/other/joke.html)
+
+---
+
+## 📊 数字
+
+| 项目 | 数据 |
+|------|------|
+| 博客创建 | 2007 年 |
+| 文章总数 | 600+ 篇 |
+| 分类覆盖 | 技术开发 / 安全 / 读书 / 徒步 / 思考 / 生活 / 工具 |
+| 最活跃年份 | 2019 年（101 篇） |
+| 持续写作 | 不间断写了 19 年 |
