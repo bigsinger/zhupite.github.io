@@ -1,5 +1,10 @@
 <div class="sidebar-card search-card-widget">
-  <h3 class="sidebar-card-title">Search</h3>
+  <h3 class="sidebar-card-title">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-3px;margin-right:6px">
+      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+    </svg>
+    搜索
+  </h3>
   <div id="site_search">
     <input type="text" id="search_box" class="search-input" placeholder="搜索文章…">
   </div>
@@ -8,7 +13,9 @@
 
 <script src="{{ assets_base_url }}/assets/js/simple-jekyll-search.min.js" defer></script>
 <script type="text/javascript">
-SimpleJekyllSearch({
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof SimpleJekyllSearch === 'undefined') return;
+  SimpleJekyllSearch({
     searchInput: document.getElementById('search_box'),
     resultsContainer: document.getElementById('search_results'),
   {% if site.cdn.jsdelivr.enabled and site.url contains 'mazhuang.org' %}
@@ -22,4 +29,6 @@ SimpleJekyllSearch({
     fuzzy: false,
     exclude: ['Welcome']
 })
+  });
+});
 </script>

@@ -706,18 +706,33 @@ img { max-width: 100%; height: auto; }
   list-style: none;
   padding: 0;
   margin: 8px 0 0;
-  font-size: 12px;
+  font-size: 13px;
 }
 .search-results li {
-  padding: 4px 0;
+  padding: 6px 10px;
+  border-radius: var(--animal-radius-md, 8px);
+  transition: background 0.15s;
+}
+.search-results li:hover {
+  background: var(--animal-bg-hover, rgba(0,0,0,0.04));
+}
+.search-results li + li {
+  border-top: 1px solid var(--animal-border-card);
+  margin-top: 0;
+  padding-top: 6px;
 }
 .search-results a {
+  display: block;
   color: var(--animal-text);
   text-decoration: none;
   font-weight: 500;
+  line-height: 1.4;
 }
 .search-results a:hover {
   color: var(--animal-primary);
+}
+.search-results:empty {
+  display: none;
 }
 
 /* Categories Card */
