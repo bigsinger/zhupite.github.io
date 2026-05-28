@@ -12,39 +12,57 @@
 </div>
 
 <script type="text/javascript">
-document.addEventListener('DOMContentLoaded', function() {
-  if (typeof SimpleJekyllSearch === 'undefined') return;
-  /* Sidebar search */
-  var sidebarBox = document.getElementById('search_box');
-  var sidebarResults = document.getElementById('search_results');
+(function() {
+  /* SimpleJekyllSearch 的全局数据存储 a 是共享的。
+     创建两个实例会导致数据被重复 push，搜索返回双倍结果。
+     方案：侧栏实例传入 json URL（加载数据），
+          移动覆盖层实例传入空数组 json:[]（避免重复），
+          两者共享同一个全局数据存储 */
   var json = '{{ site.url }}/assets/search_data.json?v={{ "now" | date: "%s"}}';
   var tmpl = '<li><a href="{url}" title="{title}">{title}</a></li>';
-  if (sidebarBox && sidebarResults) {
-    SimpleJekyllSearch({
-      searchInput: sidebarBox,
-      resultsContainer: sidebarResults,
-      json: json,
-      searchResultTemplate: tmpl,
-      noResultsText: 'No results found',
-      limit: {{ site.simple_jekyll_search.limit }},
-      fuzzy: false,
-      exclude: ['Welcome']
-    });
-  }
-  /* Mobile overlay search (same init, different elements) */
-  var mobileBox = document.getElementById('mobileSearchBox');
-  var mobileResults = document.getElementById('mobileSearchResults');
-  if (mobileBox && mobileResults) {
-    SimpleJekyllSearch({
-      searchInput: mobileBox,
-      resultsContainer: mobileResults,
-      json: json,
-      searchResultTemplate: tmpl,
-      noResultsText: 'No results found',
-      limit: {{ site.simple_jekyll_search.limit }},
-      fuzzy: false,
-      exclude: ['Welcome']
-    });
-  }
-});
+  var limit = {{ site.simple_jekyll_search.limit }};
+  var opts = {
+    searchResultTemplate: tmpl,
+    noResultsText: 'No results found',
+    limit: limit,
+    fuzzy: false,
+    exclude: ['Welcome']
+  };
+
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof SimpleJekyllSearch === 'undefined') return;
+
+    /* Sidebar search — 唯一加载 JSON 的实例 */
+    var sidebarBox = document.getElementById('search_box');
+    var sidebarResults = document.getElementById('search_results');
+    if (sidebarBox && sidebarResults) {
+      SimpleJekyllSearch({
+        searchInput: sidebarBox,
+        resultsContainer: sidebarResults,
+        json: json,
+        searchResultTemplate: opts.searchResultTemplate,
+        noResultsText: opts.noResultsText,
+        limit: opts.limit,
+        fuzzy: opts.fuzzy,
+        exclude: opts.exclude
+      });
+    }
+
+    /* Mobile overlay search — 传空数组 json:[]，不重复推送数据 */
+    var mobileBox = document.getElementById('mobileSearchBox');
+    var mobileResults = document.getElementById('mobileSearchResults');
+    if (mobileBox && mobileResults) {
+      SimpleJekyllSearch({
+        searchInput: mobileBox,
+        resultsContainer: mobileResults,
+        json: [],
+        searchResultTemplate: opts.searchResultTemplate,
+        noResultsText: opts.noResultsText,
+        limit: opts.limit,
+        fuzzy: opts.fuzzy,
+        exclude: opts.exclude
+      });
+    }
+  });
+})();
 </script>

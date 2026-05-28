@@ -1,14 +1,19 @@
-[{% assign counter = 0 %}
-{% for post in site.posts %}
-{% if post.title %}
-{% if counter > 0 %},{% endif %}
-{
-  "title"   : {{ post.title | jsonify }},
-  "url"     : "{{ site.url }}{{ post.url }}",
-  "date"    : "{{ post.date | date: '%Y-%m-%d' }}",
-  "tags"    : {{ post.tags | join: ', ' | jsonify }},
-  "excerpt" : {{ post.excerpt | strip_html | strip_newlines | strip | truncate: 300 | jsonify }},
-  "content" : {{ post.content | strip_html | strip_newlines | strip | truncate: 5000 | jsonify }}
-}{% assign counter = counter | plus: 1 %}
-{% endif %}
-{% endfor %}]
+---
+---
+{% capture json %}
+[
+  {% for doc in site.posts %}
+  {% if doc.title %}
+    {
+      "title"    : "{{ doc.title | escape }}",
+      "category" : "{{ doc.categories[0] | xml_escape }}",
+      {% if site.simple_jekyll_search.fulltext %}"content": {{ doc.content | markdownify | strip_html | replace:'"','' | jsonify | replace:'\n',' ' | replace:'   ',' ' | replace:'  ',' ' | replace:'\',' ' }},{% endif %}
+      "url"      : "{{ site.url }}{{ doc.url }}",
+      "keywords" : "{{ doc.keywords | escape }}"
+    } {% unless forloop.last %},{% endunless %}
+  {% endif %}
+  {% endfor %}
+]
+{% endcapture %}
+
+{{ json | lstrip }}
