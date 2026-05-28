@@ -843,38 +843,6 @@ img { max-width: 100%; height: auto; }
   color: var(--animal-text);
 }
 
-/* Repo Card */
-.repo-list-widget {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.repo-item {
-  display: flex;
-  align-items: center;
-  gap: var(--animal-gap-sm);
-  padding: 6px 8px;
-  border-radius: var(--animal-radius-sm);
-  font-size: 13px;
-  font-weight: 600;
-  transition: background 0.2s;
-  text-decoration: none;
-  color: var(--animal-text);
-}
-.repo-item:hover {
-  background: var(--animal-bg-secondary);
-  color: var(--animal-text);
-}
-.repo-icon {
-  flex-shrink: 0;
-  color: var(--animal-text-muted);
-}
-.repo-name {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 /* ===== 10. TOC Sidebar (post detail) ===== */
 /* TOC card styling — desktop sticky */
 .toc-card-widget {

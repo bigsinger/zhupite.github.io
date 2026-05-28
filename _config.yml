@@ -24,10 +24,6 @@ components:
     busuanzi:
         enabled: false
         start_date: 2020-05-03
-    # My Popular Repositories
-    side_bar_repo:
-        enabled: true
-        limit: 5
     # 文章字数统计
     word_count:
         enabled: true
@@ -111,11 +107,6 @@ plugins:
     - jekyll-feed
     - jemoji
 #     - jekyll-mentions
-collections:
-    wiki:
-        output: true
-        permalink: /wiki/:path/
-
 # ---------------- #
 #      Comments #
 # ---------------- #
