@@ -31,12 +31,9 @@ layout: default
   </header>
 
   <article class="article-content markdown-body">
-    {% include content-header-ad.html %}
     {{ content }}
     {% include copyright.html %}
   </article>
-
-  {% include content-footer-ad.html %}
 
   <!-- Related Posts -->
   {% if page.layout == 'post' and page.categories %}

@@ -1565,10 +1565,7 @@ div.footnotes::before { content: ""; display: block; margin: 1.5rem 0; border: 0
 img + em { color: var(--animal-text-muted); display: block; text-align: center; font-size: 0.9em; }
 
 /* Responsive Ad */
-.content-header-ad { display: inline-block; width: 320px; height: 50px; }
-@media (max-width: 400px) { .content-header-ad { display: none; } }
-@media (min-width: 500px) { .content-header-ad { width: 468px; height: 60px; } }
-@media (min-width: 800px) { .content-header-ad { width: 728px; height: 90px; } }
+/* AdSense CSS rules removed — no longer used */
 
 /* ===== 22. Code Block: Language Label + Copy Button ===== */
 .markdown-body pre {
