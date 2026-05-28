@@ -21,7 +21,7 @@ menu: 首页
   <!-- Post Card Grid -->
   <div class="post-grid">
 
-    {% assign sticky_posts = paginator.posts | where: "sticky", true %}
+    {% assign sticky_posts = site.posts | where: "sticky", true %}
     {% assign regular_posts = paginator.posts | where_exp: "p", "p.sticky != true" %}
 
     {% for post in sticky_posts %}
