@@ -58,6 +58,7 @@ compress_html:
 components:
   word_count:
     enabled: true
+    words_per_minute: 350    # 阅读速度（字/分钟）
 
 # ===== 搜索 =====
 simple_jekyll_search:
@@ -68,7 +69,7 @@ simple_jekyll_search:
 utterances:
   repo: bigsinger/blog-comments
   issue_term: pathname
-  theme: github-light
+  theme: preferred-color-scheme
 
 # ===== Google =====
 google:

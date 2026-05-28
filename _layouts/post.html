@@ -20,9 +20,11 @@ layout: default
       </span>
       {% endfor %}
       {% if site.components.word_count.enabled %}
+      {% assign word_count = page.content | strip_html | strip_newlines | remove: " " | size %}
+      {% assign read_time = word_count | divided_by: site.components.word_count.words_per_minute | plus: 1 %}
       <span class="meta-item">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 6v6h4"/><circle cx="12" cy="12" r="10"/></svg>
-        共 {{ page.content | strip_html | strip_newlines | remove: " " | size | divided_by: 350 | plus: 1 }} 分钟
+        {{ word_count }} 字 · 约 {{ read_time }} 分钟
       </span>
       {% endif %}
     </div>

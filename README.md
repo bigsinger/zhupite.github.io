@@ -140,28 +140,38 @@ navs:
 
 ### 评论系统
 
-目前使用 **Gitalk**（基于 GitHub Issues 的评论系统）。在文章底部通过 GitHub 账号登录后即可评论。
+使用 **Utterances**（基于 GitHub Issues 的评论插件）。读者用 GitHub 账号登录后即可发表评论，所有评论存储在指定仓库的 Issues 中。
+
+#### 前置条件
+
+在 [GitHub Apps](https://github.com/apps/utterances) 安装 Utterances 应用，授权访问评论仓库。
 
 #### 配置说明
 
-需先注册 [GitHub OAuth App](https://github.com/settings/applications/new)：
-- Homepage URL: `https://zhupite.com`
-- Authorization callback URL: `https://zhupite.com`
-
-然后在 `_config.yml` 中配置：
+在 `_config.yml` 中配置：
 
 ```yaml
-gitalk:
-  owner: bigsinger
-  repo: blog-comments
-  clientID: <你的 Client ID>
-  clientSecret: <你的 Client Secret>
-  proxy: https://thingproxy.freeboard.io/fetch/
+utterances:
+  repo: bigsinger/blog-comments   # GitHub 评论仓库（owner/repo）
+  issue_term: pathname              # 页面与 Issue 的关联方式
+  theme: github-light               # 主题（github-light / github-dark / preferred-color-scheme）
 ```
 
 #### 页面控制
 
 在文章或页面的 frontmatter 中设置 `comments: false` 可禁用评论区。
+
+---
+### 文章字数统计
+
+每篇文章底部会显示 **字数** 与 **预估阅读时间**。在 `_config.yml` 中配置：
+
+```yaml
+components:
+  word_count:
+    enabled: true              # 开启字数统计
+    words_per_minute: 350      # 阅读速度（字/分钟），用于计算阅读时长
+```
 
 ---
 
@@ -200,11 +210,10 @@ bundle exec jekyll serve
 - ✅ **深色模式** — 自动跟随系统主题
 - ✅ **全文搜索** — Simple Jekyll Search，实时模糊匹配
 - ✅ **文章目录** — 桌面侧边栏 + 移动端悬浮按钮
-- ✅ **Giscus 评论** — 基于 GitHub Discussions
+- ✅ **评论系统** — Utterances（基于 GitHub Issues）
 - ✅ **代码高亮** — Rouge + GitHub 风格
 - ✅ **Google Analytics** — 站点统计
 - ✅ **SEO** — 自动生成 sitemap、结构化数据
-- ✅ **图片灯箱** — fancybox（可选开启）
 
 ---
 
