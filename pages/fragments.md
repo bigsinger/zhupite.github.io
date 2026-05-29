@@ -42,23 +42,23 @@ permalink: /fragments/
 </ul>
 
 <script>
-jQuery(function() {
+(function() {
     function getUrlParam(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
         var r = window.location.search.substr(1).match(reg);
-        if (r != null) return r[2]; return null;
+        if (r != null) return decodeURIComponent(r[2]);
+        return null;
     }
 
     var tag = getUrlParam('tag');
-    if (tag == undefined || tag === '') {
-        return;
-    }
+    if (!tag) return;
 
-    $(".listing-item").each(function() {
-        if ($(this).attr('tags').indexOf(tag) < 0) {
-            $(this).css('display', 'none');
+    var items = document.querySelectorAll('.listing-item');
+    for (var i = 0; i < items.length; i++) {
+        var itemTags = items[i].getAttribute('tags') || '';
+        if (itemTags.indexOf(tag) < 0) {
+            items[i].style.display = 'none';
         }
-    });
-
-});
+    }
+})();
 </script>
