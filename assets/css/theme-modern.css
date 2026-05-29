@@ -1164,10 +1164,7 @@ img { max-width: 100%; height: auto; }
   flex-direction: column;
 }
 
-/* ===== 14. Inline SVG icons ===== */
-.octicon { fill: currentColor; }
-
-/* ===== 15. Post Detail Page ===== */
+/* ===== 14. Post Detail Page ===== */
 .post-detail {
   max-width: 760px;
 }
@@ -1381,10 +1378,8 @@ img { max-width: 100%; height: auto; }
   border-top: 2px solid var(--animal-border-light);
 }
 
-/* Share section */
-.share { margin-top: 24px; }
 
-/* ===== 16. Article Tables ===== */
+/* ===== 15. Article Tables ===== */
 /* Wrapper with border + rounded corners */
 .table-wrapper {
   border-radius: 10px;
@@ -1843,9 +1838,6 @@ img[loading="lazy"] {
   color: var(--animal-text-secondary) !important;
 }
 
-/* ===== 20. Dark mode override for old Primer elements ===== */
-.dark .site-header { background: var(--animal-bg-header); }
-
 /* ===== 19. Responsive ===== */
 @media (max-width: 639px) {
   .header-container { padding: 10px 12px; }
@@ -1857,13 +1849,10 @@ img[loading="lazy"] {
   .page-btn { min-width: 36px; height: 36px; font-size: 13px; }
 }
 
-/* ===== 18. Old redundant styles kept for compatibility ===== */
-.page-header, .post-header { display: none; }
 
-/* ===== 21. Primer Compatibility Layer =====
+/* ===== 20. Primer Compatibility Layer =====
   Replaces primer.css 28KB with ~100 lines of essential base styles.
   Added 2026-05-28 as part of old theme stripping (Round 2). */
-*, *::before, *::after { box-sizing: border-box; }
 body { margin: 0; }
 
 /* Base Typography */
