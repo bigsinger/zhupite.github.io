@@ -1,25 +1,8 @@
-{% comment %} 手动提取标签计数数组——site.tags 是 Hash，map:"last" 不生效 {% endcomment %}
-{% assign tag_sizes = "" | split: "" %}
-{% for tag in site.tags %}
-  {% assign tag_sizes = tag_sizes | push: tag[1].size %}
-{% endfor %}
-{% assign max_tag_count = tag_sizes | max %}
-{% assign min_tag_count = tag_sizes | min %}
-{% assign range = max_tag_count | minus: min_tag_count | at_least: 1 %}
 <div class="sidebar-card tags-card-widget">
-  <h3 class="sidebar-card-title">🏷️ 热门标签</h3>
+  <h3 class="sidebar-card-title">热门标签</h3>
   <div class="tags-cloud">
-    {% for tag in site.tags limit: 30 %}
-      {% assign weight = tag[1].size | minus: min_tag_count | times: 3 | divided_by: range | plus: 1 %}
-      {% assign size_class = "tag-s" %}
-      {% if weight >= 4 %}
-        {% assign size_class = "tag-xl" %}
-      {% elsif weight == 3 %}
-        {% assign size_class = "tag-l" %}
-      {% elsif weight == 2 %}
-        {% assign size_class = "tag-m" %}
-      {% endif %}
-      <span class="tag-pill {{ size_class }}">{{ tag[0] }}</span>
+    {% for tag in site.tags limit: 25 %}
+    <a href="{{ site.url }}/categories/#{{ tag[0] }}" class="tag-pill">{{ tag[0] }}</a>
     {% endfor %}
   </div>
 </div>

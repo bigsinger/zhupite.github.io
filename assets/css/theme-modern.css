@@ -842,7 +842,7 @@ img { max-width: 100%; height: auto; }
   color: var(--animal-text);
   border: 1px solid var(--animal-border-card);
   transition: all 0.2s;
-  cursor: default;
+  text-decoration: none;
 }
 .tag-pill:hover {
   background: var(--animal-bg-card);
@@ -850,12 +850,6 @@ img { max-width: 100%; height: auto; }
   transform: translateY(-1px);
   color: var(--animal-text);
 }
-
-/* Size classes */
-.tag-pill.tag-s { font-size: 11px; padding: 2px 8px; }
-.tag-pill.tag-m { font-size: 13px; padding: 4px 10px; }
-.tag-pill.tag-l { font-size: 15px; padding: 5px 13px; }
-.tag-pill.tag-xl { font-size: 18px; padding: 7px 16px; }
 
 /* ===== 10. TOC Sidebar (post detail) ===== */
 /* TOC card styling — desktop sticky */
