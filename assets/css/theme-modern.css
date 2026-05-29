@@ -19,6 +19,7 @@
   --animal-bg: #f8f8f0;
   --animal-bg-card: #f7f3df;
   --animal-bg-secondary: #f0e8d8;
+  --animal-bg-hover: rgba(0,0,0,0.04);
   --animal-bg-header: rgba(255,255,255,0.9);
 
   /* Border */
@@ -37,6 +38,7 @@
   --animal-radius-base: 18px;
   --animal-radius-lg: 24px;
   --animal-radius-xl: 20px;
+  --animal-radius-md: 8px;
   --animal-radius-full: 50px;
 
   /* Font */
