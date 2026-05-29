@@ -94,6 +94,7 @@
 html {
   scroll-behavior: smooth;
   font-family: var(--animal-font);
+  overflow-x: hidden;
 }
 
 body {
