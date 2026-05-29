@@ -94,7 +94,6 @@
 html {
   scroll-behavior: smooth;
   font-family: var(--animal-font);
-  overflow-x: hidden;
 }
 
 body {
@@ -117,6 +116,16 @@ a {
 a:hover { color: var(--animal-primary); }
 
 img { max-width: 100%; height: auto; }
+
+/* 长文本换行 — 防止长URL/代码撑宽页面 */
+.markdown-body {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+.markdown-body a {
+  word-break: break-all;
+}
+pre { max-width: 100%; }
 
 /* ===== 3. Skip Link ===== */
 .skip-link {
