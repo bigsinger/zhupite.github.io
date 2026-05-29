@@ -826,36 +826,53 @@ img { max-width: 100%; height: auto; }
   color: var(--animal-text-muted);
 }
 
-/* Tags Card */
+/* Tags Card — progressive visual hierarchy */
 .tags-cloud {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  align-items: center;
 }
 .tag-pill {
   display: inline-block;
-  padding: 4px 12px;
-  background: var(--animal-bg-secondary);
   border-radius: var(--animal-radius-full);
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--animal-text);
-  border: 1px solid var(--animal-border-card);
-  transition: all 0.2s;
-  text-decoration: none;
+  font-weight: 500;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  cursor: default;
+  line-height: 1.4;
 }
 .tag-pill:hover {
-  background: var(--animal-bg-card);
-  border-color: var(--animal-border);
   transform: translateY(-1px);
-  color: var(--animal-text);
 }
 
-/* Tag size classes (weight-based) */
-.tag-pill.tag-s { font-size: 11px; padding: 1px 6px; }
-.tag-pill.tag-m { font-size: 13px; padding: 3px 10px; }
-.tag-pill.tag-l { font-size: 16px; padding: 5px 13px; }
-.tag-pill.tag-xl { font-size: 19px; padding: 7px 16px; }
+/* Size classes: small → large  =  subtle → prominent */
+/* 设计逻辑：字号/间距渐增 + 背景/边框/颜色从淡化到凸显 */
+.tag-pill.tag-s {
+  font-size: 11px; padding: 1px 7px;
+  background: var(--animal-bg);
+  color: var(--animal-text-muted);
+  border-color: var(--animal-border-card);
+}
+.tag-pill.tag-m {
+  font-size: 13px; padding: 3px 11px;
+  background: var(--animal-bg-secondary);
+  color: var(--animal-text-secondary);
+  border-color: var(--animal-border-light);
+}
+.tag-pill.tag-l {
+  font-size: 15px; padding: 5px 14px;
+  background: var(--animal-bg-card);
+  color: var(--animal-text);
+  border-color: var(--animal-border);
+}
+.tag-pill.tag-xl {
+  font-size: 18px; padding: 6px 17px;
+  background: color-mix(in srgb, var(--animal-primary) 10%, var(--animal-bg-card));
+  color: var(--animal-primary);
+  border-color: color-mix(in srgb, var(--animal-primary) 35%, var(--animal-border));
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
 
 /* ===== 10. TOC Sidebar (post detail) ===== */
 /* TOC card styling — desktop sticky */
