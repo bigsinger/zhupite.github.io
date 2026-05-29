@@ -147,10 +147,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Find corresponding TOC link
         var targetId = decodeURIComponent(visibleEntry.target.id);
+        var tocContent = document.querySelector('.toc-card-widget .toc-content');
         for (var l = 0; l < links.length; l++) {
           var href = links[l].getAttribute('href');
           if (href === '#' + targetId) {
             links[l].parentElement.classList.add('toc-active');
+            // 自动滚动 TOC 到当前阅读章节
+            if (tocContent && typeof links[l].scrollIntoView === 'function') {
+              links[l].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            }
             break;
           }
         }

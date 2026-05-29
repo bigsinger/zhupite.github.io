@@ -1553,7 +1553,7 @@ img { max-width: 100%; height: auto; }
     position: absolute;
     top: 0;
     width: 320px;
-    right: 0;
+    right: 16px; /* 对齐 content area 右边缘（减去 padding） */
     left: auto;
   }
 }
