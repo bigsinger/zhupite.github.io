@@ -44,7 +44,6 @@ permalink: /:categories/:title.html
 
 plugins:
   - jekyll-github-metadata
-  - rouge
   - jekyll-paginate
   - jekyll-sitemap
   - jekyll-feed

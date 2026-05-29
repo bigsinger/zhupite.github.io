@@ -26,16 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // ===== 2. 图片懒加载 =====
-  if ('loading' in HTMLImageElement.prototype) {
-    document.querySelectorAll('article.content img[src]').forEach(function(img) {
-      if (!img.hasAttribute('loading')) {
-        img.setAttribute('loading', 'lazy');
-      }
-    });
-  }
-
-  // ===== 3. 代码块：语言标签 + 复制按钮 =====
+  // ===== 2. 代码块：语言标签 + 复制按钮 =====
   var articleContent = document.querySelector('.article-content');
   if (articleContent) {
     var pres = articleContent.querySelectorAll('pre');

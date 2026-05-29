@@ -40,9 +40,6 @@
     <noscript><style>body{opacity:1}#pg-bar{display:none}</style></noscript>
     <link rel="preload" href="{{ site.url }}/assets/css/rouge-github.css?v={{ site.time | date: '%s' }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="{{ site.url }}/assets/css/rouge-github.css?v={{ site.time | date: '%s' }}"></noscript>
-    <!-- Disabled: share, fancybox, jquery — removed in 2026-05-28 cleanup -->
-
-    <!-- Page-specific CSS (deprecated — no pages use this) -->
     <link rel="canonical" href="{{ page.url | prepend: site.url }}">
     <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="{{ site.url }}{{ site.subscribe_rss }}">
     <link rel="shortcut icon" href="{{ assets_base_url }}/favicon.ico">
@@ -130,8 +127,6 @@
         if (btn) btn.textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
       });
     </script>
-
-    <!-- Google AdSense 已移除（不赚钱，影响加载） -->
 
     {% if site.google.analytics_id %}
     <!-- Global site tag (gtag.js) - Google Analytics -->
