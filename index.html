@@ -20,8 +20,8 @@ menu: 首页
   <!-- Post Card Grid -->
   <div class="post-grid">
 
+    {% if paginator.page == 1 %}
     {% assign sticky_posts = site.posts | where: "sticky", true %}
-    {% assign regular_posts = paginator.posts | where_exp: "p", "p.sticky != true" %}
 
     {% for post in sticky_posts %}
     {% include category-color.liquid %}
@@ -47,6 +47,9 @@ menu: 首页
       </div>
     </article>
     {% endfor %}
+    {% endif %}
+
+    {% assign regular_posts = paginator.posts | where_exp: "p", "p.sticky != true" %}
 
     {% for post in regular_posts %}
     {% include category-color.liquid %}
