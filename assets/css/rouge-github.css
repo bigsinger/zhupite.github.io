@@ -205,5 +205,6 @@
   color: #bbbbbb;
 }
 .highlight {
+  overflow-x: auto;
   background-color: #f8f8f8;
 }
