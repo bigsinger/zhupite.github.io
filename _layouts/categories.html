@@ -9,22 +9,7 @@ layout: default
 
   <div class="categories-index">
     {% for category in site.categories %}
-    {% assign cat_name = category[0] | downcase %}
-    {% assign cat_color = "default" %}
-
-    {% if cat_name == "dev" or cat_name == "c++" or cat_name == "cpp" %}{% assign cat_color = "teal" %}
-    {% elsif cat_name == "sec" %}{% assign cat_color = "red" %}
-    {% elsif cat_name == "tool" %}{% assign cat_color = "orange" %}
-    {% elsif cat_name == "life" %}{% assign cat_color = "green" %}
-    {% elsif cat_name == "thinking" %}{% assign cat_color = "purple" %}
-    {% elsif cat_name == "travel" %}{% assign cat_color = "pink" %}
-    {% elsif cat_name == "reads" %}{% assign cat_color = "yellow" %}
-    {% elsif cat_name == "web" or cat_name == "flutter" or cat_name == "docker" %}{% assign cat_color = "blue" %}
-    {% elsif cat_name == "ai" %}{% assign cat_color = "purple" %}
-    {% elsif cat_name == "android" or cat_name == "kotlin" %}{% assign cat_color = "green" %}
-    {% elsif cat_name == "rust" %}{% assign cat_color = "teal" %}
-    {% elsif cat_name == "java" %}{% assign cat_color = "red" %}
-    {% endif %}
+    {% include category-color.liquid cat_name=category[0] %}
 
     <div class="category-group category-group-{{ cat_color }}">
       <h2 id="{{ category[0] }}" class="category-group-title">{{ category[0] }}</h2>

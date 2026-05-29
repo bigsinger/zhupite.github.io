@@ -33,13 +33,19 @@ permalink: /fragments/
 {% if item.title != "Fragment Template" %}
 <li class="listing-item" tags="{% for tag in item.tags %}{{ tag }} {% endfor %}">
   <a href="{{ site.url }}{{ item.url }}">{{ item.title }}</a>
+  {% if item.tags %}
   {% for tag in item.tags %}
   <a style="font-size:12px;color:gray;font-style:italic;display:inline-block;margin:0 0 0 4px;padding:0 4px;background-color:lightgray;" href="{{ site.url }}/fragments/?tag={{ tag }}" title="{{ tag }}">{{ tag }}</a>
   {% endfor %}
+  {% endif %}
 </li>
 {% endif %}
 {% endfor %}
 </ul>
+
+{% if site.fragments == nil or site.fragments.size == 0 %}
+<p style="color:var(--animal-text-secondary);font-size:14px;">还没有任何片段。</p>
+{% endif %}
 
 <script>
 (function() {

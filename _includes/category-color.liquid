@@ -1,15 +1,35 @@
-{% assign cat_color = "default" %}
-{% if post.categories.size > 0 %}
-{% assign first_cat = post.categories[0] | downcase %}
-{% if first_cat == "dev" %}{% assign cat_color = "teal" %}
-{% elsif first_cat == "sec" %}{% assign cat_color = "red" %}
-{% elsif first_cat == "tool" %}{% assign cat_color = "orange" %}
-{% elsif first_cat == "life" %}{% assign cat_color = "green" %}
-{% elsif first_cat == "thinking" %}{% assign cat_color = "purple" %}
-{% elsif first_cat == "travel" %}{% assign cat_color = "pink" %}
-{% elsif first_cat == "reads" %}{% assign cat_color = "yellow" %}
-{% elsif first_cat == "web" %}{% assign cat_color = "blue" %}
-{% elsif first_cat == "invest" %}{% assign cat_color = "gold" %}
-{% else %}{% assign cat_color = "default" %}
+{% comment %}
+  Usage:
+  {% include category-color.liquid %}               — uses post.categories[0]
+  {% include category-color.liquid cat_name="dev" %} — uses explicit name
+  Sets variable: cat_color = "teal"|"red"|"orange"|"green"|...|"default"
+{% endcomment %}
+
+{% if include.cat_name %}
+  {% assign _cat_name = include.cat_name | downcase %}
+{% elsif post.categories.size > 0 %}
+  {% assign _cat_name = post.categories[0] | downcase %}
+{% else %}
+  {% assign _cat_name = "" %}
 {% endif %}
+
+{% assign cat_color = "default" %}
+{% if _cat_name == "dev" or _cat_name == "c++" or _cat_name == "cpp" or _cat_name == "rust" %}
+  {% assign cat_color = "teal" %}
+{% elsif _cat_name == "sec" or _cat_name == "java" %}
+  {% assign cat_color = "red" %}
+{% elsif _cat_name == "tool" %}
+  {% assign cat_color = "orange" %}
+{% elsif _cat_name == "life" or _cat_name == "android" or _cat_name == "kotlin" %}
+  {% assign cat_color = "green" %}
+{% elsif _cat_name == "thinking" or _cat_name == "ai" %}
+  {% assign cat_color = "purple" %}
+{% elsif _cat_name == "travel" %}
+  {% assign cat_color = "pink" %}
+{% elsif _cat_name == "reads" %}
+  {% assign cat_color = "yellow" %}
+{% elsif _cat_name == "web" or _cat_name == "flutter" or _cat_name == "docker" %}
+  {% assign cat_color = "blue" %}
+{% elsif _cat_name == "invest" %}
+  {% assign cat_color = "gold" %}
 {% endif %}

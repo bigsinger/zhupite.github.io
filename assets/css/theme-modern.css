@@ -1301,6 +1301,7 @@ img { max-width: 100%; height: auto; }
 .category-group-pink { background: var(--card-pink); border-color: var(--card-pink); }
 .category-group-yellow { background: var(--card-yellow); border-color: var(--card-yellow); }
 .category-group-blue { background: var(--card-blue); border-color: var(--card-blue); }
+.category-group-gold { background: #d4a853; border-color: #d4a853; }
 .category-group-default { background: var(--card-default); border-color: var(--animal-border-card); }
 
 /* Category title bar */
@@ -2110,16 +2111,13 @@ img + em { color: var(--animal-text-muted); display: block; text-align: center; 
 .repo-list .card:hover { transform: translateY(-3px); box-shadow: var(--animal-shadow-lg); border-color: var(--animal-border); }
 .repo-list .thumbnail { margin: 0; }
 .repo-list .card-image { padding: 24px; border-bottom: 1px solid var(--animal-border-light); }
+.repo-list .card-image.geopattern { background: var(--animal-bg-secondary); }
 .repo-list .card-image-cell { text-align: center; }
 .repo-list .card-title { margin: 0; font-size: 16px; font-weight: 700; color: var(--animal-text); }
 .repo-list .caption { padding: 16px; background: var(--animal-bg-secondary); }
 .repo-list .card-description { margin-bottom: 8px; }
 .repo-list .card-text { font-size: 13px; color: var(--animal-text-secondary); margin: 0; }
 .repo-list .meta-info { display: inline-block; margin-right: 12px; font-size: 12px; color: var(--animal-text-muted); }
-.repo-list .meta-info svg, .repo-list .meta-info .octicon { margin-right: 4px; }
+.repo-list .meta-info svg { margin-right: 4px; }
 .repo-count { font-weight: 700; color: var(--animal-primary); }
 .repo-list .lead { font-size: 16px; }
-.octicon { display: inline-block; vertical-align: text-bottom; fill: currentColor; width: 14px; height: 14px; }
-.octicon-star::before { content: "★"; }
-.octicon-git-branch::before { content: "⎇"; }
-.octicon-clock::before { content: "🕐"; }
