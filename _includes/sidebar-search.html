@@ -38,7 +38,7 @@
       var mobileResults = document.getElementById('mobileSearchResults');
       if (!mobileBox || !mobileResults) return;
 
-      var ignoreKeys = [13, 16, 20, 37, 38, 39, 40, 91];
+      var ignoreKeys = [16, 20, 37, 38, 39, 40, 91];
 
       mobileBox.addEventListener('keyup', function(e) {
         if (ignoreKeys.indexOf(e.which) >= 0) return;

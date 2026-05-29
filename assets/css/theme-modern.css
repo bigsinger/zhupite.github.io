@@ -536,8 +536,6 @@ img { max-width: 100%; height: auto; }
   backdrop-filter: blur(2px);
 }
 
-.post-card-sep { opacity: 0.5; }
-
 .post-card-title {
   font-size: 16px;
   font-weight: 900;
@@ -572,10 +570,6 @@ img { max-width: 100%; height: auto; }
   -webkit-box-orient: vertical;
   overflow: hidden;
   min-height: calc(1.6em * 2);
-}
-.post-card-reading {
-  font-size: 12px;
-  color: var(--animal-text-secondary);
 }
 
 .post-card-footer {
