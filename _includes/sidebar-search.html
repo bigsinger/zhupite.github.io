@@ -13,86 +13,36 @@
 
 <script type="text/javascript">
 (function() {
-  /* SimpleJekyllSearch 内部使用共享变量 a，创建多个实例会导致异步回调错绑。
-     改用 fetch + 原生轻量搜索，侧栏和移动覆盖层各自独立的 keyup 监听器。 */
   var jsonUrl = '{{ site.url }}/assets/search_data.json?v={{ "now" | date: "%s"}}';
   var tmpl = '<li><a href="{url}" title="{title}">{title}</a></li>';
   var limit = {{ site.simple_jekyll_search.limit }};
   var noResultsText = '{{ site.simple_jekyll_search.no_results_text | default: "No results found" }}';
-  var exclude = ['Welcome'];
 
-  var searchData = [];
-
-  /* ---- 使用 fetch 加载搜索数据 ---- */
+  /* ---- 先预加载 JSON，再创建多个 SimpleJekyllSearch 实例 ---- */
   fetch(jsonUrl)
     .then(function(r) { return r.json(); })
     .then(function(data) {
-      searchData = data;
-    })
-    .catch(function() { /* 加载失败时搜索功能不可用，静默处理 */ });
-
-  /* ---- 搜索函数 ---- */
-  function doSearch(term, container) {
-    if (!term) { container.innerHTML = ''; return; }
-    term = term.toLowerCase();
-
-    var results = [];
-    for (var i = 0; i < searchData.length && results.length < limit; i++) {
-      var item = searchData[i];
-
-      // 排除
-      var excluded = false;
-      for (var e = 0; e < exclude.length; e++) {
-        if (new RegExp(exclude[e], 'i').test(item.title || '')) {
-          excluded = true;
-          break;
-        }
-      }
-      if (excluded) continue;
-
-      // 匹配 title / keywords / category
-      if (
-        (item.title && item.title.toLowerCase().indexOf(term) >= 0) ||
-        (item.keywords && item.keywords.toLowerCase().indexOf(term) >= 0) ||
-        (item.category && item.category.toLowerCase().indexOf(term) >= 0)
-      ) {
-        results.push(item);
-      }
-    }
-
-    container.innerHTML = results.length
-      ? results.map(function(item) {
-          return tmpl
-            .replace(/\{url\}/g, item.url)
-            .replace(/\{title\}/g, item.title);
-        }).join('')
-      : noResultsText;
-  }
-
-  /* ---- 绑定事件 ---- */
-  var ignoreKeys = [13, 16, 20, 37, 38, 39, 40, 91];
-
-  document.addEventListener('DOMContentLoaded', function() {
-    var sidebarBox = document.getElementById('search_box');
-    var sidebarResults = document.getElementById('search_results');
-    var mobileBox = document.getElementById('mobileSearchBox');
-    var mobileResults = document.getElementById('mobileSearchResults');
-
-    /* 侧栏 */
-    if (sidebarBox && sidebarResults) {
-      sidebarBox.addEventListener('keyup', function(e) {
-        if (ignoreKeys.indexOf(e.which) >= 0) return;
-        doSearch(e.target.value, sidebarResults);
+      /* 侧栏搜索 */
+      new SimpleJekyllSearch({
+        searchInput: document.getElementById('search_box'),
+        resultsContainer: document.getElementById('search_results'),
+        json: data,
+        searchResultTemplate: tmpl,
+        noResultsText: noResultsText,
+        limit: limit,
+        fuzzy: false
       });
-    }
 
-    /* 移动覆盖层 */
-    if (mobileBox && mobileResults) {
-      mobileBox.addEventListener('keyup', function(e) {
-        if (ignoreKeys.indexOf(e.which) >= 0) return;
-        doSearch(e.target.value, mobileResults);
+      /* 移动覆盖层搜索 */
+      new SimpleJekyllSearch({
+        searchInput: document.getElementById('mobileSearchBox'),
+        resultsContainer: document.getElementById('mobileSearchResults'),
+        json: data,
+        searchResultTemplate: tmpl,
+        noResultsText: noResultsText,
+        limit: limit,
+        fuzzy: false
       });
-    }
-  });
+    });
 })();
 </script>
