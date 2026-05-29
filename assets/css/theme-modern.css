@@ -1522,12 +1522,12 @@ img { max-width: 100%; height: auto; }
   overflow-y: auto;
 }
 
-/* PC: 搜索覆盖层宽度限制在右侧 */
+/* PC: 搜索覆盖层宽度限制在右侧，左边缘对齐侧边栏左边缘 */
 @media (min-width: 1024px) {
   .search-overlay {
     width: 320px;
     left: auto;
-    right: 16px;
+    right: max(40px, calc((100vw - 1120px) / 2 + 40px));
   }
 }
 .search-overlay-header {
@@ -2056,7 +2056,7 @@ img + em { color: var(--animal-text-muted); display: block; text-align: center; 
 }
 .dark .post-card.sticky::after {
   background: rgba(180,150,100,0.1);
-  color: #c8bfb0;
+  color: #fff;
 }
 
 /* ===== 25. TOC Scroll Highlight Enhancement ===== */
