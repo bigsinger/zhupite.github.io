@@ -107,7 +107,34 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // ===== 3. TOC 目录生成 + 移动端悬浮按钮 =====
+  // ===== 3. 移动端TOC悬浮按钮事件（独立于文章页，始终绑定） =====
+  (function setupTocToggle() {
+    var btn = document.getElementById('tocMobileBtn');
+    var overlay = document.getElementById('tocMobileOverlay');
+    var closeBtn = document.getElementById('tocDrawerClose');
+    if (!btn || !overlay) return;
+
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+    function closeOverlay() {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeOverlay);
+    }
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) closeOverlay();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeOverlay();
+    });
+  })();
+
+  // ===== 4. TOC 目录生成（文章页专用） =====
   (function initToc() {
     var tocCard = document.getElementById('toc-sidebar');
     if (!tocCard) return;
@@ -138,36 +165,9 @@ document.addEventListener('DOMContentLoaded', function() {
       list.innerHTML = tocHtml;
       if (mobileList) mobileList.innerHTML = tocHtml;
     }
-
-    /* 移动端浮窗按钮/抽屉事件（始终设置，确保按钮可点） */
-    (function setupToggle() {
-      var btn = document.getElementById('tocMobileBtn');
-      var overlay = document.getElementById('tocMobileOverlay');
-      var closeBtn = document.getElementById('tocDrawerClose');
-      if (!btn || !overlay) return;
-      
-      btn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        overlay.classList.add('open');
-        document.body.style.overflow = 'hidden';
-      });
-      function closeOverlay() {
-        overlay.classList.remove('open');
-        document.body.style.overflow = '';
-      }
-      if (closeBtn) {
-        closeBtn.addEventListener('click', closeOverlay);
-      }
-      overlay.addEventListener('click', function(e) {
-        if (e.target === overlay) closeOverlay();
-      });
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') closeOverlay();
-      });
-    })();
   })();
 
-  // ===== 4. TOC 滚动高亮增强 =====
+  // ===== 5. TOC 滚动高亮增强 =====
   var tocLists = document.querySelectorAll('.toc-list');
   tocLists.forEach(function(tocList) {
     var links = tocList.querySelectorAll('a');
