@@ -851,6 +851,12 @@ img { max-width: 100%; height: auto; }
   color: var(--animal-text);
 }
 
+/* Tag size classes (weight-based) */
+.tag-pill.tag-s { font-size: 11px; padding: 2px 8px; }
+.tag-pill.tag-m { font-size: 12px; padding: 4px 10px; }
+.tag-pill.tag-l { font-size: 13px; padding: 5px 12px; font-weight: 700; }
+.tag-pill.tag-xl { font-size: 14px; padding: 6px 14px; font-weight: 800; }
+
 /* ===== 10. TOC Sidebar (post detail) ===== */
 /* TOC card styling — desktop sticky */
 .toc-card-widget {
@@ -1383,10 +1389,11 @@ img { max-width: 100%; height: auto; }
 .share { margin-top: 24px; }
 
 /* ===== 16. Article Tables ===== */
-/* Wrapper for border-radius + scroll */
+/* Wrapper with border — clip via child border-radius instead of overflow:hidden
+   because overflow:hidden clips the table's overflow-x scrollbar and causes
+   the table content to look misaligned/"缺了一块" inside the border frame. */
 .table-wrapper {
   border-radius: 10px;
-  overflow: hidden;
   border: 1px solid var(--animal-border);
   margin: 20px 0;
   position: relative;
@@ -1394,15 +1401,17 @@ img { max-width: 100%; height: auto; }
 .table-wrapper > table {
   border: none;
   margin: 0;
+  border-radius: 0 0 9px 9px;  /* bottom corners match wrapper */
 }
-/* Table header with copy button */
+/* Table header with copy button — top corners match wrapper */
 .table-header {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 6px 12px;
+  padding: 6px 16px;
   background: var(--animal-bg-secondary);
   border-bottom: 1px solid var(--animal-border-light);
+  border-radius: 9px 9px 0 0;  /* 9px stays inside wrapper's 1px border */
   gap: 8px;
 }
 .table-copy-btn {
