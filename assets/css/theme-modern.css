@@ -963,7 +963,7 @@ img { max-width: 100%; height: auto; }
   }
 }
 
-/* Mobile TOC floating button */
+/* Mobile TOC floating button — 纸片风格，与Animal Design System协调 */
 .toc-mobile-btn {
   display: none;
   position: fixed;
@@ -973,13 +973,13 @@ img { max-width: 100%; height: auto; }
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: var(--animal-primary);
-  border: none;
-  color: #fff;
+  background: var(--animal-bg-card);
+  border: 2px solid var(--animal-primary);
+  color: var(--animal-primary);
   font-size: 20px;
   cursor: grab;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.2);
-  transition: box-shadow 0.2s ease;
+  box-shadow: var(--animal-shadow-base);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
   align-items: center;
   justify-content: center;
   line-height: 1;
@@ -989,24 +989,21 @@ img { max-width: 100%; height: auto; }
 }
 .toc-mobile-btn.is-dragging {
   cursor: grabbing;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  box-shadow: var(--animal-shadow-lg);
   transform: scale(1.1);
   transition: none;
 }
 .toc-mobile-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  box-shadow: var(--animal-shadow-lg);
 }
 .toc-mobile-btn:active {
   transform: translateY(1px);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  box-shadow: var(--animal-shadow-sm);
 }
 @media (max-width: 1023px) {
   .toc-mobile-btn {
     display: flex;
-  }
-  .dark .toc-mobile-btn {
-    box-shadow: 0 4px 14px rgba(0,0,0,0.5);
   }
 }
 
