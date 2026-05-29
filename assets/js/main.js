@@ -107,17 +107,78 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // ===== 3. 移动端TOC悬浮按钮事件（独立于文章页，始终绑定） =====
+  // ===== 3. 移动端TOC悬浮按钮事件 + 拖拽移动 =====
   (function setupTocToggle() {
     var btn = document.getElementById('tocMobileBtn');
     var overlay = document.getElementById('tocMobileOverlay');
     var closeBtn = document.getElementById('tocDrawerClose');
     if (!btn || !overlay) return;
 
+    /* 从 localStorage 恢复已保存的位置 */
+    var savedPos = localStorage.getItem('tocBtnPos');
+    if (savedPos) {
+      try {
+        var pos = JSON.parse(savedPos);
+        btn.style.left = pos.left;
+        btn.style.top = pos.top;
+        btn.style.right = 'auto';
+        btn.style.bottom = 'auto';
+      } catch(e) {}
+    }
+
+    /* 点击打开抽屉 */
     btn.addEventListener('click', function(e) {
+      if (btn.classList.contains('is-dragging')) return;
       e.stopPropagation();
       overlay.classList.add('open');
       document.body.style.overflow = 'hidden';
+    });
+
+    /* 拖拽逻辑 */
+    var startX, startY, origLeft, origTop, isDragging = false;
+    btn.addEventListener('touchstart', function(e) {
+      var touch = e.touches[0];
+      startX = touch.clientX;
+      startY = touch.clientY;
+      origLeft = parseInt(btn.style.left) || (window.innerWidth - btn.offsetWidth - 24);
+      origTop = parseInt(btn.style.top) || (window.innerHeight - btn.offsetHeight - 24);
+      /* 确保用 left/top 定位 */
+      btn.style.right = 'auto';
+      btn.style.bottom = 'auto';
+      btn.style.left = origLeft + 'px';
+      btn.style.top = origTop + 'px';
+      isDragging = false;
+    }, {passive: true});
+
+    btn.addEventListener('touchmove', function(e) {
+      var touch = e.touches[0];
+      var dx = touch.clientX - startX;
+      var dy = touch.clientY - startY;
+      if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+        isDragging = true;
+        btn.classList.add('is-dragging');
+      }
+      if (!isDragging) return;
+      e.preventDefault();
+      var newLeft = origLeft + dx;
+      var newTop = origTop + dy;
+      /* 限制在视口内 */
+      newLeft = Math.max(8, Math.min(window.innerWidth - btn.offsetWidth - 8, newLeft));
+      newTop = Math.max(8, Math.min(window.innerHeight - btn.offsetHeight - 8, newTop));
+      btn.style.left = newLeft + 'px';
+      btn.style.top = newTop + 'px';
+    }, {passive: false});
+
+    btn.addEventListener('touchend', function() {
+      btn.classList.remove('is-dragging');
+      if (isDragging) {
+        /* 保存位置 */
+        localStorage.setItem('tocBtnPos', JSON.stringify({
+          left: btn.style.left,
+          top: btn.style.top
+        }));
+        isDragging = false;
+      }
     });
     function closeOverlay() {
       overlay.classList.remove('open');
@@ -386,6 +447,16 @@ document.addEventListener('DOMContentLoaded', function() {
           mobileResults.innerHTML = html || '<li class="no-results">' + noResultsText + '</li>';
         });
       });
+  })();
+
+  // ===== 代码块溢出检测：为有水平滚动的高亮代码块添加标记 =====
+  (function checkCodeOverflow() {
+    var blocks = document.querySelectorAll('.highlight');
+    for (var i = 0; i < blocks.length; i++) {
+      if (blocks[i].scrollWidth > blocks[i].clientWidth) {
+        blocks[i].classList.add('is-overflow');
+      }
+    }
   })();
 
 });

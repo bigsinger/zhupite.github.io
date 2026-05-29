@@ -125,7 +125,41 @@ img { max-width: 100%; height: auto; }
 .markdown-body a {
   word-break: break-all;
 }
-pre { max-width: 100%; }
+
+/* 代码块水平滚动 — 移动端可见滚动条（最佳实践：保留缩进结构，不自动换行） */
+.highlight {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  position: relative;
+}
+.highlight::-webkit-scrollbar {
+  height: 4px;
+}
+.highlight::-webkit-scrollbar-track {
+  background: transparent;
+}
+.highlight::-webkit-scrollbar-thumb {
+  background: var(--animal-border-light);
+  border-radius: 4px;
+}
+/* 右边缘渐变提示可滚动（仅溢出时可见） */
+.highlight::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 24px;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--animal-bg));
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.highlight:hover::after,
+.highlight.is-overflow::after {
+  opacity: 1;
+}
 
 /* ===== 3. Skip Link ===== */
 .skip-link {
@@ -943,12 +977,21 @@ pre { max-width: 100%; }
   border: none;
   color: #fff;
   font-size: 20px;
-  cursor: pointer;
+  cursor: grab;
   box-shadow: 0 4px 14px rgba(0,0,0,0.2);
-  transition: all 0.2s ease;
+  transition: box-shadow 0.2s ease;
   align-items: center;
   justify-content: center;
   line-height: 1;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.toc-mobile-btn.is-dragging {
+  cursor: grabbing;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  transform: scale(1.1);
+  transition: none;
 }
 .toc-mobile-btn:hover {
   transform: translateY(-2px);
