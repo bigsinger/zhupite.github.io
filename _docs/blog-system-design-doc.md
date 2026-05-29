@@ -682,6 +682,93 @@ theme-modern.css（核心设计系统，35KB，持续增长）
 | header 插入 | 动态创建 `.code-header`，插入到 `<pre>` 之前 |
 | 防重复处理 | `data-code-processed` 属性标记已处理的代码块 |
 
+### 10.9 搜索系统（Search System）
+
+**位置**：`_includes/sidebar-search.html`（侧栏搜索组件 + inline JS）+ `_includes/header.html`（移动端搜索覆盖层 HTML）+ `_config.yml`（搜索配置）。
+
+#### 10.9.1 架构概览
+
+```
+search_data.json（Jekyll 构建时生成）
+     │
+     └── fetch（客户端，1 次 HTTP 请求）
+           │
+           ├── SimpleJekyllSearch 实例
+           │     └── 监听 #search_box → 输出到 #search_results（侧栏）
+           │
+           └── 手动遍历 keyup 回调
+                 └── 监听 #mobileSearchBox → 输出到 #mobileSearchResults（移动覆盖层）
+```
+
+| 特性 | 说明 |
+|------|------|
+| 技术方案 | SimpleJekyllSearch（客户端搜索）+ 手动遍历 |
+| 数据源 | `/assets/search_data.json`（Jekyll 构建时从全站文章生成）|
+| 请求数 | **1 次** fetch，两个搜索框共享同一份 `data` 引用 |
+| 内存占用 | **无重复** — SJS 内部存引用，不复制数据 |
+| 侧栏搜索 | SJS 实例：全文模糊匹配 |
+| 移动端搜索 | 手动遍历：匹配 `title`、`keywords`、`category` 三个字段 |
+| 加载方式 | SJS 库用 `defer`（不阻塞渲染），fetch 异步执行 |
+
+#### 10.9.2 关键代码
+
+```javascript
+/* sidebar-search.html inline script */
+fetch(jsonUrl)
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    /* ① 侧栏：SJS 实例（唯一实例） */
+    new SimpleJekyllSearch({
+      searchInput: document.getElementById('search_box'),
+      resultsContainer: document.getElementById('search_results'),
+      json: data,
+      searchResultTemplate: '<li><a href="{url}">{title}</a></li>',
+      limit: 20,
+      fuzzy: false
+    });
+
+    /* ② 移动端：手动遍历（共享 data） */
+    mobileBox.addEventListener('keyup', function(e) {
+      if (ignoreKeys.indexOf(e.which) >= 0) return;
+      var term = e.target.value.trim().toLowerCase();
+      for (var i = 0; i < data.length; i++) {
+        if (data[i].title.toLowerCase().indexOf(term) >= 0 ||
+            data[i].keywords.toLowerCase().indexOf(term) >= 0 ||
+            data[i].category.toLowerCase().indexOf(term) >= 0) {
+          // render result
+        }
+      }
+    });
+  });
+```
+
+#### 10.9.3 性能分析
+
+| 维度 | 值 |
+|------|-----|
+| 数据量 | ~612 条文章记录（持续增长） |
+| 数据大小 | ~100KB JSON |
+| fetch 耗时 | ~0.5-0.7s |
+| 遍历一次耗时 | < 1ms |
+| HTTP 请求 | 1 次（缓存破坏参数 `?v=时间戳`）|
+| 渲染阻塞 | 0（SJS defer + fetch 异步）|
+
+#### 10.9.4 工作流程
+
+```
+新文章发布 → git push → GitHub Pages 重建 → search_data.json 更新
+  → 用户刷新页面 → fetch('search_data.json?v=新时间戳')
+  → 取到更新的数据 → 两个搜索框立即可搜到新文章
+```
+
+#### 10.9.5 踩坑记录
+
+| 问题 | 原因 | 修复 |
+|------|------|------|
+| 渲染阻塞 ~0.5s | SJS 库 `<script>` 没有 `defer`，在 `<head>` 同步加载 | 改为 `defer`，因 `fetch().then()` 模式保证回调执行时 SJS 已就绪 |
+| 回车键无反应 | `ignoreKeys` 包含 `13`（Enter 键码）导致回车被过滤 | 从 ignoreKeys 中移除 13 |
+| 手动搜索与 SJS 结果不一致 | SJS 做全文模糊匹配，手动搜索只匹配指定字段 | 按需选择匹配字段，保持一致 |
+
 ### 10.8 文章置顶（Sticky / Pinned Post）
 
 **位置**：`index.html`（首页逻辑），`theme-modern.css` Section 24。
@@ -690,11 +777,11 @@ theme-modern.css（核心设计系统，35KB，持续增长）
 |------|-----|
 | 触发条件 | 文章 frontmatter 中设置 `sticky: true` |
 | 排序逻辑 | Liquid 过滤 `paginator.posts \| where: "sticky", true` 后优先显示，再接普通文章 |
-| 视觉标识 | 左上角 ★ 星标 `★ 置顶` 徽章（pill 样式）+ 全宽橙色渐变顶部分隔线 |
-| 徽章样式 | `background: linear-gradient(135deg, #f59e0b, #f97316)`，白色文字，`font-size: 10px`，`font-weight: 900` |
-| 徽章阴影 | 外发光 `0 3px 10px rgba(245,158,11,0.4)` + 内高光 `inset 0 1px 0 rgba(255,255,255,0.2)` |
-| 顶部装饰线 | 全宽 4px 橙色渐变条（`linear-gradient(90deg, #f59e0b, #f97316, ...)`），普通卡片为 3px 半透明线 |
-| 颜色变体 | 置顶文章保留各自分类的颜色变体，顶部装饰线统一为橙色渐变 |
+| 视觉标识 | 左上角 `★ 置顶` 徽章（毛玻璃 pill 风格）+ 顶部暖色渐变装饰条 |
+| 徽章样式 | `background: rgba(245,203,92,0.9)`，深琥珀色文字 `#92400e`，`border-radius: 6px`，`backdrop-filter: blur(4px)`，`font-size: 10px`，`font-weight: 800` |
+| 徽章阴影 | 轻微边框阴影，暗色模式降级为深棕底色 |
+| 顶部装饰线 | 全宽 4px 暖色渐变条（`linear-gradient(90deg, #f59e0b, #19c8b9)`），去掉闪烁动画，使用静态度量 |
+| 颜色变体 | 置顶文章保留各自分类的颜色变体，顶部装饰线统一为暖色渐变 |
 | 置顶数量 | 建议 ≤ 3 篇，无硬性限制 |
 
 ---
