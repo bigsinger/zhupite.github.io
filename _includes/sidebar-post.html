@@ -42,8 +42,8 @@
   var hs = main.querySelectorAll('h1, h2, h3, h4');
   if (hs.length < 2) {
     tocCard.style.display = 'none';
-    // 移动端悬浮按钮始终显示（用户要求所有文章都有目录按钮）
-    // 只隐藏桌面侧边栏 TOC
+    var mb = document.getElementById('tocMobileBtn');
+    if (mb) mb.style.display = 'none';
     return;
   }
   var list = document.getElementById('toc-list-generated');
