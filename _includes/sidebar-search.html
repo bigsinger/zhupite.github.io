@@ -13,62 +13,94 @@
 
 <script type="text/javascript">
 (function() {
-  /* SimpleJekyllSearch 的全局数据存储 a 是共享的。
-     只创建 ONE 个实例（侧栏）来加载 JSON 数据。
-     移动覆盖层的搜索使用自定义 keyup 监听器，复用侧栏实例的 search() 方法。 */
+  /* SimpleJekyllSearch 内部使用共享变量 a 存储选项(searchInput/resultsContainer/json等)。
+     创建多个实例会导致异步回调中 a 被覆盖，事件监听错绑到错误的输入框上。
+     
+     解决方案：不依赖 SJS 的多实例渲染，改为：
+     1. 手动加载 search_data.json
+     2. 原生轻量搜索函数
+     3. 两个输入框各自独立的 keyup 监听器
+     这样侧栏和移动覆盖层搜索可以同时正常工作。 */
   var jsonUrl = '{{ site.url }}/assets/search_data.json?v={{ "now" | date: "%s"}}';
   var tmpl = '<li><a href="{url}" title="{title}">{title}</a></li>';
   var limit = {{ site.simple_jekyll_search.limit }};
-  var opts = {
-    searchResultTemplate: tmpl,
-    noResultsText: 'No results found',
-    limit: limit,
-    fuzzy: false,
-    exclude: ['Welcome']
+  var noResultsText = '{{ site.simple_jekyll_search.no_results_text | default: "No results found" }}';
+  var exclude = ['Welcome'];
+
+  /* ---- 数据加载 ---- */
+  var searchData = [];
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', jsonUrl, true);
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      try {
+        searchData = JSON.parse(xhr.responseText);
+      } catch(e) {}
+    }
   };
+  xhr.send();
+
+  /* ---- 搜索函数 ---- */
+  function doSearch(term, container) {
+    if (!term) { container.innerHTML = ''; return; }
+    term = term.toLowerCase();
+
+    var results = [];
+    for (var i = 0; i < searchData.length && results.length < limit; i++) {
+      var item = searchData[i];
+
+      // 排除
+      var excluded = false;
+      for (var e = 0; e < exclude.length; e++) {
+        if (new RegExp(exclude[e], 'i').test(item.title || '')) {
+          excluded = true;
+          break;
+        }
+      }
+      if (excluded) continue;
+
+      // 匹配
+      if (
+        (item.title && item.title.toLowerCase().indexOf(term) >= 0) ||
+        (item.keywords && item.keywords.toLowerCase().indexOf(term) >= 0) ||
+        (item.category && item.category.toLowerCase().indexOf(term) >= 0)
+      ) {
+        results.push(item);
+      }
+    }
+
+    container.innerHTML = results.length
+      ? results.map(function(item) {
+          return tmpl
+            .replace(/\{url\}/g, item.url)
+            .replace(/\{title\}/g, item.title);
+        }).join('')
+      : noResultsText;
+  }
+
+  /* ---- 绑定事件 ---- */
+  var ignoreKeys = [13, 16, 20, 37, 38, 39, 40, 91];
 
   document.addEventListener('DOMContentLoaded', function() {
-    if (typeof SimpleJekyllSearch === 'undefined') return;
-
     var sidebarBox = document.getElementById('search_box');
     var sidebarResults = document.getElementById('search_results');
     var mobileBox = document.getElementById('mobileSearchBox');
     var mobileResults = document.getElementById('mobileSearchResults');
 
-    if (!sidebarBox || !sidebarResults) return;
+    /* 侧栏 */
+    if (sidebarBox && sidebarResults) {
+      sidebarBox.addEventListener('keyup', function(e) {
+        if (ignoreKeys.indexOf(e.which) >= 0) return;
+        doSearch(e.target.value, sidebarResults);
+      });
+    }
 
-    /* 唯一实例：侧栏搜索，加载 JSON */
-    var sjs = SimpleJekyllSearch({
-      searchInput: sidebarBox,
-      resultsContainer: sidebarResults,
-      json: jsonUrl,
-      searchResultTemplate: opts.searchResultTemplate,
-      noResultsText: opts.noResultsText,
-      limit: opts.limit,
-      fuzzy: opts.fuzzy,
-      exclude: opts.exclude
-    });
-
-    /* 移动覆盖层搜索：自定义 keyup，复用 sjs.search() */
+    /* 移动覆盖层 */
     if (mobileBox && mobileResults) {
       mobileBox.addEventListener('keyup', function(e) {
-        /* 忽略修饰键 */
-        var ignore = [13, 16, 20, 37, 38, 39, 40, 91];
-        if (ignore.indexOf(e.which) !== -1) return;
-
-        var term = e.target.value.trim();
-        if (!term) { mobileResults.innerHTML = ''; return; }
-
-        var results = sjs.search(term);
-        if (results && results.length > 0) {
-          mobileResults.innerHTML = results.map(function(item) {
-            return tmpl
-              .replace(/\{url\}/g, item.url)
-              .replace(/\{title\}/g, item.title);
-          }).join('');
-        } else {
-          mobileResults.innerHTML = opts.noResultsText;
-        }
+        if (ignoreKeys.indexOf(e.which) >= 0) return;
+        doSearch(e.target.value, mobileResults);
       });
     }
   });
