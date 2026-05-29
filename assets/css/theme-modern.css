@@ -573,6 +573,10 @@ img { max-width: 100%; height: auto; }
   overflow: hidden;
   min-height: calc(1.6em * 2);
 }
+.post-card-reading {
+  font-size: 12px;
+  color: var(--animal-text-secondary);
+}
 
 .post-card-footer {
   display: flex;
@@ -1874,22 +1878,9 @@ kbd { font-size: 0.85em; }
 /* Container / Columns grid (for old content compatibility) */
 .container { max-width: 980px; margin: 0 auto; padding: 0 20px; }
 .container::before, .container::after { display: table; content: ""; clear: both; }
-.columns { margin: 0 -10px; }
-.columns::before, .columns::after { display: table; content: ""; clear: both; }
 .column { float: left; padding: 0 10px; }
 .one-third { width: 33.333%; }
-.two-thirds { width: 66.667%; }
-.one-fourth { width: 25%; }
-.three-fourths { width: 75%; }
-.one-half { width: 50%; }
-.one-fifth { width: 20%; }
-.four-fifths { width: 80%; }
-.single-column { padding: 0 10px; }
-
-/* Utility classes */
-.clearfix::before, .clearfix::after { display: table; content: ""; clear: both; }
 .text-center { text-align: center; }
-.hidden { display: none; }
 .left { float: left; }
 .right { float: right; }
 
@@ -2107,3 +2098,24 @@ img + em { color: var(--animal-text-muted); display: block; text-align: center; 
   color: var(--animal-primary) !important;
   font-weight: 700;
 }
+
+/* ===== 28. Open Source Page (Primer-compat for /open-source/) ===== */
+.repo-list { display: flex; flex-wrap: wrap; gap: 16px; margin: 24px 0; }
+.repo-list a { text-decoration: none; }
+.repo-list .card { flex: 1 1 280px; max-width: 380px; background: var(--animal-bg-card); border: 2px solid var(--animal-border-card); border-radius: var(--animal-radius-xl); overflow: hidden; transition: all 0.3s cubic-bezier(0.4,0,0.2,1); box-shadow: var(--animal-shadow-sm); }
+.repo-list .card:hover { transform: translateY(-3px); box-shadow: var(--animal-shadow-lg); border-color: var(--animal-border); }
+.repo-list .thumbnail { margin: 0; }
+.repo-list .card-image { padding: 24px; border-bottom: 1px solid var(--animal-border-light); }
+.repo-list .card-image-cell { text-align: center; }
+.repo-list .card-title { margin: 0; font-size: 16px; font-weight: 700; color: var(--animal-text); }
+.repo-list .caption { padding: 16px; background: var(--animal-bg-secondary); }
+.repo-list .card-description { margin-bottom: 8px; }
+.repo-list .card-text { font-size: 13px; color: var(--animal-text-secondary); margin: 0; }
+.repo-list .meta-info { display: inline-block; margin-right: 12px; font-size: 12px; color: var(--animal-text-muted); }
+.repo-list .meta-info svg, .repo-list .meta-info .octicon { margin-right: 4px; }
+.repo-count { font-weight: 700; color: var(--animal-primary); }
+.repo-list .lead { font-size: 16px; }
+.octicon { display: inline-block; vertical-align: text-bottom; fill: currentColor; width: 14px; height: 14px; }
+.octicon-star::before { content: "★"; }
+.octicon-git-branch::before { content: "⎇"; }
+.octicon-clock::before { content: "🕐"; }
