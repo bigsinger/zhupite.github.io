@@ -2028,8 +2028,12 @@ img + em { color: var(--animal-text-muted); display: block; text-align: center; 
   overflow: hidden;
 }
 
-/* Sticky badge — clean location pin pill, top-right inside card meta row */
+/* Sticky badge — clean location pin pill, top-right of card */
 .sticky-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
   display: inline-flex;
   align-items: center;
   gap: 3px;
@@ -2046,9 +2050,6 @@ img + em { color: var(--animal-text-muted); display: block; text-align: center; 
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   user-select: none;
-  order: -1;  /* always first in meta row */
-  position: relative;
-  top: -1px;
 }
 .sticky-badge svg {
   flex-shrink: 0;
