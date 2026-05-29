@@ -852,10 +852,10 @@ img { max-width: 100%; height: auto; }
 }
 
 /* Tag size classes (weight-based) */
-.tag-pill.tag-s { font-size: 11px; padding: 2px 8px; }
-.tag-pill.tag-m { font-size: 12px; padding: 4px 10px; }
-.tag-pill.tag-l { font-size: 13px; padding: 5px 12px; font-weight: 700; }
-.tag-pill.tag-xl { font-size: 14px; padding: 6px 14px; font-weight: 800; }
+.tag-pill.tag-s { font-size: 11px; padding: 1px 6px; }
+.tag-pill.tag-m { font-size: 13px; padding: 3px 10px; }
+.tag-pill.tag-l { font-size: 16px; padding: 5px 13px; }
+.tag-pill.tag-xl { font-size: 19px; padding: 7px 16px; }
 
 /* ===== 10. TOC Sidebar (post detail) ===== */
 /* TOC card styling — desktop sticky */
@@ -1389,19 +1389,23 @@ img { max-width: 100%; height: auto; }
 .share { margin-top: 24px; }
 
 /* ===== 16. Article Tables ===== */
-/* Wrapper with border — clip via child border-radius instead of overflow:hidden
-   because overflow:hidden clips the table's overflow-x scrollbar and causes
-   the table content to look misaligned/"缺了一块" inside the border frame. */
+/* Wrapper with border + rounded corners */
 .table-wrapper {
   border-radius: 10px;
   border: 1px solid var(--animal-border);
   margin: 20px 0;
   position: relative;
 }
+/* Scrollable inner container for the table */
+.table-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 0 0 9px 9px;
+}
 .table-wrapper > table {
   border: none;
   margin: 0;
-  border-radius: 0 0 9px 9px;  /* bottom corners match wrapper */
 }
 /* Table header with copy button — top corners match wrapper */
 .table-header {
@@ -1440,12 +1444,10 @@ img { max-width: 100%; height: auto; }
 }
 .table-copy-btn svg { width: 14px; height: 14px; }
 
-/* Table base styles */
+/* Table base styles — display:table ensures cells stretch to fill width */
 .markdown-body table {
-  display: block;
+  display: table;
   width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
   border-collapse: collapse;
   border-spacing: 0;
   font-size: 14px;

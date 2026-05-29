@@ -207,8 +207,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
       /* Insert wrapper before table */
       table.parentNode.insertBefore(wrapper, table);
+      
+      /* Create scroll wrapper for table only — header stays fixed */
+      var scrollDiv = document.createElement('div');
+      scrollDiv.className = 'table-scroll';
       wrapper.appendChild(header);
-      wrapper.appendChild(table);
+      wrapper.appendChild(scrollDiv);
+      scrollDiv.appendChild(table);
     });
   }
 
