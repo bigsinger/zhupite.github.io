@@ -1521,13 +1521,15 @@ img { max-width: 100%; height: auto; }
   overflow-y: auto;
 }
 
-/* PC: 限制搜索覆盖层宽度，与侧边栏对齐 */
+/* PC: 搜索覆盖层与侧边栏搜索卡风格一致 */
 @media (min-width: 1024px) {
   .search-overlay {
     width: 320px;
     left: auto;
     right: 16px;
-    border-radius: 0 0 16px 16px;
+    background: var(--animal-bg-card);
+    border-bottom: none;
+    border-radius: 0 0 var(--animal-radius-xl) var(--animal-radius-xl);
   }
 }
 .search-overlay-header {
@@ -2017,21 +2019,28 @@ img + em { color: var(--animal-text-muted); display: block; text-align: center; 
 .post-card.sticky {
   position: relative;
 }
-/* Full-width gradient top accent bar */
+/* Softer accent bar — light peach in light mode, muted in dark */
 .post-card.sticky::before {
   left: 0 !important;
   right: 0 !important;
   height: 4px !important;
-  background: linear-gradient(90deg, #f59e0b, #f97316, #f97316, #f59e0b) !important;
-  opacity: 0.4 !important;
+  background: linear-gradient(90deg, #fcd9b6, #f8c291, #f8c291, #fcd9b6) !important;
+  opacity: 0.55 !important;
   border-radius: 0 !important;
 }
 .post-card.sticky:hover::before {
-  opacity: 0.8 !important;
+  opacity: 0.85 !important;
 }
-/* Sticky badge — right-aligned, pin icon, subtle background */
+.dark .post-card.sticky::before {
+  background: linear-gradient(90deg, #5a4a30, #6b5a3a, #6b5a3a, #5a4a30) !important;
+  opacity: 0.2 !important;
+}
+.dark .post-card.sticky:hover::before {
+  opacity: 0.35 !important;
+}
+/* Sticky badge — right-aligned, downward pin, theme-aware */
 .post-card.sticky::after {
-  content: '📌 置顶';
+  content: '📍 置顶';
   position: absolute;
   top: 12px;
   right: 12px;
@@ -2039,7 +2048,7 @@ img + em { color: var(--animal-text-muted); display: block; text-align: center; 
   font-size: 10px;
   font-weight: 900;
   letter-spacing: 0.05em;
-  background: rgba(245,158,11,0.12);
+  background: rgba(248,194,145,0.18);
   color: var(--animal-text);
   padding: 3px 10px;
   border-radius: var(--animal-radius-full);
@@ -2048,8 +2057,8 @@ img + em { color: var(--animal-text-muted); display: block; text-align: center; 
   line-height: 1.4;
 }
 .dark .post-card.sticky::after {
-  background: rgba(245,158,11,0.15);
-  color: #d4cdc0;
+  background: rgba(180,150,100,0.1);
+  color: #c8bfb0;
 }
 
 /* ===== 25. TOC Scroll Highlight Enhancement ===== */
