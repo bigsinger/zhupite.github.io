@@ -457,14 +457,4 @@ document.addEventListener('DOMContentLoaded', function() {
       });
   })();
 
-  // ===== 代码块溢出检测：为有水平滚动的高亮代码块添加标记 =====
-  (function checkCodeOverflow() {
-    var blocks = document.querySelectorAll('.highlight');
-    for (var i = 0; i < blocks.length; i++) {
-      if (blocks[i].scrollWidth > blocks[i].clientWidth) {
-        blocks[i].classList.add('is-overflow');
-      }
-    }
-  })();
-
 });
