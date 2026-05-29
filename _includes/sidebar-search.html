@@ -13,33 +13,23 @@
 
 <script type="text/javascript">
 (function() {
-  /* SimpleJekyllSearch 内部使用共享变量 a 存储选项(searchInput/resultsContainer/json等)。
-     创建多个实例会导致异步回调中 a 被覆盖，事件监听错绑到错误的输入框上。
-     
-     解决方案：不依赖 SJS 的多实例渲染，改为：
-     1. 手动加载 search_data.json
-     2. 原生轻量搜索函数
-     3. 两个输入框各自独立的 keyup 监听器
-     这样侧栏和移动覆盖层搜索可以同时正常工作。 */
+  /* SimpleJekyllSearch 内部使用共享变量 a，创建多个实例会导致异步回调错绑。
+     改用 fetch + 原生轻量搜索，侧栏和移动覆盖层各自独立的 keyup 监听器。 */
   var jsonUrl = '{{ site.url }}/assets/search_data.json?v={{ "now" | date: "%s"}}';
   var tmpl = '<li><a href="{url}" title="{title}">{title}</a></li>';
   var limit = {{ site.simple_jekyll_search.limit }};
   var noResultsText = '{{ site.simple_jekyll_search.no_results_text | default: "No results found" }}';
   var exclude = ['Welcome'];
 
-  /* ---- 数据加载 ---- */
   var searchData = [];
 
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', jsonUrl, true);
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      try {
-        searchData = JSON.parse(xhr.responseText);
-      } catch(e) {}
-    }
-  };
-  xhr.send();
+  /* ---- 使用 fetch 加载搜索数据 ---- */
+  fetch(jsonUrl)
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      searchData = data;
+    })
+    .catch(function() { /* 加载失败时搜索功能不可用，静默处理 */ });
 
   /* ---- 搜索函数 ---- */
   function doSearch(term, container) {
@@ -60,7 +50,7 @@
       }
       if (excluded) continue;
 
-      // 匹配
+      // 匹配 title / keywords / category
       if (
         (item.title && item.title.toLowerCase().indexOf(term) >= 0) ||
         (item.keywords && item.keywords.toLowerCase().indexOf(term) >= 0) ||
