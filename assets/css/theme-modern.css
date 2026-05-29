@@ -1520,6 +1520,16 @@ img { max-width: 100%; height: auto; }
   max-height: 80vh;
   overflow-y: auto;
 }
+
+/* PC: 限制搜索覆盖层宽度，与侧边栏对齐 */
+@media (min-width: 1024px) {
+  .search-overlay {
+    width: 320px;
+    left: auto;
+    right: 16px;
+    border-radius: 0 0 16px 16px;
+  }
+}
 .search-overlay-header {
   display: flex;
   align-items: center;
@@ -2007,38 +2017,39 @@ img + em { color: var(--animal-text-muted); display: block; text-align: center; 
 .post-card.sticky {
   position: relative;
 }
-/* Full-width gradient top accent bar — brighter and more visible */
+/* Full-width gradient top accent bar */
 .post-card.sticky::before {
   left: 0 !important;
   right: 0 !important;
   height: 4px !important;
   background: linear-gradient(90deg, #f59e0b, #f97316, #f97316, #f59e0b) !important;
-  opacity: 0.5 !important;
+  opacity: 0.4 !important;
   border-radius: 0 !important;
 }
 .post-card.sticky:hover::before {
-  opacity: 0.9 !important;
+  opacity: 0.8 !important;
 }
-/* Sticky badge — top-left, gradient, elegant */
+/* Sticky badge — right-aligned, pin icon, subtle background */
 .post-card.sticky::after {
-  content: '★ 置顶';
+  content: '📌 置顶';
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 12px;
+  right: 12px;
+  left: auto;
   font-size: 10px;
   font-weight: 900;
-  letter-spacing: 0.06em;
-  background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
-  color: #fff;
-  padding: 4px 12px 4px 11px;
+  letter-spacing: 0.05em;
+  background: rgba(245,158,11,0.12);
+  color: var(--animal-text);
+  padding: 3px 10px;
   border-radius: var(--animal-radius-full);
-  box-shadow: 0 3px 10px rgba(245,158,11,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+  backdrop-filter: blur(4px);
   z-index: 2;
   line-height: 1.4;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.15);
 }
 .dark .post-card.sticky::after {
-  box-shadow: 0 3px 12px rgba(245,158,11,0.35), inset 0 1px 0 rgba(255,255,255,0.15);
+  background: rgba(245,158,11,0.15);
+  color: #d4cdc0;
 }
 
 /* ===== 25. TOC Scroll Highlight Enhancement ===== */
