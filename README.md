@@ -53,9 +53,7 @@ menu: 导航名
 ├── _layouts/          # 页面模板（HTML + Liquid）
 ├── _includes/         # 组件片段（header, footer, sidebar 等）
 ├── _data/             # 结构化数据
-│   ├── links.yml      # 友链配置
-│   ├── skills.yml     # 技能关键词
-│   └── social.yml     # 社交账号
+│   └── links.yml      # 友链配置
 ├── pages/             # 独立页面
 │   ├── about.md       # 关于
 │   ├── archives.md    # 文章归档
@@ -81,7 +79,7 @@ menu: 导航名
 | 文章归档 | `/archives/` | 按时间线浏览所有文章 |
 | 友链 | `/links/` | 高质量站点推荐，7 个分类 |
 | 关于 | `/about/` | 个人介绍与站点说明 |
-| 赞助 | `/donate/` | 打赏与支持 |
+| 赞助 | `/donate/` | 打赏与支持（需自行配置收款码图片） |
 
 ---
 
@@ -120,24 +118,16 @@ navs:
   desc: 简介（可选）
 ```
 
-### 社交账号（`_data/social.yml`）
+### 赞助页面收款码
+
+在 `pages/donate.md` 中配置微信 / 支付宝收款码图片：
 
 ```yaml
-- sitename: GitHub
-  name: 用户名
-  url: https://github.com/用户名
+wechat_qr: /assets/images/receipt-code-wechat.jpeg
+alipay_qr: /assets/images/receipt-code-alipay.jpeg
 ```
 
-### 技能标签（`_data/skills.yml`）
-
-按领域分组列出技术关键词：
-
-```yaml
-- name: 领域名
-  keywords:
-    - 关键词1
-    - 关键词2
-```
+将对应的图片文件放入 `assets/images/` 目录即可。如果图片不存在，页面会优雅降级（仅显示文字说明）。
 
 ### 评论系统
 

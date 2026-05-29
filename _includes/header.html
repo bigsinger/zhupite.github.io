@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <title>{% if page.title %}{{ page.title }} &mdash; {% endif %}{{ site.title }}</title>
-    <style>{% include rouge-github.css.html %}</style>
     <style>
       /* ===== 页面加载进度条 ===== */
       #pg-bar {
@@ -39,18 +38,11 @@
     <link rel="preload" href="{{ site.url }}/assets/css/theme-modern.css?v={{ site.time | date: '%s' }}" as="style" onload="this.onload=null;this.rel='stylesheet';!function(){var d=document;function r(){var p=d.getElementById('pg-bar');if(p)p.classList.add('bar-done');d.body.classList.add('body-ready')}d.readyState==='loading'?d.addEventListener('DOMContentLoaded',r):r()}()">
     <noscript><link rel="stylesheet" href="{{ site.url }}/assets/css/theme-modern.css?v={{ site.time | date: '%s' }}"></noscript>
     <noscript><style>body{opacity:1}#pg-bar{display:none}</style></noscript>
-    <script>setTimeout(function(){var p=document.getElementById('pg-bar');if(p&&!p.classList.contains('bar-done')){p.classList.add('bar-done');document.body.classList.add('body-ready')}},3000)</script>
+    <link rel="preload" href="{{ site.url }}/assets/css/rouge-github.css?v={{ site.time | date: '%s' }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ site.url }}/assets/css/rouge-github.css?v={{ site.time | date: '%s' }}"></noscript>
     <!-- Disabled: share, fancybox, jquery — removed in 2026-05-28 cleanup -->
 
-    <!-- Latest compiled and minified CSS -->
-    {% for css in page.css %}
-    <link rel="stylesheet" href="{{ assets_base_url }}/assets/css/{{css}}">
-    {% endfor %}
-
-    {% if site.ios_app_name %}
-       <meta name="apple-mobile-web-app-capable" content="yes">
-       <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    {% endif %}
+    <!-- Page-specific CSS (deprecated — no pages use this) -->
     <link rel="canonical" href="{{ page.url | prepend: site.url }}">
     <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="{{ site.url }}{{ site.subscribe_rss }}">
     <link rel="shortcut icon" href="{{ assets_base_url }}/favicon.ico">
@@ -110,6 +102,9 @@
     <script src="{{ site.url }}/assets/js/simple-jekyll-search.min.js" defer></script>
     <script src="{{ site.url }}/assets/js/main.js?v={{ site.time | date: '%s' }}" defer></script>
     <script>
+      /* 加载超时兜底：如果 3 秒后进度条还没完成，手动完成 */
+      setTimeout(function(){var p=document.getElementById('pg-bar');if(p&&!p.classList.contains('bar-done')){p.classList.add('bar-done');document.body.classList.add('body-ready')}},3000);
+
       function toggleTheme() {
         var html = document.documentElement;
         var btn = document.querySelector('.theme-toggle-icon');
