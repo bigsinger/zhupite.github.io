@@ -897,6 +897,19 @@ img { max-width: 100%; height: auto; }
 .toc-list .toc-h3 { padding-left: 16px; font-size: 12px; }
 .toc-list .toc-h4 { padding-left: 32px; font-size: 11px; }
 
+/* TOC content — 超长时支持滚动 */
+.toc-card-widget .toc-content {
+  max-height: calc(100vh - 130px);
+  overflow-y: auto;
+}
+.toc-card-widget .toc-content::-webkit-scrollbar {
+  width: 3px;
+}
+.toc-card-widget .toc-content::-webkit-scrollbar-thumb {
+  background: var(--animal-border-light);
+  border-radius: 3px;
+}
+
 /* Stick TOC on desktop so it stays visible while scrolling article */
 @media (min-width: 1024px) {
   .toc-card-widget {
@@ -1502,6 +1515,18 @@ img { max-width: 100%; height: auto; }
   animation: search-icon-pulse 0.3s ease;
 }
 
+/* Search Overlay Wrapper — 与 blog-layout 同宽同居中，PC 时作为 absolute 定位容器 */
+.search-overlay-wrapper {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 16px;
+}
+@media (min-width: 1024px) {
+  .search-overlay-wrapper {
+    position: relative;
+  }
+}
+
 /* Search Overlay */
 .search-overlay {
   position: absolute;
@@ -1522,12 +1547,14 @@ img { max-width: 100%; height: auto; }
   overflow-y: auto;
 }
 
-/* PC: 搜索覆盖层宽度限制在右侧，左边缘对齐侧边栏左边缘（right=右padding） */
+/* PC: 搜索覆盖层定位在 wrapper 内右侧，宽度等同侧栏 */
 @media (min-width: 1024px) {
   .search-overlay {
+    position: absolute;
+    top: 0;
     width: 320px;
+    right: 0;
     left: auto;
-    right: max(16px, calc((100vw - 1120px) / 2 + 16px));
   }
 }
 .search-overlay-header {
