@@ -1522,12 +1522,12 @@ img { max-width: 100%; height: auto; }
   overflow-y: auto;
 }
 
-/* PC: 搜索覆盖层宽度限制在右侧，左边缘对齐侧边栏左边缘 */
+/* PC: 搜索覆盖层宽度限制在右侧，左边缘对齐侧边栏左边缘（right=右padding） */
 @media (min-width: 1024px) {
   .search-overlay {
     width: 320px;
     left: auto;
-    right: max(40px, calc((100vw - 1120px) / 2 + 40px));
+    right: max(16px, calc((100vw - 1120px) / 2 + 16px));
   }
 }
 .search-overlay-header {
