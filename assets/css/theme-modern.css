@@ -1279,7 +1279,7 @@ img { max-width: 100%; height: auto; }
   font-weight: 500;
 }
 
-/* ===== 14. Categories index page (cards) ===== */
+/* ===== 15. Categories index page (cards) ===== */
 .categories-index { max-width: 760px; }
 
 /* Category card base */
@@ -1379,7 +1379,7 @@ img { max-width: 100%; height: auto; }
 }
 
 
-/* ===== 15. Article Tables ===== */
+/* ===== 16. Article Tables ===== */
 /* Wrapper with border + rounded corners */
 .table-wrapper {
   border-radius: 10px;
@@ -1812,12 +1812,12 @@ img { max-width: 100%; height: auto; }
   box-shadow: inset 0 -1px 0 var(--animal-border);
 }
 
-/* ===== 17. Performance: lazy loading images ===== */
+/* ===== 19. Performance: lazy loading images ===== */
 img[loading="lazy"] {
   transition: opacity 0.3s;
 }
 
-/* ===== 18. Dark mode: copyright block (inline-style override) ===== */
+/* ===== 20. Dark mode: copyright block (inline-style override) ===== */
 .dark .markdown-body div[style*="background-color:#deebf7"],
 .dark .markdown-body div[style*="background-color: #deebf7"] {
   background-color: var(--animal-bg-card) !important;
@@ -1832,13 +1832,13 @@ img[loading="lazy"] {
   color: var(--animal-primary) !important;
 }
 
-/* ===== 19. Dark mode: archive page posts-list-meta ===== */
+/* ===== 21. Dark mode: archive page posts-list-meta ===== */
 .dark .posts-list-meta {
   background: transparent !important;
   color: var(--animal-text-secondary) !important;
 }
 
-/* ===== 19. Responsive ===== */
+/* ===== 22. Responsive ===== */
 @media (max-width: 639px) {
   .header-container { padding: 10px 12px; }
   .blog-layout { padding: 16px 12px; }
@@ -1850,7 +1850,7 @@ img[loading="lazy"] {
 }
 
 
-/* ===== 20. Primer Compatibility Layer =====
+/* ===== 23. Primer Compatibility Layer =====
   Replaces primer.css 28KB with ~100 lines of essential base styles.
   Added 2026-05-28 as part of old theme stripping (Round 2). */
 body { margin: 0; }
@@ -1907,7 +1907,7 @@ img + em { color: var(--animal-text-muted); display: block; text-align: center; 
 /* Responsive Ad */
 /* AdSense CSS rules removed — no longer used */
 
-/* ===== 22. Code Block: Language Label + Copy Button ===== */
+/* ===== 24. Code Block: Language Label + Copy Button ===== */
 .markdown-body pre {
   position: relative;
 }
@@ -1976,7 +1976,7 @@ img + em { color: var(--animal-text-muted); display: block; text-align: center; 
   background: var(--card-green);
 }
 
-/* ===== 23. Previous / Next Post Navigation ===== */
+/* ===== 25. Previous / Next Post Navigation ===== */
 .post-nav {
   display: flex;
   flex-wrap: wrap;
@@ -2036,7 +2036,7 @@ img + em { color: var(--animal-text-muted); display: block; text-align: center; 
   border-color: var(--animal-border);
 }
 
-/* ===== 24. Article Pinned / Sticky Badge ===== */
+/* ===== 26. Article Pinned / Sticky Badge ===== */
 .post-card.sticky {
   position: relative;
 }
@@ -2082,7 +2082,7 @@ img + em { color: var(--animal-text-muted); display: block; text-align: center; 
   color: #fff;
 }
 
-/* ===== 25. TOC Scroll Highlight Enhancement ===== */
+/* ===== 27. TOC Scroll Highlight Enhancement ===== */
 .toc-list .toc-active > a {
   color: var(--animal-primary) !important;
   font-weight: 700;
