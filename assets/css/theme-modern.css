@@ -471,11 +471,11 @@ img { max-width: 100%; height: auto; }
   height: 3px;
   background: var(--animal-primary);
   border-radius: 0 0 3px 3px;
-  opacity: 0.3;
+  opacity: 0.6;
   transition: opacity 0.3s ease;
 }
 .post-card:hover::before {
-  opacity: 0.8;
+  opacity: 1;
 }
 .post-card-default::before { background: var(--animal-text-secondary); }
 .post-card-green::before { background: var(--card-green); }

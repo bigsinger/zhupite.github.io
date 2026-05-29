@@ -32,9 +32,7 @@ menu: 首页
         <div class="post-card-meta">
           {% if post.categories.size > 0 %}
           <span class="post-card-category">{{ post.categories[0] }}</span>
-          <span class="post-card-sep">·</span>
           {% endif %}
-          <span class="post-card-reading">{{ post.content | strip_html | strip_newlines | remove: " " | size | divided_by: 350 | plus: 1 }} 分钟</span>
         </div>
         <h3 class="post-card-title">
           <a href="{{ site.url }}{{ post.url }}">{{ post.title }}</a>
