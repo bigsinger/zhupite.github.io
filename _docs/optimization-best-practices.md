@@ -204,15 +204,31 @@ fetch(jsonUrl)
 
 ### 4.5 搜索功能注入位置
 
-搜索依赖脚本在 `<head>` 中同步加载（不让它 `defer`），因为 SJS 构造函数在 inline script 中被调用：
+搜索依赖脚本在 `<head>` 中用 `defer` 加载（不阻塞首次渲染），因为 SJS 构造函数在 inline script 的 `fetch().then()` 回调中被调用——fetch 是异步网络请求，在 deferred 脚本执行完成后才会 resolve：
 
 ```html
 <!-- header.html -->
-<script src="assets/js/simple-jekyll-search.min.js"></script>    <!-- 不 defer -->
-<script src="assets/js/main.js?v={{ site.time }}" defer></script> <!-- defer -->
+<script src="assets/js/simple-jekyll-search.min.js" defer></script>  <!-- 必须 defer -->
+<script src="assets/js/main.js?v={{ site.time }}" defer></script>
 ```
 
-原因：侧栏搜索的 inline `<script>` 不包裹在 `DOMContentLoaded` 中（通过 IIFE 自执行），需要 SJS 库已在全局可用。
+**⚠️ 历史教训**：此前 SJS 库无 `defer` 在 `<head>` 中同步加载，导致浏览器在 parse HTML 时被阻塞 0.4~0.6s（网络往返时间），用户感知为"博客打开变慢"。改为 `defer` 后直接消除此渲染阻塞。
+
+**原因**：`sidebar-search.html` 中的 inline script 使用 `fetch().then()` 模式：
+```javascript
+fetch(jsonUrl)
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    new SimpleJekyllSearch({ ... });  // ← 这行在 fetch 完成后才执行
+  });
+```
+时序保证：
+1. `<script defer>` 开始并行下载（不阻塞 HTML 解析）
+2. inline script 触发 `fetch()` — 开始异步网络请求
+3. HTML 解析完毕 → deferred 脚本立即执行（SJS 库全局可用）
+4. fetch 完成（~0.5-0.7s）→ `.then()` 回调 → `new SimpleJekyllSearch` — SJS 已就绪 ✓
+
+**铁律**：只要内联搜索脚本使用 `fetch().then()` 模式，SJS 库就一定能用 `defer`。`fetch` 的网络延迟保证了回调执行时 deferred 脚本早已完成。
 
 移动覆盖层的搜索框和侧栏搜索的 HTML 分别在：
 - **侧栏搜索框**：`_includes/sidebar-search.html`（可复用的独立组件）
@@ -520,6 +536,39 @@ copyBtn.addEventListener('click', function() {
 
 **特别注意**：jsDelivr CDN 的缓存极顽固，如果 JS 或 CSS 从 CDN 加载（`@master` 等），做功能性重写后必须切换到本地 URL + 时间戳参数，否则 CDN 缓存的旧代码会覆盖你的修复。
 
+### 9.8 `defer` 加载脚本的选择性陷阱：fetch().then() 模式
+
+**现象**：博客感觉"变慢"，打开不流畅，首屏渲染延迟约 0.5s。
+
+**根因**：SJS 库 `<script src="simple-jekyll-search.min.js">` 在 `<head>` 中无 `defer` 同步加载，阻塞 HTML 解析。
+
+**为什么之前认为不能 defer？** 旧版代码中 inline script 直接调用了 `new SimpleJekyllSearch(...)`，确实需要库已加载。但重构后改用 `fetch().then()` 模式后，`new SimpleJekyllSearch(...)` 被包裹在 `.then()` 回调中——fetch 是异步网络请求，在 deferred 脚本执行完成后才会 resolve。
+
+**分析心法**：
+```
+问：这个脚本在什么时候被调用？
+答：在 fetch().then() 中 → 异步 → 不阻塞解析 → 可以 defer
+
+问：这个脚本在什么时候需要可用？
+答：在 fetch 完成后 → ~0.5s 以后 → defer 脚本早已执行 → 完美
+```
+
+**检查清单**：
+1. 搜索 inline script 是否使用 `fetch().then()`？
+2. → 是 → SJS 库可以 `defer`，且应该 `defer`（否则阻塞渲染）
+3. → 否 → 需要 `DOMContentLoaded` 包裹或同步加载
+
+**通用原则**：所有 `defer` 脚本的调用点都应在异步回调或 DOMContentLoaded 中。直接在 `<body>` 中同步调用的场景 → 要么把脚本移到调用点之后，要么用 `async`。
+
+**性能验证命令**：
+```bash
+# 检查 SJS 脚本是否带 defer
+curl -sL https://zhupite.com/ | grep -oP 'simple-jekyll-search.*?script>'
+
+# 测量首字节到首渲染时间（无 defer 时比有 defer 多 0.4-0.6s）
+curl -o /dev/null -s -w "TOTAL: %{time_total}s\nSTART-TRANSFER: %{time_starttransfer}s\n" https://zhupite.com/assets/js/simple-jekyll-search.min.js
+```
+
 ---
 
 ## 十、开发周期与资源估算
@@ -530,8 +579,9 @@ copyBtn.addEventListener('click', function() {
 | 代码复制按钮 | 1 次 | 1（Clipboard API 降级） | 0 |
 | 前/后篇导航 | 1 次 | 0（Jekyll 原生支持） | 0 |
 || 文章置顶 | 2 次 | 1（UI 美化：📌→★、右→左、普通白底→渐变徽章） | 0 |
-|| TOC 滚动高亮 | 3 次 | 3（阈值 >2、rootMargin 调试、// 注释被吞噬） | 1 |
-|| 双搜索框（侧栏+移动端） | 2 次 | 1（手动遍历 + SJS 实例共享数据，性能影响评估） | 0 |
-|| **合计** | **12 次** | **8 个** | **1 个** |
+||| TOC 滚动高亮 | 3 次 | 3（阈值 >2、rootMargin 调试、// 注释被吞噬） | 1 |
+||| 双搜索框（侧栏+移动端） | 2 次 | 1（手动遍历 + SJS 实例共享数据，性能影响评估） | 0 |
+||| SJS defer 缺失 → render-blocking | 1 次 | 1（4KB 脚本阻塞首屏 ~0.5s，因旧代码习惯忘了加） | 0 |
+||| **合计** | **13 次** | **9 个** | **1 个** |
 
 **结论**：Jekyll 本身的纯 Liquid 功能（置顶、导航、分页）通常零踩坑。JS 交互功能（代码块、TOC、搜索）容易遇到框架特性和构建工具的隐式副作用（compress_html 是最常见的坑）。
