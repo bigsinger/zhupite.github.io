@@ -605,7 +605,7 @@ curl -o /dev/null -s -w "TOTAL: %{time_total}s\nSTART-TRANSFER: %{time_starttran
 ||| SJS defer 缺失 → render-blocking | 1 次 | 1（4KB 脚本阻塞首屏 ~0.5s，因旧代码习惯忘了加） | 0 |
 ||| **合计** | **13 次** | **9 个** | **1 个** |
 
-|## 十一、文章卡片摘要为空处理
+## 十一、文章卡片摘要为空处理
 
 ### 11.1 问题现象
 
@@ -669,3 +669,89 @@ curl -o /dev/null -s -w "TOTAL: %{time_total}s\nSTART-TRANSFER: %{time_starttran
 ---
 
 **结论**：Jekyll 本身的纯 Liquid 功能（置顶、导航、分页）通常零踩坑。JS 交互功能（代码块、TOC、搜索）容易遇到框架特性和构建工具的隐式副作用（compress_html 是最常见的坑）。
+
+---
+
+## 十二、Parser-blocking inline script 消除
+
+### 12.1 问题现象
+
+页面加载速度变慢，`body { opacity: 0 }` + 进度条模式导致首屏渲染延迟。
+
+### 12.2 根因
+
+`_includes/sidebar-search.html` 中的 **inline `<script>` 是 parser-blocking**：
+
+```
+浏览器解析 HTML → 遇到 sidebar 区域的 <script> → 停止解析 → 执行脚本 → 恢复解析
+               ↑                                    ↑
+          DOMContentLoaded 被延迟          body 继续保持 opacity: 0
+```
+
+由于本站采用 `body { opacity: 0 }` + CSS **preload onload 才添加 `body-ready`** 的加载模式，页面在 `DOMContentLoaded` 之前不可见。任何 parser-blocking 的 inline script 都会直接延迟这个时刻。
+
+### 12.3 修复方案：全部移入 deferred 脚本
+
+**之前**（inline script 在 sidebar-search.html 中）：
+
+```html
+<!-- sidebar-search.html -->
+<input type="text" id="search_box">
+<script>
+  // 这个 script 标签阻塞 HTML 解析！
+  fetch(jsonUrl).then(function(data) {
+    new SimpleJekyllSearch({...});
+  });
+</script>
+```
+
+**之后**（所有搜索逻辑移入 main.js）：
+
+```html
+<!-- sidebar-search.html — 纯 HTML，零脚本 -->
+<input type="text" id="search_box" data-json-url="...">
+```
+
+```javascript
+// main.js — deferred 脚本，在 DOMContentLoaded 后才执行
+document.addEventListener('DOMContentLoaded', function() {
+  // 搜索初始化发生在这里，完全不阻塞解析
+  fetch(jsonUrl).then(function(data) {
+    new SimpleJekyllSearch({...});
+  });
+});
+```
+
+### 12.4 数据传递方式
+
+inline script 中的 Liquid 变量需要通过 `data-*` 属性传递到 main.js：
+
+```html
+<!-- 原来：inline 脚本直接使用 Liquid 变量 -->
+<script>var jsonUrl = '{{ site.url }}/assets/search_data.json';</script>
+
+<!-- 现在：data 属性承载变量 -->
+<input data-json-url="{{ site.url }}/assets/search_data.json?v={{ 'now' | date: '%s' }}">
+```
+
+```javascript
+// main.js 中读取
+var url = document.getElementById('search_box').getAttribute('data-json-url');
+```
+
+### 12.5 性能对比
+
+| 指标 | inline script（旧） | 全部移入 deferred（新） |
+|------|-------------------|-----------------------|
+| 是否阻塞 HTML 解析 | ✅ 是（~5-10ms） | ❌ 否 |
+| DOMContentLoaded 延迟 | ✅ 有 | ❌ 无 |
+| 搜索数据加载时机 | 页面解析过程中 | `DOMContentLoaded` 之后 |
+| body 可见时间 | 被延迟 | 不受搜索影响 |
+
+### 12.6 检查清单
+
+1. `_includes/` 和 `_layouts/` 中是否有 inline `<script>` 块？
+2. 如果有，是否真正需要解析时立即执行？
+3. 如果是，能否改用 `data-*` 属性 + deferred 脚本延迟执行？
+4. 如果确实不能移出，是否有 `defer` 或 `async` 属性？
+5. compress_html 是否会影响该 inline script（是否有 `//` 注释）？

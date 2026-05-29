@@ -275,4 +275,57 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // ===== 7. 搜索初始化 (sidebar sjs + mobile manual) =====
+  (function initSearch() {
+    var input = document.getElementById('search_box');
+    if (!input) return;   // 没有侧边栏搜索框 → 跳过
+    var jsonUrl = input.getAttribute('data-json-url');
+    if (!jsonUrl) return;
+    var limit = 20;
+    var noResultsText = '未找到相关内容';
+    var tmpl = '<li><a href="{url}" title="{title}">{title}</a></li>';
+
+    fetch(jsonUrl)
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        /* ---- 侧栏：SimpleJekyllSearch 实例 ---- */
+        var sjs = new SimpleJekyllSearch({
+          searchInput: input,
+          resultsContainer: document.getElementById('search_results'),
+          json: data,
+          searchResultTemplate: tmpl,
+          noResultsText: noResultsText,
+          limit: limit,
+          fuzzy: false
+        });
+
+        /* ---- 移动覆盖层：手动 keyup 搜索（共享 data） ---- */
+        var mobileBox = document.getElementById('mobileSearchBox');
+        var mobileResults = document.getElementById('mobileSearchResults');
+        if (!mobileBox || !mobileResults) return;
+
+        var ignoreKeys = [16, 20, 37, 38, 39, 40, 91];
+        mobileBox.addEventListener('keyup', function(e) {
+          if (ignoreKeys.indexOf(e.which) >= 0) return;
+          var term = e.target.value.trim();
+          if (!term) { mobileResults.innerHTML = ''; return; }
+          term = term.toLowerCase();
+          var html = '';
+          var count = 0;
+          for (var i = 0; i < data.length && count < limit; i++) {
+            var item = data[i];
+            if (
+              (item.title && item.title.toLowerCase().indexOf(term) >= 0) ||
+              (item.keywords && item.keywords.toLowerCase().indexOf(term) >= 0) ||
+              (item.category && item.category.toLowerCase().indexOf(term) >= 0)
+            ) {
+              html += tmpl.replace(/\{url\}/g, item.url).replace(/\{title\}/g, item.title);
+              count++;
+            }
+          }
+          mobileResults.innerHTML = html || '<li class="no-results">' + noResultsText + '</li>';
+        });
+      });
+  })();
+
 });

@@ -29,6 +29,10 @@ menu: 首页
     <article class="post-card post-card-{{ cat_color }} sticky">
       <div class="post-card-body">
         <div class="post-card-meta">
+          <span class="sticky-badge">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
+            置顶
+          </span>
           {% if post.categories.size > 0 %}
           <span class="post-card-category">{{ post.categories[0] }}</span>
           {% endif %}

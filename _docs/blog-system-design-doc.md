@@ -439,7 +439,7 @@ theme-modern.css（核心设计系统，35KB，持续增长）
 | 21 | Primer Compat | L1490-1550 | 旧 Primer 样式兼容 |
 | **22** | **Code Block Header** | **L1551-1618** | **代码块语言标签 + 复制按钮** |
 | **23** | **Prev/Next Nav** | **L1620-1678** | **上下篇导航卡片** |
-| **24** | **Sticky Badge** | **L2007-2042** | **文章置顶徽章（top-right），无装饰条** |
+| **24** | **Sticky Badge** | **L2028-2055** | **文章置顶徽章（内联于 meta 行），无装饰条，📍 pin 图标** |
 | **25** | **TOC Highlight** | **L1704-1720** | **TOC 滚动高亮指示条** |
 
 ### 6.3 CSS 设计原则
@@ -469,6 +469,7 @@ theme-modern.css（核心设计系统，35KB，持续增长）
 |------|----------|------|
 | CSS 合并 | 6 个小 CSS → `bundle-legacy.css` | 减少 5 个 HTTP 请求 |
 | 脚本 defer | 所有 `<script>` 加 `defer` | 不阻塞渲染 |
+| **inline script 消除** | **搜索初始化从 sidebar 内联脚本移入 deferred main.js** | **消除 parser-blocking，恢复首屏速度** |
 | 条件加载 | geopattern.js 仅非 post 页加载 | 减少不必要 JS 执行 |
 | 重复引用消除 | wiki 等 layout 中清除重复 `comments.html` | 减少 DOM 节点 |
 | 背景色预置 | `<head>` 内联 `background: #f8f8f0` | 消除白屏闪烁 |
@@ -685,7 +686,7 @@ theme-modern.css（核心设计系统，35KB，持续增长）
 
 ### 10.9 搜索系统（Search System）
 
-**位置**：`_includes/sidebar-search.html`（侧栏搜索组件 + inline JS）+ `_includes/header.html`（移动端搜索覆盖层 HTML）+ `_config.yml`（搜索配置）。
+**位置**：`_includes/sidebar-search.html`（侧栏搜索组件，纯HTML）+ `assets/js/main.js`（搜索初始化逻辑）+ `_includes/header.html`（移动端搜索覆盖层 HTML）+ `_config.yml`（搜索配置）。
 
 #### 10.9.1 架构概览
 
@@ -714,33 +715,55 @@ search_data.json（Jekyll 构建时生成）
 #### 10.9.2 关键代码
 
 ```javascript
-/* sidebar-search.html inline script */
-fetch(jsonUrl)
-  .then(function(r) { return r.json(); })
-  .then(function(data) {
-    /* ① 侧栏：SJS 实例（唯一实例） */
-    new SimpleJekyllSearch({
-      searchInput: document.getElementById('search_box'),
-      resultsContainer: document.getElementById('search_results'),
-      json: data,
-      searchResultTemplate: '<li><a href="{url}">{title}</a></li>',
-      limit: 20,
-      fuzzy: false
-    });
+/* assets/js/main.js — 搜索初始化（deferred，不阻塞解析） */
+(function initSearch() {
+  var input = document.getElementById('search_box');
+  if (!input) return;
+  /* JSON URL 通过 data-* 属性传递（避免 inline script） */
+  var jsonUrl = input.getAttribute('data-json-url');
+  if (!jsonUrl) return;
 
-    /* ② 移动端：手动遍历（共享 data） */
-    mobileBox.addEventListener('keyup', function(e) {
-      if (ignoreKeys.indexOf(e.which) >= 0) return;
-      var term = e.target.value.trim().toLowerCase();
-      for (var i = 0; i < data.length; i++) {
-        if (data[i].title.toLowerCase().indexOf(term) >= 0 ||
-            data[i].keywords.toLowerCase().indexOf(term) >= 0 ||
-            data[i].category.toLowerCase().indexOf(term) >= 0) {
-          // render result
+  fetch(jsonUrl)
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      /* ① 侧栏：SJS 实例（唯一实例） */
+      new SimpleJekyllSearch({
+        searchInput: input,
+        resultsContainer: document.getElementById('search_results'),
+        json: data,
+        searchResultTemplate: '<li><a href="{url}">{title}</a></li>',
+        limit: 20,
+        fuzzy: false
+      });
+
+      /* ② 移动端：手动遍历（共享 data 引用） */
+      var mobileBox = document.getElementById('mobileSearchBox');
+      var mobileResults = document.getElementById('mobileSearchResults');
+      if (!mobileBox || !mobileResults) return;
+
+      var ignoreKeys = [16 /*Shift*/, 20 /*CapsLock*/, 37,38,39,40 /*Arrow*/, 91 /*Meta*/];
+      mobileBox.addEventListener('keyup', function(e) {
+        if (ignoreKeys.indexOf(e.which) >= 0) return;
+        var term = e.target.value.trim();
+        if (!term) { mobileResults.innerHTML = ''; return; }
+        term = term.toLowerCase();
+        var html = '';
+        var count = 0;
+        for (var i = 0; i < data.length && count < limit; i++) {
+          var item = data[i];
+          if (
+            (item.title && item.title.toLowerCase().indexOf(term) >= 0) ||
+            (item.keywords && item.keywords.toLowerCase().indexOf(term) >= 0) ||
+            (item.category && item.category.toLowerCase().indexOf(term) >= 0)
+          ) {
+            html += '<li><a href="' + item.url + '">' + item.title + '</a></li>';
+            count++;
+          }
         }
-      }
+        mobileResults.innerHTML = html || '<li class="no-results">未找到相关内容</li>';
+      });
     });
-  });
+})();
 ```
 
 #### 10.9.3 性能分析
@@ -777,12 +800,13 @@ fetch(jsonUrl)
 | 属性 | 值 |
 |------|-----|
 | 触发条件 | 文章 frontmatter 中设置 `sticky: true` |
-| 排序逻辑 | Liquid 过滤 `paginator.posts \| where: "sticky", true` 后优先显示，再接普通文章 |
-| 视觉标识 | 左上角 `★ 置顶` 徽章（毛玻璃 pill 风格）+ 顶部暖色渐变装饰条 |
-| 徽章样式 | `background: rgba(245,203,92,0.9)`，深琥珀色文字 `#92400e`，`border-radius: 6px`，`backdrop-filter: blur(4px)`，`font-size: 10px`，`font-weight: 800` |
-| 徽章阴影 | 轻微边框阴影，暗色模式降级为深棕底色 |
-| 顶部装饰线 | 全宽 4px 暖色渐变条（`linear-gradient(90deg, #f59e0b, #19c8b9)`），去掉闪烁动画，使用静态度量 |
-| 颜色变体 | 置顶文章保留各自分类的颜色变体，顶部装饰线统一为暖色渐变 |
+| 排序逻辑 | Liquid 过滤 `paginator.posts | where: "sticky", true` 后优先显示，再接普通文章 |
+| 视觉标识 | 📍 定位针图标 + "置顶" 文字，内联在 meta 行最左（`order: -1`） |
+| 徽章位置 | 卡片 `<div class="post-card-meta">` 内部，非绝对定位 |
+| 徽章样式 | `display: inline-flex; align-items: center`，白色半透明毛玻璃背景 `rgba(255,255,255,0.65)`，灰色细边框，圆角 pill 形状 |
+| 悬停效果 | 背景透明度降低，边框切换为主题色 `var(--animal-primary)` |
+| 暗色模式 | 深色半透明背景 `rgba(30,30,30,0.65)`，浅灰文字 |
+| 颜色变体 | 置顶文章保留各自分类的颜色变体 |
 | 置顶数量 | 建议 ≤ 3 篇，无硬性限制 |
 
 ---
