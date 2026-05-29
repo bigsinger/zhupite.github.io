@@ -235,10 +235,11 @@ Page
 ```
 
 **交互规则**：
-- 基础：20px 圆角，2px 淡边框，顶部 3px accent 装饰线（色值与卡片变体匹配）
+- 基础：20px 圆角，2px 淡边框，顶部 3px accent 装饰线（色值与卡片变体匹配）。置顶卡片无装饰线，改用右上角 ★ 置顶 徽章
 - Hover：上浮 4px（`translateY(-4px)`），阴影从 sm 升级到 lg
 - 过渡曲线：`cubic-bezier(0.4, 0, 0.2, 1)` — 先快后缓
 - 分类标签：圆角 pill + `backdrop-filter: blur(2px)` 提高可读性
+- 摘要：`post.excerpt | strip_html | strip | truncate: 80`，当摘要为空时 fallback 到 `page.description`（常见于以图片开头的文章）
 
 #### 4.2.2 Sidebar Card（侧边栏卡片）
 
@@ -438,7 +439,7 @@ theme-modern.css（核心设计系统，35KB，持续增长）
 | 21 | Primer Compat | L1490-1550 | 旧 Primer 样式兼容 |
 | **22** | **Code Block Header** | **L1551-1618** | **代码块语言标签 + 复制按钮** |
 | **23** | **Prev/Next Nav** | **L1620-1678** | **上下篇导航卡片** |
-|| **24** | **Sticky Badge** | **L2007-2042** | **文章置顶徽章 + 全宽渐变顶部装饰线** |
+| **24** | **Sticky Badge** | **L2007-2042** | **文章置顶徽章（top-right），无装饰条** |
 | **25** | **TOC Highlight** | **L1704-1720** | **TOC 滚动高亮指示条** |
 
 ### 6.3 CSS 设计原则

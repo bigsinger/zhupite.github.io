@@ -599,10 +599,73 @@ curl -o /dev/null -s -w "TOTAL: %{time_total}s\nSTART-TRANSFER: %{time_starttran
 | 代码语言标签 | 4 次 | 2（Rouge 嵌套结构 + 祖先遍历深度） | 0 |
 | 代码复制按钮 | 1 次 | 1（Clipboard API 降级） | 0 |
 | 前/后篇导航 | 1 次 | 0（Jekyll 原生支持） | 0 |
-|| 文章置顶 | 2 次 | 1（UI 美化：📌→★、右→左、普通白底→渐变徽章） | 0 |
+| 置顶 | 3 次 | 2（UI 美化：📌→★ 右→左 白底→渐变徽章；移除装饰条：用户反馈不好看；徽标移右侧：视觉平衡） | 0 |
 ||| TOC 滚动高亮 | 3 次 | 3（阈值 >2、rootMargin 调试、// 注释被吞噬） | 1 |
 ||| 双搜索框（侧栏+移动端） | 2 次 | 1（手动遍历 + SJS 实例共享数据，性能影响评估） | 0 |
 ||| SJS defer 缺失 → render-blocking | 1 次 | 1（4KB 脚本阻塞首屏 ~0.5s，因旧代码习惯忘了加） | 0 |
 ||| **合计** | **13 次** | **9 个** | **1 个** |
+
+|## 十一、文章卡片摘要为空处理
+
+### 11.1 问题现象
+
+极少数文章的首页卡片摘要为空（`<p class="post-card-excerpt">` 区域空白）。
+
+### 11.2 根因
+
+**excerpt 仅含 Markdown 图片**。
+
+前提：`_config.yml` 设置 `excerpt_separator: "\n\n"`，Jekyll 自动将 frontmatter 后第一个 `\n\n` 之前的内容作为 `post.excerpt`。
+
+当文章以纯图片开头时：
+```markdown
+---
+...
+
+---
+![image](http://...)
+
+正文内容...
+```
+
+- `post.excerpt` 渲染为 `<p><img src="http://..." /></p>`
+- `| strip_html` 删除所有 HTML 标签 → 空字符串
+- `| strip` 进一步修剪 → 仍为空
+- 最终 `truncate: 80` 输出空白
+
+### 11.3 受影响范围
+
+611 篇文章中，共 **5 篇**（占 0.8%）：
+
+| 文章 | 原因 |
+|------|------|
+| `reads/2019-10-28-《程序员软技能》.md` | excerpt 仅含图片 |
+| `reads/2019-10-28-《要事第一》.md` | excerpt 仅含图片 |
+| `reads/2019-10-28-《快速阅读》.md` | excerpt 仅含图片（全文只有图片） |
+| `reads/2019-10-28-《乔布斯传》.md` | excerpt 仅含图片 |
+| `thinking/2019-10-28-我并不需要你的帮助.md` | excerpt 仅含图片 |
+
+### 11.4 修复方案（推荐：Liquid fallback）
+
+修改 `index.html`，当 `excerpt` 为空时 fallback 到 `post.description`：
+
+```liquid
+{%- capture excerpt_raw %}{{ post.excerpt | strip_html | strip }}{% endcapture -%}
+<p class="post-card-excerpt">
+  {% if excerpt_raw != '' %}
+    {{ excerpt_raw | truncate: 80 }}
+  {% elsif post.description %}
+    {{ post.description | truncate: 80 }}
+  {% endif %}
+</p>
+```
+
+**优点**：零维护成本，未来任何新文章也不会出现空摘要。所有 5 篇受影响文章均有 `description` frontmatter，可直接显示。
+
+### 11.5 备选方案
+
+给 5 篇文章 frontmatter 手动添加 `excerpt:` 字段——维护成本高，不推荐。
+
+---
 
 **结论**：Jekyll 本身的纯 Liquid 功能（置顶、导航、分页）通常零踩坑。JS 交互功能（代码块、TOC、搜索）容易遇到框架特性和构建工具的隐式副作用（compress_html 是最常见的坑）。

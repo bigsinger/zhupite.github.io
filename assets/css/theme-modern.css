@@ -2027,31 +2027,15 @@ img + em { color: var(--animal-text-muted); display: block; text-align: center; 
   position: relative;
   overflow: hidden;
 }
-/* Top accent bar — warm amber → brand teal gradient, static */
-.post-card.sticky::before {
-  height: 4px;
-  background: linear-gradient(90deg, #f59e0b, #d97706, #19c8b9);
-  opacity: 0.55;
-  box-shadow: 0 0 6px rgba(245,158,11,0.15);
-}
-.post-card.sticky:hover::before {
-  opacity: 0.75;
-}
-.dark .post-card.sticky::before {
-  background: linear-gradient(90deg, #92400e, #78350f, var(--animal-primary));
-  opacity: 0.45;
-  box-shadow: none;
-}
-.dark .post-card.sticky:hover::before {
-  opacity: 0.6;
-}
+/* No decorative bar — removed per user request */
 
-/* Sticky badge — clean ★ pill, top-left inside card */
+/* Sticky badge — clean ★ pill, top-right inside card */
 .post-card.sticky::after {
   content: '★ 置顶';
   position: absolute;
   top: 7px;
-  left: 7px;
+  right: 7px;
+  left: auto;
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.06em;
