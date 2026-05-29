@@ -18,11 +18,11 @@
   var limit = {{ site.simple_jekyll_search.limit }};
   var noResultsText = '{{ site.simple_jekyll_search.no_results_text | default: "No results found" }}';
 
-  /* ---- 先预加载 JSON，再创建多个 SimpleJekyllSearch 实例 ---- */
+  /* 预加载 JSON，然后：侧栏用 SJS 实例，移动搜索框手动搜索（共享同一份数据） */
   fetch(jsonUrl)
     .then(function(r) { return r.json(); })
     .then(function(data) {
-      /* 侧栏搜索 */
+      /* ---- 侧栏：SimpleJekyllSearch 实例（唯一实例） ---- */
       new SimpleJekyllSearch({
         searchInput: document.getElementById('search_box'),
         resultsContainer: document.getElementById('search_results'),
@@ -33,15 +33,36 @@
         fuzzy: false
       });
 
-      /* 移动覆盖层搜索 */
-      new SimpleJekyllSearch({
-        searchInput: document.getElementById('mobileSearchBox'),
-        resultsContainer: document.getElementById('mobileSearchResults'),
-        json: data,
-        searchResultTemplate: tmpl,
-        noResultsText: noResultsText,
-        limit: limit,
-        fuzzy: false
+      /* ---- 移动覆盖层：手动 keyup 搜索（共享 data 和 tmpl） ---- */
+      var mobileBox = document.getElementById('mobileSearchBox');
+      var mobileResults = document.getElementById('mobileSearchResults');
+      if (!mobileBox || !mobileResults) return;
+
+      var ignoreKeys = [13, 16, 20, 37, 38, 39, 40, 91];
+
+      mobileBox.addEventListener('keyup', function(e) {
+        if (ignoreKeys.indexOf(e.which) >= 0) return;
+
+        var term = e.target.value.trim();
+        if (!term) { mobileResults.innerHTML = ''; return; }
+        term = term.toLowerCase();
+
+        var html = '';
+        var count = 0;
+        for (var i = 0; i < data.length && count < limit; i++) {
+          var item = data[i];
+          if (
+            (item.title && item.title.toLowerCase().indexOf(term) >= 0) ||
+            (item.keywords && item.keywords.toLowerCase().indexOf(term) >= 0) ||
+            (item.category && item.category.toLowerCase().indexOf(term) >= 0)
+          ) {
+            html += tmpl
+              .replace(/\{url\}/g, item.url)
+              .replace(/\{title\}/g, item.title);
+            count++;
+          }
+        }
+        mobileResults.innerHTML = html || noResultsText;
       });
     });
 })();
