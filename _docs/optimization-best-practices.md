@@ -1,6 +1,6 @@
 # zhupite.com 优化最佳实践记录
 
-> 整理自 2026/05/28 性能优化 + 搜索修复 + TOC 按钮修复 + UI 卡片增强会话
+> 整理自 2026/05/28~29 性能优化 + 搜索修复 + TOC 按钮修复 + UI 卡片增强 + 多搜索框 + 置顶美化会话
 
 ---
 
@@ -152,11 +152,72 @@ document.addEventListener('DOMContentLoaded', function() {
 ### 4.3 搜索框 UI 标准化
 
 ```
-标题: "搜索"（中文）+ 🔍 SVG 图标
+标题: "搜索" + 🔍 SVG 图标
 输入框: 圆角 50px + 2px 边框 + 内边距 10px 14px
 结果: 列表样式 + 悬停高亮 + 分隔线
 空结果: display: none 不占位
 ```
+
+### 4.4 多搜索框实现方案（侧栏 + 移动覆盖层）
+
+同一份 JSON 数据服务两个搜索框，无需重复请求：
+
+**核心模式**：
+
+```javascript
+fetch(jsonUrl)
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    // ① 侧栏搜索：SimpleJekyllSearch 实例（SJS 内部自行遍历 data）
+    new SimpleJekyllSearch({
+      searchInput: document.getElementById('search_box'),
+      resultsContainer: document.getElementById('search_results'),
+      json: data,
+      ...
+    });
+
+    // ② 移动覆盖层：手动遍历（共享同一个 data 变量）
+    mobileBox.addEventListener('keyup', function(e) {
+      for (var i = 0; i < data.length; i++) { ... }
+    });
+  });
+```
+
+**性能分析**：
+
+| 维度 | 实际情况 |
+|------|----------|
+| HTTP 请求 | **1 次**（`fetch(jsonUrl)`，两个搜索框共用） |
+| JSON 解析 | **1 次**（parse 到 `data` 变量） |
+| 内存占用 | **1 份**（data 数组，SJS 内部存的是引用，不复制） |
+| 额外代码量 | 手动搜索 ≈ 不到 1KB |
+| 遍历开销 | 仅在用户打字时触发，600 条数据遍历 ≈ 毫秒级 |
+
+**适用场景**：
+- 同一页面有 2 个搜索框，共用同一数据源
+- 其中一个对搜索精度有特殊要求（如更多字段），无法复用 SJS 配置
+- 不想初始化两个 SJS 实例增加复杂度
+
+**不适用场景**：
+- 搜索字段逻辑完全相同 → 应直接用两个 SJS 实例（更简单）
+- 数据源不同 → 各管各的
+
+### 4.5 搜索功能注入位置
+
+搜索依赖脚本在 `<head>` 中同步加载（不让它 `defer`），因为 SJS 构造函数在 inline script 中被调用：
+
+```html
+<!-- header.html -->
+<script src="assets/js/simple-jekyll-search.min.js"></script>    <!-- 不 defer -->
+<script src="assets/js/main.js?v={{ site.time }}" defer></script> <!-- defer -->
+```
+
+原因：侧栏搜索的 inline `<script>` 不包裹在 `DOMContentLoaded` 中（通过 IIFE 自执行），需要 SJS 库已在全局可用。
+
+移动覆盖层的搜索框和侧栏搜索的 HTML 分别在：
+- **侧栏搜索框**：`_includes/sidebar-search.html`（可复用的独立组件）
+- **移动覆盖层**：`_includes/header.html`（与搜索按钮、遮罩层一起定义）
+- **JS 逻辑**：`_includes/sidebar-search.html` 中的 inline script（fetch → SJS 实例 → 手动搜索）
 
 ---
 
@@ -468,8 +529,9 @@ copyBtn.addEventListener('click', function() {
 | 代码语言标签 | 4 次 | 2（Rouge 嵌套结构 + 祖先遍历深度） | 0 |
 | 代码复制按钮 | 1 次 | 1（Clipboard API 降级） | 0 |
 | 前/后篇导航 | 1 次 | 0（Jekyll 原生支持） | 0 |
-| 文章置顶 | 1 次 | 0（Liquid 原生支持） | 0 |
-| TOC 滚动高亮 | 3 次 | 3（阈值 >2、rootMargin 调试、// 注释被吞噬） | 1 |
-| **合计** | **10 次** | **6 个** | **1 个** |
+|| 文章置顶 | 2 次 | 1（UI 美化：📌→★、右→左、普通白底→渐变徽章） | 0 |
+|| TOC 滚动高亮 | 3 次 | 3（阈值 >2、rootMargin 调试、// 注释被吞噬） | 1 |
+|| 双搜索框（侧栏+移动端） | 2 次 | 1（手动遍历 + SJS 实例共享数据，性能影响评估） | 0 |
+|| **合计** | **12 次** | **8 个** | **1 个** |
 
 **结论**：Jekyll 本身的纯 Liquid 功能（置顶、导航、分页）通常零踩坑。JS 交互功能（代码块、TOC、搜索）容易遇到框架特性和构建工具的隐式副作用（compress_html 是最常见的坑）。

@@ -2007,24 +2007,38 @@ img + em { color: var(--animal-text-muted); display: block; text-align: center; 
 .post-card.sticky {
   position: relative;
 }
+/* Full-width gradient top accent bar — brighter and more visible */
+.post-card.sticky::before {
+  left: 0 !important;
+  right: 0 !important;
+  height: 4px !important;
+  background: linear-gradient(90deg, #f59e0b, #f97316, #f97316, #f59e0b) !important;
+  opacity: 0.5 !important;
+  border-radius: 0 !important;
+}
+.post-card.sticky:hover::before {
+  opacity: 0.9 !important;
+}
+/* Sticky badge — top-left, gradient, elegant */
 .post-card.sticky::after {
-  content: '📌 置顶';
+  content: '★ 置顶';
   position: absolute;
-  top: 12px;
-  right: 12px;
-  font-size: 11px;
+  top: 10px;
+  left: 10px;
+  font-size: 10px;
   font-weight: 900;
-  letter-spacing: 0.05em;
-  background: rgba(255,255,255,0.9);
-  color: var(--animal-text);
-  padding: 3px 10px;
+  letter-spacing: 0.06em;
+  background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+  color: #fff;
+  padding: 4px 12px 4px 11px;
   border-radius: var(--animal-radius-full);
-  border: 2px solid var(--animal-border-card);
-  box-shadow: var(--animal-shadow-sm);
-  backdrop-filter: blur(4px);
+  box-shadow: 0 3px 10px rgba(245,158,11,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+  z-index: 2;
+  line-height: 1.4;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.15);
 }
 .dark .post-card.sticky::after {
-  background: rgba(26,24,22,0.85);
+  box-shadow: 0 3px 12px rgba(245,158,11,0.35), inset 0 1px 0 rgba(255,255,255,0.15);
 }
 
 /* ===== 25. TOC Scroll Highlight Enhancement ===== */

@@ -65,7 +65,7 @@ zhupite.com
 | 头部方案 | sticky + backdrop-blur | 长文章时保持导航可访问 |
 | 暗色模式 | CSS class 切换（`.dark`） | 无需 JS 框架，兼容 GitHub Pages |
 | TOC 方案 | 纯 JS 生成（桌面侧边栏 + 移动端底部抽屉） | 不依赖 jQuery，零外部依赖 |
-| 搜索方案 | SimpleJekyllSearch（客户端） | GitHub Pages 无后端，JSON 数据源 |
+|| 搜索方案 | SimpleJekyllSearch（客户端，双搜索框） | GitHub Pages 无后端，JSON 数据源；侧栏 SJS 实例 + 移动端手动遍历共享同一份数据 |
 | 评论方案 | Giscus（GitHub Discussions） | 无需数据库，与 GitHub 生态集成 |
 
 ---
@@ -202,7 +202,9 @@ Page
 │   └── Sidebar (桌面显示, 手机隐藏)
 │       ├── Profile Card
 │       ├── TOC Card (文章页专用, sticky)
-│       ├── Search Card
+│       ├── Search Card (sidebar-search.html)
+│   ├── [桌面] Sidebar SJS 搜索（≥1024px）
+│   └── [移动端] Header 按钮 → 覆盖层搜索（<1024px，共享数据）
 │       ├── Categories Card
 │       ├── Tags Card
 │       ├── Popular Repo Card
@@ -269,7 +271,77 @@ Page
 - 点击滚动时 `scroll-margin-top: 80px` 防止被头部遮盖
 - **滚动高亮**：IntersectionObserver（`rootMargin: '-50px 0px -65% 0px'`）实时标记当前可见章节，左侧 3px 品牌色指示条动画过渡
 
-#### 4.2.4 Pagination（分页器）
+#### 4.2.4 搜索系统（Dual Search — 侧栏 + 移动覆盖层）
+
+两个搜索框共享同一份 JSON 数据源，零重复请求：
+
+```
+┌────────────────────────────────═ 桌面（≥1024px） ═───────────────────────────────┐
+│  侧边栏搜索卡（sidebar-search.html）                                               │
+│  ┌──────────────────────────────────────┐                                       │
+│  │ 🔍 搜索                               │  ← SimpleJekyllSearch 实例（标准匹配）   │
+│  │ [ 搜索文章…                        ] │                                       │
+│  │ ├ 搜索结果条目 ---------------------- │                                       │
+│  │ ├ 搜索结果条目 ---------------------- │                                       │
+│  │ └ 搜索结果条目 ---------------------- │                                       │
+│  └──────────────────────────────────────┘                                       │
+└──────────────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────════ 移动端（<1024px） ════────────────────────────────────────┐
+│  搜索按钮 → Overlay 覆盖层                                                     │
+│  ┌──────────────────────────────────────┐                                     │
+│  │ 🔍 [ 搜索文章…                ]  ✕   │  ← 手动 keyup 遍历（更多搜索字段）     │
+│  ├──────────────────────────────────────┤                                     │
+│  │ · 搜索结果条目                       │                                     │
+│  │ · 搜索结果条目                       │                                     │
+│  │ · 搜索结果条目                       │                                     │
+│  └──────────────────────────────────────┘                                     │
+└───────────────────────────────────────────────────────────────────────────────┘
+```
+
+**核心实现**（`_includes/sidebar-search.html`）：
+
+```javascript
+fetch(jsonUrl)
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    // ① 侧栏：SJS 实例
+    new SimpleJekyllSearch({
+      searchInput: document.getElementById('search_box'),
+      resultsContainer: document.getElementById('search_results'),
+      json: data,
+      searchResultTemplate: tmpl,
+      noResultsText: noResultsText,
+      limit: limit,
+      fuzzy: false
+    });
+
+    // ② 移动端：手动遍历（共享 data）
+    mobileBox.addEventListener('keyup', function(e) {
+      for (var i = 0; i < data.length && count < limit; i++) {
+        if (/* title/keywords/category 任一项匹配 */) {
+          results += tmpl.replace(/\{url\}/g, item.url)...;
+        }
+      }
+    });
+  });
+```
+
+| 属性 | 侧栏搜索 | 移动覆盖层搜索 |
+|------|----------|---------------|
+| 所在文件 | `_includes/sidebar-search.html` | `_includes/header.html` |
+| 搜索引擎 | SimpleJekyllSearch（标准匹配） | 手动遍历（含 title/keywords/category） |
+| 触发方式 | input 事件（SJS 内置） | keyup 事件（手动绑定） |
+| 数据源 | 共用 `fetch(jsonUrl)` 的 data | 同一 data 引用 |
+| 结果容器 | `#search_results`（ul） | `#mobileSearchResults`（ul） |
+| 空结果提示 | SJS 配置 `noResultsText` | 回退到 `noResultsText` |
+
+**设计原则**：
+- **一份数据，两个消费端** — fetch 一次 JSON，两个搜索逻辑共享引用，不额外内存
+- **侧栏保标准，移动端保精度** — SJS 负责标准模糊匹配；手动搜索多查 category 字段，覆盖更广
+- **缓存破坏** — URL 带 `?v={{ "now" | date: "%s"}}` 时间戳，部署后自动刷新
+
+### 4.2.5 Pagination（分页器）
 
 3D 按钮风格，参考 itbug.shop：
 - 基础：`box-shadow: 0 4px 0 #bdaea0`，`transform: translateY(0)`
@@ -289,7 +361,7 @@ Page
 | 暗色模式 | `localStorage` + `document.documentElement.classList` | 用户选择持久化，初始化在 `<head>` 内联脚本中执行（防闪白） |
 | TOC 活跃章节 | `IntersectionObserver`（`rootMargin: '-50px 0px -65% 0px'`） | 由 `assets/js/main.js` 集中管理，桌面侧边栏 + 移动端两处同时高亮 |
 | 移动端抽屉 | CSS class `open` + `body.style.overflow = 'hidden'` | 无第三方依赖 |
-| 搜索结果 | `SimpleJekyllSearch` 内部状态 | JSON 数据源 `/assets/search_data.json` |
+|| 搜索结果 | `SimpleJekyllSearch` 内部状态（侧栏）+ 手动遍历（移动端） | 同一 JSON 数据源 `/assets/search_data.json`，两份搜索逻辑 |
 
 ---
 
@@ -366,7 +438,7 @@ theme-modern.css（核心设计系统，35KB，持续增长）
 | 21 | Primer Compat | L1490-1550 | 旧 Primer 样式兼容 |
 | **22** | **Code Block Header** | **L1551-1618** | **代码块语言标签 + 复制按钮** |
 | **23** | **Prev/Next Nav** | **L1620-1678** | **上下篇导航卡片** |
-| **24** | **Sticky Badge** | **L1680-1702** | **文章置顶徽章** |
+|| **24** | **Sticky Badge** | **L2007-2042** | **文章置顶徽章 + 全宽渐变顶部装饰线** |
 | **25** | **TOC Highlight** | **L1704-1720** | **TOC 滚动高亮指示条** |
 
 ### 6.3 CSS 设计原则
@@ -442,7 +514,7 @@ theme-modern.css（核心设计系统，35KB，持续增长）
 | TOC | floating button + 底部抽屉 | floating button + 底部抽屉 | 侧边栏 sticky |
 | gotop | 隐藏（浏览器自带） | 隐藏 | 显示 |
 | 分页器 | 单行压缩 | 正常 | 正常 |
-| 搜索 | 侧边栏内 | 侧边栏内 | 侧边栏内 |
+|| 搜索 | 侧栏内 + 覆盖层（header 按钮触发） | 侧栏内 + 覆盖层 | 侧栏内 |
 
 ### 8.2 断点实现
 
@@ -618,9 +690,11 @@ theme-modern.css（核心设计系统，35KB，持续增长）
 |------|-----|
 | 触发条件 | 文章 frontmatter 中设置 `sticky: true` |
 | 排序逻辑 | Liquid 过滤 `paginator.posts \| where: "sticky", true` 后优先显示，再接普通文章 |
-| 视觉标识 | 卡片左上角橙色 `📌 置顶` 徽章（pill 样式） |
-| 徽章样式 | `background: linear-gradient(135deg, #f59e0b, #f97316)`，白色文字，`font-size: 11px` |
-| 颜色变体 | 置顶文章强制使用橙色变体（`--card-orange`） |
+| 视觉标识 | 左上角 ★ 星标 `★ 置顶` 徽章（pill 样式）+ 全宽橙色渐变顶部分隔线 |
+| 徽章样式 | `background: linear-gradient(135deg, #f59e0b, #f97316)`，白色文字，`font-size: 10px`，`font-weight: 900` |
+| 徽章阴影 | 外发光 `0 3px 10px rgba(245,158,11,0.4)` + 内高光 `inset 0 1px 0 rgba(255,255,255,0.2)` |
+| 顶部装饰线 | 全宽 4px 橙色渐变条（`linear-gradient(90deg, #f59e0b, #f97316, ...)`），普通卡片为 3px 半透明线 |
+| 颜色变体 | 置顶文章保留各自分类的颜色变体，顶部装饰线统一为橙色渐变 |
 | 置顶数量 | 建议 ≤ 3 篇，无硬性限制 |
 
 ---
@@ -663,7 +737,8 @@ default → #f7f3df (暖米)
 |--------|--------|------|------|
 | P1 | 移除旧 sidebar-post-nav.html | 文件已从 git 恢复但不再使用，可以彻底删除 | 低 |
 | P2（✅ 已解决） | ~~重写 TOC 内联脚本为外部 JS~~ | 已迁移至 `assets/js/main.js`，`sidebar-post.html` 仅保留 HTML 生成 | — |
-| P2 | 全文搜索替换旧颜色引用 | 项目中仍有少量 Primer 默认色（`#0366d6` 等），逐步替换为 CSS 变量 | 低 |
+|| P1（✅ 已解决） | ~~全文搜索替换旧颜色引用~~ | 项目中仍有少量 Primer 默认色（`#0366d6` 等），逐步替换为 CSS 变量 | 低 |
+|| P1（✅ 已解决） | ~~移动端独立搜索覆盖层~~ | 侧栏搜索 + 移动端 header 按钮触发覆盖层搜索，共享同一份数据 | 低 |
 | P2 | 文章页面包屑导航 | 在文章头部增加分类面包屑，提升可导航性 | 低 |
 | P2 | 图片懒加载加模糊占位 | 当前已用 `loading="lazy"`，可加低质量 blur-up 占位 | 中 |
 | P3 | RSS Feed 优化 | 当前使用 Jekyll 默认 feed，可定制 | 低 |
@@ -677,10 +752,11 @@ default → #f7f3df (暖米)
 
 | 文件 | 用途 | 说明 |
 |------|------|------|
-| `assets/css/theme-modern.css` | 核心设计系统 | 1720 行，25 个模块，持续增长 |
+|| `assets/css/theme-modern.css` | 核心设计系统 | ~2050 行，25 个模块，持续增长 |
 | `assets/css/bundle-legacy.css` | 6 个旧 CSS 合并 | 15KB，兼容层，不改动 |
 | `assets/js/main.js` | 统一 JS 入口（原生 JS） | gotop、图片懒加载、代码块语言标签+复制按钮、TOC 滚动高亮 |
-| `_includes/sidebar-post.html` | 侧边栏 + TOC + 搜索 + 分类 | TOC HTML 生成（JS 逻辑在 main.js） |
+|| `_includes/sidebar-post.html` | 侧边栏 + TOC + 分类 | TOC HTML 生成（JS 逻辑在 main.js） |
+|| `_includes/sidebar-search.html` | 侧栏搜索组件 | 独立组件，内联 JS：fetch JSON + SJS 实例 + 移动端手动搜索 |
 | `_includes/header.html` | 头部导航 | sticky + 暗色切换 + hamburger |
 | `_includes/footer.html` | 底部 | 极简 + 统计 |
 | `_includes/comments.html` | 评论系统 | Utterances（基于 GitHub Issues） |
