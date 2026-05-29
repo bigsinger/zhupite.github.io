@@ -1508,8 +1508,9 @@ img { max-width: 100%; height: auto; }
   top: 100%;
   left: 0;
   right: 0;
-  background: var(--animal-bg);
-  border-bottom: 2px solid var(--animal-border-card);
+  background: var(--animal-bg-card);
+  border-bottom: none;
+  border-radius: 0 0 var(--animal-radius-xl) var(--animal-radius-xl);
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   max-height: 0;
   overflow: hidden;
@@ -1521,15 +1522,12 @@ img { max-width: 100%; height: auto; }
   overflow-y: auto;
 }
 
-/* PC: 搜索覆盖层与侧边栏搜索卡风格一致 */
+/* PC: 搜索覆盖层宽度限制在右侧 */
 @media (min-width: 1024px) {
   .search-overlay {
     width: 320px;
     left: auto;
     right: 16px;
-    background: var(--animal-bg-card);
-    border-bottom: none;
-    border-radius: 0 0 var(--animal-radius-xl) var(--animal-radius-xl);
   }
 }
 .search-overlay-header {
