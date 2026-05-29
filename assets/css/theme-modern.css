@@ -2030,47 +2030,56 @@ img + em { color: var(--animal-text-muted); display: block; text-align: center; 
 /* ===== 26. Article Pinned / Sticky Badge ===== */
 .post-card.sticky {
   position: relative;
+  overflow: hidden;
 }
-/* Softer accent bar — light peach in light mode, muted in dark */
+/* Top gradient bar — thicker, with subtle glow */
 .post-card.sticky::before {
   left: 0 !important;
   right: 0 !important;
-  height: 4px !important;
-  background: linear-gradient(90deg, #fcd9b6, #f8c291, #f8c291, #fcd9b6) !important;
-  opacity: 0.55 !important;
+  height: 5px !important;
+  background: linear-gradient(90deg, #f39c12, #e67e22, #f1c40f, #e67e22, #f39c12) !important;
+  background-size: 200% 100% !important;
+  animation: sticky-bar-shimmer 3s ease-in-out infinite !important;
+  opacity: 0.7 !important;
   border-radius: 0 !important;
+  box-shadow: 0 0 8px rgba(243,156,18,0.35);
+}
+@keyframes sticky-bar-shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 .post-card.sticky:hover::before {
-  opacity: 0.85 !important;
+  opacity: 1 !important;
 }
 .dark .post-card.sticky::before {
-  background: linear-gradient(90deg, #5a4a30, #6b5a3a, #6b5a3a, #5a4a30) !important;
-  opacity: 0.2 !important;
+  background: linear-gradient(90deg, #8b6914, #a07828, #8b6914) !important;
+  opacity: 0.3 !important;
+  box-shadow: 0 0 6px rgba(180,150,60,0.2);
 }
 .dark .post-card.sticky:hover::before {
-  opacity: 0.35 !important;
+  opacity: 0.5 !important;
 }
-/* Sticky badge — right-aligned, downward pin, theme-aware */
+/* Sticky badge — elegant pill with icon + text */
 .post-card.sticky::after {
-  content: '📍 置顶';
+  content: '📌 置顶';
   position: absolute;
-  top: 12px;
+  top: -2px;
   right: 12px;
-  left: auto;
-  font-size: 10px;
-  font-weight: 900;
-  letter-spacing: 0.05em;
-  background: rgba(248,194,145,0.18);
-  color: var(--animal-text);
-  padding: 3px 10px;
-  border-radius: var(--animal-radius-full);
-  backdrop-filter: blur(4px);
-  z-index: 2;
-  line-height: 1.4;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  background: linear-gradient(135deg, #fef3c7, #fde68a, #f59e0b);
+  color: #78350f;
+  padding: 3px 12px 3px 10px;
+  border-radius: 0 0 10px 10px;
+  z-index: 3;
+  line-height: 1.5;
+  box-shadow: 0 2px 6px rgba(245,158,11,0.3);
 }
 .dark .post-card.sticky::after {
-  background: rgba(180,150,100,0.1);
-  color: #fff;
+  background: linear-gradient(135deg, #78350f, #92400e, #a16207);
+  color: #fef3c7;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
 }
 
 /* ===== 27. TOC Scroll Highlight Enhancement ===== */
