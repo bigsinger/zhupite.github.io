@@ -14,11 +14,9 @@
 <script type="text/javascript">
 (function() {
   /* SimpleJekyllSearch 的全局数据存储 a 是共享的。
-     创建两个实例会导致数据被重复 push，搜索返回双倍结果。
-     方案：侧栏实例传入 json URL（加载数据），
-          移动覆盖层实例传入空数组 json:[]（避免重复），
-          两者共享同一个全局数据存储 */
-  var json = '{{ site.url }}/assets/search_data.json?v={{ "now" | date: "%s"}}';
+     只创建 ONE 个实例（侧栏）来加载 JSON 数据。
+     移动覆盖层的搜索使用自定义 keyup 监听器，复用侧栏实例的 search() 方法。 */
+  var jsonUrl = '{{ site.url }}/assets/search_data.json?v={{ "now" | date: "%s"}}';
   var tmpl = '<li><a href="{url}" title="{title}">{title}</a></li>';
   var limit = {{ site.simple_jekyll_search.limit }};
   var opts = {
@@ -32,35 +30,45 @@
   document.addEventListener('DOMContentLoaded', function() {
     if (typeof SimpleJekyllSearch === 'undefined') return;
 
-    /* Sidebar search — 唯一加载 JSON 的实例 */
     var sidebarBox = document.getElementById('search_box');
     var sidebarResults = document.getElementById('search_results');
-    if (sidebarBox && sidebarResults) {
-      SimpleJekyllSearch({
-        searchInput: sidebarBox,
-        resultsContainer: sidebarResults,
-        json: json,
-        searchResultTemplate: opts.searchResultTemplate,
-        noResultsText: opts.noResultsText,
-        limit: opts.limit,
-        fuzzy: opts.fuzzy,
-        exclude: opts.exclude
-      });
-    }
-
-    /* Mobile overlay search — 传空数组 json:[]，不重复推送数据 */
     var mobileBox = document.getElementById('mobileSearchBox');
     var mobileResults = document.getElementById('mobileSearchResults');
+
+    if (!sidebarBox || !sidebarResults) return;
+
+    /* 唯一实例：侧栏搜索，加载 JSON */
+    var sjs = SimpleJekyllSearch({
+      searchInput: sidebarBox,
+      resultsContainer: sidebarResults,
+      json: jsonUrl,
+      searchResultTemplate: opts.searchResultTemplate,
+      noResultsText: opts.noResultsText,
+      limit: opts.limit,
+      fuzzy: opts.fuzzy,
+      exclude: opts.exclude
+    });
+
+    /* 移动覆盖层搜索：自定义 keyup，复用 sjs.search() */
     if (mobileBox && mobileResults) {
-      SimpleJekyllSearch({
-        searchInput: mobileBox,
-        resultsContainer: mobileResults,
-        json: [],
-        searchResultTemplate: opts.searchResultTemplate,
-        noResultsText: opts.noResultsText,
-        limit: opts.limit,
-        fuzzy: opts.fuzzy,
-        exclude: opts.exclude
+      mobileBox.addEventListener('keyup', function(e) {
+        /* 忽略修饰键 */
+        var ignore = [13, 16, 20, 37, 38, 39, 40, 91];
+        if (ignore.indexOf(e.which) !== -1) return;
+
+        var term = e.target.value.trim();
+        if (!term) { mobileResults.innerHTML = ''; return; }
+
+        var results = sjs.search(term);
+        if (results && results.length > 0) {
+          mobileResults.innerHTML = results.map(function(item) {
+            return tmpl
+              .replace(/\{url\}/g, item.url)
+              .replace(/\{title\}/g, item.title);
+          }).join('');
+        } else {
+          mobileResults.innerHTML = opts.noResultsText;
+        }
       });
     }
   });
