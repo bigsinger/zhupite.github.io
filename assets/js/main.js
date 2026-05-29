@@ -114,6 +114,12 @@ document.addEventListener('DOMContentLoaded', function() {
     var closeBtn = document.getElementById('tocDrawerClose');
     if (!btn || !overlay) return;
 
+    /* 非文章页（无桌面 TOC）直接隐藏按钮 */
+    if (!document.getElementById('toc-sidebar')) {
+      btn.style.display = 'none';
+      return;
+    }
+
     /* 从 localStorage 恢复已保存的位置 */
     var savedPos = localStorage.getItem('tocBtnPos');
     if (savedPos) {
@@ -204,9 +210,11 @@ document.addEventListener('DOMContentLoaded', function() {
     var mobileList = document.getElementById('toc-mobile-list');
     var headings = main ? main.querySelectorAll('h1, h2, h3, h4') : [];
     
-    /* 标题不足 2 个时隐藏桌面 TOC 卡片 */
+    /* 标题不足 2 个时隐藏桌面 TOC 卡片 + 移动端按钮 */
     if (!main || headings.length < 2) {
       tocCard.style.display = 'none';
+      var btn = document.getElementById('tocMobileBtn');
+      if (btn) btn.style.display = 'none';
     }
     
     /* 生成目录列表（桌面 + 移动端） */
