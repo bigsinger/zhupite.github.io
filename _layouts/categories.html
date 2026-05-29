@@ -9,7 +9,7 @@ layout: default
 
   <div class="categories-index">
     {% for category in site.categories %}
-    {% include category-color.liquid cat_name=category[0] %}
+    {% include category-color.liquid cat_name=category.first %}
 
     <div class="category-group category-group-{{ cat_color }}">
       <h2 id="{{ category[0] }}" class="category-group-title">{{ category[0] }}</h2>
