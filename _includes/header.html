@@ -15,9 +15,8 @@
       #pg-bar::before{content:'';display:block;height:100%;width:30%;background:linear-gradient(90deg,#667eea,#764ba2);border-radius:2px;animation:bar-sweep 1.5s ease-in-out infinite}
       @keyframes bar-sweep{0%{transform:translateX(-100%)}100%{transform:translateX(400%)}}
     </style>
-    <link rel="preload" href="{{ site.url }}/assets/css/theme-modern.min.css?v={{ site.time | date: '%s' }}" as="style" onload="this.onload=null;this.rel='stylesheet';function r(){var p=document.getElementById('pg-bar');if(p)p.classList.add('bar-done')}document.readyState==='loading'?document.addEventListener('DOMContentLoaded',r):r()">
+    <link rel="preload" href="{{ site.url }}/assets/css/theme-modern.min.css?v={{ site.time | date: '%s' }}" as="style" onload="this.onload=null;this.rel='stylesheet';var p=document.getElementById('pg-bar');if(p)p.classList.add('bar-done')">
     <noscript><link rel="stylesheet" href="{{ site.url }}/assets/css/theme-modern.min.css?v={{ site.time | date: '%s' }}"></noscript>
-    <noscript><style>#pg-bar{display:none}</style></noscript>
     <link rel="preload" href="{{ site.url }}/assets/css/rouge-github.css?v={{ site.time | date: '%s' }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="{{ site.url }}/assets/css/rouge-github.css?v={{ site.time | date: '%s' }}"></noscript>
     <link rel="canonical" href="{{ page.url | prepend: site.url }}">
@@ -69,9 +68,6 @@
     <script src="{{ site.url }}/assets/js/simple-jekyll-search.min.js" defer></script>
     <script src="{{ site.url }}/assets/js/main.js?v={{ site.time | date: '%s' }}" defer></script>
     <script>
-      /* 进度条安全兜底：5秒后若 CSS 仍未加载完成则隐藏，避免永动 */
-      setTimeout(function(){var p=document.getElementById('pg-bar');if(p)p.classList.add('bar-done')},5000);
-
       function toggleTheme() {
         var html = document.documentElement;
         var btn = document.querySelector('.theme-toggle-icon');
