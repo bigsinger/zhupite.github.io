@@ -1716,11 +1716,6 @@ img { max-width: 100%; height: auto; }
 }
 
 /* Code blocks */
-.dark .markdown-body code,
-.dark .markdown-body tt {
-  background-color: var(--animal-bg-secondary);
-  color: #e8dcc8;
-}
 .dark .markdown-body pre {
   background-color: #1e1c1a !important;
   border: none;
@@ -1800,7 +1795,16 @@ div.highlighter-rouge .highlight {
 }
 
 /* Inline code */
-.dark .markdown-body code {
+.markdown-body code,
+.markdown-body tt {
+  background-color: #f0e8d8;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.dark .markdown-body code,
+.dark .markdown-body tt {
+  background-color: #38332d;
+  color: #e8dcc8;
   padding: 2px 6px;
   border-radius: 4px;
 }
