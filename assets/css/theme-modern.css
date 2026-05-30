@@ -1813,6 +1813,17 @@ div.highlighter-rouge .highlight {
 }
 
 /* Blockquotes */
+.markdown-body blockquote {
+  color: var(--animal-text-secondary);
+  border-left: 4px solid var(--animal-primary);
+  background: var(--animal-bg-secondary);
+  padding: 12px 16px;
+  border-radius: 0 var(--animal-radius-sm) var(--animal-radius-sm) 0;
+  margin-bottom: 1em;
+}
+.markdown-body blockquote p {
+  color: var(--animal-text-secondary);
+}
 .dark .markdown-body blockquote {
   color: var(--animal-text-secondary);
   border-left-color: var(--animal-primary);
