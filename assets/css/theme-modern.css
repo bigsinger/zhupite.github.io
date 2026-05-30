@@ -1716,6 +1716,9 @@ img { max-width: 100%; height: auto; }
 }
 
 /* Code blocks */
+.markdown-body pre code {
+  background: transparent !important;
+}
 .dark .markdown-body pre {
   background-color: #1e1c1a !important;
   border: none;
