@@ -6,17 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <title>{% if page.title %}{{ page.title }} &mdash; {% endif %}{{ site.title }}</title>
     <style>
-      /* ===== 关键 CSS 内联（首屏可见：CSS 变量 + 基础重置 + 导航头部） ===== */
-      /* 全量 CSS 异步加载，页面立即可见 */
-      :root{--animal-primary:#19c8b9;--animal-primary-hover:#3dd4c6;--animal-primary-active:#50b9ab;--animal-text:#725d42;--animal-text-secondary:#9f927d;--animal-text-muted:#c4b89e;--animal-bg:#f8f8f0;--animal-bg-card:#f7f3df;--animal-bg-secondary:#f0e8d8;--animal-bg-hover:rgba(0,0,0,0.04);--animal-bg-header:rgba(255,255,255,0.9);--animal-border:#aaa69d;--animal-border-light:#e8e2d6;--animal-border-card:rgba(114,93,66,0.1);--animal-shadow-sm:0 2px 4px 0 rgba(61,52,40,0.06);--animal-shadow-base:0 3px 10px 0 rgba(61,52,40,0.1);--animal-shadow-lg:0 8px 24px 0 rgba(61,52,40,0.14);--animal-shadow-btn:0 4px 0 #bdaea0;--animal-radius-sm:16px;--animal-radius-base:18px;--animal-radius-lg:24px;--animal-radius-xl:20px;--animal-radius-md:8px;--animal-radius-full:50px;--animal-font:'Nunito','Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;--animal-gap-xs:4px;--animal-gap-sm:8px;--animal-gap-md:12px;--animal-gap-lg:16px;--animal-gap-xl:24px;--container-max:1120px;--card-green:#8ac68a;--card-orange:#e59266;--card-blue:#889df0;--card-pink:#f8a6b2;--card-yellow:#f7cd67;--card-teal:#82d5bb;--card-red:#fc736d;--card-purple:#b77dee;--card-default:#f7f3df;--page-bg:#fafaf5;--page-bg-dark:#1a1a1a}.dark{--animal-text:#e8dcc8;--animal-text-secondary:#a09080;--animal-text-muted:#6a5d4d;--animal-bg:#1a1816;--animal-bg-card:#24211d;--animal-bg-secondary:#2a2622;--animal-bg-header:rgba(26,24,22,0.9);--animal-border:#3a3530;--animal-border-light:#2a2622;--animal-border-card:rgba(200,180,160,0.1);--animal-shadow-sm:0 2px 4px 0 rgba(0,0,0,0.2);--animal-shadow-base:0 3px 10px 0 rgba(0,0,0,0.3);--animal-shadow-lg:0 8px 24px 0 rgba(0,0,0,0.4);--animal-shadow-btn:0 4px 0 #3a3530;--page-bg:#141210;--card-default:#24211d}*,*::before,*::after{box-sizing:border-box}html{scroll-behavior:smooth;font-family:var(--animal-font)}body{margin:0;padding:0;background:var(--page-bg);color:var(--animal-text);font-family:var(--animal-font);font-size:14px;line-height:1.6;min-height:100vh;transition:background .3s,color .3s}a{color:var(--animal-text);text-decoration:none;transition:color .2s}a:hover{color:var(--animal-primary)}img{max-width:100%;height:auto}.markdown-body{overflow-wrap:break-word;word-break:break-word}.markdown-body a{word-break:break-all}.highlight{overflow-x:auto;-webkit-overflow-scrolling:touch}.highlight::-webkit-scrollbar{height:4px}.highlight::-webkit-scrollbar-track{background:transparent}.highlight::-webkit-scrollbar-thumb{background:var(--animal-border-light);border-radius:4px}.skip-link{position:absolute;left:-9999px;z-index:999;padding:8px 16px;background:var(--animal-bg-card);color:var(--animal-text);border-radius:var(--animal-radius-full);font-weight:700}.skip-link:focus{left:16px;top:16px}.main-content h1,.main-content h2,.main-content h3,.main-content h4{scroll-margin-top:80px}.site-header-modern{position:sticky;top:0;z-index:40;background:var(--animal-bg-header);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--animal-border-light);transition:background .3s}.dark .site-header-modern{background:rgba(20,18,16,0.85);border-bottom-color:var(--animal-border-light)}.header-container{max-width:var(--container-max);margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:var(--animal-gap-lg);min-height:64px}.header-brand{display:flex;align-items:center;gap:var(--animal-gap-md);flex-shrink:0;min-width:0;text-decoration:none;color:var(--animal-text)}.brand-avatar{width:36px;height:36px;border-radius:50%;background:var(--animal-primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;border:2px solid var(--animal-border-card);flex-shrink:0}.brand-avatar.small{width:28px;height:28px;font-size:12px}.brand-text{display:flex;flex-direction:column;min-width:0}.brand-name{font-size:14px;font-weight:900;color:var(--animal-text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.brand-subtitle{font-size:12px;font-weight:700;color:var(--animal-text-secondary);display:none}@media(min-width:640px){.brand-subtitle{display:block}}.header-nav-desktop{display:none;align-items:center;gap:var(--animal-gap-sm)}@media(min-width:1024px){.header-nav-desktop{display:flex}}.header-nav-item{display:inline-flex;align-items:center;padding:6px 16px;border-radius:var(--animal-radius-full);font-size:14px;font-weight:700;color:var(--animal-text);text-decoration:none;border:2px solid transparent;transition:all .25s cubic-bezier(.4,0,.2,1);position:relative}.header-nav-item:hover{background:var(--animal-bg-secondary);transform:translateY(-1px);box-shadow:0 2px 0 var(--animal-border);color:var(--animal-text)}.header-nav-item.active{background:var(--animal-bg-card);border-color:var(--animal-border);box-shadow:0 4px 0 var(--animal-text-secondary);background:linear-gradient(180deg,var(--animal-bg-card) 0%,var(--animal-bg-secondary) 100%)}.header-nav-item.active:hover{transform:translateY(-1px);box-shadow:0 5px 0 var(--animal-text-secondary)}.header-nav-item.active:active{transform:translateY(2px);box-shadow:0 1px 0 var(--animal-text-secondary)}.header-actions{display:flex;align-items:center;gap:var(--animal-gap-sm)}.theme-toggle{background:var(--animal-bg-card);border:2px solid var(--animal-border-card);border-radius:var(--animal-radius-full);width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:all .2s;box-shadow:0 3px 0 var(--animal-border-light)}.theme-toggle:hover{transform:translateY(-1px);box-shadow:0 4px 0 var(--animal-border)}.theme-toggle:active{transform:translateY(2px);box-shadow:0 1px 0 var(--animal-border)}.mobile-menu-btn{display:flex;flex-direction:column;gap:4px;background:none;border:2px solid var(--animal-border-card);border-radius:var(--animal-radius-sm);padding:8px;cursor:pointer;background:var(--animal-bg-card)}@media(min-width:1024px){.mobile-menu-btn{display:none}}.mobile-menu-btn span{display:block;width:20px;height:2px;background:var(--animal-text);border-radius:1px;transition:.3s}.mobile-nav-wrapper{max-height:0;overflow:hidden;transition:max-height .3s ease}.mobile-nav-wrapper.open{max-height:400px}.mobile-nav-inner{max-width:var(--container-max);margin:0 auto;padding:8px 16px 16px;display:flex;flex-wrap:wrap;gap:var(--animal-gap-sm)}.mobile-nav-item{padding:6px 14px;border-radius:var(--animal-radius-full);font-size:13px;font-weight:700;color:var(--animal-text);border:2px solid var(--animal-border-card);text-decoration:none;transition:all .2s;box-shadow:0 2px 0 var(--animal-border-light)}.mobile-nav-item:hover{background:var(--animal-bg-secondary);transform:translateY(-1px)}.mobile-nav-item.active{background:var(--animal-bg-card);border-color:var(--animal-border);box-shadow:0 3px 0 var(--animal-text-secondary);background:linear-gradient(180deg,var(--animal-bg-card) 0%,var(--animal-bg-secondary) 100%)}
       /* ===== 页面加载进度条 ===== */
-      #pg-bar{position:fixed;top:0;left:0;right:0;height:3px;z-index:99999;background:#f0f0f0;overflow:hidden;transition:opacity .4s ease}
-      #pg-bar.bar-done{opacity:0;pointer-events:none}
-      #pg-bar::before{content:'';display:block;height:100%;width:30%;background:linear-gradient(90deg,#667eea,#764ba2);border-radius:2px;animation:bar-sweep 1.5s ease-in-out infinite}
-      @keyframes bar-sweep{0%{transform:translateX(-100%)}100%{transform:translateX(400%)}}
+      #pg-bar {
+        position: fixed; top: 0; left: 0; right: 0; height: 3px;
+        z-index: 99999;
+        background: #f0f0f0;
+        overflow: hidden;
+        transition: opacity 0.4s ease;
+      }
+      #pg-bar.bar-done {
+        opacity: 0;
+        pointer-events: none;
+      }
+      #pg-bar::before {
+        content: '';
+        display: block;
+        height: 100%;
+        width: 30%;
+        background: linear-gradient(90deg, #667eea, #764ba2);
+        border-radius: 2px;
+        animation: bar-sweep 1.5s ease-in-out infinite;
+      }
+      @keyframes bar-sweep {
+        0%   { transform: translateX(-100%); }
+        100% { transform: translateX(400%); }
+      }
+      /* 页面完全加载前隐藏 body，避免 FOUC */
+      body { opacity: 0; }
+      body.body-ready { opacity: 1; transition: opacity 0.35s ease; }
     </style>
-    <link rel="preload" href="{{ site.url }}/assets/css/theme-modern.min.css?v={{ site.time | date: '%s' }}" as="style" onload="this.onload=null;this.rel='stylesheet';var p=document.getElementById('pg-bar');if(p)p.classList.add('bar-done')">
-    <noscript><link rel="stylesheet" href="{{ site.url }}/assets/css/theme-modern.min.css?v={{ site.time | date: '%s' }}"></noscript>
+    <link rel="preload" href="{{ site.url }}/assets/css/theme-modern.css?v={{ site.time | date: '%s' }}" as="style" onload="this.onload=null;this.rel='stylesheet';!function(){var d=document;function r(){var p=d.getElementById('pg-bar');if(p)p.classList.add('bar-done');d.body.classList.add('body-ready')}d.readyState==='loading'?d.addEventListener('DOMContentLoaded',r):r()}()">
+    <noscript><link rel="stylesheet" href="{{ site.url }}/assets/css/theme-modern.css?v={{ site.time | date: '%s' }}"></noscript>
+    <noscript><style>body{opacity:1}#pg-bar{display:none}</style></noscript>
     <link rel="preload" href="{{ site.url }}/assets/css/rouge-github.css?v={{ site.time | date: '%s' }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="{{ site.url }}/assets/css/rouge-github.css?v={{ site.time | date: '%s' }}"></noscript>
     <link rel="canonical" href="{{ page.url | prepend: site.url }}">
@@ -68,6 +89,9 @@
     <script src="{{ site.url }}/assets/js/simple-jekyll-search.min.js" defer></script>
     <script src="{{ site.url }}/assets/js/main.js?v={{ site.time | date: '%s' }}" defer></script>
     <script>
+      /* 加载超时兜底：如果 3 秒后进度条还没完成，手动完成 */
+      setTimeout(function(){var p=document.getElementById('pg-bar');if(p&&!p.classList.contains('bar-done')){p.classList.add('bar-done');document.body.classList.add('body-ready')}},3000);
+
       function toggleTheme() {
         var html = document.documentElement;
         var btn = document.querySelector('.theme-toggle-icon');
