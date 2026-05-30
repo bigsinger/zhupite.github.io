@@ -1736,8 +1736,8 @@ img { max-width: 100%; height: auto; }
 .dark .highlighter-rouge {
   background: #1e1c1a !important;
 }
-.dark .highlighter-rouge {
-  border: 2px solid #8a9a88;
+.dark div.highlighter-rouge {
+  border: 1px solid #8a9a88;
   border-radius: var(--animal-radius-sm);
   overflow: hidden;
   margin-bottom: 16px;
@@ -1789,13 +1789,13 @@ img { max-width: 100%; height: auto; }
 .dark .highlight .gu { color: #6a5d4d; }
 
 /* Code block outer border — light mode */
-.highlighter-rouge {
-  border: 2px solid #c27840;
+div.highlighter-rouge {
+  border: 1px solid #c27840;
   border-radius: var(--animal-radius-sm);
   overflow: hidden;
   margin-bottom: 16px;
 }
-.highlighter-rouge .highlight {
+div.highlighter-rouge .highlight {
   background: transparent !important;
 }
 
