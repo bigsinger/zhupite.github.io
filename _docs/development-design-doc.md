@@ -2,7 +2,7 @@
 
 > **版本**：v3.0（合并整理版）  
 > **目标项目**：`/mnt/f/bigsinger/zhupite.github.io`（GitHub Pages + Jekyll）  
-> **文章规模**：611 篇（持续增长中）  
+> **文章规模**：628 篇（持续增长中）  
 > **设计风格**：Animal Crossing 暖色调 — 参考 itbug.shop  
 > **设计原则**：从零规划，不以"改旧"为出发点，而以"盖新"为思维方式  
 > **文档来源**：合并自 `_docs/` 目录下 6 份设计/审计/优化文档
@@ -724,7 +724,7 @@ search_data.json（Jekyll 构建时生成）
 
 | 措施 | 实施方式 | 效果 |
 |------|----------|------|
-| CSS 合并 | 6 个小 CSS → `bundle-legacy.css` | 减少 5 个 HTTP 请求 |
+| CSS 合并 | 6 个小 CSS → 1 个 `theme-modern.min.css`（含 rouge 高亮） | 减少 5 个 HTTP 请求 |
 | 脚本 defer | 所有 `<script>` 加 `defer` | 不阻塞渲染 |
 | inline script 消除 | 搜索初始化从 inline 移入 deferred main.js | 消除 parser-blocking |
 | 条件加载 | geopattern.js 仅非 post 页加载 | 减少不必要 JS 执行 |
@@ -732,29 +732,90 @@ search_data.json（Jekyll 构建时生成）
 | 背景色预置 | `<head>` 内联 `background: #f8f8f0` | 消除白屏闪烁 |
 | 暗色无闪烁 | `<head>` 内联脚本读取 localStorage 设置 class | 消除暗色模式闪白 |
 | 图片懒加载 | `loading="lazy"` + CSS 模糊占位 | 视口外图片延迟加载 |
-| 字体异步 | Nunito 用 `display=swap` | 文字立即可见 |
+| 纯系统字体 | 零网络字体请求，无 FOUT/FOIT | 文字即时渲染 |
+| 搜索延迟加载 | 非文章页立即 fetch，文章页聚焦搜索框才 fetch | 减少首屏 1 次 HTTP 请求 |
+| 第三方 preconnect | 对 utteranc.es 等添加 `dns-prefetch` | 加速 DNS 解析 |
+| 移除 Google Analytics | 删除 gtag.js 全部代码 | 减少 1 次 HTTP 请求 + 1 个 JS 执行 |
+| Utterances 超时降级 | 8 秒未加载显示 GitHub 链接 | 用户不致空白等待 |
 
 ### 9.3 改造前后对比
 
 | 指标 | 改造前 | 改造后 |
 |------|--------|--------|
 | CSS 请求数 | 5-7 个 | **2 个** |
-| CSS 体积（含字体） | ~280KB | ~55KB |
-| JS 请求数 | 5 个（含 jQuery 83KB） | **1-3 个**（有条件） |
-| 总下载量 | ~350KB | ~80KB |
-| HTTP 请求减少 | — | **减少 60-70%** |
+| CSS 体积 | ~280KB | ~55KB（无字体） |
+| JS 请求数 | 5 个（含 jQuery 83KB） | **0-2 个**（有条件） |
+| 字体请求 | 2 个（Google Fonts） | **0 个**（纯系统字体） |
+| 外部域名请求 | 5 个（GA/Fonts/Utterances/不蒜子等） | **1-2 个**（仅 Utterances） |
+| 总下载量 | ~350KB + 字体 | **~55KB + 不阻塞** |
+| HTTP 请求减少 | — | **减少 70-80%** |
 
 ### 9.4 图片懒加载
 
 当前已用 `loading="lazy"` + CSS 模糊占位。未来可考虑低质量 blur-up 占位。
 
-### 9.5 Google Fonts 处理
+### 9.5 字体策略
 
-使用 `media="print" onload="this.media='all'"` 技术，不阻塞渲染，有轻微 FOUT（可接受）。
+**当前策略：纯系统字体，零网络字体请求**
+
+不加载任何网络字体（不自托管、不引用 Google Fonts、不使用任何第三方字体服务），完全使用操作系统自带的字体：
+
+```css
+--animal-font: system-ui,-apple-system,'Segoe UI',Roboto,
+  'PingFang SC','Microsoft YaHei','Helvetica Neue',Arial,sans-serif;
+```
+
+各平台效果：
+
+| 平台 | 英文字体 | 中文字体 |
+|------|---------|---------|
+| macOS/iOS | San Francisco | PingFang SC（苹方） |
+| Windows | Segoe UI | Microsoft YaHei（微软雅黑） |
+| Android | Roboto | 系统默认中文 |
+| Linux | system-ui | 系统默认 |
+
+**优势**：零 HTTP 请求、零下载体积、无 FOUT/FOIT、文字即时渲染。
+
+**历史**：
+- 初期使用 Google Fonts（`Nunito` + `Noto Sans SC`）借 `media="print" onload` 非阻塞加载，有轻微 FOUT
+- 中期自托管 Nunito 可变字体（39KB woff2），去掉 Google Fonts 依赖
+- 最终精简为纯系统字体（当前方案），干净利落
 
 ### 9.6 Rouge CSS 内联决策
 
 3KB 的代码高亮 CSS 内联在 `<head>` 中。对于 600+ 文章、绝大多数页面只被查看一次的场景，内联更快 — 保留现状。
+
+### 9.7 最新性能优化日志（2026-05-31）
+
+2026年5月31日完成一轮集中优化，分两轮推送：
+
+#### 第一轮：基础优化（commit `546de841`）
+
+| # | 操作 | 详情 |
+|---|------|------|
+| A | **CSS 合并** | 将 `rouge-github.css`（3KB 代码高亮样式）追加合并到 `theme-modern.min.css`，删除原文件。减少 1 次 HTTP 请求 |
+| B | **第三方 preconnect** | 在 `<head>` 中添加 `preconnect`/`dns-prefetch`：`utteranc.es`（评论）、`busuanzi.ibruce.info`（统计），预解析 DNS |
+| C | **搜索延迟加载** | 修改 `main.js`：文章页的搜索 JSON 数据改为用户**聚焦搜索框**时才 fetch，非文章页保持立即 fetch。减少首屏 1 次 HTTP 请求 |
+
+#### 第二轮：国内加速 & 精简（commit `ee674149` → `862beccc`）
+
+| # | 操作 | 详情 |
+|---|------|------|
+| D | **纯系统字体** | 移除 Google Fonts（Nunito + Noto Sans SC）→ 自托管 Nunito 可变字体 → 最终完全使用系统字体栈。零字体请求，零下载体积，无 FOUT/FOIT |
+| E | **移除 Google Analytics** | 删除全部 gtag.js 代码和 `_config.yml` 中的 `google.analytics_id`。减少 1 次 HTTP 请求 + 1 个 JS 解析执行 |
+| F | **Utterances 超时降级** | 用 JS 实现：评论区先显示 placeholder（含旋转 SVG 加载动画），8 秒后若 Utterances 未加载，自动显示 GitHub Issue 链接作为降级方案。用户不致空白等待 |
+
+#### 优化效果汇总
+
+| 指标 | 优化前 | 优化后 |
+|------|--------|--------|
+| 网络字体请求 | 2 个（Google Fonts） | **0 个** |
+| 外部第三方域名 | GA + Fonts + Utterances + 不蒜子 | **Utterances + 不蒜子** |
+| 总 HTTP 请求（首屏） | ~15 个 | **~8 个** |
+| 总下载量（首屏） | ~350KB + 字体文件 | **~55KB** |
+| FOUT/FOIT | 有轻微 FOUT | **无** |
+| 国内访问体验 | Google Fonts/GA 被墙或极慢 | **完全正常** |
+| 评论页面空白 | 加载失败时白色空白 | **8秒后展示GitHub链接** |
 
 ---
 
@@ -1389,4 +1450,4 @@ assets/vendor/js-sequence-diagrams/  ← 保留
 
 > **文档版本**：v3.0（合并整理版）  
 > **合并来源**：原 `_docs/` 目录下 6 份文档 — `blog-system-design-doc.md`、`optimization-best-practices.md`、`fix-plan-v2.md`、`code-audit-fix-plan.md`、`old-theme-strip-plan.md`、`zhupite-redesign-plan.md`  
-> **最后更新**：2026-05-31
+> **最后更新**：2026-05-31（性能优化 + 系统字体 + GA 移除 + Utterances 降级）
