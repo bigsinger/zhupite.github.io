@@ -38,13 +38,19 @@
     <link rel="preload" href="{{ site.url }}/assets/css/theme-modern.min.css?v={{ site.time | date: '%s' }}" as="style" onload="this.onload=null;this.rel='stylesheet';!function(){var d=document;function r(){var p=d.getElementById('pg-bar');if(p)p.classList.add('bar-done');d.body.classList.add('body-ready')}d.readyState==='loading'?d.addEventListener('DOMContentLoaded',r):r()}()">
     <noscript><link rel="stylesheet" href="{{ site.url }}/assets/css/theme-modern.min.css?v={{ site.time | date: '%s' }}"></noscript>
     <noscript><style>body{opacity:1}#pg-bar{display:none}</style></noscript>
-    <link rel="preload" href="{{ site.url }}/assets/css/rouge-github.css?v={{ site.time | date: '%s' }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{ site.url }}/assets/css/rouge-github.css?v={{ site.time | date: '%s' }}"></noscript>
     <link rel="canonical" href="{{ page.url | prepend: site.url }}">
     <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="{{ site.url }}{{ site.subscribe_rss }}">
     <link rel="shortcut icon" href="{{ assets_base_url }}/favicon.ico">
 
-    <!-- DNS Prefetch (no ad-related prefetches) -->
+    <!-- Preconnect to third-party origins -->
+    <link rel="dns-prefetch" href="https://utteranc.es">
+    <link rel="preconnect" href="https://utteranc.es" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://busuanzi.ibruce.info">
+    <link rel="preconnect" href="https://busuanzi.ibruce.info">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     {% if page.title %}
     <meta property="og:title" content="{{ page.title }}">
     {% assign keywords = page.keywords | default: site.keywords %}

@@ -407,54 +407,73 @@ document.addEventListener('DOMContentLoaded', function() {
   // ===== 7. 搜索初始化 (sidebar sjs + mobile manual) =====
   (function initSearch() {
     var input = document.getElementById('search_box');
-    if (!input) return;   // 没有侧边栏搜索框 → 跳过
+    if (!input) return;
     var jsonUrl = input.getAttribute('data-json-url');
     if (!jsonUrl) return;
     var limit = 20;
     var noResultsText = '未找到相关内容';
     var tmpl = '<li><a href="{url}" title="{title}">{title}</a></li>';
 
-    fetch(jsonUrl)
-      .then(function(r) { return r.json(); })
-      .then(function(data) {
-        /* ---- 侧栏：SimpleJekyllSearch 实例 ---- */
-        var sjs = new SimpleJekyllSearch({
-          searchInput: input,
-          resultsContainer: document.getElementById('search_results'),
-          json: data,
-          searchResultTemplate: tmpl,
-          noResultsText: noResultsText,
-          limit: limit,
-          fuzzy: false
-        });
+    var isPostPage = !!document.querySelector('.post-detail');
+    var fetched = false;
+    var fetchData = null; // shared promise
 
-        /* ---- 移动覆盖层：手动 keyup 搜索（共享 data） ---- */
-        var mobileBox = document.getElementById('mobileSearchBox');
-        var mobileResults = document.getElementById('mobileSearchResults');
-        if (!mobileBox || !mobileResults) return;
+    function doFetch() {
+      if (fetched) return;
+      fetched = true;
+      fetchData = fetch(jsonUrl)
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          /* ---- 侧栏：SimpleJekyllSearch 实例 ---- */
+          var sjs = new SimpleJekyllSearch({
+            searchInput: input,
+            resultsContainer: document.getElementById('search_results'),
+            json: data,
+            searchResultTemplate: tmpl,
+            noResultsText: noResultsText,
+            limit: limit,
+            fuzzy: false
+          });
 
-        var ignoreKeys = [16, 20, 37, 38, 39, 40, 91];
-        mobileBox.addEventListener('keyup', function(e) {
-          if (ignoreKeys.indexOf(e.which) >= 0) return;
-          var term = e.target.value.trim();
-          if (!term) { mobileResults.innerHTML = ''; return; }
-          term = term.toLowerCase();
-          var html = '';
-          var count = 0;
-          for (var i = 0; i < data.length && count < limit; i++) {
-            var item = data[i];
-            if (
-              (item.title && item.title.toLowerCase().indexOf(term) >= 0) ||
-              (item.keywords && item.keywords.toLowerCase().indexOf(term) >= 0) ||
-              (item.category && item.category.toLowerCase().indexOf(term) >= 0)
-            ) {
-              html += tmpl.replace(/\{url\}/g, item.url).replace(/\{title\}/g, item.title);
-              count++;
+          /* ---- 移动覆盖层：手动 keyup 搜索（共享 data） ---- */
+          var mobileBox = document.getElementById('mobileSearchBox');
+          var mobileResults = document.getElementById('mobileSearchResults');
+          if (!mobileBox || !mobileResults) return;
+
+          var ignoreKeys = [16, 20, 37, 38, 39, 40, 91];
+          mobileBox.addEventListener('keyup', function(e) {
+            if (ignoreKeys.indexOf(e.which) >= 0) return;
+            var term = e.target.value.trim();
+            if (!term) { mobileResults.innerHTML = ''; return; }
+            term = term.toLowerCase();
+            var html = '';
+            var count = 0;
+            for (var i = 0; i < data.length && count < limit; i++) {
+              var item = data[i];
+              if (
+                (item.title && item.title.toLowerCase().indexOf(term) >= 0) ||
+                (item.keywords && item.keywords.toLowerCase().indexOf(term) >= 0) ||
+                (item.category && item.category.toLowerCase().indexOf(term) >= 0)
+              ) {
+                html += tmpl.replace(/\{url\}/g, item.url).replace(/\{title\}/g, item.title);
+                count++;
+              }
             }
-          }
-          mobileResults.innerHTML = html || '<li class="no-results">' + noResultsText + '</li>';
+            mobileResults.innerHTML = html || '<li class="no-results">' + noResultsText + '</li>';
+          });
         });
-      });
+    }
+
+    if (isPostPage) {
+      /* 文章页：延迟加载 — 用户首次聚焦搜索框或打开搜索覆盖层时才 fetch */
+      var triggerFetch = function() { doFetch(); };
+      input.addEventListener('focus', triggerFetch);
+      var mobileBox = document.getElementById('mobileSearchBox');
+      if (mobileBox) mobileBox.addEventListener('focus', triggerFetch);
+    } else {
+      /* 非文章页：立即加载 */
+      doFetch();
+    }
   })();
 
 });
