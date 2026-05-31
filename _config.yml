@@ -70,6 +70,6 @@ utterances:
   issue_term: pathname
   theme: preferred-color-scheme
 
-# ===== Google（已移除 AdSense，保留 Analytics） =====
-google:
-  analytics_id: G-LXMGB07CK3
+# ===== Google Analytics（已移除） =====
+# google:
+#   analytics_id: G-LXMGB07CK3

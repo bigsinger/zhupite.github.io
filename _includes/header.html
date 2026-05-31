@@ -45,12 +45,8 @@
     <!-- Preconnect to third-party origins -->
     <link rel="dns-prefetch" href="https://utteranc.es">
     <link rel="preconnect" href="https://utteranc.es" crossorigin>
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-    <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="dns-prefetch" href="https://busuanzi.ibruce.info">
     <link rel="preconnect" href="https://busuanzi.ibruce.info">
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     {% if page.title %}
     <meta property="og:title" content="{{ page.title }}">
     {% assign keywords = page.keywords | default: site.keywords %}
@@ -134,26 +130,13 @@
       });
     </script>
 
-    {% if site.google.analytics_id %}
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google.analytics_id }}"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', '{{ site.google.analytics_id }}');
-    </script>
-    {% endif %}
-
     <!-- Google Search Console verification -->
     <meta name="google-site-verification" content="n0F87pINVqmLFTdLFij2-S3t-oDdYKFsidQHLQN-h1E">
 
     {% include seo-structured-data.html %}
-    <!-- Google Fonts: Nunito for itbug.shop style (lazy-load: 不阻塞渲染) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <!-- 自托管字体：Nunito (本地) + 系统中文字体 -->
+    <link rel="preload" href="{{ site.url }}/assets/fonts/fonts.css?v={{ site.time | date: '%s' }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ site.url }}/assets/fonts/fonts.css?v={{ site.time | date: '%s' }}"></noscript>
 </head>
 <body class="{{ page.class }}">
     <!-- 页面加载进度条 -->

@@ -1,9 +1,53 @@
 {% if page.comments != false and site.utterances and site.utterances.repo %}
-<script src="https://utteranc.es/client.js"
-        repo="{{ site.utterances.repo }}"
-        issue-term="{{ site.utterances.issue_term | default: 'pathname' }}"
-        theme="{{ site.utterances.theme | default: 'github-light' }}"
-        crossorigin="anonymous"
-        async>
+<div id="utterances-container">
+  <div id="utterances-placeholder" style="text-align:center;padding:24px 16px;color:var(--animal-text-muted);font-size:13px;font-weight:500;">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block;vertical-align:middle;margin-right:6px;animation:utter-spin 1s linear infinite;">
+      <circle cx="12" cy="12" r="10" stroke-dasharray="31.4 31.4" stroke-linecap="round"/>
+    </svg>
+    加载评论…
+  </div>
+  <div id="utterances-fallback" style="display:none;text-align:center;padding:32px 16px;color:var(--animal-text-muted);font-size:13px;font-weight:500;">
+    评论加载超时😅 请 <a href="https://github.com/{{ site.utterances.repo }}/issues" target="_blank" rel="noopener" style="color:var(--animal-primary);text-decoration:underline;">在 GitHub 上查看/发表评论</a>
+  </div>
+  <script src="https://utteranc.es/client.js"
+          repo="{{ site.utterances.repo }}"
+          issue-term="{{ site.utterances.issue_term | default: 'pathname' }}"
+          theme="{{ site.utterances.theme | default: 'github-light' }}"
+          crossorigin="anonymous"
+          async>
+  </script>
+</div>
+<script>
+(function(){
+  var c = document.getElementById('utterances-container');
+  var p = document.getElementById('utterances-placeholder');
+  var f = document.getElementById('utterances-fallback');
+  var done = false;
+  /* 监听 Utterances iframe 是否成功渲染 */
+  var observer = new MutationObserver(function(muts){
+    if(done) return;
+    if(c.querySelector('iframe.utterances-frame')) {
+      done = true;
+      if(p) p.style.display = 'none';
+      observer.disconnect();
+    }
+  });
+  observer.observe(c, {childList:true, subtree:true});
+  /* 8 秒超时降级 */
+  setTimeout(function(){
+    if(!done) {
+      done = true;
+      observer.disconnect();
+      if(p) p.style.display = 'none';
+      if(f) f.style.display = 'block';
+    }
+  }, 8000);
+})();
 </script>
+<style>
+@keyframes utter-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+</style>
 {% endif %}
