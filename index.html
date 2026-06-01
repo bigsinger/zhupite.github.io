@@ -80,6 +80,24 @@ menu: 首页
     </article>
     {% endfor %}
 
+    <!-- Placeholder cards to fill last row -->
+    {% assign total_cards = 0 %}
+    {% if paginator.page == 1 %}
+      {% assign sticky_posts = site.posts | where: "sticky", true %}
+      {% assign total_cards = total_cards | plus: sticky_posts.size %}
+    {% endif %}
+    {% assign total_cards = total_cards | plus: regular_posts.size %}
+    {% assign rem = total_cards | modulo: 3 %}
+    {% if rem > 0 %}
+      {% assign fill = 3 | minus: rem %}
+      {% for i in (1..fill) %}
+      <article class="post-card post-card-default post-card-placeholder" aria-hidden="true">
+        <div class="post-card-body">&nbsp;</div>
+        <div class="post-card-footer">&nbsp;</div>
+      </article>
+      {% endfor %}
+    {% endif %}
+
   </div>
 
   <!-- Pagination -->

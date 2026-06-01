@@ -481,6 +481,12 @@ img { max-width: 100%; height: auto; }
   overflow: hidden;
   box-shadow: var(--animal-shadow-sm);
 }
+/* Placeholder cards — invisible but preserve grid layout */
+.post-card-placeholder {
+  visibility: hidden;
+  pointer-events: none;
+  min-height: 180px;
+}
 .post-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--animal-shadow-lg);
