@@ -87,9 +87,9 @@ menu: 首页
       {% assign total_cards = total_cards | plus: sticky_posts.size %}
     {% endif %}
     {% assign total_cards = total_cards | plus: regular_posts.size %}
-    {% assign rem = total_cards | modulo: 3 %}
+    {% assign rem = total_cards | modulo: 6 %}
     {% if rem > 0 %}
-      {% assign fill = 3 | minus: rem %}
+      {% assign fill = 6 | minus: rem %}
       {% for i in (1..fill) %}
       <article class="post-card post-card-default post-card-placeholder" aria-hidden="true">
         <div class="post-card-body">&nbsp;</div>
