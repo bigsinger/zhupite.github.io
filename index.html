@@ -59,12 +59,10 @@ menu: 首页
   {% endif %}
   {% endif %}
 
-  <!-- Post Card Grid (固定 12 篇 = 4行×3列，完美满格) -->
+  <!-- Post Card Grid (每页固定 12 篇，paginator.posts 直接循环，不过滤 sticky) -->
   <div class="post-grid">
 
-    {% assign regular_posts = paginator.posts | where_exp: "p", "p.sticky != true" %}
-
-    {% for post in regular_posts %}
+    {% for post in paginator.posts %}
     {% include category-color.liquid %}
 
     <article class="post-card post-card-{{ cat_color }}">
