@@ -450,6 +450,39 @@ img { max-width: 100%; height: auto; }
   margin: 0;
 }
 
+/* ===== 6.5 Sticky Section (独立于主 grid) ===== */
+.sticky-section {
+  margin-bottom: var(--animal-gap-xl);
+}
+.sticky-section-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: var(--animal-gap-lg);
+}
+.sticky-section-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+.sticky-section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--animal-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.sticky-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--animal-gap-lg);
+}
+@media (min-width: 640px) {
+  .sticky-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1024px) {
+  .sticky-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
 /* ===== 7. Post Card Grid ===== */
 .post-grid {
   display: grid;
@@ -480,12 +513,6 @@ img { max-width: 100%; height: auto; }
   position: relative;
   overflow: hidden;
   box-shadow: var(--animal-shadow-sm);
-}
-/* Placeholder cards — invisible but preserve grid layout */
-.post-card-placeholder {
-  visibility: hidden;
-  pointer-events: none;
-  min-height: 180px;
 }
 .post-card:hover {
   transform: translateY(-4px);

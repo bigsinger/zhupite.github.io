@@ -17,15 +17,18 @@ menu: 首页
     <p class="section-stat">{{ paginator.total_posts }} 篇 · {{ site.categories | size }} 个分类 · {{ site.tags | size }} 个标签</p>
   </div>
 
-  <!-- Post Card Grid -->
-  <div class="post-grid">
-
-    {% if paginator.page == 1 %}
-    {% assign sticky_posts = site.posts | where: "sticky", true %}
-
+  {% if paginator.page == 1 %}
+  {% assign sticky_posts = site.posts | where: "sticky", true %}
+  {% if sticky_posts.size > 0 %}
+  <!-- Sticky Section (独立于 grid，不占用 grid 位置) -->
+  <div class="sticky-section">
+    <div class="sticky-section-header">
+      <span class="sticky-section-icon">📍</span>
+      <span class="sticky-section-title">置顶推荐</span>
+    </div>
+    <div class="sticky-grid">
     {% for post in sticky_posts %}
     {% include category-color.liquid %}
-
     <article class="post-card post-card-{{ cat_color }} sticky">
       <div class="post-card-body">
         <div class="post-card-meta">
@@ -51,7 +54,13 @@ menu: 首页
       </div>
     </article>
     {% endfor %}
-    {% endif %}
+    </div>
+  </div>
+  {% endif %}
+  {% endif %}
+
+  <!-- Post Card Grid (固定 12 篇 = 4行×3列，完美满格) -->
+  <div class="post-grid">
 
     {% assign regular_posts = paginator.posts | where_exp: "p", "p.sticky != true" %}
 
@@ -79,24 +88,6 @@ menu: 首页
       </div>
     </article>
     {% endfor %}
-
-    <!-- Placeholder cards to fill last row -->
-    {% assign total_cards = 0 %}
-    {% if paginator.page == 1 %}
-      {% assign sticky_posts = site.posts | where: "sticky", true %}
-      {% assign total_cards = total_cards | plus: sticky_posts.size %}
-    {% endif %}
-    {% assign total_cards = total_cards | plus: regular_posts.size %}
-    {% assign rem = total_cards | modulo: 6 %}
-    {% if rem > 0 %}
-      {% assign fill = 6 | minus: rem %}
-      {% for i in (1..fill) %}
-      <article class="post-card post-card-default post-card-placeholder" aria-hidden="true">
-        <div class="post-card-body">&nbsp;</div>
-        <div class="post-card-footer">&nbsp;</div>
-      </article>
-      {% endfor %}
-    {% endif %}
 
   </div>
 
