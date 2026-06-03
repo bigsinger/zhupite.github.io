@@ -1,7 +1,7 @@
 ---
 layout: post
 title: GitHub Pages 博客 SEO 最佳实践 — 从诊断到落地的全流程
-categories: [dev, web]
+categories: [dev]
 description: 基于 Hermes Agent 对 zhupite.com 的完整 SEO 优化实践，记录 AI 能自动完成的 8 项工作和仍需人工介入的 5 个环节，附详细操作步骤和代码。
 keywords: GitHub Pages, SEO, Jekyll, 博客优化, 图片alt, JSON-LD, 结构化数据, Hermes Agent
 ---
