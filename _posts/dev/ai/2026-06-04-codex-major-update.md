@@ -6,6 +6,7 @@ sticky:		false
 
 tags:		[ai, agent, tools, dev, codex, openai]
 description: "OpenAI Codex 重大更新解读：六个角色专属插件、Sites 交互式网页、Annotations 精准标注、500 万周活用户，以及 Codex 与 ChatGPT 合并的战略方向。"
+excerpt: "OpenAI 对 Codex 进行了重大改版，从程序员编码助手转型为白领全能办公工具，推出六大角色插件，支持直接生成交互式网页应用。"
 ---
 
 - Content
