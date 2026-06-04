@@ -4,7 +4,8 @@ category:	"dev"
 title:		"LLM大模型配置"
 sticky:		true
 
-tags:		[ai]
+description: "DeepSeek、OpenAI、Claude 等主流大语言模型的配置指南，涵盖 API 调用、本地部署、参数调优和模型选择等实用场景。"
+tags:		[ai, llm, config, deepseek, openai]
 ---
 
 

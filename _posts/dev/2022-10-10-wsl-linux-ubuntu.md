@@ -5,7 +5,8 @@ category:    "dev"
 title:        "Linux - Ubuntu（WSL）的常用命令汇总"
 sticky:       true
 
-tags:        [linux]
+description: "Windows 下通过 WSL 安装 Ubuntu 子系统的常用命令汇总，涵盖环境配置、包管理、文件操作和网络调试等实用技巧。"
+tags:        [linux, wsl, ubuntu, windows]
 ---
 
 # WSL
