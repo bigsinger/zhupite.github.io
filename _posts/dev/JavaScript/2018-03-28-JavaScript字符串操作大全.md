@@ -4,8 +4,7 @@ category:	"dev"
 title:		"JavaScript字符串操作大全"
 tags:		[JavaScript]
 ---
-- Content
-{:toc}
+
 
 # 属性
 ## 字符串长度length

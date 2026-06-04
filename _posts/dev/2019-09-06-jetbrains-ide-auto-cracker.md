@@ -4,8 +4,7 @@ category:	"dev"
 title:		"自动配置JetBrains家族IDE的破解文件"
 tags:		[goland,pycharm,idea,webstorm]
 ---
-- Content
-{:toc}
+
 
 JetBrains家族的IDE非常好用，几乎每个语言都会有一个对应的IDE，而且确实很强大，诸如IDEA胜于eclipse。虽说有免费的sublime和vscode可以用，但是对比使用下来远不如JetBrains家族的IDE。除个别版本以外，很多版本需要付费，不是不支持正版，个人开发者实在无力支付。然而每次手动配置破解文件又太繁琐，于是写个Python脚本自动化配置一下，方便许多。
 

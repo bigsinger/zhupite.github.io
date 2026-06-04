@@ -4,8 +4,7 @@ category:	"dev"
 title:		"Lua基础教程-FunWithTables"
 tags:		[lua]
 ---
-- Content
-{:toc}
+
 原文:http://lua-users.org/wiki/FunWithTables
 
 题目:输出1到100之间的数哪些能被3整除,哪些能被5整除.

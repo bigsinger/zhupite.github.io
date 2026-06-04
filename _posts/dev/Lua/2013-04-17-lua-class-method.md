@@ -4,8 +4,7 @@ category:	"dev"
 title:		"Lua中几种类成员函数的设计方法"
 tags:		[lua]
 ---
-- Content
-{:toc}
+
 
 # 一、使用module函数
 在Lua的开头文件中声明：

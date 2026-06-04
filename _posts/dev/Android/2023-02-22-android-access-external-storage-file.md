@@ -5,8 +5,7 @@ title:		"安卓访问外部存储ExternalStorage，DocumentFile及Uri"
 
 tags:		[android]
 ---
-- Content
-{:toc}
+
 **关键词**：安卓,权限,ExternalStorage,SDCard
 
 

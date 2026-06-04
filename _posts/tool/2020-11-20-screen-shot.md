@@ -4,8 +4,7 @@ category:	"tool"
 title:		"Windows电脑截图工具汇总--截屏软件"
 tags:		[screen]
 ---
-- Content
-{:toc}
+
 ​	
 
 # Snipaste

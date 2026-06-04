@@ -5,8 +5,7 @@ title:		"游记技能travel-blog"
 
 tags:		[]
 ---
-- Content
-{:toc}
+
 
 
 请创建一个自建技能，名称：travel-blog 要求为纯markdown格式；
@@ -32,8 +31,7 @@ category:	"other"
 title:		"{主题名}"
 tags:		[]
 ---
-- Content
-{:toc}
+
 
 ```
 然后空一行之后，开始记录具体的博客内容，内容也必须是markdown格式。

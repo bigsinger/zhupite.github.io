@@ -5,8 +5,7 @@ title:		"langmanus"
 
 tags:		[ai]
 ---
-- Content
-{:toc}
+
 
 
 

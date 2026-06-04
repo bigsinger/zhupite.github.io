@@ -5,8 +5,7 @@ title:		"Cocos Creator信号处理事件回调"
 
 tags:		[c++]
 ---
-- Content
-{:toc}
+
 
 
 `ISignal` ：

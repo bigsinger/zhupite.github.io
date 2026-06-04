@@ -4,8 +4,7 @@ category:	"dev"
 title:		"AndroidStudio配置国内镜像"
 tags:		[android,AndroidStudio,gradle]
 ---
-- Content
-{:toc}
+
 
 
 使用国内镜像地址加速AndroidStudio项目依赖下载速度：Gradle.zip工具包下载。

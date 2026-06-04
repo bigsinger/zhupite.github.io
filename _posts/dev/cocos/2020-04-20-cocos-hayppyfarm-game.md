@@ -4,8 +4,7 @@ category:	"dev"
 title:		"cocos2dx及cocos creator编写农场偷菜小游戏的总结"
 tags:		[c++]
 ---
-- Content
-{:toc}
+
 
 源码及效果图见GitHub：[cocos制作的农场游戏demo源码 一个cocos2dxC++版本 一个cocos creator版本](https://github.com/bigsinger/Farm)
 

@@ -4,8 +4,7 @@ category:	"dev"
 title:		"通过manifest文件使VC应用程序获得管理员权限"
 tags:		[c++]
 ---
-- Content
-{:toc}
+
 
 还有这个东西 超恶心，我吐啊吐
 

@@ -4,8 +4,7 @@ category:	"dev"
 title:		"cocos2d-Lua的运行流程与场景"
 tags:		[lua,cocos,cocos2d]
 ---
-- Content
-{:toc}
+
 很早的时候，用过COCOS_CODE_IDE写过一个基于Lua脚本的cocos工程，是基于IDEA的，代码看起来和写起来都非常赏心悦目，于是翻去找笔记，了解到是COCOS_CODE_IDE，于是打算重新认识下。 
 
 

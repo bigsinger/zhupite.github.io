@@ -5,8 +5,7 @@ title:		"联想笔记本ThinkPad触摸板双指不可以滑动 "
 
 tags:		[]
 ---
-- Content
-{:toc}
+
 联想笔记本ThinkPad触摸板双指不可以滑动
 
 

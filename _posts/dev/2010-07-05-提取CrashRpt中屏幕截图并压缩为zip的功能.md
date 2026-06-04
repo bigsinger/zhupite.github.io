@@ -4,8 +4,7 @@ category:	"dev"
 title:		"提取CrashRpt中屏幕截图并压缩为zip的功能"
 tags:		[c++]
 ---
-- Content
-{:toc}
+
 
 CrashRpt中除了错误处理之外值得学习的地方还是不少的，如屏幕截图、邮件发送。
 这里主要提取屏幕截图的功能。

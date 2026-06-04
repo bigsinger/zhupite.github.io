@@ -4,8 +4,7 @@ category:	"dev"
 title:		"Android使用zxing创建二维码"
 tags:		[android]
 ---
-- Content
-{:toc}
+
 
 ## 引用zxing库
 build.gradle的dependencies里添加：

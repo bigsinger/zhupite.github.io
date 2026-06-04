@@ -4,8 +4,7 @@ category:	"dev"
 title:		"Python常用代码片段收集"
 tags:		[python]
 ---
-- Content
-{:toc}
+
 
 # 日志
 ```python

@@ -4,8 +4,7 @@ category:	"dev"
 title:		"tesseract初探"
 tags:		[]
 ---
-- Content
-{:toc}
+
 
 http://code.google.com/p/tesseract-ocr/downloads/list
 

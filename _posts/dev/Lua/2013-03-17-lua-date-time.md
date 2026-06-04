@@ -4,8 +4,7 @@ category:	"dev"
 title:		"Lua的日期时间"
 tags:		[lua]
 ---
-- Content
-{:toc}
+
 
 
 # os.date([format [, time]])

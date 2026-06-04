@@ -5,8 +5,7 @@ title:		"C#Blazor UI组件文件上传"
 
 tags:		[c#,blazor,net]
 ---
-- Content
-{:toc}
+
 实现效果：选择文件实现上传文件功能。
 
 

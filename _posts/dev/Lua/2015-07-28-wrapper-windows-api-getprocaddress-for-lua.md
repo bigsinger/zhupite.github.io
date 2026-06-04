@@ -4,8 +4,7 @@ category:	"dev"
 title:		"封装GetProcAddress让Lua调用Windows API"
 tags:		[lua]
 ---
-- Content
-{:toc}
+
 参考了云风的方法，修复了一点bug。
 
 

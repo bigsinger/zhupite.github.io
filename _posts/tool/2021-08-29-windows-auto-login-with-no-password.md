@@ -5,8 +5,7 @@ title:		"Windows 8/8.1/10 如何取消开机密码无须密码自动登录？"
 
 tags:		[Windows,登录密码]
 ---
-- Content
-{:toc}
+
 **关键词**：Windows，登录密码，自动登录
 
 

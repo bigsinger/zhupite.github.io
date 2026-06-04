@@ -4,8 +4,7 @@ category:	"dev"
 title:		"MFC文本打字输出效果类CStaticTypeWord"
 tags:		[mfc,c++]
 ---
-- Content
-{:toc}
+
 
 
 ```cpp

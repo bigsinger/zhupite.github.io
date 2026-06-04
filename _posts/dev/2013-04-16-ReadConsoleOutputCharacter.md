@@ -4,8 +4,7 @@ category:	"dev"
 title:		"ReadConsoleOutputCharacter"
 tags:		[]
 ---
-- Content
-{:toc}
+
 
 API函数ReadConsoleOutputCharacter，能从控制台缓冲区中读出文字并保存到变量中。但是网上关于这个API函数的资料甚少，仅有声明代码。翻阅外国网站，有给出例子，居然例子也有错误，实在害人不浅。本教程能教会你如何正确的使用ReadConsoleOutputCharacter这个API函数。
 

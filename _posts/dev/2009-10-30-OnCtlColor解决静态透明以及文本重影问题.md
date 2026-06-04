@@ -4,8 +4,7 @@ category:	"dev"
 title:		"OnCtlColor解决静态透明以及文本重影问题"
 tags:		[mfc,c++]
 ---
-- Content
-{:toc}
+
 
 
 ```cpp

@@ -4,8 +4,7 @@ category:	"dev"
 title:		"VisualStudio自动在代码行末尾添加分号"
 tags:		[]
 ---
-- Content
-{:toc}
+
 
 
 ​	IDEA系列的IDE开发工具，都是在按下Shift+Ctrl+Enter组合快捷键之后在代码行末尾补全分号并自动换行，大大提高效率。然后VisualStudio却没有这样的快捷键，编程效率低下，完全跟不上速度啊，后来找了个插件勉强用着吧：**Productivity Power Tools**

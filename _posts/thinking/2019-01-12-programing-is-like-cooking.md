@@ -4,8 +4,7 @@ category:	"thinking"
 title:		"治大国若烹小鲜--朱元璋与瓜农的故事"
 tags:		[]
 ---
-- Content
-{:toc}
+
 
 # 朱元璋微服私访遇瓜农
 

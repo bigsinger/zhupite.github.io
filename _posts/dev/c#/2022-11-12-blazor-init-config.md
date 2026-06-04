@@ -5,8 +5,7 @@ title:		"C#Blazor初始化时读取配置"
 
 tags:		[c#,blazor,net]
 ---
-- Content
-{:toc}
+
 在`Program.cs`里调用：
 
 ```c#

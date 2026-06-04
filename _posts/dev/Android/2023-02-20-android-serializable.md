@@ -5,8 +5,7 @@ title:		"Android序列化的一些问题记录"
 
 tags:		[android]
 ---
-- Content
-{:toc}
+
 **关键词**：安卓,Android,序列化
 
 

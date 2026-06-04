@@ -4,8 +4,7 @@ category:	"dev"
 title:		"单实例引用类在未使用auto引用类型下导致的问题"
 tags:		[c++]
 ---
-- Content
-{:toc}
+
 单实例引用类在未使用auto引用类型下导致的问题
 
 # 背景

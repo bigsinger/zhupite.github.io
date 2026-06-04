@@ -4,8 +4,7 @@ category:	"dev"
 title:		"Lua常用函数收集"
 tags:		[lua]
 ---
-- Content
-{:toc}
+
 
 # Lua基础
 ```lua

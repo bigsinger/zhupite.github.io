@@ -5,8 +5,7 @@ title:		"C#Blazor表单验证摘要验证消息"
 
 tags:		[c#,blazor,net]
 ---
-- Content
-{:toc}
+
 - 实现效果：对表单内容自动检查合法性。
 - 关键词：`EditForm`、 `DataAnnotationsValidator`、 `ValidationMessage` 、`ValidationSummary`
 - 验证摘要使用：`ValidationSummary`

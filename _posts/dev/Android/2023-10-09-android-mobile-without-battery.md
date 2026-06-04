@@ -5,8 +5,7 @@ title:		"安卓手机改无电池直供电"
 
 tags:		[android]
 ---
-- Content
-{:toc}
+
 
 
 本质是电源模拟电池供电，具体可以参考 [How to power Phone Forever Without Battery](https://www.youtube.com/watch?v=0cOEc7ZG6rg)，比较简单直接。要区分好正负极，以及外加电容和二极管做保护。模拟电池供电的那一路电源通过USB和充电器供电，原来的USB充电口继续供电不变，开机仍按电源键保持不变。如果两路电源都供电的话，拔插两路电源任意一个手机均能正常工作。

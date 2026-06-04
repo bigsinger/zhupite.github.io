@@ -4,8 +4,7 @@ category:	"dev"
 title:		"派生CException的自定义异常处理类"
 tags:		[c++]
 ---
-- Content
-{:toc}
+
 
 ```cpp
 #pragma once

@@ -5,8 +5,7 @@ title:		"Java优雅等待所有线程池的线程执行完毕"
 
 tags:		[android]
 ---
-- Content
-{:toc}
+
 **关键词**：Java,线程,线程池,ExecutorService,ThreadPoolExecutor
 
 

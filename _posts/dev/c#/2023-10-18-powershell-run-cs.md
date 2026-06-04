@@ -5,8 +5,7 @@ title:		"PowerShell执行csharp代码"
 
 tags:		[c#,PowerShell,net]
 ---
-- Content
-{:toc}
+
 
 
 # PowerShell语法及常用命令

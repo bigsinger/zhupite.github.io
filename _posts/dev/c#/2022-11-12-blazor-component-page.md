@@ -5,8 +5,7 @@ title:		"C#Blazor UI组件多页面翻页"
 
 tags:		[c#,blazor,net]
 ---
-- Content
-{:toc}
+
 
 
 # 翻页方案1

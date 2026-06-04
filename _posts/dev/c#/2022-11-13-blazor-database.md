@@ -5,8 +5,7 @@ title:		"C# blazor Web开发之数据库汇总"
 
 tags:		[c#,blazor,net]
 ---
-- Content
-{:toc}
+
 # 配置数据库
 
 ## 1、数据库软件安装

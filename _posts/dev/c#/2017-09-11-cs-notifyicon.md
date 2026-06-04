@@ -5,8 +5,7 @@ category:	"dev"
 title:		"net core里使用托盘图标通知"
 tags:		[c#,wpf,net]
 ---
-- Content
-{:toc}
+
 
 
 # 方法一：使用System.Windows.Forms.NotifyIcon（不推荐）

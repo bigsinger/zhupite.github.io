@@ -4,8 +4,7 @@ category:	"dev"
 title:		"MFC注册系统热键RegisterHotKey"
 tags:		[mfc,c++]
 ---
-- Content
-{:toc}
+
 
 ```cpp
 // .h 中添加

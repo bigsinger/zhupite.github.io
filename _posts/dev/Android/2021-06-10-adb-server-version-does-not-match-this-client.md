@@ -4,8 +4,7 @@ category:	"dev"
 title:		"解决：adb 提示adb server version(31) doesn't match this client（41）解决办法"
 tags:		[android]
 ---
-- Content
-{:toc}
+
 **关键词**：adb，安卓模拟器，安卓，雷电模拟器，夜神模拟器。
 
 

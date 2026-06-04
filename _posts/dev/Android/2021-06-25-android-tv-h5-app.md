@@ -4,8 +4,7 @@ category:	"dev"
 title:		"Android TV H5 电视应用"
 tags:		[]
 ---
-- Content
-{:toc}
+
 
 
 创建一个简单的安卓TV应用，通过webview加载网页展示内容。

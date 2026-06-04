@@ -5,8 +5,7 @@ category:	"dev"
 title:		".NET Framework的项目工程转换为.NET项目工程"
 tags:		[c#,net]
 ---
-- Content
-{:toc}
+
 打开powershell，输入命令进行安装：
 
 ```

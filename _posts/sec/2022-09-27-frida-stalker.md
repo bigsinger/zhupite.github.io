@@ -5,8 +5,7 @@ title:		"使用Frida的stalker功能跟踪分析Native函数调用"
 
 tags:		[]
 ---
-- Content
-{:toc}
+
 
 
 如果可以使用unidbg模拟调用，也可以使用unidbg进行[指令跟踪](https://zhupite.com/sec/unidbg.html#指令跟踪)、[HOOK函数找关键CALL](https://zhupite.com/sec/unidbg.html#hook函数找关键call)

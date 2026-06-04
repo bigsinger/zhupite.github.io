@@ -4,8 +4,7 @@ category:	"dev"
 title:		"Android逆向安全-无侵入找关键call之trace日志分析大法"
 tags:		[android,hook]
 ---
-- Content
-{:toc}
+
 
 ## 背景
 找关键call是逆向的基本技能和分析目标，找到关键call后便可以进一步利用。在安卓App的逆向分析中，人肉逆向分析虽说不难，但是繁琐，特别是现在App体积动辄几十MB甚至几百MB，反编译出的jar或者smali文件相当多，找关键call无疑是大海捞针。

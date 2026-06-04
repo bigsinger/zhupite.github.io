@@ -5,8 +5,7 @@ title:		"图片识别方案"
 
 tags:		[ai]
 ---
-- Content
-{:toc}
+
 
 
 # 需求

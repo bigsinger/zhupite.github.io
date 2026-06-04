@@ -4,8 +4,7 @@ category:	"dev"
 title:		"Lua的io及File"
 tags:		[lua]
 ---
-- Content
-{:toc}
+
 
 参考：[Lua 5\.3 参考手册](https://cloudwu.github.io/lua53doc/manual.html#pdf-io.type)
 

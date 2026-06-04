@@ -6,8 +6,7 @@ title:		"c# enum枚举利用转json"
 
 tags:		[c#,net]
 ---
-- Content
-{:toc}
+
 ```c#
 using System;
 using System.Collections.Generic;

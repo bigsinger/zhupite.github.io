@@ -4,8 +4,7 @@ category:	"dev"
 title:		"Python的堆heapq"
 tags:		[python]
 ---
-- Content
-{:toc}
+
 
 # 堆heapq与最大最小N个元素
 

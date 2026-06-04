@@ -4,8 +4,7 @@ category:	"dev"
 title:		"汇编动态获取MessageBoxTimeoutA函数地址"
 tags:		[]
 ---
-- Content
-{:toc}
+
 
 ```asm
 .386

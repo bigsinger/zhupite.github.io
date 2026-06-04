@@ -4,8 +4,7 @@ category:	"dev"
 title:		"Python字符串替换"
 tags:		[python]
 ---
-- Content
-{:toc}
+
 
 # replace
 ```python

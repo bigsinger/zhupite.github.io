@@ -5,8 +5,7 @@ title:		"解决AndroidStudio-Gradle卡住的问题"
 
 tags:		[android]
 ---
-- Content
-{:toc}
+
 **关键词**：安卓,Android,AndroidStudio,gradle
 
 

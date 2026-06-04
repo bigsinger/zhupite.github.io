@@ -5,8 +5,7 @@ title:		"C#Blazor UI组件列表选择框选择后自动调用回调函数"
 
 tags:		[c#,blazor,net]
 ---
-- Content
-{:toc}
+
 实现效果：选择后自动触发回调函数。
 
 

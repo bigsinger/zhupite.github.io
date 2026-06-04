@@ -4,8 +4,7 @@ category:	"dev"
 title:		"程序版本控制"
 tags:		[c++]
 ---
-- Content
-{:toc}
+
 
 
 1. 新建一个VersionNo.h头文件

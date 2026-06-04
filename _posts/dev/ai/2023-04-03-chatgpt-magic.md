@@ -4,8 +4,7 @@ category:	"dev"
 title:		"ChatGPT咒语魔法"
 tags:		[]
 ---
-- Content
-{:toc}
+
 请谨慎使用，小心封号。
 
 

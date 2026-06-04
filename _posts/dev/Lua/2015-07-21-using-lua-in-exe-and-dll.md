@@ -4,8 +4,7 @@ category:	"dev"
 title:		"exe与dll同时使用Lua的一个内存崩溃异常"
 tags:		[lua]
 ---
-- Content
-{:toc}
+
 长时间运行后，出现以下崩溃：
 
 ```

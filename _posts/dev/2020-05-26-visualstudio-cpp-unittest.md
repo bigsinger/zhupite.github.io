@@ -4,8 +4,7 @@ category:	"dev"
 title:		"VisualStudio为C++项目创建单元测试"
 tags:		[c++]
 ---
-- Content
-{:toc}
+
 主要介绍两种为VisualStudio的C++项目创建单元测试的方法：**微软的本机单元测试**、**Google Test**。
 
 

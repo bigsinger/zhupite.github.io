@@ -4,8 +4,7 @@ category:	"dev"
 title:		"VMware中安装Centos及相关配置"
 tags:		[VMware,Centos,Linux]
 ---
-- Content
-{:toc}
+
 
 ## VMware中安装Centos系统
 VMware中安装Centos系统可以参考：[第一节windows系统安装虚拟机VMware软件](https://www.cnblogs.com/adc8868/p/5490846.html)

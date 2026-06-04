@@ -8,9 +8,6 @@ sticky:       true
 tags:        [linux]
 ---
 
-- Content
-  {:toc}
-
 # WSL
 
 双系统来回切换不方便，目前有一个方式倒是挺方便的，就是在Windows10中安装Ubuntu子系统。

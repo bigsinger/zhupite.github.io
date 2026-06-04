@@ -4,8 +4,7 @@ category:	"dev"
 title:		"JavaScript获取网页点击时候的元素信息"
 tags:		[JavaScript]
 ---
-- Content
-{:toc}
+
 
 JavaScript获取网页点击时候的元素信息
 ```js

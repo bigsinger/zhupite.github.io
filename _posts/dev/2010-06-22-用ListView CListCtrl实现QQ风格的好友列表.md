@@ -4,8 +4,7 @@ category:	"dev"
 title:		"用ListView CListCtrl实现QQ风格的好友列表"
 tags:		[mfc,c++]
 ---
-- Content
-{:toc}
+
 
 一直想做个QQ那样的好友列表，即选中某项后可以放大显示。如果用Windows的ListView，主要要解决一个动态设置列表项高度的问题，但我翻遍了MSDN也没有找到解决方法，网上找的有3种方法设置listview列表项高度：
 

@@ -4,8 +4,7 @@ category:	"dev"
 title:		"WindowsShell外壳编程初探之WTLExplorer"
 tags:		[mfc,c++]
 ---
-- Content
-{:toc}
+
 
 
 今天被"Windows Shell外壳编程"搞残了.本来就是想在自己的应用程序中浏览文件,右键能够显示系统菜单.但是网上搜了一大堆资料都是讲"Shell扩展编程"的,差点没把我气死.后来在看雪找到了一个主题,见:http://bbs.pediy.com/showthread.php?p=573210

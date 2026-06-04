@@ -5,8 +5,7 @@ title:		"C#Web开发之blazor前后端分离及API接口编写参考汇总"
 
 tags:		[c#,blazor,net]
 ---
-- Content
-{:toc}
+
 # 解决方案里的项目结构
 
 | 项目     | 说明                                                         | 所需三方库                                                   |

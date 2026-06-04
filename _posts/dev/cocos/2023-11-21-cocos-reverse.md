@@ -5,8 +5,7 @@ title:		"cocos逆向工程汇总"
 
 tags:		[]
 ---
-- Content
-{:toc}
+
 
 
 Cocos2d-x 是一款国产的开源的手机游戏开发框架，基于MIT许可证发布。引擎核心采用C++编写，提供C++、Lua、JavaScript 三种编程语言接口，跨平台支持 iOS、Android 等智能手机，Windows、Mac 等桌面操作系统，以及 Chrome, Safari, IE 等 HTML5 浏览器。

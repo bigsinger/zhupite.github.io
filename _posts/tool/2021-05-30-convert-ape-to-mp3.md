@@ -5,8 +5,7 @@ title:		"APE格式音乐文件批量分割转换成MP3"
 
 tags:		[]
 ---
-- Content
-{:toc}
+
 
 
 主要使用 [foobar2000](https://www.foobar2000.org/) 进行分割转换，支持输出格式的选择和文件名自定义。转换`MP3`需要一个三方工具：`LAME`，可以在这里下载：[mp3-lame-bundle - RareWares](https://www.rarewares.org/mp3-lame-bundle.php)

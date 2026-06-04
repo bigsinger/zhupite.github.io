@@ -4,8 +4,7 @@ category:	"dev"
 title:		"Android常见错误UnsatisfiedLinkError的解决方案"
 tags:		[android]
 ---
-* content
-{:toc}
+
 想必很多开发者和我们一样，遇到过许多UnsatisfiedLinkError的困难，着实令人头疼，现在总结一下，希望能帮助更多的人。
 
 
