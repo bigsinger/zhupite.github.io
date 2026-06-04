@@ -43,8 +43,7 @@ menu: 首页
         <h3 class="post-card-title">
           <a href="{{ site.url }}{{ post.url }}">{{ post.title }}</a>
         </h3>
-        {%- capture excerpt_raw %}{{ post.excerpt | strip_html | strip }}{% endcapture -%}
-        <p class="post-card-excerpt">{% if excerpt_raw != '' %}{{ excerpt_raw | truncate: 80 }}{% elsif post.description %}{{ post.description | truncate: 80 }}{% endif %}</p>
+        <p class="post-card-excerpt">{% if post.description %}{{ post.description | truncate: 80 }}{% elsif post.desc %}{{ post.desc | truncate: 80 }}{% endif %}</p>
       </div>
       <div class="post-card-footer">
         <span class="post-card-date">
@@ -75,8 +74,7 @@ menu: 首页
         <h3 class="post-card-title">
           <a href="{{ site.url }}{{ post.url }}">{{ post.title }}</a>
         </h3>
-        {%- capture excerpt_raw %}{{ post.excerpt | strip_html | strip }}{% endcapture -%}
-        <p class="post-card-excerpt">{% if excerpt_raw != '' %}{{ excerpt_raw | truncate: 80 }}{% elsif post.description %}{{ post.description | truncate: 80 }}{% endif %}</p>
+        <p class="post-card-excerpt">{% if post.description %}{{ post.description | truncate: 80 }}{% elsif post.desc %}{{ post.desc | truncate: 80 }}{% endif %}</p>
       </div>
       <div class="post-card-footer">
         <span class="post-card-date">
