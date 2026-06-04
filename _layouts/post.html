@@ -33,6 +33,13 @@ layout: default
     </div>
   </header>
 
+  {%- assign desc = page.description | default: page.desc -%}
+  {%- if desc and desc != '' -%}
+  <blockquote class="post-description-quote">
+    {{ desc }}
+  </blockquote>
+  {%- endif -%}
+
   <article class="article-content markdown-body">
     {{ content }}
     {% include copyright.html %}
