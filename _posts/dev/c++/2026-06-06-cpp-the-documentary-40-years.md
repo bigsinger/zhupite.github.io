@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "C++ 四十年传奇：从贝尔实验室的"带类的C"到全球增长最快的编程语言"
+title: "C++ 四十年传奇：从贝尔实验室的「带类的C」到全球增长最快的编程语言"
 categories: [dev, c++]
 description: "2026年6月4日，纪录片《C++: The Documentary》正式在YouTube首播。70分钟讲述C++从1983年贝尔实验室到现代C++的传奇历程，14位传奇人物亲述，过去3.5年用户增长超90%。"
 keywords: "C++, C++纪录片, Bjarne Stroustrup, Herb Sutter, C++ The Documentary, C++历史, STL, C++11, 编程语言"
