@@ -148,6 +148,15 @@ jobs:
           path: ./scan-results
 ```
 
+## 项目地址
+
+| 资源 | 链接 |
+|------|------|
+| GitHub 仓库 | https://github.com/agentgg-dev/agentgg |
+| Agent 规则库 | https://github.com/agentgg-dev/agentgg-agents |
+| 官方网站 | https://agentgg.dev |
+| 安装方式 | `npm install -g agentgg`（需要 Node.js 20+） |
+
 ## 定位
 
 AgentGG 的定位是：**用 AI Agent 来审计代码安全的开源工具**，不是全栈安全平台。
