@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "AgentGG：首个开源AI Agent代码安全扫描器"
+title: "AgentGG：用AI Agent做SAST的开源代码安全扫描器"
 categories: [sec, tool]
 tags:
   - Agent安全
@@ -8,95 +8,191 @@ tags:
   - 开源工具
   - 代码审计
   - Prompt注入
-description: "AgentGG 是专为 AI Agent 代码设计的开源静态安全扫描器，MIT 许可。可检测 Prompt 注入、工具权限配置错误、MCP 服务器配置缺陷等 5 类 Agent 特有漏洞，支持 LangChain/CrewAI/Semantic Kernel 等主流框架。"
+description: "AgentGG 是一个用 AI Agent 驱动代码安全审计的开源 SAST 扫描器，Apache 2.0 许可。不同于传统 SAST 的模式匹配，它让 LLM Agent 跟踪调用链、确认误报后再报告。支持 10 大类安全检测，包含 AI/Agent 安全专项规则（MCP 配置、Prompt 泄漏、工具权限等）。"
 ---
 
 ## AgentGG 是什么
 
-AgentGG 是首个面向 AI Agent 代码的开源 SAST（静态应用安全测试）扫描器，2026年6月发布，MIT 许可证。它的核心定位是填补 Agent 代码安全分析工具的空白。
+AgentGG 是一个 **Agentic SAST**（用 AI Agent 驱动的静态安全扫描器），2026 年 6 月发布，Apache 2.0 开源许可。项目由 [agentgg-dev/agentgg](https://github.com/agentgg-dev/agentgg) 维护，当前 ⭐24。
 
-传统的 SAST 工具（如 SonarQube、Fortify）擅长发现 SQL 注入、XSS、缓冲区溢出等传统 Web 漏洞，但它们不理解 Agent 特有的安全模式——Prompt 注入、工具调用权限泄露、Agent 间信任关系等。AgentGG 就是为解决这些问题而生的。
+它的核心思路和传统 SAST 截然不同：
+
+> **传统 SAST** 靠正则/AST 模式匹配找漏洞 → 高误报、难确认
+> **AgentGG** 让 LLM Agent 阅读代码、跟踪调用链、确认问题后再报告 → 低误报、可解释
+
+每个 Agent 都是一个 Markdown 文件（YAML 前件 + Prompt 主体），具备 Read/Glob/Grep 工具能力，可以跨文件跟踪调用链和导入关系来确认漏洞。
 
 ## 提供的功能
 
-### 支持的检测类型
+### 扫描流程（三阶段）
 
-| 检测类型 | 说明 |
-|---------|------|
-| **Prompt 注入漏洞** | 分析 Agent 指令中是否存在可被外部输入污染的注入点 |
-| **工具调用权限配置错误** | 检测 Agent 工具函数是否暴露了不应暴露的操作权限 |
-| **不安全数据处理管道** | 分析数据在 Agent 各环节流转时是否存在未校验/未隔离的处理路径 |
-| **Agent 间信任关系漏洞** | 检测多 Agent 协作场景下，Agent 之间的身份认证和授权是否足够 |
-| **MCP 服务器不安全配置** | 检查 MCP（Model Context Protocol）服务器配置中的安全缺陷，如未鉴权的工具暴露 |
+| 阶段 | 做什么 | 产出 |
+|------|--------|------|
+| **Recon（侦察）** | 快速扫描项目全貌：语言、框架、认证模型、集成方式 | `recon.json` — 项目简报 |
+| **Precondition（前置检查）** | 每个 Agent 自检：这个项目值不值得我跑？通过正则+可选 LLM 判断 | `plan.json` — 哪些 Agent 排队/跳过+原因 |
+| **Run → Validate → Score → Dedup → Report** | 排队 Agent 批量分析文件；可选二次验证、CVSS 评分、去重、生成报告 | `summary.md` + `findings/*.md` |
 
-### 支持的主流框架
+**重要设计**：每个阶段都有持久化产物。扫描被中断后重新运行会自动恢复——已完成的 Agent 跳过，只跑新增或变更的部分。
 
-AgentGG 能够解析和分析以下框架构建的 Agent 代码：
+### 内置 Agent 目录（10 大类）
 
-- **OpenClaw** — Agent 编排框架的代码分析
-- **LangChain** — 链式调用和数据管道的安全审计
-- **CrewAI** — 多 Agent 协作场景的信任关系检查
-- **Semantic Kernel** — Microsoft 的 AI 编排 SDK 代码扫描
+AgentGG 的检测能力来自官方 Agent 库（`agentgg-dev/agentgg-agents`），首次扫描自动下载：
 
-### 修复建议
+| 分类 | 检测内容 |
+|------|---------|
+| `injection/` | SQL/NoSQL/命令注入、XSS、路径遍历、Mass Assignment |
+| `auth/` | 认证/授权缺陷、JWT、OAuth、会话管理、IDOR |
+| `exposure/` | 密钥泄露、环境变量泄漏、错误信息泄漏、调试接口 |
+| `misconfiguration/` | CORS 配置、Cookie 安全、缓存策略、功能开关安全 |
+| `logic/` | 竞态条件、异步 Bug、事件处理器不匹配 |
+| `infrastructure/` | Docker、Kubernetes、Terraform、GitHub Actions |
+| `cloud/` | AWS Lambda、GCP、Azure、IAM |
+| `cryptography/` | 不安全算法、反序列化漏洞 |
+| `mobile/` | Android、iOS 安全 |
+| **`ai/`** | **LLM/Agent 安全、MCP 配置、Prompt 泄漏、工具权限** |
 
-与传统 SAST 仅报告问题不同，AgentGG 提供**基于 AI 的修复建议**，帮助开发者理解漏洞成因并获取可直接参考的修复方案。这一点对于 Agent 安全这种新兴领域尤为重要——开发者可能知道某个写法有问题，但不一定知道"正确写法应该是什么"。
+其中 `ai/` 目录包含以下 Agent 模板：
+
+| Agent | 检测内容 |
+|-------|---------|
+| `agent-loop-no-cap` | Agent 循环缺少上限，可能导致无限递归/失控调用 |
+| `agent-tool-definition` | Agent 工具函数权限定义不严谨 |
+| `agentic-untrusted-prompt-input` | 来自不可信源的 Prompt 输入污染 |
+| `mcp-tool-handler` | MCP 服务器工具处理器配置缺陷 |
+| `prompt-leaks-system-prompt` | System Prompt 泄露风险 |
+
+### 验证与评分
+
+- **Validate** — 二次 LLM 调用，重新审查每个发现，归类为 `confirmed` / `false-positive` / `out-of-scope` / `uncertain`
+- **Score** — CVSS 3.1 严重度评分，附加到每个报告条目
+- **Dedup** — 跨 Agent 聚合同根因的发现，合并到主条目
+
+### 报告格式
+
+每个发现是一个独立的 Markdown 文件（GHSA 格式）：
+
+```markdown
+# SQL Injection in login.ts
+**Agent:** `sql-injection`
+**File:** `src/login.ts`
+**Lines:** 12–14
+**Severity:** High (CVSS 7.5)
+**Validation:** `confirmed`
+
+### Summary
+### Details
+### PoC
+### Impact
+### References
+- CWE-89
+```
+
+`summary.md` 聚合所有发现：按 Agent 分类、验证结果统计、各发现链接。
 
 ## 如何使用
 
-AgentGG 作为命令行工具使用，安装和运行非常简单：
+AgentGG 是 Node.js 命令行工具，通过 npm 安装：
 
 ```bash
-# 安装
-pip install agentgg
+# 安装（需要 Node.js 20+）
+npm install -g agentgg
 
-# 扫描单个文件
-agentgg scan agent.py
+# 首次初始化：选 LLM 提供商、配置 API Key
+agentgg init
 
 # 扫描整个项目
-agentgg scan .
+agentgg scan ./src -o ./out
 
-# 指定框架类型（自动检测失效时使用）
-agentgg scan --framework langchain .
+# PR 审查模式：只扫描变更的文件
+agentgg scan ./src --diff origin/main...HEAD --validate -o ./out
 
-# 输出格式
-agentgg scan --format json .
-agentgg scan --format sarif .
+# 浏览结果（启动本地 Web UI）
+agentgg view ./out
 ```
 
-也支持集成到 CI/CD 流水线：
+支持多种 LLM 后端：
+
+| 提供商 | 配置方式 |
+|--------|---------|
+| Anthropic | API Key 或 OAuth |
+| OpenAI | API Key |
+| Ollama | 本地部署，免费 |
+| AWS Bedrock | AWS 凭证（环境变量/SSO/IAM Role） |
+| Google Vertex AI | gcloud ADC + GCP Project ID |
+
+CI/CD 集成示例（GitHub Actions）：
 
 ```yaml
-# GitHub Actions 示例
-- name: Agent Security Scan
-  run: |
-    pip install agentgg
-    agentgg scan . --format sarif --output results.sarif
+name: agentgg PR review
+on: pull_request
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install -g agentgg
+      - run: |
+          agentgg scan . \
+            --diff ${{ github.event.pull_request.base.sha }}...${{ github.sha }} \
+            --validate -o ./scan-results
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: agentgg-findings
+          path: ./scan-results
 ```
 
 ## 定位
 
-AgentGG 的定位非常清晰：**面向 Agent 开发者的免费静态安全分析工具**，不做全栈安全平台。
+AgentGG 的定位是：**用 AI Agent 来审计代码安全的开源工具**，不是全栈安全平台。
 
-它和传统 SAST 的关系是互补而非替代：
+与同类工具的关系：
 
-| 对比项 | 传统 SAST（如 SonarQube） | AgentGG |
-|--------|--------------------------|---------|
-| 检测范围 | SQL注入、XSS、CSRF等Web漏洞 | Prompt注入、工具权限、MCP配置等 |
-| 框架支持 | Spring、Django等Web框架 | LangChain、CrewAI、Semantic Kernel等 |
-| 修复建议 | 通用最佳实践 | AI辅助的Agent特定修复方案 |
-| 许可证 | 商业/社区版 | MIT开源免费 |
+| 对比项 | 传统 SAST（SonarQube/Snyk） | AgentGG | 运行时安全（Guardrails/NeMo） |
+|--------|---------------------------|---------|---------------------------|
+| **方法** | 规则/模式匹配 | LLM Agent 推理代码 | 运行时拦截/过滤 |
+| **误报率** | 高（需人工筛查） | 低（Agent 验证后才报） | N/A（运行时触发） |
+| **Agent 专项检测** | ❌ 不理解 Agent 安全模式 | ✅ `ai/` 分类含 10+ Agent | ✅ 运行时防护 |
+| **扫描阶段** | 编码/CI 阶段 | 编码/CI 阶段 | 运行时 |
+| **部署方式** | npm 命令行 | npm 命令行 | SDK/代理/网关 |
+| **许可证** | 商业/社区版 | Apache 2.0 | 商业/部分开源 |
 
-从产业位置看，AgentGG 填补了"Agent 代码安全分析"这块空白。在此之前，开发者检测 Agent 安全问题基本靠手动 code review 或者靠运行时拦截工具（如 Guardrails、AI Firewall），缺乏在开发阶段前置发现问题的手段。AgentGG 把安全左移到了编码阶段。
+AgentGG 填补的是 **"开发阶段用 AI 进行 Agent 代码安全审计"** 这个空白。不同于传统 SAST 只会告诉你「这里可能有问题」，AgentGG 的 Agent 会看完上下文、跟完调用链之后，才确定是否报告。也不同于运行时安全工具（只在生产环境才能发现问题），AgentGG 在写代码的阶段就能找到问题。
 
 ## 价值
 
-1. **免费开源**：MIT 许可，没有商业 Licens 限制，适合个人开发者和小团队直接使用。
+**1. 开了「Agentic SAST」的先河**
 
-2. **填补工具空白**：Agent 开发框架已经在快速成熟（LangChain 已有 10 万+ Star），但 Agent 安全分析工具几乎为零。AgentGG 是第一个系统性的直面这个问题的开源工具。
+它不是"给 SAST 加了几个 Agent 规则"，而是从根本上改变了扫描方式：每个安全检测项都是一个独立的 LLM Agent，具备跨文件推理能力。这个思路对安全行业有方法论层面的意义。
 
-3. **安全教育价值**：AgentGG 的报告和修复建议本身就能帮助开发者建立 Agent 安全意识。开发者可能第一次知道「原来 Agent 之间的信任关系也需要鉴权」或「这个工具函数不应该暴露给 LLM」。
+**2. 自带 AI/Agent 安全检测规则**
 
-4. **生态信号**：AgentGG 的出现说明 Agent 安全正在从「意识阶段」进入「工具体系化阶段」。有开源工具 → 有规范实践 → 有商业产品，这是一个成熟市场演进的标准路线。
+目前已有 `prompt-leaks-system-prompt`、`mcp-tool-handler`、`agentic-untrusted-prompt-input` 等针对 Agent 框架的检测 Agent。随着 `agentgg-agents` 仓库的迭代，规则还会快速扩充。
 
-5. **CI/CD 集成**：支持 SARIF 输出格式意味着它可以无缝融入现有的安全 DevSecOps 流水线，与 GitHub Advanced Security 等平台对接。
+**3. 开发者友好**
+
+- PR 模式：`--diff origin/main...HEAD` 只审查变更代码
+- Resume 机制：扫描中断后恢复，不重复已完成的 Agent
+- Web UI：`agentgg view` 一键启动本地查看器
+- 结构化的 GHSA 格式报告
+
+**4. 生态兼容**
+
+支持 5 种主流 LLM 后端（含 Ollama 免费本地方案），GitHub Actions 原生集成，报告格式可对接现有 DevSecOps 流水线。
+
+**5. 信息安全与开源**
+
+AgentGG 自己的 Code of Conduct、CONTRIBUTING、SECURITY 文档齐全，Agent 模板也支持版本管理（`version: 0.1.0`），有助于社区贡献和规则质量管控。
+
+## 局限
+
+- **Beta 阶段**：目前还处于早期，规则库和稳定性还在迭代
+- **LLM 成本**：Agent 每次扫描都要调用 LLM，大项目的扫描成本不可忽视（Ollama 可缓解）
+- **Node.js 依赖**：需要 Node.js 20+，对 Python 技术栈的团队不够友好
+- **Agent 生态尚浅**：当前 `ai/` 分类只有 10 个 Agent，覆盖面有限
