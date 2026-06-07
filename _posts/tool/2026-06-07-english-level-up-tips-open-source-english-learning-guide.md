@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "离谱的英语学习指南：GitHub 68K+ Star 开源项目，一套覆盖听说读写的完整英语进阶方案"
-date: 2026-06-07 22:00 +0800
+date: 2026-06-07 17:20 +0800
 categories: [tool]
 tags: [english-learning, open-source, github, language, ai-learning, anki]
 description: "English-level-up-tips 是一个 GitHub 上 68K+ Star 的开源英语学习指南。本文从项目背景、核心方法论、七大章节（认知→单词→听力→阅读→口语→写作→AI 学习）、快速上手指南、优劣势分析等角度，全面拆解这套国内最受欢迎的英语自学方案。"
