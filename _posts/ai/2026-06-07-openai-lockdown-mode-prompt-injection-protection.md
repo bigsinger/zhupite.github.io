@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "OpenAI Lockdown Mode：用功能降级换取提示注入防护的权衡方案"
-categories: [sec]
+categories: [ai]
 description: "OpenAI 发布 Lockdown Mode，关闭实时网页浏览、Agent 模式、深度研究等联网能力，以限制提示注入攻击的数据外泄风险。HN 获 84 分热议，有人叫好有人质疑「这等于承认默认不安全」。本文从技术原理、可用性影响、企业适用场景三个层面拆解。"
 keywords: OpenAI, Lockdown Mode, prompt injection, ChatGPT, security, data exfiltration, AI security
 tags:

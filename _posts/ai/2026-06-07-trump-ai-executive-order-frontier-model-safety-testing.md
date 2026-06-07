@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "特朗普签署 AI 安全测试行政令：前沿模型发布前须通过 NSA 审查"
-categories: [sec]
+categories: [ai]
 description: "特朗普签署行政令要求前沿 AI 模型公开发布前进行安全测试。从 90 天缩至 30 天的「自愿框架」实为事实许可制，NSA 获核心角色。安全派系胜出，Sacks/加速主义派落败。政策专家警告分类基准和赢家挑选风险。"
 keywords: Trump, AI, executive order, frontier model, safety testing, NSA, AI regulation, AI security
 tags:
