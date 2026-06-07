@@ -1,0 +1,28 @@
+2026-06-06 01:30:31,260 - __main__ - INFO - 配置加载成功: C:\Users\hzzhuxingxing.CN\AppData\Local\hermes\skills\web-search\config.json
+2026-06-06 01:30:31,276 - __main__ - INFO - 缓存加载成功: 181条记录
+2026-06-06 01:30:31,277 - __main__ - INFO - 初始化搜索方法: ['startpage', 'bing', 'duckduckgo']
+2026-06-06 01:30:31,277 - __main__ - INFO - 使用回退机制搜索: oschina.net news 452384
+2026-06-06 01:30:31,277 - __main__ - INFO - [1/3] 尝试方法: startpage
+2026-06-06 01:30:31,277 - __main__ - INFO - [startpage] 搜索: oschina.net news 452384 (超时: 3.0秒)
+2026-06-06 01:30:31,860 - __main__ - ERROR - [startpage] 搜索失败: ('Connection aborted.', ConnectionResetError(10054, '远程主机强迫关闭了一个现有的连接。', None, 10054, None))
+2026-06-06 01:30:31,860 - __main__ - WARNING - ✗ 方法 startpage 失败，尝试下一个方法
+2026-06-06 01:30:33,861 - __main__ - INFO - [2/3] 尝试方法: bing
+2026-06-06 01:30:33,861 - __main__ - INFO - [bing] 搜索: oschina.net news 452384 (超时: 3.0秒)
+2026-06-06 01:30:34,783 - __main__ - INFO - [bing] 搜索完成: 10条结果
+2026-06-06 01:30:34,786 - __main__ - INFO - ✓ 方法 bing 成功，返回 10 条结果
+2026-06-06 01:30:34,806 - __main__ - INFO - 缓存保存成功: 182条记录
+2026-06-06 01:30:34,814 - content_extractor - INFO - 提取第 1/3 个链接
+2026-06-06 01:30:34,814 - content_extractor - INFO - 使用opencli提取: https://www.oschina.net/
+2026-06-06 01:31:05,266 - content_extractor - WARNING - ✗ opencli超时: https://www.oschina.net/
+2026-06-06 01:31:05,266 - content_extractor - INFO - 使用requests提取: https://www.oschina.net/
+2026-06-06 01:31:05,760 - content_extractor - WARNING - ✗ requests提取内容为空: https://www.oschina.net/
+2026-06-06 01:31:06,761 - content_extractor - INFO - 提取第 2/3 个链接
+2026-06-06 01:31:06,761 - content_extractor - INFO - 使用opencli提取: http://www.oschina.cn/
+2026-06-06 01:31:16,320 - content_extractor - WARNING - ✗ opencli超时: http://www.oschina.cn/
+2026-06-06 01:31:16,320 - content_extractor - INFO - 使用requests提取: http://www.oschina.cn/
+2026-06-06 01:31:16,475 - content_extractor - INFO - ✓ requests提取成功: http://www.oschina.cn/
+2026-06-06 01:31:17,476 - content_extractor - INFO - 提取第 3/3 个链接
+2026-06-06 01:31:17,476 - content_extractor - INFO - 使用opencli提取: https://gitee.com/oschina
+2026-06-06 01:31:23,554 - content_extractor - WARNING - ✗ opencli超时: https://gitee.com/oschina
+2026-06-06 01:31:23,554 - content_extractor - INFO - 使用requests提取: https://gitee.com/oschina
+2026-06-06 01:31:24,261 - content_extractor - INFO - ✓ requests提取成功: https://gitee.com/oschina
