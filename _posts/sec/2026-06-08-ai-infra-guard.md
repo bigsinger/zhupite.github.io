@@ -1,7 +1,7 @@
 ---
 layout: post
 categories: [sec]
-title: "腾讯朱雀 AI-Infra-Guard：AI 红队安全测试平台产品分析"
+title: "腾讯朱雀AIG(AI-Infra-Guard)：AI红队安全测试平台"
 tags:
   - AI安全
   - 红队测试
