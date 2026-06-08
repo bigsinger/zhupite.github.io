@@ -150,8 +150,7 @@
 
         <nav class="header-nav-desktop" aria-label="主导航">
           {% for nav in site.navs %}
-          {% assign is_category_nav = nav.href == '/categories/' %}
-          {% if is_category_nav %}
+          {% if nav.href == '/categories/' %}
           <div class="header-nav-dropdown">
             <a href="{{ site.url | escape }}{{ nav.href | escape }}" class="header-nav-item header-nav-trigger{% if page.menu == nav.label or page.url contains nav.href %} active{% endif %}" title="{{ nav.label | escape }}" aria-haspopup="true" aria-expanded="false">
               {{ nav.label | escape }}
@@ -197,8 +196,7 @@
       <nav class="mobile-nav-wrapper" id="mobileNav" aria-label="移动端主导航">
         <div class="mobile-nav-inner">
           {% for nav in site.navs %}
-          {% assign is_category_nav = nav.href == '/categories/' %}
-          {% if is_category_nav %}
+          {% if nav.href == '/categories/' %}
           <details class="mobile-category-details"{% if page.url contains nav.href %} open{% endif %}>
             <summary class="mobile-nav-item{% if page.menu == nav.label or page.url contains nav.href %} active{% endif %}">
               {{ nav.label | escape }}
