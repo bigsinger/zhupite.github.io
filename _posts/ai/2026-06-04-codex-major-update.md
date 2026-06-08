@@ -1,6 +1,6 @@
 ---
 layout:		post
-category:	"dev"
+category:	"ai"
 title:		"Codex 发布重大更新：不再只是编码，捆绑 62 个应用和 110 个自动化技能"
 sticky:		false
 

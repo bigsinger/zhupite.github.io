@@ -1,6 +1,6 @@
 ﻿---
 layout:		post
-category:	"dev"
+category:	"ai"
 title:		"langmanus"
 
 tags:		[ai]

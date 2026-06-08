@@ -1,6 +1,6 @@
 ﻿---
 layout:		post
-category:	"dev"
+category:	"ai"
 title:		"使用AI模型"
 
 tags:		[ai]

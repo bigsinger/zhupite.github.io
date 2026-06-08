@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Qualcomm AI Hub 实战：从模型加载到终端设备部署的完整指南"
-categories: [dev, ai]
+categories: [ai]
 description: "基于 MarkTechPost 教程，完整覆盖 qai_hub_models 包安装、MobileNet-V2 分类推理、YOLOv7 目标检测、NHWC→NCHW 转换坑点，以及 Workbench 云端真机编译/Profile/部署全流程。300+ 预优化模型，一行代码切换目标平台。"
 tags:
   - Qualcomm

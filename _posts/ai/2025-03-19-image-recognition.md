@@ -1,6 +1,6 @@
 ﻿---
 layout:		post
-category:	"dev"
+category:	"ai"
 title:		"图片识别方案"
 
 tags:		[ai]

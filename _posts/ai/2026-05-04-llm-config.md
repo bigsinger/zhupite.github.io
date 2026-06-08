@@ -1,6 +1,6 @@
 ﻿---
 layout:		post
-category:	"dev"
+category:	"ai"
 title:		"LLM大模型配置"
 sticky:		true
 

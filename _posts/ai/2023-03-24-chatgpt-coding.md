@@ -1,6 +1,6 @@
 ---
 layout:		post
-category:	"dev"
+category:	"ai"
 title:		"使用ChatGPT的编码体验"
 tags:		[]
 ---

@@ -1,6 +1,6 @@
 ﻿---
 layout:		post
-category:	"dev"
+category:	"ai"
 title:		"tesseract初探"
 tags:		[]
 ---
