@@ -2,7 +2,7 @@
   <h3 class="sidebar-card-title">分类</h3>
   <div class="categories-list">
     {% for category in site.categories %}
-    <a href="{{ site.url }}/categories/#{{ category[0] | uri_escape }}" class="category-item">
+    <a href="{{ site.url }}/categories/#{{ category[0] | append: '' | uri_escape }}" class="category-item">
       <span class="category-name">{{ category[0] | escape }}</span>
       <span class="category-count">{{ category[1].size }}</span>
     </a>

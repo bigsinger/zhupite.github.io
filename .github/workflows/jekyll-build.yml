@@ -1,0 +1,38 @@
+name: Jekyll build check
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Check JavaScript syntax
+        run: node --check assets/js/main.js
+
+      - name: Check minified CSS
+        run: node scripts/check-css-min.js
+
+      - name: Build Jekyll site
+        env:
+          JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bundle exec jekyll build --strict_front_matter
+
+      - name: Check local links and assets
+        run: node scripts/check-site-links.js _site

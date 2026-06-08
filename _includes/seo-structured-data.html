@@ -32,7 +32,7 @@
       "@type": "ListItem",
       "position": {{ forloop.index | plus: 1 }},
       "name": {{ cat | jsonify }},
-      "item": "{{ site.url }}/categories/#{{ cat | uri_escape }}"
+      "item": "{{ site.url }}/categories/#{{ cat | append: '' | uri_escape }}"
     }
     {% endfor %}
     {% endif %}
