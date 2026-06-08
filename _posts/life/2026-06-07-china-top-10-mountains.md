@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "中国必爬十座山，你爬了几座？"
-categories: [reads]
+categories: [life]
 description: "黄山、泰山、华山、峨眉山、武功山、老君山、天门山、武夷山、武当山、庐山——十座各有风骨的名山，从海拔到看点一网打尽"
 keywords: 中国名山, 登山, 旅行, 黄山, 泰山, 华山, 峨眉山, 武功山, 老君山, 天门山, 武夷山, 武当山, 庐山
 tags:
