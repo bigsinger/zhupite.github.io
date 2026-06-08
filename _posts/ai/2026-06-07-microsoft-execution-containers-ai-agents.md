@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "深度解析 Microsoft Execution Containers（MXC）：跨平台 AI Agent 安全隔离基础设施"
-categories:[sec]
+categories: [sec]
 description: "微软 MXC 开源项目全面解析——Rust 原生沙箱引擎 + TypeScript SDK + 8 种隔离后端（Windows AppContainer/LXC/Bubblewrap/Seatbelt/MicroVM/Hyperlight 等）。涵盖架构设计、后端对比、JSON Schema 策略模型、SDK 集成模式及企业级安全栈。"
 keywords: Microsoft Execution Containers, MXC, AI Agent, 沙箱, 进程隔离, Rust, TypeScript SDK, Bubblewrap, AppContainer, LXC, Seatbelt, Agent 365
 tags:
