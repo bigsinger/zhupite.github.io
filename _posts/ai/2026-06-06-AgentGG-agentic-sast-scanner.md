@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "AgentGG：用 AI Agent 做代码安全审计的开源 SAST 扫描器"
-categories: [sec]
+categories: [ai]
 tags:
   - Agent安全
   - SAST

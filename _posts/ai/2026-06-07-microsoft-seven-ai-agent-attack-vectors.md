@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "微软披露 7 种新型 AI Agent 攻击向量——全部已在 Copilot 中验证"
-categories: [sec]
+categories: [ai]
 description: "微软安全团队发布全面研究报告，系统识别 7 种新型 AI Agent 攻击向量，涵盖身份欺骗、工具链污染、内存持久化、跨Agent污染、权限继承、回滚攻击和数据缓存中毒，所有攻击均已在 Copilot 和 Azure AI Agent 中验证非理论推演"
 keywords: AI Agent 攻击, 攻击向量, 微软安全, Agent 安全, Agent Identity Spoofing, Toolchain Poisoning, Memory Persistence
 tags:
