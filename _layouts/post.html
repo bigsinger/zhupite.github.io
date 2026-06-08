@@ -17,6 +17,14 @@ layout: default
         <a href="{{ site.url }}/categories/#{{ cat }}">{{ cat }}</a>
       </span>
       {% endfor %}
+      {% if page.tags and page.tags.size > 0 %}
+      <span class="meta-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        {% for tag in page.tags %}
+        <a href="{{ site.url }}/categories/#{{ tag }}">{{ tag }}</a>{% unless forloop.last %} · {% endunless %}
+        {% endfor %}
+      </span>
+      {% endif %}
       {% if site.components.word_count.enabled %}
       {% assign word_count = page.content | strip_html | strip_newlines | remove: " " | size %}
       {% assign read_time = word_count | divided_by: site.components.word_count.words_per_minute | plus: 1 %}
