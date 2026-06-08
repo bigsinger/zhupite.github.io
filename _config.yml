@@ -58,6 +58,7 @@ exclude:
   - scripts/
   - assets/css/theme-modern.css
   - web-articles/
+  - vendor/
   - "*.log"
   - "*.vtt"
   - "*_transcript.txt"
