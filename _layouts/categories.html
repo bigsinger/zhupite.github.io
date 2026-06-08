@@ -7,11 +7,17 @@ layout: default
     <h1 class="page-detail-title">{{ page.title | escape }}</h1>
   </header>
 
-  <div class="categories-index">
+  <div class="category-filter-bar" data-category-filter-bar hidden aria-live="polite">
+    <span class="category-filter-label">当前分类</span>
+    <strong data-category-filter-name></strong>
+    <a class="category-filter-reset" href="{{ site.url }}/categories/">查看全部</a>
+  </div>
+
+  <div class="categories-index" data-categories-index>
     {% for category in site.categories %}
     {% include category-color.liquid cat_name=category.first %}
 
-    <div class="category-group category-group-{{ cat_color }}">
+    <div class="category-group category-group-{{ cat_color }}" data-category="{{ category[0] | escape }}">
       <h2 id="{{ category[0] | escape }}" class="category-group-title">{{ category[0] | escape }}</h2>
       <div class="category-group-count">{{ category[1].size }} 篇文章</div>
       <ul class="category-post-list">

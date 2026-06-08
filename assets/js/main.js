@@ -8,6 +8,12 @@ document.addEventListener('DOMContentLoaded', function() {
   var checkIcon = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
   var codeIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>';
 
+  function markPageReady() {
+    document.body.classList.add('body-ready');
+    var bar = document.getElementById('pg-bar');
+    if (bar) bar.classList.add('bar-done');
+  }
+
   function setIconText(el, icon, text) {
     el.textContent = '';
     el.insertAdjacentHTML('afterbegin', icon);
@@ -51,9 +57,31 @@ document.addEventListener('DOMContentLoaded', function() {
         menuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
       });
       mobileNav.addEventListener('click', function(e) {
-        if (e.target && e.target.matches('a')) closeMobileMenu();
+        if (e.target && e.target.closest && e.target.closest('a')) closeMobileMenu();
       });
     }
+
+    Array.prototype.forEach.call(document.querySelectorAll('.header-nav-dropdown'), function(dropdown) {
+      var trigger = dropdown.querySelector('.header-nav-trigger');
+      if (!trigger) return;
+
+      function setExpanded(isOpen) {
+        trigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        dropdown.classList.toggle('is-open', isOpen);
+      }
+
+      dropdown.addEventListener('mouseenter', function() { setExpanded(true); });
+      dropdown.addEventListener('mouseleave', function() { setExpanded(false); });
+      dropdown.addEventListener('focusin', function() { setExpanded(true); });
+      dropdown.addEventListener('focusout', function(e) {
+        if (!dropdown.contains(e.relatedTarget)) setExpanded(false);
+      });
+      dropdown.addEventListener('keydown', function(e) {
+        if (e.key !== 'Escape') return;
+        setExpanded(false);
+        trigger.focus();
+      });
+    });
   }
 
   function setupGotop() {
@@ -582,6 +610,140 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  function decodeUrlValue(value) {
+    try {
+      return decodeURIComponent(String(value || '').replace(/\+/g, ' '));
+    } catch (e) {
+      return String(value || '');
+    }
+  }
+
+  function initCategoryPageFilter() {
+    var index = document.querySelector('[data-categories-index]');
+    if (!index) return;
+
+    var groups = Array.prototype.slice.call(index.querySelectorAll('.category-group[data-category]'));
+    if (!groups.length) return;
+
+    var bar = document.querySelector('[data-category-filter-bar]');
+    var nameTarget = document.querySelector('[data-category-filter-name]');
+
+    function getCategoryFromUrl() {
+      var fromQuery = '';
+      try {
+        fromQuery = new URLSearchParams(window.location.search).get('category') || '';
+      } catch (e) {}
+      if (fromQuery) return fromQuery.trim();
+      if (window.location.hash) return decodeUrlValue(window.location.hash.slice(1)).trim();
+      return '';
+    }
+
+    function findGroup(category) {
+      if (!category) return null;
+      for (var i = 0; i < groups.length; i++) {
+        if (groups[i].getAttribute('data-category') === category) return groups[i];
+      }
+      return null;
+    }
+
+    function render() {
+      var selected = getCategoryFromUrl();
+      var activeGroup = findGroup(selected);
+      var hasFilter = !!activeGroup;
+
+      groups.forEach(function(group) {
+        group.classList.toggle('is-hidden', hasFilter && group !== activeGroup);
+      });
+      index.classList.toggle('is-filtered', hasFilter);
+
+      if (bar) bar.hidden = !hasFilter;
+      if (nameTarget) nameTarget.textContent = hasFilter ? selected : '';
+    }
+
+    render();
+    window.addEventListener('hashchange', render);
+    window.addEventListener('popstate', render);
+  }
+
+  function initUtterances() {
+    var container = document.getElementById('utterances-container');
+    if (!container || container.getAttribute('data-utterances-loaded') === 'true') return;
+
+    var placeholder = document.getElementById('utterances-placeholder');
+    var fallback = document.getElementById('utterances-fallback');
+    var loaded = false;
+
+    function setLoadedState(showFallback) {
+      if (placeholder) placeholder.style.display = 'none';
+      if (fallback) fallback.style.display = showFallback ? 'block' : 'none';
+    }
+
+    function loadComments() {
+      if (loaded) return;
+      loaded = true;
+      container.setAttribute('data-utterances-loaded', 'true');
+
+      var repo = container.getAttribute('data-utterances-repo');
+      if (!repo) {
+        setLoadedState(true);
+        return;
+      }
+
+      var done = false;
+      var observer = null;
+      if (window.MutationObserver) {
+        observer = new MutationObserver(function() {
+          if (done) return;
+          if (container.querySelector('iframe.utterances-frame')) {
+            done = true;
+            setLoadedState(false);
+            observer.disconnect();
+          }
+        });
+        observer.observe(container, { childList: true, subtree: true });
+      }
+
+      setTimeout(function() {
+        if (done) return;
+        if (container.querySelector('iframe.utterances-frame')) {
+          done = true;
+          setLoadedState(false);
+          return;
+        }
+        done = true;
+        if (observer) observer.disconnect();
+        setLoadedState(true);
+      }, 8000);
+
+      var script = document.createElement('script');
+      script.src = 'https://utteranc.es/client.js';
+      script.async = true;
+      script.crossOrigin = 'anonymous';
+      script.setAttribute('repo', repo);
+      script.setAttribute('issue-term', container.getAttribute('data-utterances-issue-term') || 'pathname');
+      script.setAttribute('theme', container.getAttribute('data-utterances-theme') || 'github-light');
+      script.onerror = function() {
+        done = true;
+        if (observer) observer.disconnect();
+        setLoadedState(true);
+      };
+      container.appendChild(script);
+    }
+
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function(entries) {
+        if (!entries.some(function(entry) { return entry.isIntersecting; })) return;
+        io.disconnect();
+        loadComments();
+      }, { rootMargin: '400px 0px' });
+      io.observe(container);
+    } else {
+      window.addEventListener('load', function() {
+        setTimeout(loadComments, 800);
+      }, { once: true });
+    }
+  }
+
   var searchDataPromise = null;
 
   function getSearchJsonUrl() {
@@ -848,7 +1010,6 @@ document.addEventListener('DOMContentLoaded', function() {
     var sidebarResults = document.getElementById('search_results');
     var mobileBox = document.getElementById('mobileSearchBox');
     var mobileResults = document.getElementById('mobileSearchResults');
-    var isPostPage = !!document.querySelector('.post-detail');
     var searchPage = document.querySelector('[data-search-page]');
     var loaded = false;
     var dataCache = [];
@@ -882,8 +1043,7 @@ document.addEventListener('DOMContentLoaded', function() {
           renderSearchResults(sidebarResults, data, { term: term }, 20, '未找到相关内容');
         }, sidebarResults);
       });
-      if (!isPostPage) ensureData(function() {}, sidebarResults);
-      else sidebarInput.addEventListener('focus', function() { ensureData(function() {}, sidebarResults); }, { once: true });
+      sidebarInput.addEventListener('focus', function() { ensureData(function() {}, sidebarResults); }, { once: true });
     }
 
     if (mobileBox && mobileResults) {
@@ -925,6 +1085,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  markPageReady();
   setupHeaderActions();
   setupSearchOverlay();
   setupGotop();
@@ -935,5 +1096,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initTocHighlight();
   initTables();
   initArticleImages();
+  initCategoryPageFilter();
+  initUtterances();
   initSearch();
 });
