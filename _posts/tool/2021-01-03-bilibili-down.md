@@ -8,13 +8,135 @@ tags:		[bilibili,哔哩哔哩,视频,视频下载]
 
 **关键词**：哔哩哔哩视频下载，下载哔哩哔哩视频，视频下载，下载bilibili视频，B站视频下载
 
-
+> 📅 **本文更新记录**：2021年1月首次发布；2026年6月更新最新方案（原内容保留为历史章节）
 
 ![视频下载工具](https://pic2.zhimg.com/v2-b0b081c501ddf7ab0f02e812d0be6b5c_1440w.jpg?source=172ae18b)
 
-# 在线直接下载
+本文汇总B站（bilibili）视频下载的各种方法。B站API频繁更新，老工具可能因接口变更失效，以下将2025-2026年仍在活跃维护的工具放在前面，老方法保留在后供参考。
 
-## V视频助手
+---
+
+# 最新方案（2026年更新）
+
+以下为截至2026年6月仍在积极维护的B站视频下载工具。
+
+## BBDown（命令行首选）
+
+[BBDown](https://github.com/nilaoda/BBDown) 是B站专用的命令行下载器，C#编写，功能最为全面。与本文2021年首次提到的BBDown是同一项目（持续维护至今）。
+
+- **Stars**: 13,877
+- **最新活动**: 2026年6月仍有推送
+- **类型**: 命令行（CLI）
+- **平台**: Windows / Linux / macOS
+- **协议**: MIT（开源免费）
+
+### 核心特性
+
+- 支持4K/8K/HDR/杜比视界
+- 支持音视频分离、多线程下载
+- 支持登录Cookie / 扫码登录
+- 可下载弹幕、字幕、封面、互动视频
+- 高度可脚本化，适合自动化批量下载
+- 支持番剧、课程、收藏夹、UP主投稿批量下载
+
+### 快速上手
+
+```bash
+# Windows直接下载exe，命令行执行
+BBDown "https://www.bilibili.com/video/BV1xxx"
+
+# 使用Cookie登录（获取高清画质）
+BBDown --cookie "SESSDATA=xxx" "BV1xxx"
+
+# 下载整个收藏夹
+BBDown "https://www.bilibili.com/medialist/play/xxx"
+
+# 下载弹幕/字幕
+BBDown --danmaku "BV1xxx"
+```
+
+## downkyicore（图形界面推荐）
+
+[downkyicore](https://github.com/yaobiao131/downkyicore) 是原版 downkyi（哔哩下载姬）的跨平台重构版，C#编写，支持Windows/macOS/Linux。
+
+- **Stars**: 7,346
+- **类型**: 图形界面（GUI）
+- **协议**: GPL-3.0（开源免费）
+
+### 特点
+
+- 支持8K/HDR/杜比视界
+- 批量下载UP主投稿、收藏夹、番剧、课程
+- 内置工具箱（音视频提取、去水印等）
+- 扫码登录获取会员画质
+- 跨平台（Windows/macOS/Linux）
+
+> ⚠️ 原版 [downkyi](https://github.com/leiurayer/downkyi)（Stars 24,362）最后更新2025年7月，建议优先使用重构版 **downkyicore**。
+
+## mediago（跨平台通用下载器）
+
+[mediago](https://github.com/caorushizi/mediago) 是一个跨平台视频下载器，内置视频嗅探引擎，支持解析m3u8/HLS流。
+
+- **Stars**: 8,999
+- **最新活动**: 2026年6月
+- **类型**: 图形界面（GUI）
+- **协议**: MIT（开源免费）
+
+支持B站以外还支持YouTube、抖音等数十个网站。
+
+## Bili23-Downloader（轻量跨平台）
+
+[Bili23-Downloader](https://github.com/ScottSloan/Bili23-Downloader) 是一款开源跨平台的B站专用下载工具。
+
+- **Stars**: 4,742
+- **最新活动**: 2026年6月
+- **类型**: 图形界面（GUI）
+- **协议**: GPL-3.0
+
+特点：多线程加速、音视频分离、弹幕元数据获取、自定义命名、UP主投稿/收藏夹批量下载。
+
+## BilibiliDown（全平台GUI）
+
+[BilibiliDown](https://github.com/nICHEnnnnm/BilibiliDown) - Stars 4,939，活跃维护，支持稍后再看、收藏夹、UP主视频批量下载。
+
+## Lux（通用命令行下载器）
+
+[lux](https://github.com/iawia002/lux)（Stars 31,387，Go语言）是一个通用型视频下载CLI，支持B站、YouTube、抖音、腾讯视频、爱奇艺、优酷等数十个网站。命令简洁高效，适合脚本集成。
+
+```bash
+# 下载B站视频
+lux "https://www.bilibili.com/video/BV1xxx"
+
+# 列表所有可用画质
+lux -i "URL"
+```
+
+## yutto（番剧/课程下载）
+
+[yutto](https://github.com/yutto-dev/yutto)（Stars 1,874，Python编写）是一款专注于B站番剧、课程下载的工具，支持弹幕下载和多线程。
+
+## 推荐路线（2026年6月）
+
+| 使用场景 | 推荐方案 |
+|---------|---------|
+| 图形界面、功能全面 | **downkyicore** 或 **Bili23-Downloader** |
+| 命令行/自动化批量 | **BBDown**（B站专用） |
+| 多平台通用下载 | **lux**（Go语言，全平台） |
+| 番剧/课程/收藏夹 | **BBDown** 或 **yutto** |
+| 偶尔下载一两个视频 | **mediago** 或浏览器插件 |
+| NAS/emby媒体库 | **bilibili-video-downloader**（带nfo刮削） |
+
+---
+
+> **⚠️ 注意**：以下为本文2021年首次发布时的旧方案，部分工具可能已停更或失效，保留仅供历史参考。
+
+---
+
+# 历史方案（2021年记录）
+
+## 在线直接下载
+
+### V视频助手
 
 - [V视频助手\-一键下载在线视频\(支持VIP\)](http://v.ranks.xin/)
 
@@ -26,63 +148,47 @@ tags:		[bilibili,哔哩哔哩,视频,视频下载]
 
 3. 在解析结果里，可以看到解析出的结果：**【高清】点击预览并保存**，**下载超清/蓝光** 。可以直接免费点击高清的结果进行下载，超清蓝光的结果下载需要注册。
 
-   
-
 该方法有个优点是直接下载的是MP4格式的视频，不需要额外进行qsv视频转mp4了，比较省事。
 
 缺点是下载速度有时不是很好，该方法比较适合短小的视频，毕竟V视频助手也需要转码，比较费时，对于比较长的视频不太建议使用该方法。
 
-
-
-## tool.lu在线工具
+### tool.lu在线工具
 
 [下载地址解析 \- 在线工具](https://tool.lu/videoparser/)
 
 使用方法：输入哔哩哔哩视频网址，点击**获取下载地址**按钮，出现结果后直接点击，会打开新的网页播放视频，直接另存为保存即可，保存的也是mp4格式的视频。
 
-
-
-## 硕鼠
+### 硕鼠
 
 [FLVCD \- 硕鼠官网\|FLV下载\|视频下载](http://www.flvcd.com/)
 
 提示：因接到哔哩哔哩公司要求，目前已停止了对哔哩哔哩视频的解析支持。
 
+## 三方视频下载工具
 
-
-# 三方视频下载工具
-
-## Bilibili-Evolved
+### Bilibili-Evolved
 
 [ZSAIm/VideoCrawlerEngine](https://github.com/the1812/Bilibili-Evolved): 强大的哔哩哔哩增强脚本: 下载视频, 音乐, 封面, 弹幕 / 简化直播间, 评论区, 首页 / 自定义顶栏, 删除广告, 夜间模式 / 触屏设备支持
 
-
-
-## downkyi
+### downkyi（已迁移至 downkyicore）
 
 [downkyi](https://github.com/leiurayer/downkyi) 哔哩下载姬downkyi，B站视频下载工具，支持批量下载，支持4K，支持解除地区限制下载，提供工具箱（音视频提取、去水印等）。
 
+> ⚠️ 截至2026年，原版downkyi最后更新2025年7月，建议使用跨平台重构版 **downkyicore**。
 
-
-## BiliDuang
+### BiliDuang
 
 [BiliDuang](https://github.com/kengwang/BiliDuang) ： Bilibili 哔哩哔哩视频下载 C# GUI版 - 支持BV 支持4K 支持地区限制下载 支持互动视频 支持无水印 支持弹幕/字幕下载转换 支持课程下载
 
-
-
-## VideoCrawlerEngine
+### VideoCrawlerEngine
 
 [ZSAIm/VideoCrawlerEngine](https://github.com/ZSAIm/VideoCrawlerEngine): 起源于旧项目爱奇艺解析器(iqiyi-parser)在开发、维护和扩展的过程中遇到的一些问题，而实现的一个基于任务流式的可视化爬虫引擎。引擎的执行单元是节点。脚本节点(script)作为根节点来完成对节点和流程的描述，经由任务节点(task)解析流程描述并生成节点的执行队列，最后交由工作者执行池处理。整个过程可视可控，所有节点处理器都以插件的形式导入，以最大程度实现易扩展性。
 
-
-
-## BBDown
+### BBDown（原版）
 
 [nilaoda/BBDown: Bilibili Downloader. 一款命令行式哔哩哔哩下载器.](https://github.com/nilaoda/BBDown)
 
 ​	代码有点小乱，其实c#代码重构得好的话，写起来很顺心看起来也很赏心悦目，不过这不影响该软件是个很好的工具，还是要感谢作者分享。翻完了issue主要问题还是使用方面较多，其实如果不用命令行的方式，用GUI方式可以解决很多问题，用C#写界面其实也很快。
-
-
 
 ​	在界面上可以提供一个初始化入口，在工具第一次运行的时候就自动进行一次检查，例如提示配置FFmpeg（当然也可以自动下载部署），可以解决很一大部门用户的环境配置问题。
 
@@ -90,13 +196,11 @@ tags:		[bilibili,哔哩哔哩,视频,视频下载]
 
 其实作者在回答这些最基础的环境配置和使用方式问题较多，如何改变使用方式可以很大程度减少这类问题，使用的用户会更加多。
 
+> ✅ 截至2026年，BBDown仍在活跃维护（最新版本2026年6月），建议直接使用最新版。
 
+## m3u8视频源下载
 
-# m3u8视频源下载
-
-这个是我目前为止发现最为专业的下载方式，因此操作方法可能也会比较复杂一些，需要借助的工具：谷歌浏览器、[猫抓插件](https://chrome.google.com/webstore/detail/jfedfbgedapdagkghmgibemcoggfppbb) （谷歌打不开的话可以从GitHub下载： [猫抓 chrome媒体嗅探插件](https://github.com/xifangczy/cat-catch/releases)）、[m3u8 downloader](https://github.com/nilaoda/N_m3u8DL-CLI)。
-
-
+这个是我目前为止发现最为专业的下载方式，因此操作方法可能也会比较复杂一些，需要借助的工具：谷歌浏览器、[猫抓插件](https://chrome.google.com/webstore/detail/jfedfbgedapdagkghmgibemcoggfppbb) （谷歌打不开的话可以从GitHub下载： [猫抓 chrome媒体嗅探插件](https://github.com/xifangczy/cat-catch/releases)）、[N_m3u8DL-CLI](https://github.com/nilaoda/N_m3u8DL-CLI)（已升级为跨平台版 [N_m3u8DL-RE](https://github.com/nilaoda/N_m3u8DL-RE)）。
 
 **m3u8 downloader**的可执行程序名叫：**N_m3u8DL-CLI**，只有一个主程序文件，依赖ffmpeg.exe（这个文件网上很容易找到下载，也可以在[N_m3u8DL-CLI使用说明书](https://nilaoda.github.io/N_m3u8DL-CLI/) 上面直接点击下载）。
 
@@ -125,49 +229,28 @@ N_m3u8DL使用比较简单，下面详细说下步骤：
 3. 打开N_m3u8DL，命令行中直接复制上一步骤复制的m3u8视频源，不出错的话，程序就会自动解析视频源并下载了。
 4. 等待下载完成，视频默认会保存在N_m3u8DL同目录下的**Downloads**文件夹内，视频格式也是mp4格式的。
 
-
-
 - **优点**：直接下载mp4格式，视频清晰度可以自由选择。
 - **缺点**：专业性较高，环境配置起来比较复杂。只能手动下载，比较难以批量化操作，技术能力好的可以把需要的各个工具紧密连接起来，做成自动批量化操作。
 
-
-
 作者还提供了一个建议的GUI界面版，见：[SimpleGUI · N\_m3u8DL\-CLI文档](https://nilaoda.github.io/N_m3u8DL-CLI/SimpleGUI.html)，有需要的可以体验下。
-
-
 
 [使用Javascript获取m3u8](https://nilaoda.github.io/N_m3u8DL-CLI/GetM3u8.html)，方便快速获取m3u8。
 
 [LinetvParser 一款解析Linetv的程序，可导出BAT文件供`N_m3u8DL-CLI`下载](https://nilaoda.github.io/N_m3u8DL-CLI/LinetvParser.html)，貌似不支持哔哩哔哩视频。
 
-
-
-
-
-
-
-# 哔哩哔哩视频客户端下载
+## 哔哩哔哩视频客户端下载
 
 当然也可以使用哔哩哔哩官网提供的视频客户端下载视频，下载地址：[哔哩哔哩视频官方最新版下载](http://app.iqiyi.com/pc/player/index.html)
 
-
-
-## 操作步骤
+### 操作步骤
 
 ​	安装好客户端后，搜索任意一个视频即可进行视频下载，下载的时候会弹出一个对话框，主要是用来选择视频的清晰度的，提供了三种清晰度：**标清**、**高清**、**超清**。视频的清晰度越高，体积越大，下载的时间也会长一些，大家可以根据实际需要进行下载。
 
-
-
 ​	注意，使用哔哩哔哩官网视频客户端下载的视频，是专有视频格式是哔哩哔哩专用的加密视频，只能用哔哩哔哩视频客户端进行播放，使用其他播放器是无法播放的（迅雷播放器、暴风影音播放器、potplayer均不行）。
-
-
 
 如果想要使用其他播放器播放，或者放到手机里播放，需要先将下载好的哔哩哔哩视频转换为MP4格式视频。
 
 这里推荐一款软件服务：[全能视频转换专家\-转换任意格式视频](http://www.xcxzq.com)，可以使用该软件进行转换，也可以联系该软件客服，可以提供人工转码。也提供人工直接代下MP4视频服务。
 
-
-
 - **优点**：可以批量化，比较适合需要批量下载视频的场景，先批量下载好哔哩哔哩视频，然后再一次性批量转换视频到mp4视频。
 - **缺点**：视频下载时不能直接使用视频网址，有个折中的办法是在浏览器中登录哔哩哔哩视频并播放一下视频，记录下播放历史，然后在视频客户端中找到播放历史中的视频点击下载。但如果是下载剧集就非常方便了。
-
