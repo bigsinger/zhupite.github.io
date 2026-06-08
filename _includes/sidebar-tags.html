@@ -3,7 +3,7 @@
   <div class="tags-cloud">
     {% capture tags_raw %}{% for tag in site.tags %}{{ tag[1].size | prepend: "0000" | slice: -4, 4 }}||{{ tag[0] }}:::{% endfor %}{% endcapture %}
     {% assign tags_sorted = tags_raw | split: ":::" | sort | reverse %}
-    {% for item in tags_sorted limit: 10 %}
+    {% for item in tags_sorted limit: 49 %}
     {% assign parts = item | split: "||" %}
     {% assign name = parts[1] %}
     {% if name != "" %}
