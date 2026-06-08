@@ -4,7 +4,7 @@ title: "ugly-avatar：API 友好的『丑陋头像』生成器，3,000+ Stars"
 categories: [tool]
 description: "浏览器端随机生成『丑萌』风格人物头像的 JavaScript 工具，提供在线 Demo 和 API，适合作为默认头像/测试数据/趣味应用的素材来源。"
 keywords: ugly-avatar, 头像生成, 随机头像, 默认头像, JavaScript, Canvas
-tags:
+tags: [tool, open-source]
   - ugly-avatar
   - 头像生成
   - 随机生成

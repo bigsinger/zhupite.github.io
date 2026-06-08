@@ -4,7 +4,7 @@ title: "Micro-Wheeled_leg-Robot：全球最小的桌面级双轮腿机器人，3
 categories: [tool]
 description: "开源桌面级双轮腿机器人项目，基于 ESP32 + simpleFOC 驱动，支持 WiFi 网页遥控。包含完整机械结构（3D打印/CNC）、PCB 设计（LCEDA）和 Arduino 源码。"
 keywords: 轮腿机器人, 桌面机器人, ESP32, simpleFOC, 双轮腿, 开源机器人, 平衡机器人, Arduino
-tags:
+tags: [tool, open-source]
   - 机器人
   - ESP32
   - 开源硬件

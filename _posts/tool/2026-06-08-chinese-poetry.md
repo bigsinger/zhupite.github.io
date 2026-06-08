@@ -1,5 +1,6 @@
 ---
 title: chinese-poetry —— 最全中文诗歌古典文集开源数据库
+description: "中华诗词数据库是 GitHub 51,718 Stars 的开源项目，以 JSON 格式提供唐诗 5.5 万首、宋诗 26 万首、宋词 2.1 万首等结构化诗词数据，是中文 NLP 和诗词类 App 的核心数据源。"
 date: 2026-06-08 00:00:00 +0800
 categories: [tool]
 tags: [诗词, 数据库, 开源数据, NLP, JSON]

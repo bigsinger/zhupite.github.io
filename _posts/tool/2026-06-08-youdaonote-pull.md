@@ -4,7 +4,7 @@ title: "youdaonote-pull：有道云笔记一键导出备份脚本"
 categories: [tool]
 description: "Python 脚本一键导出/备份有道云笔记所有笔记。自动转换为 Markdown 格式，支持图床图片下载或上传到 SM.MS。全过程本地运行，无需担心数据安全。"
 keywords: youdaonote-pull, 有道云笔记, 笔记导出, 笔记备份, Python, Markdown转换
-tags:
+tags: [tool, open-source]
   - 有道云笔记
   - 笔记导出
   - Python

@@ -4,7 +4,7 @@ title: "superpowers-zh：AI 编程超能力中文增强版 —— 让 18 款 AI 
 categories: [ai]
 description: "superpowers（159k+⭐）完整汉化 + 6 个中国原创 skills，支持 Claude Code / Copilot CLI / Hermes Agent / Cursor 等 18 款 AI 编程工具。npx superpowers-zh 一条命令自动识别并安装 20 个工作方法论技能。"
 keywords: superpowers, superpowers-zh, AI编程, Claude Code, Copilot CLI, Hermes Agent, skills, 中文增强, MCP
-tags:
+tags: [ai, open-source]
   - superpowers
   - AI编程
   - skills

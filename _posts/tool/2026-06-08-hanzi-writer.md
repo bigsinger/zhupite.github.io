@@ -1,5 +1,6 @@
 ---
 title: hanzi-writer —— 开源汉字笔画动画 JavaScript 库
+description: "Hanzi Writer 是开源汉字笔画动画 JavaScript 库，基于 SVG 渲染汉字的正确笔画顺序，支持简繁体、练习测验模式，是中文教育类网站和 App 的理想选择。"
 date: 2026-06-08 00:00:00 +0800
 categories: [tool]
 tags: [前端开发, 中文教育, 汉字, 笔画动画, SVG]

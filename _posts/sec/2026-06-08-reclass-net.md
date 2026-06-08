@@ -1,6 +1,7 @@
 ---
 layout: post
 title: 『ReClass.NET』——.NET 平台类结构逆向重构工具
+description: "ReClass.NET 是 .NET 平台的类/结构体逆向重构工具，用于在进程内存中重建 C++ 类布局，辅助游戏逆向和恶意软件分析中的数据结构还原。"
 date: 2026-06-08 10:50:00 +0800
 categories: [sec]
 tags: [reverse-engineering, memory-analysis, class-reconstruction, dotnet, game-hacking]

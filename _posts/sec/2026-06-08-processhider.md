@@ -1,5 +1,6 @@
 ---
 title: ProcessHider — Windows 进程隐藏/伪装工具（安全研究用）
+description: "ProcessHider 是一款 Windows 进程隐藏/伪装工具（安全研究用途），通过 DKOM/断链等内核技术实现进程隐身，适用于安全研究与渗透测试教育场景。"
 categories: [sec]
 tags: [processhider, rootkit, dkom, process-hiding, windows-kernel]
 ---

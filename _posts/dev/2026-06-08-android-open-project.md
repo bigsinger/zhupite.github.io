@@ -1,5 +1,6 @@
 ---
 title: 『Android 开源项目分类汇总』—— Trinea/android-open-project
+description: "android-open-project 是 Trinea 维护的 Android 开源项目分类汇总（31,830 Stars），系统化整理数百个高质量开源项目，涵盖自定义控件、工具库、完整项目等五大类。"
 categories: [dev]
 tags: [android, open-source, collection, trinea, dev-tools]
 ---

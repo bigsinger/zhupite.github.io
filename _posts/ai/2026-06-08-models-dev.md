@@ -4,7 +4,7 @@ title: "Models.dev：AI 模型数据库的开源方案 — 统一查询所有模
 categories: [ai]
 description: "Models.dev 是一个收录了 200+ 模型、覆盖 Anthropic/OpenAI/Google 等主流厂商的开源 AI 模型数据库，提供统一 API 查询模型规格、定价、上下文窗口和基准评测分数"
 keywords: Models.dev, AI Model Database, open-source, model spec, pricing, TOML, API
-tags:
+tags: [ai, open-source]
   - Models.dev
   - AI Model Database
   - 开源

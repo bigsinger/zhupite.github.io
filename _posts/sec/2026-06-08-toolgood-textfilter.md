@@ -1,6 +1,7 @@
 ---
 layout: post
 title: 『ToolGood.TextFilter』——开源敏感词过滤与内容审核引擎
+description: "ToolGood.TextFilter 是一款多语言敏感词过滤引擎，支持 C#/Java/Python 等多种语言绑定，基于 AC 自动机实现高性能敏感词检测与内容审核。"
 date: 2026-06-08 10:10:00 +0800
 categories: [sec]
 tags: [content-filter, sensitive-words, csharp, java, python, text-audit]

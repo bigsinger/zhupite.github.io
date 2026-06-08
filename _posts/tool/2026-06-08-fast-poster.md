@@ -1,5 +1,6 @@
 ---
 title: fast-poster —— 快速海报生成与多语言 SDK 自动生成工具
+description: "fast-poster 是快速海报生成工具，提供可视化编辑界面和多语言 SDK 自动生成，支持 Docker 一键部署，适合电商海报、证书批量生产、二维码推广海报等场景。"
 date: 2026-06-08 00:00:00 +0800
 categories: [tool]
 tags: [海报生成, SDK生成, 可视化编辑, Docker, 电商]

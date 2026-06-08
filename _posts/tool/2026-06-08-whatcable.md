@@ -4,7 +4,7 @@ title: "WhatCable：macOS 菜单栏神器 —— 一眼看清你的 USB-C 线到
 categories: [tool]
 description: "macOS 菜单栏应用，用日常英语告诉你 Mac 上每根 USB-C 线的真实能力——充电功率、数据传输速率、雷电协议版本。附 CLI 命令行工具和 Homebrew 安装方式。"
 keywords: WhatCable, USB-C, macOS, Thunderbolt, 充电诊断, USB-PD, 菜单栏工具, Swift
-tags:
+tags: [tool, open-source]
   - WhatCable
   - macOS
   - USB-C

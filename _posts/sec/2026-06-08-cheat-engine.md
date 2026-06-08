@@ -1,6 +1,7 @@
 ---
 layout: post
 title: 『Cheat Engine』——游戏修改与内存调试领域的瑞士军刀
+description: "Cheat Engine 是专注于游戏修改和内存调试的完整开发环境，提供内存扫描、内置调试器、反汇编器、代码注入、Lua 脚本引擎等强大功能，是逆向工程学习经典工具。"
 date: 2026-06-08 10:40:00 +0800
 categories: [sec]
 tags: [game-hacking, memory-scanning, reverse-engineering, debugger, lua]

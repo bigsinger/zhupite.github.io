@@ -1,5 +1,6 @@
 ---
 title: youtube-dl —— 开源视频下载领域的标杆项目
+description: "youtube-dl 是开源视频下载领域的里程碑项目（140,459 Stars），支持从 YouTube 及 1000+ 网站下载视频，虽原生开发放缓但其活跃 Fork yt-dlp 已接棒。"
 date: 2026-06-08 00:00:00 +0800
 categories: [tool]
 tags: [视频下载, YouTube, CLI, Python, 已停更]

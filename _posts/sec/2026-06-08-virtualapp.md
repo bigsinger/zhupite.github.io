@@ -1,5 +1,6 @@
 ---
 title: VirtualApp — Android 虚拟化引擎，应用多开与沙箱
+description: "VirtualApp 是 Lody 开发的 Android 虚拟化引擎，在手机内创建独立虚拟空间运行 App，支持应用多开、沙箱隔离、Intent 劫持等，个人版 GPL 开源。"
 categories: [sec]
 tags: [virtualapp, android-virtualization, app-cloning, sandbox, lody]
 ---

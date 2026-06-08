@@ -1,5 +1,6 @@
 ---
 title: EasySpider —— 免费可商用的可视化网页爬虫工具
+description: "EasySpider 是一款完全免费（含商业用途）的可视化浏览器爬虫工具，无需编写代码即可通过图形界面设计爬虫任务，支持定时执行、OCR 识别、代理 IP，43,938 Stars。"
 date: 2026-06-08 00:00:00 +0800
 categories: [tool]
 tags: [爬虫, 可视化, 数据采集, 无代码, RPA]

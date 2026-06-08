@@ -4,7 +4,7 @@ title: "Cordys CRM：飞致云出品的新一代开源 AI CRM 系统"
 categories: [tool]
 description: "飞致云（1Panel 团队）推出的开源 AI CRM 系统，覆盖线索到回款（L2C）全流程管理，集成 DataEase BI 分析引擎、CRM Skills AI 接口、MCP Server，为私有化部署而生。"
 keywords: Cordys CRM, CRM系统, 开源CRM, AI CRM, 飞致云, 1Panel, L2C, DataEase
-tags:
+tags: [tool, open-source]
   - Cordys CRM
   - 飞致云
   - CRM

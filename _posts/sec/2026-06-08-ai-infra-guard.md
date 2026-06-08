@@ -2,7 +2,7 @@
 layout: post
 categories: [sec]
 title: "腾讯朱雀AIG(AI-Infra-Guard)：AI红队安全测试平台"
-tags:
+tags: [sec, open-source]
   - AI安全
   - 红队测试
   - Agent安全

@@ -1,5 +1,6 @@
 ---
 title: The-New-M3U8-Downloader —— M3U8 视频下载工具（已停更）
+description: "The-New-M3U8-Downloader 是基于 C# 的 M3U8 流媒体下载工具（已停更），推荐使用作者新作 N_m3u8DL-CLI。本文回顾其功能并介绍当前推荐替代方案。"
 date: 2026-06-08 00:00:00 +0800
 categories: [tool]
 tags: [视频下载, M3U8, Windows, C#, 停更项目]
