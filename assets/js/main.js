@@ -70,8 +70,15 @@ document.addEventListener('DOMContentLoaded', function() {
         dropdown.classList.toggle('is-open', isOpen);
       }
 
-      dropdown.addEventListener('mouseenter', function() { setExpanded(true); });
-      dropdown.addEventListener('mouseleave', function() { setExpanded(false); });
+      var closeTimer = null;
+
+      dropdown.addEventListener('mouseenter', function() {
+        if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
+        setExpanded(true);
+      });
+      dropdown.addEventListener('mouseleave', function() {
+        closeTimer = setTimeout(function() { setExpanded(false); }, 200);
+      });
       dropdown.addEventListener('focusin', function() { setExpanded(true); });
       dropdown.addEventListener('focusout', function(e) {
         if (!dropdown.contains(e.relatedTarget)) setExpanded(false);
