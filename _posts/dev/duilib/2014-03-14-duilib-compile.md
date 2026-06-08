@@ -1,11 +1,11 @@
 ---
 layout: 	post
 category:	"dev"
-title:		如何编译duilib
+title: "duilib编译方法"
 tags:		[duilib,ui]
 date:		2014-03-14
 ---
-
+# duilib编译方法
 
 ## 编译错误：
 ```None

@@ -1,12 +1,11 @@
 ---
 layout: 	post
 category:	"dev"
-title:		"Duilib中list控件支持ctrl和shif多行选中的实现"
+title: "duilib中List控件支持Ctrl和Shift多行选中的实现"
 tags:		[duilib,ui]
 date:		2017-09-08
 ---
-
-# 一、 由于diulib不支持list控件的多选修改。下面是修改的原理。
+# duilib中List控件支持Ctrl和Shift多行选中的实现
 Ctrl+左键多选，按下Ctrl键点击，主要有三种情况：
 - 选中一个
 - 再点击，又选中一个

@@ -1,9 +1,10 @@
 ---
 layout: 	post
 category:	"dev"
-title:		可以考虑将DUILIB皮肤工程添加到VisualStudio的工程向导里去制作代码模板
+title: "duilib将皮肤工程添加到VS工程向导"
 tags:		[duilib,ui]
 ---
+# duilib将皮肤工程添加到VS工程向导
 
 参考：
 ref:http://www.codeproject.com/Articles/43653/Visual-C-Express-Custom-Wizard

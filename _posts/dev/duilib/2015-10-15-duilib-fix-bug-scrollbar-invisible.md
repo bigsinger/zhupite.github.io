@@ -1,9 +1,10 @@
 ---
 layout:     post
 category: 	"dev"
-title:      "duilib问题解决：滚动条不见了"
+title: "duilib问题解决：滚动条不见了"
 tags:		[duilib,ui]
 ---
+# duilib问题解决：滚动条不见了
 
 如图，运行后RichEdit的滚动条显示如下：
 

@@ -1,10 +1,11 @@
 ---
 layout:     post
 category: 	"dev"
-title:      "DuiDesigner修改：增加对RichEdit控件属性的保存"
+title: "duilib DuiDesigner修改：增加对RichEdit控件属性的保存"
 tags:		[duilib,ui,DuiDesigner]
 date:		2015-10-15
 ---
+# duilib DuiDesigner修改：增加对RichEdit控件属性的保存
 
 当资源中有RichEdit时，无论怎么样修改其属性，最终保存时并不会被写到XML中去，仅仅是一个节点：<RichEdit />，属性一概没有保存。
 

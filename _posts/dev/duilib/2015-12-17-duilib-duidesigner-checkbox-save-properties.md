@@ -1,10 +1,11 @@
 ---
 layout: 	post
 category:	"dev"
-title:		DuiDesigner修改：增加对控件CheckBox属性的保存
+title: "duilib DuiDesigner修改：增加CheckBox属性保存"
 tags:		[duilib,duidesigner]
 date:   2015-12-17	
 ---
+# duilib DuiDesigner修改：增加CheckBox属性保存
 
 这次修改主要是DuiDesigner工程，duilib工程无须任何修改。
 

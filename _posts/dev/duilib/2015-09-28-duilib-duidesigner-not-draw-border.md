@@ -1,9 +1,10 @@
 ---
 layout:     post
 category: 	"dev"
-title:      DuiDesigner改进：不绘制绿色边框
+title: "duilib DuiDesigner改进：不绘制绿色边框"
 tags:		[duilib,ui,duidesigner]
 ---
+# duilib DuiDesigner改进：不绘制绿色边框
 
 默认效果如上图，想修改为下图：
 

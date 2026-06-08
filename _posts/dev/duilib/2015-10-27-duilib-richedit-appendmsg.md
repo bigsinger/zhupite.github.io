@@ -1,10 +1,11 @@
 ---
 layout: 	post
 category:	"dev"
-title:		关于duilib控件richedit的appendmsg
+title: "duilib控件RichEdit的AppendMsg"
 tags:		[duilib,ui]
 date:		2015-10-27
 ---
+# duilib控件RichEdit的AppendMsg
 
 ```c
     if (m_logOutCtrl == NULL) return;

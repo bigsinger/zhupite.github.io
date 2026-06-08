@@ -1,10 +1,12 @@
 ---
 layout: 	post
 category:	"dev"
-title:		duilib在界面中创建自定义控件
+title: "duilib在界面中创建自定义控件"
 tags:		[duilib,ui]
 date:		2015-10-20
 ---
+# duilib在界面中创建自定义控件
+
 ```c
 CControlUI* CDuiFrameWnd::CreateControl( LPCTSTR pstrClassName )
 {

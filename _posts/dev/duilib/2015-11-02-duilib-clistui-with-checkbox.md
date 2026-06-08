@@ -1,10 +1,11 @@
 ---
 layout:     post
 category: 	"dev"
-title:      "duilib对CListUI的改造：支持checkbox"
+title: "duilib对CListUI的改造：支持CheckBox"
 tags:		[duilib,ui,DuiDesigner]
 date:		2015-11-02
 ---
+# duilib对CListUI的改造：支持CheckBox
 
 参考：http://blog.csdn.net/tragicguy/article/details/21893065
 

@@ -1,10 +1,11 @@
 ---
 layout:     post
 category: 	"dev"
-title:      "DUILIB界面设计技巧：如何设计可切换的TAB页面"
+title: "duilib界面设计技巧：如何设计可切换的TAB页面"
 tags:		[duilib,ui]
 date:		2015-09-29
 ---
+# duilib界面设计技巧：如何设计可切换的TAB页面
 
 如图所示的窗口TAB页面如何设计呢？
 

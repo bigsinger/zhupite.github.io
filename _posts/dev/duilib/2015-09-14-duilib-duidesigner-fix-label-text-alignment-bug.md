@@ -1,10 +1,10 @@
 ---
 layout:     post
 category:	"dev"
-title:      "DuiDesigner控件Label无法设置文本对齐属性的BUG解决方案"
+title: "duilib DuiDesigner：修复Label无法设置文本对齐属性的BUG"
 tags:		[duilib,ui,duidesigner]
 ---
-
+# duilib DuiDesigner：修复Label无法设置文本对齐属性的BUG
 
 1. 修复duilib资源编辑器的bug：label、按钮控件无法设置除了center之外的文本对齐方式
 2. 修复duilb文本显示对齐方式的逻辑错误代码，DT_LEFT和DT_RIGHT必须配合属性DT_SINGLELINE使用

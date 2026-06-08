@@ -1,11 +1,11 @@
 ---
 layout: 	post
 category:	"dev"
-title:		关于duilib的字体font
+title: "duilib字体说明"
 tags:		[duilib,ui]
 date:	2015-10-20	
 ---
-
+# duilib字体说明
 
 前面介绍了Default属性，属于全局属性，而字体也是全局属性，也是定义到一级子节点。
 ```xml

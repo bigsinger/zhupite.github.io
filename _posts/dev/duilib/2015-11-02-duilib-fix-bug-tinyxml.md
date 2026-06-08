@@ -1,10 +1,11 @@
 ---
 layout:     post
 category: 	"dev"
-title:      "修复duilib使用的tinyxml的一个BUG"
+title: "duilib修复：TinyXML的一个BUG"
 tags:		[duilib,tinyxml]
 date:		2015-11-02
 ---
+# duilib修复：TinyXML的一个BUG
 
 以RichListRes为例，用修改后的DuiDesigner重新载入xml皮肤配置文件，稍作修改并撤销然后保存，为的是重新保存xml文件，运行RichListRes工程会崩溃。
 

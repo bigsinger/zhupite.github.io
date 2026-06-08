@@ -1,9 +1,10 @@
 ---
 layout: 	post
 category:	"dev"
-title:		duilib保存属性的代码CLayoutManager::SaveProperties
+title: "duilib保存属性的代码CLayoutManager::SaveProperties"
 tags:		[duilib,ui]
 ---
+# duilib保存属性的代码CLayoutManager::SaveProperties
 
 ```c
 void CUIProperties::InitPropList()

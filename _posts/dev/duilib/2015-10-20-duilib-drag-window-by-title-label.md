@@ -1,10 +1,12 @@
 ---
 layout: 	post
 category:	"dev"
-title:		duilib设置标题栏区域调整窗口大小
+title: "duilib设置标题栏区域调整窗口大小"
 tags:		[duilib,ui]
 date:		2015-10-20
 ---
+# duilib设置标题栏区域调整窗口大小
+
 ### 1. 怎么设置标题栏区域？
 只需在XML的Window节点加上caption="0,0,0,32"即可，其中32是指从窗口顶部开始，往下32个像素的区域，都设置成标题栏，这样就可以点击标题栏拖动窗口，或者双击最大化了。
 ```xml

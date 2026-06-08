@@ -1,9 +1,10 @@
 ---
 layout: 	post
 category:	"dev"
-title:		关于duilib的CLayoutManager::SaveControlProperty代码
+title: "duilib的CLayoutManager::SaveControlProperty代码"
 tags:		[duilib,ui]
 ---
+# duilib的CLayoutManager::SaveControlProperty代码
 
 ```c
 void CLayoutManager::SaveControlProperty(CControlUI* pControl, TiXmlElement* pNode)

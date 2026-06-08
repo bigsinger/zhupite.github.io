@@ -1,10 +1,11 @@
 ---
 layout: 	post
 category:	"dev"
-title:		"DuiDesigner修改：增加对控件vscrollbar，hscrollbar属性的显示和保存"
+title: "duilib DuiDesigner修改：增加VScrollBar/HScrollBar属性的显示和保存"
 tags:		[duilib,ui,duidesigner]
 date:		2015-11-23
 ---
+# duilib DuiDesigner修改：增加VScrollBar/HScrollBar属性的显示和保存
 
 1、显示：**CUIProperties::ShowContainerProperty**
 

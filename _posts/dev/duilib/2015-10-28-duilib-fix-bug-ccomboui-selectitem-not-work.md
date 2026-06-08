@@ -1,10 +1,11 @@
 ---
 layout: 	post
 category:	"dev"
-title:		CComboUI执行SelectItem无效果排查
+title: "duilib问题排查：CComboUI执行SelectItem无效果"
 tags:		[duilib,ui]
 date:		2015-10-28
 ---
+# duilib问题排查：CComboUI执行SelectItem无效果
 
 动态跟进CComboUI::SelectItem：
 ```c

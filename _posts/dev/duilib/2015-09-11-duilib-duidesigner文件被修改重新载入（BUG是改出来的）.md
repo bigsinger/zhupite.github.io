@@ -1,9 +1,10 @@
 ---
 layout: 	post
 category:	"dev"
-title:		DuiDesigner文件被修改重新载入（BUG是改出来的）
+title: "duilib DuiDesigner：文件被修改时自动提示重新载入"
 tags:		[duilib,ui,duidesigner]
 ---
+# duilib DuiDesigner：文件被修改时自动提示重新载入
 
 ### 预期效果：
 点击TAB切换不同xml皮肤文件的时候，如果文档在外发生变化则提示是否重新加载。

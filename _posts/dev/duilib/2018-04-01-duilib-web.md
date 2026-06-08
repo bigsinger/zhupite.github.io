@@ -1,9 +1,10 @@
 ---
 layout:		post
 category:	"dev"
-title:		"duilib创建IE浏览器的方式"
+title: "duilib创建IE浏览器的方式"
 tags:		[duilib,ui]
 ---
+# duilib创建IE浏览器的方式
 
 ### 方式一：
 ```xml

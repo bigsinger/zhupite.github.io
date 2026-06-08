@@ -1,11 +1,10 @@
 ---
 layout:     post
 category: 	"dev"
-title:      初识duilib
+title: "duilib初识"
 tags:		[duilib,ui]
 date:		2015-09-09
 ---
-
 国内首个开源的DirectUI界面库--DuiLib，DuiLib开发语言为C++，采用纯Win32API，无其他额外依赖；支持图片等资源的压缩，方便携带传播；目前支持的开发平台为vc6-vc10，Demo比较丰富，非常容易上手。
 
 
@@ -17,7 +16,7 @@ https://github.com/duilib/duilib
 谷歌代码svn下载地址：http://duilib.googlecode.com/svn/trunk/
 
 
-# 资源
+# duilib初识
 - 属性大全：https://raw.githubusercontent.com/duilib/duilib/master/%E5%B1%9E%E6%80%A7%E5%88%97%E8%A1%A8.xml
 
 - duilib入门之贴图描述、类html文本描述、动态换肤、Dll插件、资源打包：

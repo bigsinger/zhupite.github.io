@@ -1,10 +1,11 @@
 ---
 layout: 	post
 category:	"dev"
-title:		DuiDesigner增加：打开皮肤配置文件所在的文件夹
+title: "duilib DuiDesigner增加：打开皮肤配置文件所在文件夹"
 tags:		[duilib,ui,duidesigner]
 date:		2015-10-27
 ---
+# duilib DuiDesigner增加：打开皮肤配置文件所在文件夹
 
 经常使用VisualStudio，习惯使用该功能：打开并选择对应的文档，但是DuiDesigner只是打开文件夹，并不选中对应的文档：
 ```c

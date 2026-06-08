@@ -1,10 +1,11 @@
 ---
 layout: 	post
 category:	"dev"
-title:		DuiDesigner修复编辑器不保存CComboUI的textpadding属性的bug
+title: "duilib DuiDesigner修复：CComboUI的TextPadding属性不保存"
 tags:		[duilib,ui,duidesigner]
 date:		2015-10-28
 ---
+# duilib DuiDesigner修复：CComboUI的TextPadding属性不保存
 
 实际使用发现CComboUI的textpadding为 5 较好，在CComboUI::CComboUI中添加：
 ```c

@@ -1,9 +1,11 @@
 ---
 layout: 	post
 category:	"dev"
-title:		DUILIB相对位置修改为锚概念
+title: "duilib相对位置修改为锚概念"
 tags:		[duilib,ui,duidesigner]
 ---
+# duilib相对位置修改为锚概念
+
 duilib里面的relativepos设计的感觉不是很好用，采用CAnchorCtrl的模式以及C#窗口设计的模式，我们重新把相对位置的概念定义为“锚”。
 
 ![DUILIB相对位置修改为锚概念 - 截图](http://wx2.sinaimg.cn/mw690/006C9P7Ugy1fper06as6sj306z0a1q2x.jpg)
