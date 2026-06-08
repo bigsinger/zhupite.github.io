@@ -457,13 +457,18 @@ img { max-width: 100%; height: auto; }
   max-width: var(--container-max);
   margin: 0 auto;
   padding: 8px 16px 16px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--animal-gap-sm);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
 }
 .mobile-nav-item {
-  padding: 6px 14px;
-  border-radius: var(--animal-radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 40px;
+  width: 100%;
+  padding: 8px 14px;
+  border-radius: var(--animal-radius-sm);
   font-size: 13px;
   font-weight: 700;
   color: var(--animal-text);
@@ -483,15 +488,11 @@ img { max-width: 100%; height: auto; }
   background: linear-gradient(180deg, var(--animal-bg-card) 0%, var(--animal-bg-secondary) 100%);
 }
 .mobile-category-details {
-  flex: 0 1 auto;
-}
-.mobile-category-details[open] {
-  flex-basis: 100%;
+  width: 100%;
+  min-width: 0;
 }
 .mobile-category-details > summary {
   cursor: pointer;
-  display: inline-flex;
-  align-items: center;
   gap: 6px;
   list-style: none;
 }
@@ -499,23 +500,22 @@ img { max-width: 100%; height: auto; }
   display: none;
 }
 .mobile-category-menu {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
-  gap: 8px;
-  padding: 10px 0 2px;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 8px 0 2px 12px;
+  padding: 2px 0 2px 10px;
+  border-left: 2px solid var(--animal-border-card);
 }
 .mobile-category-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  min-height: 36px;
-  padding: 8px 12px;
-  border: 2px solid var(--animal-border-card);
-  border-radius: var(--animal-radius-sm);
-  background: var(--animal-bg-card);
-  box-shadow: 0 2px 0 var(--animal-border-light);
+  min-height: 32px;
+  padding: 6px 10px;
+  border-radius: var(--animal-radius-md);
+  background: transparent;
   color: var(--animal-text);
   font-size: 13px;
   font-weight: 800;
@@ -1957,10 +1957,12 @@ img { max-width: 100%; height: auto; }
 
 /* Dark mode: category cards */
 .dark .header-category-menu,
-.dark .mobile-category-item,
 .dark .category-filter-bar {
   background: var(--animal-bg-card);
   border-color: var(--animal-border);
+}
+.dark .mobile-category-menu {
+  border-left-color: var(--animal-border);
 }
 .dark .category-menu-count,
 .dark .category-filter-reset {
