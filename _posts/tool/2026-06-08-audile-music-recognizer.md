@@ -4,14 +4,7 @@ title: "Audile（MusicRecognizer）：开源 Android 音乐识别应用，集成
 categories: [tool]
 description: "一款开源的 Android 音乐识别 App，同时集成 AudD、ACRCloud 和 Shazam 三大识别引擎，支持通知栏控制/桌面小组件/快捷磁贴、离线排队识别、曲库管理、歌词获取、多平台跳转。"
 keywords: 音乐识别, Android, AudD, ACRCloud, Shazam, 歌曲识别, 开源, Kotlin, Jetpack Compose
-tags: [tool, open-source]
-  - 音乐识别
-  - Android
-  - AudD
-  - ACRCloud
-  - Shazam
-  - 开源
-  - Kotlin
+tags: [tool, open-source, 音乐识别, Android, AudD, ACRCloud, Shazam, 开源, Kotlin]
 ---
 
 # Audile（MusicRecognizer）：开源 Android 音乐识别应用，集成 AudD + ACRCloud + Shazam

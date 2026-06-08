@@ -4,12 +4,7 @@ title: "WSL Dashboard：轻量高性能的 WSL 实例管理 GUI 工具"
 categories: [tool]
 description: "基于 Rust + Slint 构建的现代 WSL 管理界面。支持实例启停、端口转发、HTTP 代理、USB 设备管理、多语言（29种语言）。内存占用仅 ~10MB，单文件便携运行。"
 keywords: WSL Dashboard, WSL管理, WSL2, Linux子系统, Rust, Slint, 端口转发, 系统托盘
-tags: [tool, open-source]
-  - WSL
-  - WSL2
-  - Rust
-  - Windows
-  - 系统管理
+tags: [tool, open-source, WSL, WSL2, Rust, Windows, 系统管理]
 ---
 
 # WSL Dashboard：轻量高性能的 WSL 实例管理 GUI 工具

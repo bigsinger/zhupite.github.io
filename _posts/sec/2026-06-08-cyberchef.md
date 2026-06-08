@@ -4,13 +4,7 @@ title: "CyberChef：GCHQ 出品的瑞士军刀级加密解密工具型"
 categories: [sec]
 description: "英国 GCHQ 开源的数据处理工具 CyberChef（35,000+ Stars），涵盖 480+ 种编码/加密/压缩/分析操作的完整能力图谱。涵盖操作分类体系、典型应用场景、Recipe 链式编排与 Magic 自动检测机制。"
 keywords: CyberChef, GCHQ, 编码解码, 加解密, Swiss Army Knife, 数据分析, Base64, AES, Recipe
-tags: [sec, open-source]
-  - CyberChef
-  - GCHQ
-  - 密码学
-  - 编码解码
-  - 数据处理
-  - CTF
+tags: [sec, open-source, CyberChef, GCHQ, 密码学, 编码解码, 数据处理, CTF]
 ---
 
 # CyberChef：GCHQ 出品的瑞士军刀级数据处理工具箱深度解析

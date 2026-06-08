@@ -4,12 +4,7 @@ title: "Animal-Island-UI：动物森友会风格的 React 组件库"
 categories: [dev]
 description: "一款轻量级 React + TypeScript UI 组件库，设计灵感来自任天堂《集合啦！动物森友会》游戏界面。3,000+ Stars，MIT 开源，支持 npm 安装与 AI 无代码生成页面。"
 keywords: animal-island-ui, React, UI组件库, 动物森友会, TypeScript, Nintendo风格, 前端组件
-tags: [dev, open-source]
-  - React
-  - UI组件库
-  - TypeScript
-  - 动物森友会
-  - 前端开发
+tags: [dev, open-source, React, UI组件库, TypeScript, 动物森友会, 前端开发]
 ---
 
 # Animal-Island-UI：动物森友会风格的 React 组件库

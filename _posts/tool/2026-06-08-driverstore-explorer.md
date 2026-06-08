@@ -4,13 +4,7 @@ title: "DriverStore Explorer（RAPR）：Windows 驱动存储管理神器，10,0
 categories: [tool]
 description: "Windows 驱动存储（DriverStore）管理工具，支持查看/添加/删除/导出驱动包，智能清理旧版本驱动，支持 DISM/PnPUtil 多后端，在线/离线映像操作。"
 keywords: DriverStore Explorer, RAPR, 驱动管理, Windows, 驱动清理, 驱动存储, 系统工具, C#
-tags: [tool, open-source]
-  - DriverStore Explorer
-  - RAPR
-  - Windows
-  - 驱动管理
-  - 系统工具
-  - 清理工具
+tags: [tool, open-source, "DriverStore Explorer", RAPR, Windows, 驱动管理, 系统工具, 清理工具]
 ---
 
 # DriverStore Explorer（RAPR）：Windows 驱动存储管理神器，10,000+ Stars

@@ -2,12 +2,7 @@
 layout: post
 categories: [sec]
 title: "腾讯朱雀AIG(AI-Infra-Guard)：AI红队安全测试平台"
-tags: [sec, open-source]
-  - AI安全
-  - 红队测试
-  - Agent安全
-  - MCP安全
-  - 腾讯朱雀
+tags: [sec, open-source, AI安全, 红队测试, Agent安全, MCP安全, 腾讯朱雀]
 description: "腾讯朱雀实验室出品的一站式AI红队安全测试平台，从基础设施漏洞扫描、MCP/Agent安全检测到大模型越狱评估，覆盖全链路的开源安全自查工具。v4.1.11，3.9k Stars。"
 ---
 

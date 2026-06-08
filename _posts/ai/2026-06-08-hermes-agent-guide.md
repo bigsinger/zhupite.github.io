@@ -4,12 +4,7 @@ title: "Hermes Agent 完整上手指南 — 从安装到高级玩法的全方位
 categories: [ai]
 description: "基于官方文档和社区实践，从零开始掌握 Hermes Agent：60 秒安装、模型配置、消息网关、Skill 技能开发、Cron 自动化、MCP 集成、记忆系统与安全策略"
 keywords: Hermes Agent, AI Agent, 安装教程, 技能开发, Cron, MCP, 配置指南
-tags: [ai, open-source]
-  - Hermes Agent
-  - AI Agent
-  - 安装配置
-  - 自动化
-  - MCP
+tags: [ai, open-source, "Hermes Agent", "AI Agent", 安装配置, 自动化, MCP]
 ---
 
 > 本文是基于 Hermes Agent 官方文档及社区实践整理的完整上手指南，涵盖从安装到高级功能的全部核心内容。如果你是第一次接触 Hermes Agent，这篇文章可以帮你从零到一快速上手。
