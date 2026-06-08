@@ -7,7 +7,7 @@
     {% assign parts = item | split: "||" %}
     {% assign name = parts[1] %}
     {% if name != "" %}
-    <a href="{{ site.url }}/categories/#{{ name }}" class="tag-pill">{{ name }}</a>
+    <a href="{{ site.url }}/categories/#{{ name | uri_escape }}" class="tag-pill">{{ name | escape }}</a>
     {% endif %}
     {% endfor %}
   </div>

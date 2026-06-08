@@ -4,7 +4,7 @@ layout: default
 
 <div class="page-detail">
   <header class="page-detail-header">
-    <h1 class="page-detail-title">{{ page.title }}</h1>
+    <h1 class="page-detail-title">{{ page.title | escape }}</h1>
   </header>
 
   <div class="categories-index">
@@ -12,12 +12,12 @@ layout: default
     {% include category-color.liquid cat_name=category.first %}
 
     <div class="category-group category-group-{{ cat_color }}">
-      <h2 id="{{ category[0] }}" class="category-group-title">{{ category[0] }}</h2>
+      <h2 id="{{ category[0] | escape }}" class="category-group-title">{{ category[0] | escape }}</h2>
       <div class="category-group-count">{{ category[1].size }} 篇文章</div>
       <ul class="category-post-list">
       {% for post in category[1] %}
         <li>
-          <a href="{{ site.url }}{{ post.url }}">{{ post.title }}</a>
+          <a href="{{ site.url }}{{ post.url }}">{{ post.title | escape }}</a>
           <span class="category-post-date">{{ post.date | date: "%Y/%m/%d" }}</span>
         </li>
       {% endfor %}

@@ -19,11 +19,11 @@ permalink: /links/
 {% assign name = cat_names[i] %}
 {% assign icon = cat_icons[i] %}
 
-<h3>{{ icon }} {{ name }}</h3>
+<h3>{{ icon | escape }} {{ name | escape }}</h3>
 <ul>
 {% for link in site.data.links %}
   {% if link.src == src %}
-  <li><a href="{{ link.url }}" target="_blank" rel="noopener">{{ link.name }}</a></li>
+  <li><a href="{{ link.url | escape }}" target="_blank" rel="noopener noreferrer">{{ link.name | escape }}</a></li>
   {% endif %}
 {% endfor %}
 </ul>

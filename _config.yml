@@ -49,6 +49,19 @@ plugins:
   - jekyll-feed
   - jemoji
 
+# ===== 发布排除 =====
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - package.json
+  - scripts/
+  - assets/css/theme-modern.css
+  - web-articles/
+  - "*.log"
+  - "*.vtt"
+  - "*_transcript.txt"
+
 # ===== 压缩 =====
 compress_html:
   clippings: all

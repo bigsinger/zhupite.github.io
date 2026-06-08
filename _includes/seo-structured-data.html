@@ -5,7 +5,7 @@
   "name": "zhupite",
   "alternateName": "朱皮特",
   "url": "https://zhupite.com",
-  "description": "{{ site.description }}",
+  "description": {{ site.description | jsonify }},
   "sameAs": [
     "https://github.com/bigsinger"
   ],
@@ -31,15 +31,15 @@
     ,{
       "@type": "ListItem",
       "position": {{ forloop.index | plus: 1 }},
-      "name": "{{ cat }}",
-      "item": "{{ site.url }}/categories/#{{ cat }}"
+      "name": {{ cat | jsonify }},
+      "item": "{{ site.url }}/categories/#{{ cat | uri_escape }}"
     }
     {% endfor %}
     {% endif %}
     ,{
       "@type": "ListItem",
       "position": {% if page.categories %}{{ page.categories.size | plus: 2 }}{% else %}2{% endif %},
-      "name": "{{ page.title | escape }}",
+      "name": {{ page.title | jsonify }},
       "item": "{{ site.url }}{{ page.url }}"
     }
   ]
@@ -50,7 +50,7 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "{{ page.title | escape }}",
+  "headline": {{ page.title | jsonify }},
   "url": "{{ site.url }}{{ page.url }}",
   "datePublished": "{{ page.date | date: '%Y-%m-%d' }}",
   "dateModified": "{{ page.date | date: '%Y-%m-%d' }}",
@@ -64,7 +64,11 @@
     "name": "zhupite",
     "url": "https://zhupite.com"
   },
-  "description": "{% if page.description %}{{ page.description | escape }}{% else %}{{ page.excerpt | strip_html | strip_newlines | escape | truncate: 200 }}{% endif %}",
+  {% assign post_description = page.description %}
+  {% unless post_description %}
+    {% assign post_description = page.excerpt | strip_html | strip_newlines | truncate: 200 %}
+  {% endunless %}
+  "description": {{ post_description | jsonify }},
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "{{ site.url }}{{ page.url }}"
@@ -73,7 +77,7 @@
   "inLanguage": "zh-CN",
   "isAccessibleForFree": true
   {% if page.categories %}
-  ,"keywords": "{{ page.categories | join: ', ' }}"
+  ,"keywords": {{ page.categories | join: ', ' | jsonify }}
   {% endif %}
 }
 </script>
@@ -84,12 +88,12 @@
 {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  "name": "{{ page.title | escape }}",
+  "name": {{ page.title | jsonify }},
   "url": "{{ site.url }}{{ page.url }}",
-  "description": "{% if page.description %}{{ page.description | escape }}{% else %}{{ site.description }}{% endif %}",
+  "description": {% if page.description %}{{ page.description | jsonify }}{% else %}{{ site.description | jsonify }}{% endif %},
   "isPartOf": {
     "@type": "WebSite",
-    "name": "{{ site.title }}",
+    "name": {{ site.title | jsonify }},
     "url": "https://zhupite.com"
   },
   "inLanguage": "zh-CN"
@@ -101,10 +105,10 @@
 {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "name": "{{ site.title }}",
+  "name": {{ site.title | jsonify }},
   "alternateName": "朱皮特",
   "url": "https://zhupite.com",
-  "description": "{{ site.description }}",
+  "description": {{ site.description | jsonify }},
   "inLanguage": "zh-CN"
 }
 </script>

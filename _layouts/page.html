@@ -4,9 +4,9 @@ layout: default
 
 <div class="page-detail">
   <header class="page-detail-header">
-    <h1 class="page-detail-title">{{ page.title }}</h1>
+    <h1 class="page-detail-title">{{ page.title | escape }}</h1>
     {% if page.subtitle %}
-    <p class="page-detail-subtitle">{{ page.subtitle }}</p>
+    <p class="page-detail-subtitle">{{ page.subtitle | escape }}</p>
     {% endif %}
   </header>
 

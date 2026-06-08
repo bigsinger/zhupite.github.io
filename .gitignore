@@ -7,3 +7,6 @@ _site/
 Gemfile.lock
 .vscode/
 .jekyll-metadata
+*.log
+*.vtt
+*_transcript.txt

@@ -2208,20 +2208,150 @@ img + em { color: var(--animal-text-muted); display: block; text-align: center; 
   font-weight: 700;
 }
 
-/* ===== 28. Open Source Page (Primer-compat for /open-source/) ===== */
-.repo-list { display: flex; flex-wrap: wrap; gap: 16px; margin: 24px 0; }
-.repo-list a { text-decoration: none; }
-.repo-list .card { flex: 1 1 280px; max-width: 380px; background: var(--animal-bg-card); border: 2px solid var(--animal-border-card); border-radius: var(--animal-radius-xl); overflow: hidden; transition: all 0.3s cubic-bezier(0.4,0,0.2,1); box-shadow: var(--animal-shadow-sm); }
-.repo-list .card:hover { transform: translateY(-3px); box-shadow: var(--animal-shadow-lg); border-color: var(--animal-border); }
-.repo-list .thumbnail { margin: 0; }
-.repo-list .card-image { padding: 24px; border-bottom: 1px solid var(--animal-border-light); }
-.repo-list .card-image.geopattern { background: var(--animal-bg-secondary); }
-.repo-list .card-image-cell { text-align: center; }
-.repo-list .card-title { margin: 0; font-size: 16px; font-weight: 700; color: var(--animal-text); }
-.repo-list .caption { padding: 16px; background: var(--animal-bg-secondary); }
-.repo-list .card-description { margin-bottom: 8px; }
-.repo-list .card-text { font-size: 13px; color: var(--animal-text-secondary); margin: 0; }
-.repo-list .meta-info { display: inline-block; margin-right: 12px; font-size: 12px; color: var(--animal-text-muted); }
-.repo-list .meta-info svg { margin-right: 4px; }
-.repo-count { font-weight: 700; color: var(--animal-primary); }
-.repo-list .lead { font-size: 16px; }
+/* ===== 28. Search, Mermaid, Image Enhancements ===== */
+.search-page-toolbar { margin-bottom: 16px; }
+.search-page-input { width: 100%; max-width: 720px; }
+.search-filter-block { margin: 14px 0; }
+.search-filter-title {
+  margin-bottom: 8px;
+  color: var(--animal-text-muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+.search-filter-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.search-filter-chip {
+  border: 2px solid var(--animal-border-card);
+  border-radius: var(--animal-radius-full);
+  background: var(--animal-bg-card);
+  color: var(--animal-text-secondary);
+  cursor: pointer;
+  font-family: var(--animal-font);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+  padding: 8px 12px;
+  transition: all 0.2s ease;
+}
+.search-filter-chip:hover,
+.search-filter-chip.active {
+  border-color: var(--animal-primary);
+  color: var(--animal-primary);
+}
+.search-page-count {
+  color: var(--animal-text-muted);
+  font-size: 13px;
+  font-weight: 700;
+  margin: 16px 0 8px;
+}
+.search-page-results li {
+  padding: 10px 0;
+}
+.search-result-meta {
+  display: block;
+  color: var(--animal-text-muted);
+  font-size: 12px;
+  margin-top: 4px;
+}
+.search-highlight {
+  background: rgba(250, 204, 21, 0.45);
+  border-radius: 3px;
+  color: inherit;
+  padding: 0 2px;
+}
+.search-page-link {
+  color: var(--animal-text-muted);
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 800;
+  margin-top: 8px;
+  text-decoration: none;
+}
+.search-page-link:hover { color: var(--animal-primary); }
+.mermaid {
+  background: var(--animal-bg-card);
+  border: 2px solid var(--animal-border-card);
+  border-radius: var(--animal-radius-sm);
+  margin: 16px 0;
+  overflow-x: auto;
+  padding: 16px;
+}
+.mermaid-error {
+  color: var(--animal-text-muted);
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  white-space: pre;
+}
+.article-image-clickable {
+  cursor: zoom-in;
+}
+.article-image-clickable:focus {
+  outline: 3px solid var(--animal-primary);
+  outline-offset: 3px;
+}
+.image-error-placeholder {
+  display: inline-block;
+  border: 2px dashed var(--animal-border-card);
+  border-radius: var(--animal-radius-sm);
+  color: var(--animal-text-muted);
+  font-size: 13px;
+  padding: 12px 14px;
+}
+.image-lightbox {
+  align-items: center;
+  background: rgba(20, 18, 16, 0.86);
+  display: none;
+  inset: 0;
+  justify-content: center;
+  padding: 24px;
+  position: fixed;
+  z-index: 100000;
+}
+.image-lightbox.open { display: flex; }
+.image-lightbox img {
+  max-height: min(86vh, 960px);
+  max-width: min(92vw, 1200px);
+  object-fit: contain;
+}
+.image-lightbox-close {
+  align-items: center;
+  background: var(--animal-bg-card);
+  border: 2px solid var(--animal-border-card);
+  border-radius: var(--animal-radius-full);
+  color: var(--animal-text);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 24px;
+  font-weight: 800;
+  height: 40px;
+  justify-content: center;
+  line-height: 1;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  width: 40px;
+}
+.image-lightbox-caption {
+  bottom: 18px;
+  color: #fff;
+  font-size: 13px;
+  left: 24px;
+  max-width: calc(100vw - 48px);
+  overflow: hidden;
+  position: absolute;
+  right: 24px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dark .search-filter-chip {
+  background: var(--animal-bg-secondary);
+  border-color: var(--animal-border-card);
+}
+.dark .search-highlight { background: rgba(202, 138, 4, 0.45); }
+.dark .mermaid {
+  background: var(--animal-bg-card);
+  border-color: var(--animal-border);
+}

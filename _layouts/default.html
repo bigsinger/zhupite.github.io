@@ -3,11 +3,10 @@ layout: compress
 ---
 
 {% assign assets_base_url = site.url %}
-{% assign assets_images_url = '<img src="' | append: site.url | append: "/images" %}
 {% include header.html %}
 <div class="blog-layout">
     <main class="main-content">
-      {{ content | replace: '<img src="/images', assets_images_url | replace: '<img ', '<img loading="lazy" ' }}
+      {{ content }}
     </main>
     <aside class="sidebar-content">
       {% if page.layout == 'post' %}

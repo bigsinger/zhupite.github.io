@@ -37,13 +37,13 @@ menu: 首页
             置顶
           </span>
           {% if post.categories.size > 0 %}
-          <span class="post-card-category">{{ post.categories[0] }}</span>
+          <span class="post-card-category">{{ post.categories[0] | escape }}</span>
           {% endif %}
         </div>
         <h3 class="post-card-title">
-          <a href="{{ site.url }}{{ post.url }}">{{ post.title }}</a>
+          <a href="{{ site.url }}{{ post.url }}">{{ post.title | escape }}</a>
         </h3>
-        <p class="post-card-excerpt">{% if post.description %}{{ post.description | truncate: 80 }}{% elsif post.desc %}{{ post.desc | truncate: 80 }}{% endif %}</p>
+        <p class="post-card-excerpt">{% if post.description %}{{ post.description | truncate: 80 | escape }}{% elsif post.desc %}{{ post.desc | truncate: 80 | escape }}{% endif %}</p>
       </div>
       <div class="post-card-footer">
         <span class="post-card-date">
@@ -68,13 +68,13 @@ menu: 首页
       <div class="post-card-body">
         <div class="post-card-meta">
           {% if post.categories.size > 0 %}
-          <span class="post-card-category">{{ post.categories[0] }}</span>
+          <span class="post-card-category">{{ post.categories[0] | escape }}</span>
           {% endif %}
         </div>
         <h3 class="post-card-title">
-          <a href="{{ site.url }}{{ post.url }}">{{ post.title }}</a>
+          <a href="{{ site.url }}{{ post.url }}">{{ post.title | escape }}</a>
         </h3>
-        <p class="post-card-excerpt">{% if post.description %}{{ post.description | truncate: 80 }}{% elsif post.desc %}{{ post.desc | truncate: 80 }}{% endif %}</p>
+        <p class="post-card-excerpt">{% if post.description %}{{ post.description | truncate: 80 | escape }}{% elsif post.desc %}{{ post.desc | truncate: 80 | escape }}{% endif %}</p>
       </div>
       <div class="post-card-footer">
         <span class="post-card-date">

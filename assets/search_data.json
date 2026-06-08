@@ -4,12 +4,16 @@
 [
   {% for doc in site.posts %}
   {% if doc.title %}
+    {% assign doc_url = site.url | append: doc.url %}
+    {% assign doc_category = doc.categories[0] | default: '' %}
+    {% assign doc_tags = doc.tags | join: ', ' %}
     {
-      "title"    : "{{ doc.title | escape }}",
-      "category" : "{{ doc.categories[0] | xml_escape }}",
-      {% if site.simple_jekyll_search.fulltext %}"content": {{ doc.content | markdownify | strip_html | replace:'"','' | jsonify | replace:'\n',' ' | replace:'   ',' ' | replace:'  ',' ' | replace:'\',' ' }},{% endif %}
-      "url"      : "{{ site.url }}{{ doc.url }}",
-      "keywords" : "{{ doc.keywords | escape }}"
+      "title"    : {{ doc.title | jsonify }},
+      "category" : {{ doc_category | jsonify }},
+      "tags"     : {{ doc_tags | jsonify }},
+      {% if site.simple_jekyll_search.fulltext %}"content": {{ doc.content | markdownify | strip_html | strip_newlines | jsonify }},{% endif %}
+      "url"      : {{ doc_url | jsonify }},
+      "keywords" : {{ doc.keywords | default: '' | jsonify }}
     } {% unless forloop.last %},{% endunless %}
   {% endif %}
   {% endfor %}

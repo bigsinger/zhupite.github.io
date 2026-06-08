@@ -4,7 +4,7 @@ layout: default
 
 <article class="post-detail">
   <header class="post-detail-header">
-    <h1 class="post-detail-title">{{ page.title }}</h1>
+    <h1 class="post-detail-title">{{ page.title | escape }}</h1>
     <div class="post-detail-meta">
       {% if page.date %}
       <span class="meta-item">
@@ -15,14 +15,14 @@ layout: default
       {% for cat in page.categories %}
       <span class="meta-item">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
-        <a href="{{ site.url }}/categories/#{{ cat }}">{{ cat }}</a>
+        <a href="{{ site.url }}/categories/#{{ cat | uri_escape }}">{{ cat | escape }}</a>
       </span>
       {% endfor %}
       {% if page.tags and page.tags.size > 0 %}
       <span class="meta-item">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
         {% for tag in page.tags %}
-        <a href="{{ site.url }}/categories/#{{ tag }}">{{ tag }}</a>{% unless forloop.last %} · {% endunless %}
+        <a href="{{ site.url }}/categories/#{{ tag | uri_escape }}">{{ tag | escape }}</a>{% unless forloop.last %} · {% endunless %}
         {% endfor %}
       </span>
       {% endif %}
@@ -45,7 +45,7 @@ layout: default
   {%- assign desc = page.description | default: page.desc -%}
   {%- if desc and desc != '' -%}
   <blockquote class="post-description-quote">
-    {{ desc }}
+    {{ desc | escape }}
   </blockquote>
   {%- endif -%}
 
@@ -59,10 +59,49 @@ layout: default
   <div class="related-posts-widget">
     <h3 class="sidebar-card-title">相关文章</h3>
     <div class="related-posts-grid">
-    {% assign related = site.posts | where_exp:"p","p.url != page.url" %}
-    {% assign related = related | where_exp:"p","p.categories contains page.categories[0]" %}
-    {% for post in related limit:4 %}
-      <a href="{{ site.url }}{{ post.url }}" class="related-post-item">{{ post.title }}</a>
+    {% assign related_count = 0 %}
+    {% assign related_urls = '' %}
+    {% assign primary_category = page.categories[0] %}
+
+    {% for post in site.posts %}
+      {% if related_count >= 4 %}{% break %}{% endif %}
+      {% if post.url != page.url and post.categories contains primary_category %}
+        {% assign shared_tag = false %}
+        {% for tag in page.tags %}
+          {% if post.tags contains tag %}{% assign shared_tag = true %}{% break %}{% endif %}
+        {% endfor %}
+        {% if shared_tag %}
+          <a href="{{ site.url }}{{ post.url }}" class="related-post-item">{{ post.title | escape }}</a>
+          {% assign related_urls = related_urls | append: post.url | append: '|' %}
+          {% assign related_count = related_count | plus: 1 %}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+
+    {% for post in site.posts %}
+      {% if related_count >= 4 %}{% break %}{% endif %}
+      {% unless related_urls contains post.url %}
+        {% if post.url != page.url and post.categories contains primary_category %}
+          <a href="{{ site.url }}{{ post.url }}" class="related-post-item">{{ post.title | escape }}</a>
+          {% assign related_urls = related_urls | append: post.url | append: '|' %}
+          {% assign related_count = related_count | plus: 1 %}
+        {% endif %}
+      {% endunless %}
+    {% endfor %}
+
+    {% for post in site.posts %}
+      {% if related_count >= 4 %}{% break %}{% endif %}
+      {% unless related_urls contains post.url %}
+        {% assign shared_tag = false %}
+        {% for tag in page.tags %}
+          {% if post.tags contains tag %}{% assign shared_tag = true %}{% break %}{% endif %}
+        {% endfor %}
+        {% if post.url != page.url and shared_tag %}
+          <a href="{{ site.url }}{{ post.url }}" class="related-post-item">{{ post.title | escape }}</a>
+          {% assign related_urls = related_urls | append: post.url | append: '|' %}
+          {% assign related_count = related_count | plus: 1 %}
+        {% endif %}
+      {% endunless %}
     {% endfor %}
     </div>
   </div>
@@ -73,7 +112,7 @@ layout: default
     {% if page.previous %}
     <a href="{{ site.url }}{{ page.previous.url }}" class="post-nav-link prev">
       <span class="post-nav-label">← 上一篇</span>
-      <span class="post-nav-title">{{ page.previous.title }}</span>
+      <span class="post-nav-title">{{ page.previous.title | escape }}</span>
     </a>
     {% else %}
     <span class="post-nav-link prev disabled">
@@ -84,7 +123,7 @@ layout: default
     {% if page.next %}
     <a href="{{ site.url }}{{ page.next.url }}" class="post-nav-link next">
       <span class="post-nav-label">下一篇 →</span>
-      <span class="post-nav-title">{{ page.next.title }}</span>
+      <span class="post-nav-title">{{ page.next.title | escape }}</span>
     </a>
     {% else %}
     <span class="post-nav-link next disabled">

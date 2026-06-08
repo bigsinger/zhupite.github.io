@@ -7,12 +7,12 @@
     加载评论…
   </div>
   <div id="utterances-fallback" style="display:none;text-align:center;padding:32px 16px;color:var(--animal-text-muted);font-size:13px;font-weight:500;">
-    评论加载超时😅 请 <a href="https://github.com/{{ site.utterances.repo }}/issues" target="_blank" rel="noopener" style="color:var(--animal-primary);text-decoration:underline;">在 GitHub 上查看/发表评论</a>
+    评论加载超时😅 请 <a href="https://github.com/{{ site.utterances.repo | escape }}/issues" target="_blank" rel="noopener noreferrer" style="color:var(--animal-primary);text-decoration:underline;">在 GitHub 上查看/发表评论</a>
   </div>
   <script src="https://utteranc.es/client.js"
-          repo="{{ site.utterances.repo }}"
-          issue-term="{{ site.utterances.issue_term | default: 'pathname' }}"
-          theme="{{ site.utterances.theme | default: 'github-light' }}"
+          repo="{{ site.utterances.repo | escape }}"
+          issue-term="{{ site.utterances.issue_term | default: 'pathname' | escape }}"
+          theme="{{ site.utterances.theme | default: 'github-light' | escape }}"
           crossorigin="anonymous"
           async>
   </script>
