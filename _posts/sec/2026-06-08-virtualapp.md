@@ -1,6 +1,6 @@
 ---
 title: VirtualApp — Android 虚拟化引擎，应用多开与沙箱
-categories: [sec, android]
+categories: [sec]
 tags: [virtualapp, android-virtualization, app-cloning, sandbox, lody]
 ---
 

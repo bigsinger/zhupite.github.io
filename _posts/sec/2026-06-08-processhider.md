@@ -1,6 +1,6 @@
 ---
 title: ProcessHider — Windows 进程隐藏/伪装工具（安全研究用）
-categories: [sec, windows, rootkit]
+categories: [sec]
 tags: [processhider, rootkit, dkom, process-hiding, windows-kernel]
 ---
 

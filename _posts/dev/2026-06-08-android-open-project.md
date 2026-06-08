@@ -1,6 +1,6 @@
 ---
 title: 『Android 开源项目分类汇总』—— Trinea/android-open-project
-categories: [dev, android]
+categories: [dev]
 tags: [android, open-source, collection, trinea, dev-tools]
 ---
 
