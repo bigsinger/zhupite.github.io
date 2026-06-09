@@ -68,7 +68,33 @@ Ubuntu 将提供官方维护的模型推理集成：
 - **审计日志**：Agent 的所有系统操作写入 auditd 日志，支持 SIEM 对接
 - **运行时行为监控**：基于 eBPF 的 Agent 行为监控，检测异常模式
 
-Ubuntu 的选择体现了 Linux 的安全哲学：**用已经过验证的内核安全机制（AppArmor、eBPF、auditd）来约束 Agent，而不是重新发明一套安全模型**。
+#### Snap 沙箱：Ubuntu Agent 的「虚拟空间」
+
+你问到的「沙箱」——这就是 Ubuntu 的核心答案。**Snap 包格式本身就是一套完整的应用沙箱机制**，Agent 作为 snap 包运行，天然受到 snap 沙箱的约束。
+
+**Snap 沙箱的隔离层级**：
+
+| 层级 | 机制 | 作用 |
+|------|------|------|
+| **文件系统** | AppArmor + 挂载命名空间 | Agent 只能看到自己的目录，读不到 /etc/shadow、/home 等敏感路径 |
+| **系统调用** | seccomp 过滤器 | 白名单式过滤：Agent 只能调用必要的系统调用，阻断 privilege 提升路径 |
+| **网络** | 接口声明系统（interfaces） | 必须声明 network-bind、network-control 等接口才能访问对应网络功能 |
+| **资源** | cgroups | CPU/GPU/内存配额硬限制，防止 Agent 资源耗尽 |
+| **进程** | PID 命名空间 | Agent 看不到宿主机的其他进程 |
+
+**三种隔离等级**：
+
+| 等级 | 名称 | 说明 | 适用场景 |
+|------|------|------|---------|
+| 🔒 | strict（严格） | 完全沙箱，默认无任何系统权限，需要显式声明每个接口 | **大多数 Agent（默认推荐）** |
+| 🔓 | classic（传统） | 等同于传统 deb 包，无沙箱限制 | 系统工具类 Agent |
+| 🛠️ | devmode（开发） | 沙箱规则存在但不强制执行，用于测试 | 开发调试阶段 |
+
+> **对 Agent 安全的具体意义**：Agent 在 strict 模式下，即使代码有漏洞或模型被提示注入攻击劫持，攻击者也只能在沙箱内活动——**读不了 SSH 密钥、动不了系统文件、改不了其他 Agent 的配置**。这相当于给每个 Agent 都配了一个专属的「隔离舱」。
+
+其安全模型类似 Android 的应用权限声明制（manifest 声明权限），但在隔离强度上更强——因为 snap 的 AppArmor + seccomp 组合在 Linux 内核层面执行，比 Android 的 UID 隔离更精细。
+
+Ubuntu 的选择体现了 Linux 的安全哲学：**用已经过验证的内核安全机制（AppArmor、seccomp、cgroups、eBPF、auditd）来约束 Agent，而不是重新发明一套安全模型**。
 
 ## 为什么这对服务器端 Agent 部署是重大利好
 
