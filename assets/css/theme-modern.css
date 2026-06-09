@@ -1286,29 +1286,123 @@ img { max-width: 100%; height: auto; }
   color: var(--animal-text-muted);
 }
 
-/* Tags Card */
-.tags-cloud {
+/* Discovery / Topics / Recent cards */
+.discovery-actions {
+  display: grid;
+  gap: 8px;
+}
+.discovery-random-link,
+.discovery-secondary-link {
   display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.tag-pill {
-  display: inline-block;
-  padding: 4px 12px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 2px solid var(--animal-border-card);
+  border-radius: var(--animal-radius-sm);
   background: var(--animal-bg-secondary);
-  border-radius: var(--animal-radius-full);
-  font-size: 12px;
-  font-weight: 600;
   color: var(--animal-text);
-  border: 1px solid var(--animal-border-card);
-  transition: all 0.2s;
+  font-size: 13px;
+  font-weight: 900;
   text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 0 var(--animal-border-light);
 }
-.tag-pill:hover {
-  background: var(--animal-bg-card);
+.discovery-random-link:hover,
+.discovery-secondary-link:hover {
+  color: var(--animal-text);
   border-color: var(--animal-border);
   transform: translateY(-1px);
+  box-shadow: 0 3px 0 var(--animal-border);
+}
+.discovery-random-link svg {
+  color: var(--animal-primary);
+  flex-shrink: 0;
+}
+.discovery-random-link.is-loading {
+  opacity: 0.65;
+  pointer-events: none;
+}
+.topic-list,
+.recent-post-list {
+  display: grid;
+  gap: 8px;
+}
+.topic-item,
+.recent-post-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  border-left: 4px solid var(--topic-accent, transparent);
+  border-radius: var(--animal-radius-sm);
   color: var(--animal-text);
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.topic-item:hover,
+.recent-post-item:hover {
+  background: var(--animal-bg-secondary);
+  border-color: var(--animal-border-card);
+  border-left-color: var(--topic-accent, var(--animal-border-card));
+  color: var(--animal-text);
+  transform: translateY(-1px);
+}
+.topic-main,
+.recent-post-item {
+  min-width: 0;
+}
+.topic-main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+.topic-name,
+.recent-post-title {
+  color: var(--animal-text);
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1.35;
+}
+.topic-desc,
+.recent-post-meta {
+  color: var(--animal-text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.topic-count {
+  min-width: 28px;
+  padding: 2px 8px;
+  border-radius: var(--animal-radius-full);
+  background: var(--topic-count-bg, var(--animal-bg));
+  color: var(--topic-count-text, var(--animal-text-muted));
+  font-size: 11px;
+  font-weight: 900;
+  text-align: center;
+}
+.topic-item-ai { --topic-accent: var(--card-ai-bg); --topic-count-bg: var(--card-ai-bg); --topic-count-text: var(--card-ai-text); }
+.topic-item-sec { --topic-accent: var(--card-security-bg); --topic-count-bg: var(--card-security-bg); --topic-count-text: var(--card-security-text); }
+.topic-item-tool { --topic-accent: var(--card-tool-bg); --topic-count-bg: var(--card-tool-bg); --topic-count-text: var(--card-tool-text); }
+.topic-item-dev { --topic-accent: var(--card-dev-bg); --topic-count-bg: var(--card-dev-bg); --topic-count-text: var(--card-dev-text); }
+.topic-item-travel { --topic-accent: var(--card-travel-bg); --topic-count-bg: var(--card-travel-bg); --topic-count-text: var(--card-travel-text); }
+.topic-item-life { --topic-accent: var(--card-life-bg); --topic-count-bg: var(--card-life-bg); --topic-count-text: var(--card-life-text); }
+.topic-item-reads { --topic-accent: var(--card-reads-bg); --topic-count-bg: var(--card-reads-bg); --topic-count-text: var(--card-reads-text); }
+.topic-item-thinking { --topic-accent: var(--card-thinking-bg); --topic-count-bg: var(--card-thinking-bg); --topic-count-text: var(--card-thinking-text); }
+.topic-item-invest { --topic-accent: var(--card-invest-bg); --topic-count-bg: var(--card-invest-bg); --topic-count-text: var(--card-invest-text); }
+.recent-post-item {
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 2px;
+  border-left: 0;
+}
+.recent-post-title {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 /* ===== 10. TOC Sidebar (post detail) ===== */

@@ -1,0 +1,18 @@
+{% assign sidebar_topics = "ai|AI 专题|模型、Agent 与生产力;sec|安全研究|逆向、攻防与治理;tool|工具箱|效率工具与开源项目;dev|开发笔记|编程、框架与工程实践;travel|行走记录|徒步、旅行与城市观察;life|生活实践|健康、家常与日常经验;reads|读书笔记|阅读、摘抄与书影音;thinking|思考札记|认知、方法与成长;invest|投资认知|资产配置、市场与风险" | split: ";" %}
+<div class="sidebar-card topics-card-widget">
+  <h3 class="sidebar-card-title">专题入口</h3>
+  <div class="topic-list">
+    {% for item in sidebar_topics %}
+    {% assign topic = item | split: "|" %}
+    {% assign key = topic[0] %}
+    {% assign posts = site.categories[key] %}
+    <a class="topic-item topic-item-{{ key | escape }}" href="{{ site.url }}/categories/?category={{ key | uri_escape }}#{{ key | uri_escape }}">
+      <span class="topic-main">
+        <span class="topic-name">{{ topic[1] | escape }}</span>
+        <span class="topic-desc">{{ topic[2] | escape }}</span>
+      </span>
+      <span class="topic-count">{{ posts.size | default: 0 }}</span>
+    </a>
+    {% endfor %}
+  </div>
+</div>

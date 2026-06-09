@@ -1,0 +1,17 @@
+{% assign fallback_post = site.posts | first %}
+<div class="sidebar-card discovery-card-widget">
+  <h3 class="sidebar-card-title">随便看看</h3>
+  <div class="discovery-actions">
+    <a class="discovery-random-link" href="{{ site.url }}{{ fallback_post.url }}" data-random-post>
+      <span>随机一篇</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M16 3h5v5"></path>
+        <path d="M4 20 21 3"></path>
+        <path d="M21 16v5h-5"></path>
+        <path d="m15 15 6 6"></path>
+        <path d="m4 4 5 5"></path>
+      </svg>
+    </a>
+    <a class="discovery-secondary-link" href="{{ site.url }}/archives/">文章时间线</a>
+  </div>
+</div>

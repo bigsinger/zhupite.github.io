@@ -319,12 +319,33 @@ document.addEventListener('DOMContentLoaded', function() {
     function setButtonPosition(left, top) {
       var width = btn.offsetWidth || 48;
       var height = btn.offsetHeight || 48;
-      left = Math.max(8, Math.min(window.innerWidth - width - 8, left));
-      top = Math.max(8, Math.min(window.innerHeight - height - 8, top));
+      var viewport = window.visualViewport;
+      var viewportLeft = viewport ? viewport.offsetLeft : 0;
+      var viewportTop = viewport ? viewport.offsetTop : 0;
+      var viewportWidth = viewport ? viewport.width : window.innerWidth;
+      var viewportHeight = viewport ? viewport.height : window.innerHeight;
+      var minLeft = viewportLeft + 8;
+      var minTop = viewportTop + 8;
+      var maxLeft = viewportLeft + viewportWidth - width - 8;
+      var maxTop = viewportTop + viewportHeight - height - 8;
+      if (maxLeft < minLeft) maxLeft = minLeft;
+      if (maxTop < minTop) maxTop = minTop;
+      left = Math.max(minLeft, Math.min(maxLeft, left));
+      top = Math.max(minTop, Math.min(maxTop, top));
       btn.style.right = 'auto';
       btn.style.bottom = 'auto';
       btn.style.left = left + 'px';
       btn.style.top = top + 'px';
+    }
+
+    function constrainButtonPosition() {
+      if (!btn.classList.contains('is-enabled')) return;
+      var rect = btn.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      var viewport = window.visualViewport;
+      var left = rect.left + (viewport ? viewport.offsetLeft : 0);
+      var top = rect.top + (viewport ? viewport.offsetTop : 0);
+      setButtonPosition(left, top);
     }
 
     function restoreButtonPosition() {
@@ -334,11 +355,20 @@ document.addEventListener('DOMContentLoaded', function() {
         var pos = JSON.parse(savedPos);
         var left = parseInt(pos.left, 10);
         var top = parseInt(pos.top, 10);
-        if (!Number.isNaN(left) && !Number.isNaN(top)) setButtonPosition(left, top);
+        if (!isNaN(left) && !isNaN(top)) setButtonPosition(left, top);
       } catch(e) {}
     }
     restoreButtonPosition();
-    window.addEventListener('resize', restoreButtonPosition, { passive: true });
+    setTimeout(constrainButtonPosition, 0);
+    window.addEventListener('resize', constrainButtonPosition, { passive: true });
+    window.addEventListener('orientationchange', function() {
+      setTimeout(constrainButtonPosition, 250);
+    }, { passive: true });
+    window.addEventListener('pageshow', constrainButtonPosition, { passive: true });
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', constrainButtonPosition, { passive: true });
+      window.visualViewport.addEventListener('scroll', constrainButtonPosition, { passive: true });
+    }
 
     function openOverlay() {
       if (!btn.classList.contains('is-enabled')) return;
@@ -371,14 +401,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     btn.addEventListener('touchstart', function(e) {
       var touch = e.touches[0];
+      var rect = btn.getBoundingClientRect();
+      var viewport = window.visualViewport;
       startX = touch.clientX;
       startY = touch.clientY;
-      origLeft = parseInt(btn.style.left, 10) || (window.innerWidth - btn.offsetWidth - 24);
-      origTop = parseInt(btn.style.top, 10) || (window.innerHeight - btn.offsetHeight - 24);
+      origLeft = rect.left + (viewport ? viewport.offsetLeft : 0);
+      origTop = rect.top + (viewport ? viewport.offsetTop : 0);
       btn.style.right = 'auto';
       btn.style.bottom = 'auto';
-      btn.style.left = origLeft + 'px';
-      btn.style.top = origTop + 'px';
+      setButtonPosition(origLeft, origTop);
       isDragging = false;
     }, {passive: true});
 
@@ -409,6 +440,11 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       btn.classList.remove('is-dragging');
     });
+    btn.addEventListener('touchcancel', function() {
+      isDragging = false;
+      btn.classList.remove('is-dragging');
+      constrainButtonPosition();
+    }, { passive: true });
 
     if (closeBtn) closeBtn.addEventListener('click', function() { closeOverlay(true); });
     overlay.addEventListener('click', function(e) {
@@ -867,6 +903,46 @@ document.addEventListener('DOMContentLoaded', function() {
     return '#';
   }
 
+  function initRandomPostLinks() {
+    var links = document.querySelectorAll('[data-random-post]');
+    if (!links.length) return;
+
+    Array.prototype.forEach.call(links, function(link) {
+      link.addEventListener('click', function(e) {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        e.preventDefault();
+
+        var fallbackUrl = link.href;
+        link.classList.add('is-loading');
+
+        loadSearchData().then(function(data) {
+          var currentPath = window.location.pathname.replace(/\/index\.html$/, '/');
+          var candidates = data.filter(function(item) {
+            if (!item || !item.url) return false;
+            try {
+              var parsed = new URL(item.url, window.location.href);
+              return parsed.pathname.replace(/\/index\.html$/, '/') !== currentPath;
+            } catch (err) {
+              return false;
+            }
+          });
+
+          if (!candidates.length) {
+            window.location.href = fallbackUrl;
+            return;
+          }
+
+          var pick = candidates[Math.floor(Math.random() * candidates.length)];
+          window.location.href = normalizeResultUrl(pick.url);
+        }).catch(function() {
+          window.location.href = fallbackUrl;
+        }).then(function() {
+          link.classList.remove('is-loading');
+        });
+      });
+    });
+  }
+
   function appendHighlightedText(parent, text, term) {
     text = String(text || '');
     term = String(term || '').trim();
@@ -1181,5 +1257,6 @@ document.addEventListener('DOMContentLoaded', function() {
   initArticleImages();
   initCategoryPageFilter();
   initUtterances();
+  initRandomPostLinks();
   initSearch();
 });

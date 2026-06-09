@@ -1,0 +1,11 @@
+<div class="sidebar-card recent-card-widget">
+  <h3 class="sidebar-card-title">最近更新</h3>
+  <div class="recent-post-list">
+    {% for post in site.posts limit: 5 %}
+    <a class="recent-post-item" href="{{ site.url }}{{ post.url }}">
+      <span class="recent-post-title">{{ post.title | escape }}</span>
+      <span class="recent-post-meta">{{ post.date | date: "%Y/%m/%d" }}{% if post.categories.size > 0 %} · {{ post.categories[0] | escape }}{% endif %}</span>
+    </a>
+    {% endfor %}
+  </div>
+</div>
