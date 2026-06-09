@@ -15,7 +15,7 @@ hanzi-writer 是一个基于 SVG 渲染的开源汉字笔画顺序动画 JavaScr
 ## GitHub 数据
 
 - **仓库地址**: [chanind/hanzi-writer](https://github.com/chanind/hanzi-writer)
-- **Stars**: 4,810 | **Forks**: 709
+- **在线体验**https://hanziwriter.org/
 - **License**: MIT
 - **语言**: TypeScript / JavaScript
 - **当前版本**: v3.7.3 (2025-09-17)
