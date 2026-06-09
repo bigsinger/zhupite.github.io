@@ -106,6 +106,7 @@ body {
   line-height: 1.6;
   min-height: 100vh;
   transition: background 0.3s, color 0.3s;
+  touch-action: pan-y pinch-zoom;
 }
 
 a {
@@ -1677,6 +1678,8 @@ img { max-width: 100%; height: auto; }
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pan-y pinch-zoom;
+  overscroll-behavior-x: contain;
   border-radius: 0 0 9px 9px;
 }
 .table-wrapper > table {
@@ -2195,7 +2198,7 @@ td, th { padding: 0; }
 
 /* Code / Pre */
 pre, code, kbd, samp { font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace; }
-pre { overflow: auto; word-wrap: normal; }
+pre { overflow: auto; word-wrap: normal; touch-action: pan-x pan-y pinch-zoom; overscroll-behavior-x: contain; }
 kbd { font-size: 0.85em; }
 
 /* Container / Columns grid (for old content compatibility) */

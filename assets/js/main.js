@@ -8,6 +8,31 @@ document.addEventListener('DOMContentLoaded', function() {
   var checkIcon = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
   var codeIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>';
 
+  /* ---- Touch: prevent horizontal swipe from triggering browser back/forward ---- */
+  (function preventHorizontalSwipeNav() {
+    var touchStartX = 0, touchStartY = 0;
+    document.addEventListener('touchstart', function(e) {
+      if (e.touches.length === 1) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
+    document.addEventListener('touchmove', function(e) {
+      if (e.touches.length !== 1) return;
+      var dx = Math.abs(e.touches[0].clientX - touchStartX);
+      var dy = Math.abs(e.touches[0].clientY - touchStartY);
+      // horizontal swipe is dominant
+      if (dx > dy && dx > 10) {
+        var target = e.target;
+        var scrollable = target.closest('pre, .table-scroll, .table-wrapper');
+        if (!scrollable) {
+          e.preventDefault();
+        }
+      }
+    }, { passive: false });
+  })();
+
   function markPageReady() {
     document.body.classList.add('body-ready');
     var bar = document.getElementById('pg-bar');
