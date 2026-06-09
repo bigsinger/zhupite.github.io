@@ -2,7 +2,7 @@
   Usage:
   {% include category-color.liquid %}               — uses post.categories[0]
   {% include category-color.liquid cat_name="dev" %} — uses explicit name
-  Sets variable: cat_color = "teal"|"red"|"orange"|"green"|...|"default"
+  Sets variable: cat_color = one of the semantic card palettes.
 {% endcomment %}
 
 {% if include.cat_name %}
@@ -14,22 +14,34 @@
 {% endif %}
 
 {% assign cat_color = "default" %}
-{% if _cat_name == "dev" or _cat_name == "c++" or _cat_name == "cpp" or _cat_name == "rust" %}
-  {% assign cat_color = "teal" %}
-{% elsif _cat_name == "sec" or _cat_name == "java" %}
-  {% assign cat_color = "red" %}
-{% elsif _cat_name == "tool" %}
-  {% assign cat_color = "orange" %}
-{% elsif _cat_name == "life" or _cat_name == "android" or _cat_name == "kotlin" %}
-  {% assign cat_color = "green" %}
-{% elsif _cat_name == "thinking" or _cat_name == "ai" %}
-  {% assign cat_color = "purple" %}
+{% if _cat_name == "reads" or _cat_name == "read" or _cat_name == "book" or _cat_name == "books" %}
+  {% assign cat_color = "reads" %}
+{% elsif _cat_name == "sec" or _cat_name == "security" or _cat_name == "reverse" or _cat_name == "hack" %}
+  {% assign cat_color = "security" %}
+{% elsif _cat_name == "tool" or _cat_name == "tools" or _cat_name == "productivity" %}
+  {% assign cat_color = "tool" %}
+{% elsif _cat_name == "ai" or _cat_name == "llm" or _cat_name == "agent" %}
+  {% assign cat_color = "ai" %}
+{% elsif _cat_name == "dev" or _cat_name == "programming" or _cat_name == "c++" or _cat_name == "cpp" or _cat_name == "rust" or _cat_name == "java" %}
+  {% assign cat_color = "dev" %}
+{% elsif _cat_name == "thinking" or _cat_name == "thoughts" or _cat_name == "essay" %}
+  {% assign cat_color = "thinking" %}
+{% elsif _cat_name == "life" or _cat_name == "living" or _cat_name == "food" or _cat_name == "cooking" %}
+  {% assign cat_color = "life" %}
 {% elsif _cat_name == "travel" %}
-  {% assign cat_color = "pink" %}
-{% elsif _cat_name == "reads" %}
-  {% assign cat_color = "yellow" %}
-{% elsif _cat_name == "web" or _cat_name == "flutter" or _cat_name == "docker" %}
-  {% assign cat_color = "blue" %}
+  {% assign cat_color = "travel" %}
 {% elsif _cat_name == "invest" %}
-  {% assign cat_color = "gold" %}
+  {% assign cat_color = "invest" %}
+{% elsif _cat_name == "web" or _cat_name == "frontend" or _cat_name == "html" or _cat_name == "css" or _cat_name == "javascript" %}
+  {% assign cat_color = "web" %}
+{% elsif _cat_name == "android" or _cat_name == "ios" or _cat_name == "kotlin" or _cat_name == "flutter" or _cat_name == "mobile" %}
+  {% assign cat_color = "mobile" %}
+{% elsif _cat_name == "cloud" or _cat_name == "docker" or _cat_name == "devops" or _cat_name == "k8s" or _cat_name == "kubernetes" %}
+  {% assign cat_color = "cloud" %}
+{% elsif _cat_name == "data" or _cat_name == "db" or _cat_name == "database" or _cat_name == "sql" %}
+  {% assign cat_color = "data" %}
+{% elsif _cat_name == "design" or _cat_name == "ui" or _cat_name == "ux" or _cat_name == "art" %}
+  {% assign cat_color = "design" %}
+{% elsif _cat_name == "hardware" or _cat_name == "device" or _cat_name == "gadget" or _cat_name == "iot" %}
+  {% assign cat_color = "hardware" %}
 {% endif %}
