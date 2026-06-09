@@ -289,9 +289,28 @@ document.addEventListener('DOMContentLoaded', function() {
     var btn = document.getElementById('tocMobileBtn');
     var overlay = document.getElementById('tocMobileOverlay');
     var closeBtn = document.getElementById('tocDrawerClose');
+    var tocCard = document.getElementById('toc-sidebar');
+    var collapseBtn = document.getElementById('tocCollapseBtn');
+
+    if (tocCard && collapseBtn) {
+      function setTocCollapsed(collapsed) {
+        tocCard.classList.toggle('is-collapsed', collapsed);
+        collapseBtn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+        collapseBtn.setAttribute('aria-label', collapsed ? '展开文章目录' : '折叠文章目录');
+        collapseBtn.title = collapsed ? '展开文章目录' : '折叠文章目录';
+        var content = document.getElementById(collapseBtn.getAttribute('aria-controls'));
+        if (content) content.setAttribute('aria-hidden', collapsed ? 'true' : 'false');
+      }
+
+      setTocCollapsed(false);
+      collapseBtn.addEventListener('click', function() {
+        setTocCollapsed(!tocCard.classList.contains('is-collapsed'));
+      });
+    }
+
     if (!btn || !overlay) return;
 
-    if (!document.getElementById('toc-sidebar')) {
+    if (!tocCard) {
       btn.style.display = 'none';
       overlay.setAttribute('aria-hidden', 'true');
       return;

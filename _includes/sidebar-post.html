@@ -1,7 +1,16 @@
 <!-- Desktop TOC — sticky on large screens -->
 <div class="sidebar-card toc-card-widget" id="toc-sidebar">
-  <h3 class="sidebar-card-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px"><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>文章目录</h3>
-  <div class="toc-content">
+  <div class="toc-card-header">
+    <button class="toc-collapse-btn" id="tocCollapseBtn" aria-label="折叠文章目录" aria-controls="toc-content-generated" aria-expanded="true" type="button">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="4" y1="6" x2="20" y2="6"></line>
+        <line x1="4" y1="12" x2="20" y2="12"></line>
+        <line x1="4" y1="18" x2="20" y2="18"></line>
+      </svg>
+    </button>
+    <h3 class="sidebar-card-title toc-card-title">文章目录</h3>
+  </div>
+  <div class="toc-content" id="toc-content-generated">
     <ul class="toc-list" id="toc-list-generated"></ul>
   </div>
 </div>
