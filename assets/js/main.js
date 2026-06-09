@@ -311,23 +311,37 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!btn || !overlay) return;
 
     if (!tocCard) {
-      btn.style.display = 'none';
+      btn.classList.remove('is-enabled');
       overlay.setAttribute('aria-hidden', 'true');
       return;
     }
 
-    var savedPos = localStorage.getItem('tocBtnPos');
-    if (savedPos) {
-      try {
-        var pos = JSON.parse(savedPos);
-        btn.style.left = pos.left;
-        btn.style.top = pos.top;
-        btn.style.right = 'auto';
-        btn.style.bottom = 'auto';
-      } catch(e) {}
+    function setButtonPosition(left, top) {
+      var width = btn.offsetWidth || 48;
+      var height = btn.offsetHeight || 48;
+      left = Math.max(8, Math.min(window.innerWidth - width - 8, left));
+      top = Math.max(8, Math.min(window.innerHeight - height - 8, top));
+      btn.style.right = 'auto';
+      btn.style.bottom = 'auto';
+      btn.style.left = left + 'px';
+      btn.style.top = top + 'px';
     }
 
+    function restoreButtonPosition() {
+      var savedPos = localStorage.getItem('tocBtnPos');
+      if (!savedPos) return;
+      try {
+        var pos = JSON.parse(savedPos);
+        var left = parseInt(pos.left, 10);
+        var top = parseInt(pos.top, 10);
+        if (!Number.isNaN(left) && !Number.isNaN(top)) setButtonPosition(left, top);
+      } catch(e) {}
+    }
+    restoreButtonPosition();
+    window.addEventListener('resize', restoreButtonPosition, { passive: true });
+
     function openOverlay() {
+      if (!btn.classList.contains('is-enabled')) return;
       overlay.classList.add('open');
       overlay.setAttribute('aria-hidden', 'false');
       btn.setAttribute('aria-expanded', 'true');
@@ -343,10 +357,14 @@ document.addEventListener('DOMContentLoaded', function() {
       if (returnFocus) btn.focus();
     }
 
-    var startX, startY, origLeft, origTop, isDragging = false;
+    var startX, startY, origLeft, origTop, isDragging = false, suppressClick = false;
 
     btn.addEventListener('click', function(e) {
-      if (btn.classList.contains('is-dragging')) return;
+      if (suppressClick || btn.classList.contains('is-dragging')) {
+        e.preventDefault();
+        suppressClick = false;
+        return;
+      }
       e.stopPropagation();
       openOverlay();
     });
@@ -376,26 +394,26 @@ document.addEventListener('DOMContentLoaded', function() {
       e.preventDefault();
       var newLeft = origLeft + dx;
       var newTop = origTop + dy;
-      newLeft = Math.max(8, Math.min(window.innerWidth - btn.offsetWidth - 8, newLeft));
-      newTop = Math.max(8, Math.min(window.innerHeight - btn.offsetHeight - 8, newTop));
-      btn.style.left = newLeft + 'px';
-      btn.style.top = newTop + 'px';
+      setButtonPosition(newLeft, newTop);
     }, {passive: false});
 
     btn.addEventListener('touchend', function() {
-      btn.classList.remove('is-dragging');
       if (isDragging) {
         localStorage.setItem('tocBtnPos', JSON.stringify({
           left: btn.style.left,
           top: btn.style.top
         }));
+        suppressClick = true;
         isDragging = false;
+        setTimeout(function() { suppressClick = false; }, 350);
       }
+      btn.classList.remove('is-dragging');
     });
 
     if (closeBtn) closeBtn.addEventListener('click', function() { closeOverlay(true); });
     overlay.addEventListener('click', function(e) {
       if (e.target === overlay) closeOverlay(true);
+      else if (e.target && e.target.closest && e.target.closest('.toc-list a')) closeOverlay(false);
     });
   }
 
@@ -425,21 +443,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function initToc() {
     var tocCard = document.getElementById('toc-sidebar');
-    if (!tocCard) return;
-    var main = document.querySelector('.main-content');
+    var btn = document.getElementById('tocMobileBtn');
+    var overlay = document.getElementById('tocMobileOverlay');
+    if (!tocCard) {
+      if (btn) btn.classList.remove('is-enabled');
+      if (overlay) overlay.setAttribute('aria-hidden', 'true');
+      return;
+    }
+    var articleBody = document.querySelector('.article-content.markdown-body');
     var list = document.getElementById('toc-list-generated');
     var mobileList = document.getElementById('toc-mobile-list');
-    var headings = main ? main.querySelectorAll('h1, h2, h3, h4') : [];
+    var headings = articleBody ? articleBody.querySelectorAll('h1, h2, h3, h4') : [];
 
-    if (!main || headings.length < 2) {
+    if (!articleBody || !headings.length) {
       tocCard.style.display = 'none';
-      var btn = document.getElementById('tocMobileBtn');
-      var overlay = document.getElementById('tocMobileOverlay');
-      if (btn) btn.style.display = 'none';
+      if (btn) {
+        btn.classList.remove('is-enabled');
+        btn.setAttribute('aria-expanded', 'false');
+      }
       if (overlay) overlay.setAttribute('aria-hidden', 'true');
       return;
     }
 
+    tocCard.style.display = '';
+    if (btn) {
+      btn.style.display = '';
+      btn.classList.add('is-enabled');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+    if (overlay) overlay.setAttribute('aria-hidden', 'true');
     if (list) buildTocList(list, headings);
     if (mobileList) buildTocList(mobileList, headings);
   }
@@ -458,10 +490,10 @@ document.addEventListener('DOMContentLoaded', function() {
       var links = tocList.querySelectorAll('a');
       if (!links.length || typeof IntersectionObserver === 'undefined') return;
 
-      var main = document.querySelector('.main-content');
-      if (!main) return;
-      var headings = main.querySelectorAll('h1, h2, h3, h4');
-      if (headings.length < 2) return;
+      var articleBody = document.querySelector('.article-content.markdown-body');
+      if (!articleBody) return;
+      var headings = articleBody.querySelectorAll('h1, h2, h3, h4');
+      if (!headings.length) return;
 
       var observer = new IntersectionObserver(function(entries) {
         var visibleEntry = null;
@@ -1142,8 +1174,8 @@ document.addEventListener('DOMContentLoaded', function() {
   setupGotop();
   initMermaidDiagrams();
   initCodeBlocks();
-  setupTocToggle();
   initToc();
+  setupTocToggle();
   initTocHighlight();
   initTables();
   initArticleImages();

@@ -1474,7 +1474,7 @@ img { max-width: 100%; height: auto; }
   box-shadow: var(--animal-shadow-sm);
 }
 @media (max-width: 1023px) {
-  .toc-mobile-btn {
+  .toc-mobile-btn.is-enabled {
     display: flex;
   }
 }
