@@ -35,8 +35,215 @@
       }
       body { opacity: 1; }
     </style>
-    <link rel="stylesheet" href="{{ site.url }}/assets/css/theme-modern.min.css?v={{ site.time | date: '%s' }}">
-    <noscript><style>body{opacity:1}#pg-bar{display:none}</style></noscript>
+    <style>
+      /* Critical: CSS Variables (inlined for first paint) */
+/* ===== 1. CSS Variables (Animal Design System) ===== */
+:root {
+  /* Primary colors */
+  --animal-primary: #19c8b9;
+  --animal-primary-hover: #3dd4c6;
+  --animal-primary-active: #50b9ab;
+
+  /* Text - warm brown */
+  --animal-text: #725d42;
+  --animal-text-secondary: #9f927d;
+  --animal-text-muted: #c4b89e;
+
+  /* Background */
+  --animal-bg: #f8f8f0;
+  --animal-bg-card: #f7f3df;
+  --animal-bg-secondary: #f0e8d8;
+  --animal-bg-hover: rgba(0,0,0,0.04);
+  --animal-bg-header: rgba(255,255,255,0.9);
+
+  /* Border */
+  --animal-border: #aaa69d;
+  --animal-border-light: #e8e2d6;
+  --animal-border-card: rgba(114,93,66,0.1);
+
+  /* Shadow */
+  --animal-shadow-sm: 0 2px 4px 0 rgba(61,52,40,0.06);
+  --animal-shadow-base: 0 3px 10px 0 rgba(61,52,40,0.1);
+  --animal-shadow-lg: 0 8px 24px 0 rgba(61,52,40,0.14);
+  --animal-shadow-btn: 0 4px 0 #bdaea0;
+
+  /* Radius */
+  --animal-radius-sm: 16px;
+  --animal-radius-base: 18px;
+  --animal-radius-lg: 24px;
+  --animal-radius-xl: 20px;
+  --animal-radius-md: 8px;
+  --animal-radius-full: 50px;
+
+  /* Font */
+  --animal-font: 'Nunito', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+
+  /* Spacing */
+  --animal-gap-xs: 4px;
+  --animal-gap-sm: 8px;
+  --animal-gap-md: 12px;
+  --animal-gap-lg: 16px;
+  --animal-gap-xl: 24px;
+
+  /* Layout */
+  --container-max: 1120px;
+
+  /* Category card palettes - background/text pairs are contrast checked */
+  --card-reads-bg: #f2d27a;
+  --card-reads-text: #4d3510;
+  --card-reads-muted: #614819;
+  --card-reads-accent: #9f6c15;
+  --card-reads-badge-bg: rgba(77,53,16,0.11);
+  --card-reads-badge-text: #4d3510;
+
+  --card-security-bg: #923c3f;
+  --card-security-text: #fff8f0;
+  --card-security-muted: #f8d8cf;
+  --card-security-accent: #ffd0b5;
+  --card-security-badge-bg: rgba(255,248,240,0.18);
+  --card-security-badge-text: #fff8f0;
+
+  --card-tool-bg: #80ccd2;
+  --card-tool-text: #173d44;
+  --card-tool-muted: #244d55;
+  --card-tool-accent: #1f7e89;
+  --card-tool-badge-bg: rgba(23,61,68,0.12);
+  --card-tool-badge-text: #173d44;
+
+  --card-ai-bg: #5a60b8;
+  --card-ai-text: #fbf9ff;
+  --card-ai-muted: #f0edff;
+  --card-ai-accent: #d7d2ff;
+  --card-ai-badge-bg: rgba(251,249,255,0.18);
+  --card-ai-badge-text: #fbf9ff;
+
+  --card-dev-bg: #287f76;
+  --card-dev-text: #f4fffc;
+  --card-dev-muted: #eafffa;
+  --card-dev-accent: #b8fff1;
+  --card-dev-badge-bg: rgba(244,255,252,0.18);
+  --card-dev-badge-text: #f4fffc;
+
+  --card-thinking-bg: #c49add;
+  --card-thinking-text: #3a2447;
+  --card-thinking-muted: #4e315d;
+  --card-thinking-accent: #7a4498;
+  --card-thinking-badge-bg: rgba(58,36,71,0.12);
+  --card-thinking-badge-text: #3a2447;
+
+  --card-life-bg: #a7c978;
+  --card-life-text: #2f421f;
+  --card-life-muted: #384c23;
+  --card-life-accent: #5f7d30;
+  --card-life-badge-bg: rgba(47,66,31,0.12);
+  --card-life-badge-text: #2f421f;
+
+  --card-travel-bg: #82bce8;
+  --card-travel-text: #163755;
+  --card-travel-muted: #1e4363;
+  --card-travel-accent: #2c75a7;
+  --card-travel-badge-bg: rgba(22,55,85,0.12);
+  --card-travel-badge-text: #163755;
+
+  --card-invest-bg: #d5a54c;
+  --card-invest-text: #3e2b08;
+  --card-invest-muted: #4b370b;
+  --card-invest-accent: #7d560f;
+  --card-invest-badge-bg: rgba(62,43,8,0.12);
+  --card-invest-badge-text: #3e2b08;
+
+  --card-web-bg: #6aa6d8;
+  --card-web-text: #10334e;
+  --card-web-muted: #143a58;
+  --card-web-accent: #1d679f;
+  --card-web-badge-bg: rgba(16,51,78,0.12);
+  --card-web-badge-text: #10334e;
+
+  --card-mobile-bg: #66be8c;
+  --card-mobile-text: #103b28;
+  --card-mobile-muted: #16442e;
+  --card-mobile-accent: #24744a;
+  --card-mobile-badge-bg: rgba(16,59,40,0.12);
+  --card-mobile-badge-text: #103b28;
+
+  --card-cloud-bg: #a8b9d7;
+  --card-cloud-text: #24364f;
+  --card-cloud-muted: #364963;
+  --card-cloud-accent: #526d9c;
+  --card-cloud-badge-bg: rgba(36,54,79,0.12);
+  --card-cloud-badge-text: #24364f;
+
+  --card-data-bg: #536fae;
+  --card-data-text: #f8fbff;
+  --card-data-muted: #f0f5ff;
+  --card-data-accent: #d5e2ff;
+  --card-data-badge-bg: rgba(248,251,255,0.18);
+  --card-data-badge-text: #f8fbff;
+
+  --card-design-bg: #e7a0ae;
+  --card-design-text: #4a1d2a;
+  --card-design-muted: #653040;
+  --card-design-accent: #9a4059;
+  --card-design-badge-bg: rgba(74,29,42,0.12);
+  --card-design-badge-text: #4a1d2a;
+
+  --card-hardware-bg: #b9a77d;
+  --card-hardware-text: #352a17;
+  --card-hardware-muted: #493b22;
+  --card-hardware-accent: #72572a;
+  --card-hardware-badge-bg: rgba(53,42,23,0.12);
+  --card-hardware-badge-text: #352a17;
+
+  --card-default-bg: #f7f0dc;
+  --card-default-text: #6b5437;
+  --card-default-muted: #806847;
+  --card-default-accent: #9f927d;
+  --card-default-badge-bg: rgba(107,84,55,0.1);
+  --card-default-badge-text: #6b5437;
+
+  /* Compatibility aliases used by older shared UI rules */
+  --card-green: var(--card-life-bg);
+  --card-orange: var(--card-tool-bg);
+  --card-blue: var(--card-web-bg);
+  --card-pink: var(--card-design-bg);
+  --card-yellow: var(--card-reads-bg);
+  --card-teal: var(--card-dev-bg);
+  --card-red: var(--card-security-bg);
+  --card-purple: var(--card-ai-bg);
+  --card-default: var(--card-default-bg);
+
+  /* Page background */
+  --page-bg: #fafaf5;
+  --page-bg-dark: #1a1a1a;
+}
+.dark {
+  --animal-text: #e8dcc8;
+  --animal-text-secondary: #a09080;
+  --animal-text-muted: #6a5d4d;
+  --animal-bg: #1a1816;
+  --animal-bg-card: #24211d;
+  --animal-bg-secondary: #2a2622;
+  --animal-bg-header: rgba(26,24,22,0.9);
+  --animal-border: #3a3530;
+  --animal-border-light: #2a2622;
+  --animal-border-card: rgba(200,180,160,0.1);
+  --animal-shadow-sm: 0 2px 4px 0 rgba(0,0,0,0.2);
+  --animal-shadow-base: 0 3px 10px 0 rgba(0,0,0,0.3);
+  --animal-shadow-lg: 0 8px 24px 0 rgba(0,0,0,0.4);
+  --animal-shadow-btn: 0 4px 0 #3a3530;
+  --page-bg: #141210;
+  --card-default-bg: #24211d;
+  --card-default-text: #e8dcc8;
+  --card-default-muted: #a09080;
+  --card-default-accent: #6a5d4d;
+  --card-default-badge-bg: rgba(232,220,200,0.1);
+  --card-default-badge-text: #e8dcc8;
+  --card-default: var(--card-default-bg);
+}
+
+    </style>
+    <link rel="preload" as="style" href="{{ site.url }}/assets/css/theme-modern.min.css?v={{ site.time | date: '%s' }}" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="{{ site.url }}/assets/css/theme-modern.min.css?v={{ site.time | date: '%s' }}"><style>body{opacity:1}#pg-bar{display:none}</style></noscript>
     <link rel="canonical" href="{{ page.url | prepend: site.url | escape }}">
     <link rel="alternate" type="application/atom+xml" title="{{ site.title | escape }}" href="{{ site.url }}{{ site.subscribe_rss | escape }}">
     <link rel="shortcut icon" href="{{ assets_base_url | escape }}/favicon.ico">
