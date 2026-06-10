@@ -272,7 +272,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     var script = document.createElement('script');
+    // Use jsDelivr CDN (⚠ in China, may be slow — set 5s timeout fallback)
     script.src = 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js';
+    // Timeout fallback: if CDN takes >5s, show graceful error instead of hanging
+    var mermaidTimer = setTimeout(function() {
+      script.onerror = script.onerror || function() {};
+      script.onerror();
+    }, 5000);
+    function clearMermaidTimer() { clearTimeout(mermaidTimer); }
+    script.onload = clearMermaidTimer;
+    script.onerror = (function(orig) { return function() { clearMermaidTimer(); if (orig) orig(); }; })(script.onerror);
     script.async = true;
     script.crossOrigin = 'anonymous';
     script.referrerPolicy = 'no-referrer';
