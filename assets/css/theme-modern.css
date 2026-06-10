@@ -2984,6 +2984,48 @@ img + em { color: var(--animal-text-muted); display: block; text-align: center; 
   text-decoration: none;
 }
 .search-page-link:hover { color: var(--animal-primary); }
+.utterances-placeholder,
+.utterances-loading,
+.utterances-fallback {
+  color: var(--animal-text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 24px 16px;
+  text-align: center;
+}
+.utterances-load-btn {
+  background: var(--animal-bg-secondary);
+  border: 2px solid var(--animal-border-card);
+  border-radius: var(--animal-radius-full);
+  box-shadow: 0 2px 0 var(--animal-border-light);
+  color: var(--animal-text);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 900;
+  min-height: 38px;
+  padding: 8px 16px;
+  transition: all 0.2s ease;
+}
+.utterances-load-btn:hover {
+  background: var(--animal-bg-card);
+  border-color: var(--animal-border);
+  box-shadow: 0 3px 0 var(--animal-border);
+  transform: translateY(-1px);
+}
+.utterances-loading svg {
+  animation: utter-spin 1s linear infinite;
+  display: inline-block;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+.utterances-fallback a {
+  color: var(--animal-primary);
+  text-decoration: underline;
+}
+@keyframes utter-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
 .mermaid {
   background: var(--animal-bg-card);
   border: 2px solid var(--animal-border-card);

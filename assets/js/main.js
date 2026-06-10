@@ -271,25 +271,25 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
 
-    var script = document.createElement('script');
-    // Use jsDelivr CDN (⚠ in China, may be slow — set 5s timeout fallback)
-    script.src = 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js';
-    // Timeout fallback: if CDN takes >5s, show graceful error instead of hanging
-    var mermaidTimer = setTimeout(function() {
-      script.onerror = script.onerror || function() {};
-      script.onerror();
-    }, 5000);
-    function clearMermaidTimer() { clearTimeout(mermaidTimer); }
-    script.onload = clearMermaidTimer;
-    script.onerror = (function(orig) { return function() { clearMermaidTimer(); if (orig) orig(); }; })(script.onerror);
-    script.async = true;
-    script.crossOrigin = 'anonymous';
-    script.referrerPolicy = 'no-referrer';
-    script.onload = render;
-    script.onerror = function() {
+    function showMermaidError() {
       nodes.forEach(function(node) {
         node.classList.add('mermaid-error');
       });
+    }
+
+    var script = document.createElement('script');
+    script.src = '/assets/vendor/mermaid.min.js';
+    var mermaidTimer = setTimeout(function() {
+      showMermaidError();
+    }, 8000);
+    script.async = true;
+    script.onload = function() {
+      clearTimeout(mermaidTimer);
+      render();
+    };
+    script.onerror = function() {
+      clearTimeout(mermaidTimer);
+      showMermaidError();
     };
     document.head.appendChild(script);
   }
@@ -798,18 +798,24 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!container || container.getAttribute('data-utterances-loaded') === 'true') return;
 
     var placeholder = document.getElementById('utterances-placeholder');
+    var loadButton = document.getElementById('utterances-load-btn');
+    var loading = document.getElementById('utterances-loading');
     var fallback = document.getElementById('utterances-fallback');
     var loaded = false;
 
     function setLoadedState(showFallback) {
       if (placeholder) placeholder.style.display = 'none';
-      if (fallback) fallback.style.display = showFallback ? 'block' : 'none';
+      if (loading) loading.hidden = true;
+      if (fallback) fallback.hidden = !showFallback;
     }
 
     function loadComments() {
       if (loaded) return;
       loaded = true;
       container.setAttribute('data-utterances-loaded', 'true');
+      if (placeholder) placeholder.style.display = 'none';
+      if (loading) loading.hidden = false;
+      if (fallback) fallback.hidden = true;
 
       var repo = container.getAttribute('data-utterances-repo');
       if (!repo) {
@@ -858,18 +864,50 @@ document.addEventListener('DOMContentLoaded', function() {
       container.appendChild(script);
     }
 
-    if ('IntersectionObserver' in window) {
-      var io = new IntersectionObserver(function(entries) {
-        if (!entries.some(function(entry) { return entry.isIntersecting; })) return;
-        io.disconnect();
-        loadComments();
-      }, { rootMargin: '400px 0px' });
-      io.observe(container);
-    } else {
-      window.addEventListener('load', function() {
-        setTimeout(loadComments, 800);
-      }, { once: true });
+    if (loadButton) loadButton.addEventListener('click', loadComments);
+  }
+
+  function initBusuanzi() {
+    var hasCounter = document.getElementById('busuanzi_value_site_pv') || document.getElementById('busuanzi_value_page_pv');
+    if (!hasCounter || window.__busuanziLoading) return;
+
+    function setCounterFallback() {
+      ['busuanzi_value_site_pv', 'busuanzi_value_page_pv'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el && el.textContent === '...') el.textContent = '--';
+      });
     }
+
+    function loadBusuanzi() {
+      if (window.__busuanziLoading) return;
+      window.__busuanziLoading = true;
+      var script = document.createElement('script');
+      script.src = 'https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js';
+      script.async = true;
+      script.setAttribute('data-busuanzi-loader', 'true');
+      var timer = setTimeout(setCounterFallback, 8000);
+      script.onload = function() { clearTimeout(timer); };
+      script.onerror = function() {
+        clearTimeout(timer);
+        setCounterFallback();
+      };
+      document.body.appendChild(script);
+    }
+
+    function scheduleLoad() {
+      var delay = 2500;
+      if (navigator.connection && navigator.connection.saveData) delay = 8000;
+      setTimeout(function() {
+        if ('requestIdleCallback' in window) {
+          window.requestIdleCallback(loadBusuanzi, { timeout: 5000 });
+        } else {
+          loadBusuanzi();
+        }
+      }, delay);
+    }
+
+    if (document.readyState === 'complete') scheduleLoad();
+    else window.addEventListener('load', scheduleLoad, { once: true });
   }
 
   var searchDataPromise = null;
@@ -1266,6 +1304,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initArticleImages();
   initCategoryPageFilter();
   initUtterances();
+  initBusuanzi();
   initRandomPostLinks();
   initSearch();
 });

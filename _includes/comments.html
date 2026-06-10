@@ -4,20 +4,17 @@
      data-utterances-issue-term="{{ site.utterances.issue_term | default: 'pathname' | escape }}"
      data-utterances-theme="{{ site.utterances.theme | default: 'github-light' | escape }}"
      data-utterances-loaded="false">
-  <div id="utterances-placeholder" style="text-align:center;padding:24px 16px;color:var(--animal-text-muted);font-size:13px;font-weight:500;">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block;vertical-align:middle;margin-right:6px;animation:utter-spin 1s linear infinite;">
+  <div id="utterances-placeholder" class="utterances-placeholder">
+    <button id="utterances-load-btn" class="utterances-load-btn" type="button">查看评论</button>
+  </div>
+  <div id="utterances-loading" class="utterances-loading" hidden>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
       <circle cx="12" cy="12" r="10" stroke-dasharray="31.4 31.4" stroke-linecap="round"/>
     </svg>
     加载评论…
   </div>
-  <div id="utterances-fallback" style="display:none;text-align:center;padding:32px 16px;color:var(--animal-text-muted);font-size:13px;font-weight:500;">
-    评论加载超时😅 请 <a href="https://github.com/{{ site.utterances.repo | escape }}/issues" target="_blank" rel="noopener noreferrer" style="color:var(--animal-primary);text-decoration:underline;">在 GitHub 上查看/发表评论</a>
+  <div id="utterances-fallback" class="utterances-fallback" hidden>
+    评论暂时加载失败。可 <a href="https://github.com/{{ site.utterances.repo | escape }}/issues" target="_blank" rel="noopener noreferrer">打开评论页</a> 查看/发表评论。
   </div>
 </div>
-<style>
-@keyframes utter-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-</style>
 {% endif %}

@@ -11,7 +11,7 @@ layout: default
   </header>
 
   <article class="article-content markdown-body">
-    {{ content }}
+    {{ content | replace: '<img ', '<img loading="lazy" decoding="async" ' }}
   </article>
 
   <div class="comment">
