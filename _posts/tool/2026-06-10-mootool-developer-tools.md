@@ -3,7 +3,7 @@ layout: post
 categories: [tool]
 title: "MooTool：一款跨平台开发者常备小工具集合"
 tags: [开源, 工具, JavaFX, 跨平台, 开发者工具, GitHub]
-description: "MooTool 是一站式跨平台（Windows/macOS/Linux）开发者辅助工具集合，集成翻译、HTTP 调试、UA 解析、图片 OCR、Cron 解析、JSON/Protobuf 互转、系统信息查看等十多个高频小工具，一个 App 覆盖开发者的日常"工具箱"需求。"
+description: "MooTool 是一站式跨平台（Windows/macOS/Linux）开发者辅助工具集合，集成翻译、HTTP 调试、UA 解析、图片 OCR、Cron 解析、JSON/Protobuf 互转、系统信息查看等十多个高频小工具，一个 App 覆盖开发者的日常「工具箱」需求。"
 ---
 
 ## MooTool 是什么
