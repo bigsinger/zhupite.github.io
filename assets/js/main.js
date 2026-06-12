@@ -460,6 +460,50 @@ document.addEventListener('DOMContentLoaded', function() {
       if (e.target === overlay) closeOverlay(true);
       else if (e.target && e.target.closest && e.target.closest('.toc-list a')) closeOverlay(false);
     });
+
+    /* ---- Mouse drag support (desktop) ---- */
+    btn.addEventListener('mousedown', function(e) {
+      var rect = btn.getBoundingClientRect();
+      startX = e.clientX;
+      startY = e.clientY;
+      origLeft = rect.left;
+      origTop = rect.top;
+      btn.style.right = 'auto';
+      btn.style.bottom = 'auto';
+      setButtonPosition(origLeft, origTop);
+      isDragging = false;
+      e.preventDefault();
+    });
+
+    function onMouseMove(e) {
+      if (isDragging === undefined || startX === undefined) return;
+      var dx = e.clientX - startX;
+      var dy = e.clientY - startY;
+      if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+        isDragging = true;
+        btn.classList.add('is-dragging');
+      }
+      if (!isDragging) return;
+      var newLeft = origLeft + dx;
+      var newTop = origTop + dy;
+      setButtonPosition(newLeft, newTop);
+    }
+
+    function onMouseUp() {
+      if (isDragging) {
+        localStorage.setItem('tocBtnPos', JSON.stringify({
+          left: btn.style.left,
+          top: btn.style.top
+        }));
+        suppressClick = true;
+        isDragging = false;
+        setTimeout(function() { suppressClick = false; }, 350);
+      }
+      btn.classList.remove('is-dragging');
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
   }
 
   function buildTocList(list, headings) {
