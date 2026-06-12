@@ -1,233 +1,162 @@
 ---
 layout: post
-title: "Wechatsync / 文章同步助手：开源免费的多平台内容分发工具"
+title: "Wechatsync（文章同步助手）：写一篇文章，29+ 平台一键发布"
 categories: [tool]
-description: "Wechatsync（文章同步助手）是一个开源免费的 Chrome 扩展，支持一键将文章同步到微信公众号、知乎、掘金、CSDN、头条、小红书等 29+ 内容平台。GitHub 5.7K Stars，采用 TypeScript 开发，提供浏览器扩展、CLI 命令行、JS SDK 和 MCP 集成四层使用方式。本文从项目背景、技术架构、适配器机制、安装使用、集成方式等维度全面介绍这个工具。"
+description: "Wechatsync（文章同步助手）是一个开源免费的 Chrome 扩展，支持将一篇文章一键同步到微信公众号、知乎、掘金、CSDN、头条、小红书等 29+ 平台。GitHub 5.7K Stars。本文从实际使用角度介绍安装、三种使用场景、操作技巧和注意事项。"
 tags:
   - Wechatsync
   - 文章同步助手
-  - 开源
-  - Chrome扩展
   - 多平台发布
-  - MCP
+  - 自媒体
+  - Chrome扩展
+  - 效率工具
 ---
 
-如果你同时维护多个内容平台——公众号、知乎、掘金、CSDN、头条——大概率经历过"写完文章后在每个平台分别登录、粘贴、排版、配图"的机械劳动。
+如果你同时运营多个内容平台——比如公众号写了文章，还要复制到知乎、掘金、CSDN、头条各发一遍——你大概率经历过这种场景：文章写十分钟，排版分发半小时。
 
-[**Wechatsync（文章同步助手）**](https://github.com/wechatsync/Wechatsync) 就是为了解决这个问题而生的开源免费工具。GitHub 上 5.7K Stars、936 Forks，是中文互联网上覆盖最广的多平台同步方案之一。
+[**Wechatsync（文章同步助手）**](https://github.com/wechatsync/Wechatsync) 就是为解决这个问题而生的。它是一个开源免费的 Chrome 扩展，GitHub 上 5.7K Stars，能把你的一篇文章**一键同步到 29 个内容平台**，自动处理格式转换和图片迁移。
 
----
-
-## 一、项目背景
-
-Wechatsync 的作者是开发者 [fun](https://fun0.netlify.app/about/)，项目最早源于 2016 年的一次需求——同事需要在 WordPress 和微信公众号之间同步文章，两边重复排版很痛苦。最初是一个基于搜狗搜索 + 打码平台的爬虫方案，后来随着平台变化逐渐失效，于是在 2019 年重写为 Chrome 扩展形态，2020 年 9 月在 GitHub 开源。
-
-项目的核心理念是 **本地优先、隐私安全**：所有用户信息存储在浏览器本地，不依赖云端服务器。相比 OpenWrite 等云端方案，免去了 Cookie 和 Token 可能被盗用的风险；相比 artipub 等需要自行部署的方案，安装和使用门槛更低。
+这篇文章从**使用者的角度**介绍它的安装、三种主要使用方式和一些实用技巧。
 
 ---
 
-## 二、技术架构概览
+## 一、它能做什么
 
-Wechatsync 采用 TypeScript 开发，项目结构主要分为三层：
+简单说：**写一篇文章，N 个平台同时发**。
 
-```
-┌─────────────────────────────────────────────┐
-│  chrome-extension/                          │  展示层
-│  - popup 界面                               │
-│  - Markdown 编辑器                          │
-│  - 同步任务面板                             │
-├─────────────────────────────────────────────┤
-│  packages/@wechatsync/drivers/              │  适配层
-│  - 各平台适配器（zhihu.js, juejin.js 等）   │
-│  - BaseAdapter 抽象类                       │
-├─────────────────────────────────────────────┤
-│  packages/cli/                              │  CLI 层
-│  - wechatsync sync article.md -p zhihu     │
-├─────────────────────────────────────────────┤
-│  article-syncjs / integrations/             │  集成层
-│  - JS SDK + PHP/MCP 集成                    │
-└─────────────────────────────────────────────┘
-```
-
-### 适配器架构
-
-这是项目最核心的设计。每个目标平台对应一个独立的适配器（Adapter），继承自 `BaseAdapter`：
-
-```typescript
-class BaseAdapter {
-  async getMetaData()    // 获取用户信息和登录状态
-  async preEditPost()    // 预处理平台不兼容的文本
-  async addPost()        // 创建文章（草稿）
-  async uploadFile()     // 上传图片
-  async editPost()       // 更新文章（替换图片地址）
-}
-```
-
-适配器在 JS VM 沙箱中运行，提供了 `$`（jQuery）、`axios`、`turndown`、`CryptoJS` 等常用库，以及 `setCache`/`getCache` 缓存接口。开发者不需要了解扩展的内部逻辑，只需要模拟目标平台的 API 调用即可。
-
-项目还提供了[在线开发工具](https://developer.wechatsync.com/)，支持在浏览器中直接编写、部署、测试适配器，实时查看日志输出——降低了贡献门槛。
-
----
-
-## 三、支持的平台
-
-截至 2026 年，Wechatsync 官方标注支持 29+ 平台，覆盖了中文互联网主流的自媒体和内容社区：
+支持的平台包括：
 
 | 类别 | 平台 |
 |------|------|
-| **主流自媒体** | 微信公众号、知乎、微博、头条号、百家号、搜狐号、大鱼号、一点资讯 |
-| **技术社区** | CSDN、掘金、SegmentFault（思否）、博客园、51CTO、慕课网手记、开源中国 |
-| **开放平台** | WordPress、Typecho |
-| **其他** | Bilibili、豆瓣、简书 |
+| 主流自媒体 | 微信公众号、知乎、微博、头条号、百家号、搜狐号、大鱼号、一点资讯 |
+| 技术社区 | CSDN、掘金、SegmentFault（思否）、博客园、51CTO、慕课网手记、开源中国 |
+| 自建站 | WordPress、Typecho |
+| 其他 | Bilibili、豆瓣、简书 |
 
-支持类型包括 **HTML** 和 **Markdown** 两种格式，不同的平台根据其编辑器特性选择对应的格式。
+每次发文的流程从"登录 N 次 + 粘贴 N 次 + 排版 N 次"缩短为 → **在插件里勾选平台 → 点击发布**。
 
 ---
 
-## 四、安装与使用
+## 二、安装
 
-### 安装方式
+### 方法一：Chrome 商店安装（推荐）
 
-**Chrome Web Store（推荐）：**
-[Chrome 商店传送门](https://chrome.google.com/webstore/detail/hchobocdmclopcbnibdnoafilagadion)
+1. 打开 Chrome 网上应用店：[安装链接](https://chrome.google.com/webstore/detail/hchobocdmclopcbnibdnoafilagadion)
+2. 点击"添加至 Chrome"
+3. 安装完成后，浏览器右上角会出现扩展图标
 
-**开发者模式手动安装：**
-1. [下载 ZIP 包](http://wpics.oss-cn-shanghai.aliyuncs.com/WechatSync.zip?date=0625) 并解压
-2. 打开 `chrome://extensions`
+### 方法二：开发者模式手动安装
+
+1. [下载 ZIP 包](http://wpics.oss-cn-shanghai.aliyuncs.com/WechatSync.zip?date=0625) 并解压到本地文件夹
+2. 打开 Chrome，地址栏输入 `chrome://extensions`
 3. 右上角开启"开发者模式"
-4. 拖入解压后的文件夹
+4. 把解压后的文件夹拖入浏览器窗口
 
-### 三种使用场景
-
-**场景一：公众号文章同步到其他平台**
-
-这是 Wechatsync 的核心场景。在公众号文章页点击扩展图标，插件会提取文章正文（基于 Safari 阅读模式算法），然后在弹出的同步面板中选择目标平台，一键同步。支持自动转换格式、上传图片到目标平台。
-
-**场景二：在 Markdown 编辑器中写作并发布**
-
-插件内置了 Markdown 编辑器，可以直接写 Markdown 并同步到支持 Markdown 格式的平台（CSDN、掘金、博客园、思否等），或转换为 HTML 同步到其他平台。
-
-**场景三：从任何网页提取正文并同步**
-
-对于非公众号的普通网页，Wechatsync 同样支持正文提取和同步，实现"任意网页 → 任意平台"的跨站同步。
+两种方式效果一样。推荐方法一，后续可以自动更新。
 
 ---
 
-## 五、CLI 模式与集成方案
+## 三、三种使用场景
 
-Wechatsync 官网宣称支持 CLI 模式，可以将发布集成到脚本工作流中：
+### 场景一：把公众号文章同步到其他平台
 
-```bash
-wechatsync sync article.md -p zhihu,juejin,csdn
-```
+这是最常用的功能。操作步骤：
 
-对于需要进一步集成的场景，项目提供了多层集成方案：
+1. 在浏览器中打开一篇公众号文章
+2. 点击浏览器右上角的 Wechatsync 图标
+3. 插件会自动提取文章正文（包括图片和排版）
+4. 在弹出的同步面板中勾选目标平台（可以多选）
+5. 点击"同步"
 
-### 1. JS SDK（article-syncjs）
+插件会自动处理：把公众号的样式转换为各平台兼容的格式，图片上传到目标平台，链接保持有效。
 
-如果你有自己的编辑器或内容管理系统，可以通过引入 [article-syncjs](https://github.com/wechatsync/article-syncjs) 拉起 Wechatsync 的同步对话框：
+> **提示：** 如果提取的内容不完整，可以手动复制文章链接到插件再试。有些特殊排版（如 SVG 互动图、小程序卡片）可能无法完美迁移，建议同步后检查一下。
 
-```javascript
-window.syncPost({
-  title: '文章标题',
-  content: '<p>HTML 正文</p>'
-})
-```
+### 场景二：用 Markdown 写作并同步
 
-### 2. XML-RPC 伪装协议
+如果你习惯用 Markdown 写文章（很多技术博主是这样），Wechatsync 内置了 Markdown 编辑器：
 
-Wechatsync 内置的 WordPress 和 Typecho 适配器基于 XML-RPC 协议。如果你使用的是其他 PHP 后端（如 DedeCMS、ThinkPHP），可以通过伪装 WordPress XML-RPC 接口来获得 Wechatsync 支持。[PHP 范例参考](https://github.com/wechatsync/Wechatsync/tree/master/intergrations/php)
+1. 点击扩展图标 → 选择"Markdown 编辑器"
+2. 粘贴或直接写 Markdown 内容
+3. 对于支持 Markdown 的平台（CSDN、掘金、博客园、思否），插件会直接以 Markdown 格式发布
+4. 对于只支持富文本的平台（公众号、知乎），插件会自动将 Markdown 转换为 HTML
 
-### 3. 开发者适配器工具
+这意味着你可以**只在 Markdown 里写好一份内容**，剩下的格式转换交给插件。
 
-项目提供了在线开发环境 [developer.wechatsync.com](https://developer.wechatsync.com/)，支持：
-- 编写和调试适配器代码
-- 测试账号识别
-- 测试图片上传
-- 测试文章同步全流程
+### 场景三：从任何网页提取正文并同步
 
-### 4. AI / MCP 集成
+不只是公众号文章——**任何网页都可以作为同步源**。比如你在网上看到一篇好文章想要跨站分享，或者在自己的博客上发了一篇新文章，都可以：
 
-官网已展示 AI 写作工具的 MCP（Model Context Protocol）集成能力，意味着可以通过 AI 助手或 CLI 工具直接调用 Wechatsync 完成发布。
+1. 打开目标网页
+2. 点击扩展图标
+3. 插件基于 Safari 阅读模式算法提取正文
+4. 选择平台 → 同步
 
----
-
-## 六、适配器开发：以头条为例
-
-Wechatsync 的适配器开发流程相当直观。以下是一个简化的头条适配器示例：
-
-```javascript
-exports.driver = ToutiaoAdapter
-
-class ToutiaoAdapter {
-  async getMetaData() {
-    var res = await $.ajax({
-      url: 'https://mp.toutiao.com/mp/agw/media/get_media_info',
-    })
-    res = JSON.parse(res)
-    return {
-      uid: res.data.user.id,
-      title: res.data.user.screen_name,
-      supportTypes: ['html'],
-      type: 'toutiao',
-      displayName: '头条',
-    }
-  }
-
-  async addPost(post) {
-    // 创建草稿
-    var res = await $.ajax({
-      url: 'https://mp.toutiao.com/mp/agw/article/publish',
-      type: 'POST',
-      data: {
-        title: post.post_title,
-        content: post.post_content,
-        save: 0,
-      },
-    })
-    return { status: 'success', post_id: res.data.pgc_id }
-  }
-}
-```
-
-开发者在 developer.wechatsync.com 上编写完适配器后，按 `Ctrl+S` 即可部署到本地插件进行测试，调试日志在控制台实时输出。
+这在"自己博客 → 知乎/掘金"的场景下特别有用：博客先发，然后用插件提取正文同步到各平台。不需要在博客写好后再手动复制粘贴。
 
 ---
 
-## 七、不足与改进空间
+## 四、实际操作技巧
 
-作为开源项目，Wechatsync 也存在一些局限：
+### 首次使用前的准备
 
-| 问题 | 说明 |
-|------|------|
-| **维护频率** | 最新 Release 为 2021 年的 1.0.10，部分平台的 API 可能已变更 |
-| **平台覆盖面** | 虽然宣称 29+ 平台，但部分平台（如小红书、今日头条）的适配器稳定性依赖社区维护 |
-| **CLI 成熟度** | CLI 模式已在官网展示，但 GitHub 仓库的 packages/cli 目录仍在演进中 |
-| **会话管理** | 依赖浏览器本地 Cookie/Token，需要定期重新登录维持会话 |
-| **Markdown 支持** | Markdown 编辑器功能较为基础，不支持实时预览和高级排版 |
+各平台需要提前登录一次。因为 Wechatsync 基于你浏览器当前的登录态来操作，所以首次使用前，先手动登录你要同步的各个平台（知乎、CSDN、掘金等），**登录后在插件里能读取到账号信息**。
 
----
+### 同步后检查
 
-## 八、总结与推荐场景
+建议每次同步后快速检查两件事：
+- **标题**：有些平台对标题长度有限制，可能会被截断
+- **配图**：图片迁移过程中偶尔会丢失，尤其是公众号的素材图（非正文图）
+- **外链**：公众号文章如果包含外链，同步到头条等平台时可能被过滤
 
-**Wechatsync 适合谁用：**
-- 同时维护公众号 + 知乎 + 掘金 + CSDN 等多个平台的技术博主
-- 希望在自有 CMS/编辑器中集成多平台发布能力的团队
-- 对数据隐私敏感、不希望内容经过第三方云服务的内容创作者
+### 微信公众号的特殊处理
 
-**不适合的场景：**
-- 需要企业级高频率自动化发布（建议走各平台官方 API）
-- 对发布成功率要求极高的生产环境（建议配合人工确认流程）
-- 需要英文平台分发（可搭配 cross-post 等工具）
+Wechatsync 在公众号同步方面做了专门优化——**支持从公众号文章页直接提取**。但需要注意：
+- 公众号图片有防盗链机制，部分平台可能显示不了
+- 包含视频、小程序卡片的文章，视频/卡片可能无法同步
+- 建议先同步为草稿检查，确认没问题后再手动发布
 
-总的来说，Wechatsync 是中文互联网上目前最成熟的开源多平台同步方案。它的适配器架构设计合理，集成方式灵活——从浏览器扩展到 CLI，从 JS SDK 到 MCP——可以应对从个人博主到团队内容分发的多种需求。在商业工具（OpenWrite）和全自建方案之间，Wechatsync 提供了一个开源免费、隐私安全、可扩展的中间选择。
+### 多平台同步的顺序
+
+如果你的同步列表里既有公众号又有头条、知乎——**建议先同步支持 Markdown 的平台**（CSDN、掘金、博客园），再同步仅 HTML 的平台（公众号、头条）。因为 Markdown 平台的格式还原度更高，减少了手动调整的工作量。
 
 ---
 
-**相关资源：**
+## 五、和同类工具比有什么优势
+
+**和 OpenWrite 这类云端服务比：**
+Wechatsync 所有信息存在本地浏览器，不经过第三方服务器。你的账号 Cookie、Token 不会上传到云端——隐私角度更安全。
+
+**和 artipub 这类自部署方案比：**
+不需要自己搭服务器、配环境、维护依赖。安装一个浏览器扩展就行，使用门槛低很多。
+
+**和手动粘贴比：**
+不用每个平台分别排版。公众号的图文、Markdown 的格式、知乎的编辑器——插件自动适配各平台的兼容格式。
+
+---
+
+## 六、一些需要注意的地方
+
+- **维护节奏**：最新正式版是 1.0.10（2021 年发布的），部分平台改版后可能需要更新适配器。不过社区在持续维护，GitHub 上仍有活跃的 Issue 和 PR。
+- **会话有效期**：依赖浏览器 Cookie，需要定期重新登录维持会话。建议每周检查一次各平台的登录状态。
+- **平台风控**：不建议短时间高频同步大量文章。正常使用频率（一天几篇）没有问题，但批量搬运内容可能触发平台的反垃圾机制。
+- **再次排版**：自动转换不是 100% 完美的，尤其是复杂的表格、代码高亮、特殊排版。重要文章同步后建议快速检查。
+- **数据安全**：这是一个开源项目，所有代码公开在 GitHub。如果你对安全性有更高要求，可以自行审查代码。
+
+---
+
+## 七、适合谁用
+
+- **技术博主**：同时在公众号、知乎、掘金、CSDN 写技术文章，希望一次写稿多平台分发
+- **团队运营**：有内容团队，一次产出需要分发到多个渠道
+- **个人创作者**：维护 2-3 个平台的账号，需要减少重复劳动
+- **不想折腾的人**：不想自己搭服务器、写脚本，只想装个扩展就能用
+
+如果你符合上面任意一条，值得一试。安装花 2 分钟，之后每次发文省下 10-15 分钟的重复排版时间——这笔账怎么算都划算。
+
+---
+
+**相关链接：**
 - [GitHub 仓库](https://github.com/wechatsync/Wechatsync)
 - [官方网站](https://www.wechatsync.com/)
-- [Chrome 商店](https://chrome.google.com/webstore/detail/hchobocdmclopcbnibdnoafilagadion)
-- [API 文档](https://github.com/wechatsync/Wechatsync/blob/master/API.md)
-- [适配器开发指南](https://github.com/wechatsync/Wechatsync/blob/master/docs/toturial.md)
-- [在线适配器开发工具](https://developer.wechatsync.com/)
+- [Chrome 商店安装](https://chrome.google.com/webstore/detail/hchobocdmclopcbnibdnoafilagadion)
