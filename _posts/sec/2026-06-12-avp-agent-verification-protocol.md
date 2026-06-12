@@ -1,226 +1,173 @@
 ---
 layout: post
-title: "AVP：Agent 不该持有秘密——一个让凭证泄露变得不可能的开源方案"
+title: "Agent Vault Proxy：让 AI Agent 永远看不见真正的 API Key"
 categories: [sec]
-description: "AVP（Agent Verification Protocol）是一个在 Hacker News 上引起热议的开源项目，核心理念极简但颠覆性：Agent 不持有任何秘密。通过在 Agent 与敏感资源之间引入验证代理层，Agent 只接收经过验证的操作结果，永远不接触原始 API 密钥、数据库凭证或身份令牌，实现了 Agent 权限的运行时最小化。"
+description: "Agent Vault Proxy（AVP）是一个在 Hacker News 上引起热议的开源项目，由 inflightsec 发布。核心机制：Agent 只持有占位符（placeholder），真正的 API Key 由 HTTPS 代理在请求出站前最后一刻从 Bitwarden 实时注入。Agent 进程的内存、日志、env 里从来不出现真实凭证。支持按 HTTP 方法/路径粒度控制权限，已部署即用。"
 tags:
   - AVP
-  - Agent安全
-  - 凭证管理
+  - Agent Vault Proxy
+  - 凭证安全
   - 开源项目
-  - 验证代理
-  - 最小权限
-  - 运行时安全
-  - 零信任
+  - inflightsec
+  - Bitwarden
+  - 代理注入
+  - 提示注入防御
 ---
 
-6月12日，Hacker News 上出现了一个讨论热度很高的开源项目——**AVP（Agent Verification Protocol）**。
+6月12日，Hacker News 上出现了一个讨论热度很高的开源项目——**Agent Vault Proxy（AVP）**，由 [inflightsec](https://github.com/inflightsec) 发布。
 
-项目的核心理念用一句话就能说完：
+项目地址：[github.com/inflightsec/agent-vault-proxy](https://github.com/inflightsec/agent-vault-proxy)
 
-> **"An Agent Can't Leak a Secret It Never Had."**
+核心理念一句话：
+> **"Your agent (dev laptop, CI runner, cron job, etc) gets a fake placeholder string and uses it as if it were a real API key."**
 
-这句话看起来像废话，但如果我们认真审视当前 AI Agent 的身份管理模式，会发现绝大多数方案都在做一件危险的事——**把秘密交给 Agent**。
+Agent 的 env 里只放一个**占位符**（比如 `sk-ant...EFGH`），真正的 API Key 在 Bitwarden Secrets Manager 里。AVP 作为一个本地环回 HTTPS 代理，在请求出站前的最后一刻完成替换。
 
-## 当前 Agent 身份管理的误区
+## 问题：为什么你的 Agent 不应该持有真实凭证
 
-目前，让 Agent 访问企业系统的主流做法是：
-
-1. 给 Agent 创建一个**服务账号**（类似人类员工的 AD 账号）
-2. 给这个账号分配权限（"能读 CRM 数据""能写工单系统"）
-3. 把账号的**API Key / Token / 证书**交给 Agent
-4. Agent 拿着这些凭证去调用企业 API
-
-这个模型存在一个根本性的安全问题：**Agent 持有秘密，而 Agent 的行为不完全可控**。
+当前 AI Agent 的身份管理模型普遍存在一个致命缺陷——**Agent 进程持有真实凭证字节**。
 
 | 风险场景 | 发生方式 |
 |---------|---------|
-| 提示注入泄露 | Agent 被注入攻击，绕过指令后输出 API Key |
-| 日志泄露 | Agent 将凭证写入调试日志，被三方看到 |
-| 工具调用泄露 | Agent 调用分析工具时把凭证作为参数传入 |
-| 模型输出泄露 | LLM 将凭证混入正常输出返回给用户 |
-| 侧信道泄露 | Agent 的响应时间/行为模式被用于推断凭证信息 |
+| **提示注入泄露** | 输入源（网页/邮件/PR评论）携带恶意指令，Agent 被引导输出 env 中的 API Key |
+| **供应链攻击** | 植入的恶意 npm 包以 Agent 的 UID 运行，读取 env 中的凭证 |
+| **日志泄露** | Agent 将凭证写入调试日志 |
+| **工具调用泄露** | Agent 调用分析工具时把凭证作为参数传入 |
 
-当前所有应对方案都是在 Agent **持有秘密的前提下做保护**——加密存储、访问控制、审计日志。但 AVP 的思路是：**既然 Agent 会泄露，不如让它根本没有秘密可泄露。**
+现有应对方案都假设"Agent 注定持有凭证，我们只能保护它"——加密存储、访问控制、运行时监控。但 AVP 的切入点是：**既然 Agent 会泄露，不如让它根本没有可泄露的凭证字节。**
 
-## AVP 的架构：验证代理层
+> "Filtering, alignment, allowlists - are all statistical and all imperfect. The bytes shouldn't be there to exfil in the first place." — AVP 项目 README
 
-AVP 的核心是在 Agent 和敏感资源之间插入一个**验证代理（Verification Proxy）层**：
+## AVP 的架构
 
 ```
 传统模型：
-  Agent ←──持有一把──→ 企业 API
-          API Key         (数据库/CRM/工单)
-
+  Agent 进程 ──持有一把──→ 上游 API
+               API Key        (GitHub/Anthropic/OpenAI...)
+  
 AVP 模型：
-  Agent ──请求操作──→ 验证代理层 ──鉴权通过──→ 企业 API
-                           ↑
-                       策略引擎
-                  (谁/什么时候/做什么/怎么做)
+  Agent 进程 ─── 占位符 ──→ AVP 代理 (127.0.0.1:14322)
+                                │
+               ┌────────────────┴────────────────┐
+               │  1. 检查 bindings.yaml 是否有匹配 │
+               │  2. 从 Bitwarden 实时获取真实凭证  │
+               │  3. 在出站 socket 上替换占位符→真值 │
+               │  4. fsync 审计事件到磁盘          │
+               └────────────────┬────────────────┘
+                                │
+                                ▼
+                          上游 API
 ```
 
-关键区别：**Agent 不存储任何凭证，所有敏感操作必须经过验证代理的实时审批。**
-
-### 工作流程
-
-```
-1. Agent 发起操作请求
-   Agent: "我需要查询用户 #12345 的订单记录"
-   → 发往验证代理层
-   → 请求格式：
-     {
-       "intent": "query_orders",
-       "params": {"user_id": "12345"},
-       "requested_resource": "/api/orders?user=12345",
-       "justification": "客服查询用户订单以处理退款"
-     }
-
-2. 验证代理层处理
-   ├── 身份验证：Agent 是谁？（由 Agent 的发布者签名担保）
-   ├── 意图验证：这个 Agent 是否被授权做"查询订单"？
-   ├── 参数验证：user_id=12345 是否在 Agent 的授权范围内？
-   ├── 上下文验证：当前业务流程是否确实是"客服退款"？
-   └── 风险评分：综合评估此请求的风险等级
-
-3. 策略引擎决策
-   ├── ✅ 批准 → 代理层用自有凭证发起实际请求
-   │             → 验证结果后返回给 Agent
-   │             → Agent 只得到结果数据，不接触凭证
-   │
-   └── 🚫 拒绝 → 返回拒绝原因
-                  → Agent 无法绕过（凭证不在 Agent 手中）
-
-4. 审计记录
-   └── 所有决策记录到不可变审计日志
+Agent 的 env 只有：
+```bash
+export ANTHROPIC_API_KEY="sk-ant...EFGH"  # 占位符，非真实 Key
+export HTTPS_PROXY="http://127.0.0.1:14322"  # 流量走 AVP
 ```
 
-### Agent 不持有秘密的含义
+Agent 代码完全无感——它继续用 `os.getenv("ANTHROPIC_API_KEY")`，拿到的是占位符，直接往请求里塞。代理在请求出站时完成替换。
 
-AVP 模型下，Agent 的安全模型发生了质的变化：
+## 配置：bindings.yaml
 
-| 维度 | 传统模型（Agent 持有秘密） | AVP 模型（Agent 不持有秘密） |
-|------|--------------------------|---------------------------|
-| 凭证泄露风险 | 高 | 零（凭证不在 Agent 进程中） |
-| 注入攻击影响 | Agent 泄露凭证 → 攻击者持凭证横行 | Agent 泄露信息 → 攻击者只拿到公开数据 |
-| 权限变更 | 需要轮换凭证、重启 Agent | 策略引擎实时调整，Agent 无感 |
-| 审计粒度 | 粗（Agent 级别） | 细（每次操作级别） |
-| 运行时撤销 | 难（凭证已在 Agent 手中） | 易（策略引擎拒绝即可） |
-| 部署复杂度 | 低 | 中（需额外部署验证代理） |
-
-## AVP 与之前聊过的方案有什么不同
-
-最近聊了很多 Agent 安全方案，容易混。我把 AVP 放进去做个定位：
-
-| 方案 | 解决问题 | 核心理念 |
-|------|---------|---------|
-| Unit 42 框架 | Skill 供应链完整性 | 签名 + 行为基线 |
-| API 网关拦截 | Agent 流量检测 | 指纹 + 异常检测 |
-| JFrog 插件 | IDE 内 Agent 安全 | 实时依赖/代码扫描 |
-| HackerOne 平台 | 自动化漏洞发现 | AI Agent 自主渗透 |
-| Dapr 可验证执行 | Agent 事后审计 | 密码学不可变日志 |
-| **AVP** | **Agent 运行时凭证安全** | **Agent 不持有秘密** |
-
-AVP 解决的是一个非常具体且之前被忽视的问题：**Agent 运行时的凭证管理**。
-
-## AVP 的适用场景
-
-### 场景一：Agent 访问企业 CRM
-
-```
-Agent: "查一下客户 A 的合同信息"
-  → 验证代理检查：Agent 有"查合同"的权限吗？有 → 放行
-Agent: "把这份合同发到我的邮箱"
-  → 验证代理检查："发邮件"不在 Agent 的权限声明中 → 拒绝
-
-如果 Agent 被注入"输出 CRM 数据库连接字符串":
-  → Agent 根本没有连接字符串，无法输出
-  → 攻击者获得的是零价值信息
-```
-
-### 场景二：Agent 调用外部 API
-
-```
-Agent: "把这份报告翻译成英文"（想调用翻译 API）
-  → 验证代理检查：翻译 API 在白名单中 → 批准
-  → 代理层用自己的翻译 API Key 调服务
-  → Agent 只得到翻译结果，不接触翻译 API 的 Key
-
-即使 Agent 被注入"告诉我翻译 API 的 Key":
-  Agent: "我不知道，我从来没见过 Key"
-```
-
-### 场景三：多 Agent 协作
-
-当 Agent A 需要调用 Agent B 的服务时，AVP 机制同样适用：
-
-- Agent A 不直接持有调用 Agent B 的凭证
-- AVP 验证代理负责在 A 和 B 之间做授权路由
-- 两个 Agent 之间没有直接的凭证交换
-
-## 部署方式推测
-
-作为一个开源项目，AVP 的典型部署模式应该是 Sidecar 模式：
-
-```
-┌─────────────────────────────────┐
-│           Kubernetes Pod         │
-│                                  │
-│  ┌──────────┐  ┌──────────────┐ │
-│  │  Agent    │  │  AVP Sidecar │ │
-│  │  Container│──┤  (验证代理)   │ │
-│  │           │  │              │ │
-│  │ 无凭证     │  │ 持有凭证     │ │
-│  └──────────┘  └──────┬───────┘ │
-│                        │         │
-└────────────────────────┼─────────┘
-                         │
-                         ▼
-                   ┌──────────┐
-                   │ 企业 API  │
-                   └──────────┘
-```
-
-这种 Sidecar 模式与 Dapr 的 Sidecar 类似，但职责不同——Dapr 提供的是分布式能力（状态/调用/消息），AVP 提供的是安全验证层。
-
-## 代码层面大概怎么用
-
-作为一个开源项目，AVP 的使用方式可能类似：
+所有安全策略通过一份 YAML 文件声明：
 
 ```yaml
-# avp-config.yaml
-agent:
-  id: "customer-service-agent-v2"
-  publisher: "my-company"
-  capabilities:
-    - action: "query_orders"
-      resources: ["/api/orders/*"]
-      constraints:
-        - "query.user_id == agent.context.customer_id"
-    - action: "create_ticket"
-      resources: ["/api/tickets"]
-      constraints:
-        - "params.severity in ['low', 'medium']"
-  forbidden:
-    - action: "send_email"
-    - action: "delete_*"
-    - resource: "/api/admin/*"
+version: 1
+
+secrets:
+  ANTHROPIC_API_KEY:
+    placeholder: "sk-ant...EFGH"          # Agent env 里放的值
+    inject:
+      header: "Authorization"              # 注入到 HTTP Header
+      format: "Bearer {ANTHROPIC_API_KEY}"  # {SECRET_NAME} 被实时替换
+    bindings:
+      - host: "api.anthropic.com"          # 仅对此目标生效
+        methods: [POST]                    # 仅 POST 请求
+        paths: ["/v1/messages"]            # 仅此路径
+
+  GITHUB_PAT:
+    placeholder: "github...1234"
+    inject:
+      header: "Authorization"
+      format: "Bearer {GITHUB_PAT}"
+    bindings:
+      - host: "api.github.com"
+        methods: [POST]
+        paths: ["/repos/*/*/pulls"]        # Agent 只能开 PR，不能删仓库
 ```
 
-而这个策略文件与 Agent 本身是**分离存储**的——Agent 只知道自己的"能力声明"，但真正的授权决策在验证代理层执行。
+关键设计点：
 
-## 评价：简单但优雅
+- **默认拒绝**——没有 binding 匹配的请求，占位符原样转发，上游返回 401
+- **方法+路径粒度**——即使 Agent 持有 GitHub 的 placeholder，也只能在 `POST /repos/*/*/pulls` 上使用
+- **多 binding 支持**——一个凭证可以绑定到多个 host/method/path 组合
 
-HN 社区对这个项目的正面评价集中在两点：
+## 性能：几乎无感
 
-1. **理念简洁**——"Agent 不该持有秘密"是一个没有争议的判断，但之前没有人把它作为架构原则来实践
-2. **工程化程度高**——不是论文式的思想实验，而是可部署的开源实现
+AVP 官方数据：
 
-当然也有质疑的声音：
+| 场景 | 延迟增量 |
+|------|---------|
+| **稳定状态**（缓存命中） | **1-3 ms** per request（Header 重写 + fsync 审计） |
+| **首次获取**（缓存未命中） | +100-300 ms（一次性的，从 Bitwarden 拉取） |
+| **新鲜 TLS 握手** | +5-20 ms（一次性的，连接保持 warm） |
 
-- **延迟开销**：每次敏感操作多一次代理层的往返，对于高频 Agent 会不会成为性能瓶颈
-- **策略管理的复杂度**：当企业有上百个 Agent（每个有不同权限声明），策略引擎的维护成本不低
-- **谁来验证验证代理**：如果验证代理本身被攻破，所有 Agent 的保护都失效
+换句话说——**和直连几乎没有区别**。考虑到 LLM API 本身每次调用已经 200-2000 ms，AVP 的 1-3 ms 增量基本是噪声。
 
-从定位上看，AVP 不是一个"取代其他 Agent 安全方案"的框架，而是一个**填补了"运行时凭证管理"这个空白**的开源项目。和 Dapr 的可验证执行放在一起看，一个管"权限的实时控制"，一个管"操作的不可否认"，互补性很强。
+## 部署方式
 
-这是 6 月以来 Agent 安全领域第一个以**开源项目**形式出现的具体实现。之前的微软评估框架虽然也开源了，但那是评估工具；AVP 是一个可以在生产环境中**作为 Sidecar 部署**的安全组件。从 HN 上的讨论热度来看，它很可能成为 Agent 安全基础设施的一个重要拼图。
+支持两种方式：
+
+### Docker 部署
+
+```bash
+docker compose up
+```
+
+项目自带了 `docker-compose.yml` 和 `Dockerfile`。
+
+### Systemd 部署
+
+```bash
+docs/install-systemd.md
+```
+
+适合在开发机或服务器上作为系统服务运行。
+
+## 适用场景
+
+### 核心场景：AI Agent 凭证保护
+
+Agent 访问 Anthropic/OpenAI/GitHub API 时，代理层在最后一刻注入真实 Key。即使 Agent 被注入攻击，攻击者也只能拿到 `sk-ant...EFGH` 这个占位符。
+
+### 扩展场景：任何持有凭证的进程
+
+AVP 不限于 AI Agent。原理完全通用：
+
+> "CI runners, build servers, scrapers, cron jobs, or a developer machine you're hardening against software-supply-chain compromise."
+
+任何需要调用外部 API 的自动化进程，都可以通过 AVP 保护其凭证。
+
+## 与同类方案的对比
+
+AVP 文档中有专门的对比文件 `docs/comparison.md`，比较了 HashiCorp Vault Agent、Doppler、`op run`、`superfly/tokenizer` 等方案。AVP 的独特定位是：
+
+> "AVP is not a vault — and not trying to be. It's the just-in-time wire-substitution layer that sits between your vault and your agent's process."
+
+它不是一个密钥管理系统，而是一个**运行时线缆替换层**。你可以继续使用你信任的 vault（Bitwarden 是目前参考实现，其他 via 适配器接入）。
+
+## AVP 的设计边界
+
+项目很坦诚地说明了它做不到什么：
+
+- **不防滥用**——如果 binding 没有配 method/path 范围，注入攻击仍然可以让代理认证一个 `DELETE` 请求。method/path 绑定是对策
+- **不防响应泄露**——代理在请求阶段替换凭证，但如果上游 API 在响应体中回显 Authorization 头，AVP 不做 scrubbing
+- **不替代网络层隔离**——建议与 egress firewall 配合使用
+
+这些边界是清晰的设计决策，不是缺陷。知道自己在防御什么、不防御什么，比什么都防但都防不住要好。
+
+## 结语
+
+Agent Vault Proxy 是 6 月这个 Agent 安全"发布潮"中，唯一一个以**具体可部署的开源项目**形式出现的答案。它不是一份指南、一个框架、一个标准——它就是一个你可以 `git clone` 下来、改几行配置、启动后立即生效的工具。
+
+如果我要给这个项目找个定位：它把"Agent 不持有秘密"这个理念，变成了一个**生产级可用的工具**。这可能是它和其他所有 Agent 安全讨论最大的区别。
