@@ -55,7 +55,158 @@ AI 工具 → 执行命令 → RTK（过滤压缩）→ 精简后的输出 → L
 
 ---
 
-## 三、安装
+## 三、Token 缩减的技术原理
+
+RTK 不是简单的文本截断或通用压缩。它对**每种命令的输出结构**做针对性解析，然后组合应用四种策略。
+
+### 策略 1：智能过滤（Smart Filtering）
+
+移除对 LLM 没有信息价值的内容。每种命令的过滤规则不同：
+
+| 命令 | 过滤的内容 | 原因 |
+|------|-----------|------|
+| `git push/pull` | 枚举对象、压缩、写入的计数过程 | Agent 只需要知道成功或失败 |
+| `cargo build` | "Compiling xxx..." 的每条编译单元报告 | 失败时才需要看具体信息 |
+| `cargo test` | 全部通过的测试项 | Agent 只需要知道失败项和汇总 |
+| `npm install` | 下载解析过程 | 只需结果："added 123 packages" |
+| `docker pull` | 每一层的下载进度 | Agent 不能从中获得有用信息 |
+| `ls -la` | 文件权限、日期、所有者 | Agent 只需要文件名和结构 |
+
+这些对人类终端有反馈意义的内容（"编译到哪一步了"、"下载进度如何"），对 AI Agent 来说只是 Token 浪费。
+
+### 策略 2：分组聚合（Grouping）
+
+将大量同类型条目按类别归纳，减少重复描述结构：
+
+```
+# 原始输出 ls -la（45 行，约 800 tokens）
+drwxr-xr-x  15 user staff 480 Dec 1  src
+-rw-r--r--   1 user staff 1234 Dec 1  main.rs
+...
+
+# RTK 输出 rtk ls（12 行，约 150 tokens）
+my-project/
+  +-- src/   (8 files)
+  +-- Cargo.toml
+```
+
+类似地：`kubectl get pods` 按状态分组（Running / Pending / CrashLoopBackOff），`npm ls` 折叠为顶层依赖清单，测试错误按文件位置分组而非逐行罗列。
+
+### 策略 3：上下文截断（Truncation）
+
+不是按行数硬切，而是保留信息密度最高的部分：
+
+- **日志**：只保留 ERROR/WARN 和对应的时间戳，去掉重复的 INFO 行
+- **测试输出**：保留失败项的错误信息 + 汇总统计，去掉全通过的测试名列表
+- **编译错误**：保留每个错误的位置和具体消息，去掉解析过程的中间日志
+- **`rtk read` 的 aggressive 模式**：只输出函数签名，去掉函数体——让 Agent 知道 API 签名即可
+
+### 策略 4：去重折叠（Deduplication）
+
+日志中反复出现的相同错误或警告，折叠为一行加计数：
+
+```
+# 原始（5 行）
+error: timeout connecting to service-a
+error: timeout connecting to service-a
+error: timeout connecting to service-a
+error: timeout connecting to service-a
+error: timeout connecting to service-b
+
+# RTK（2 行）
+error: timeout connecting to service-a  (x4)
+error: timeout connecting to service-b
+```
+
+### 为什么不是通用文本压缩
+
+每种命令的输出格式不同，没有通用的压缩算法能做到"保留要保留的、删掉要删掉的"。RTK 为 100+ 命令**各自写了专门的解析器**——它知道 `cargo test` 输出的哪一行是测试名、哪一行是结果、哪一行是错误详情，能精确做到"保留失败项完整错误、去掉全部通过的测试项"。这不是 `grep -v`、`tail` 或通用 gzip 能实现的。这也是 RTK 选择 Rust 开发的原因——为每种命令写解析器和优化规则，需要高性能和可维护性，Python/Node 在大量命令并发处理时性能不够。
+
+---
+
+## 四、如何适配不同的 AI Agent
+
+RTK 支持多种 AI 编码助手，适配机制因 Agent 架构不同而分为两类：
+
+### 钩子模式（Bash Hook）
+
+适用于：**Claude Code、Copilot、Gemini CLI、Cursor、Windsurf**
+
+这些 Agent 通过 Bash 调用系统命令。RTK 在 Shell 中安装一个钩子，在命令执行前拦截并重写：
+
+```bash
+# Agent 触发执行
+git status
+
+# 钩子拦截后实际执行
+rtk git status
+```
+
+流程：
+
+```
+Agent 调用 git status
+        │
+        ▼
+Shell 钩子拦截 → 提取命令和参数 → 匹配 RTK 支持的命令列表
+        │
+        ▼
+匹配成功 → 执行 rtk git status → 返回精简输出
+匹配失败 → 执行原命令 → 原始输出
+```
+
+钩子安装后 Agent 全程无感知。通过 `rtk init -g` 完成，它在 Shell 配置（`.bashrc` / `.zshrc`）中添加脚本，自动检查命令是否需要 RTK 处理。
+
+### 插件模式（Plugin API）
+
+适用于：**Hermes、Cline、Roo Code、Kilo Code**
+
+这些 Agent 有插件系统或可扩展的工具调用机制。RTK 通过它们的插件 API 注册为命令处理工具，Agent 在执行命令时主动将输出送入 RTK 管道处理。
+
+```bash
+# Hermes
+rtk init --agent hermes
+
+# Cline / Roo Code
+rtk init --agent cline
+
+# Kilo Code
+rtk init --agent kilocode
+```
+
+### 内置工具的限制
+
+钩子只对 **Bash 工具调用**生效。如果 Agent 使用内置工具（如 Claude Code 的 `Read`、`Grep`、`Glob`），这些不走 Shell，不会被钩子拦截。需要显式使用 RTK 命令：
+
+```bash
+# 内置 Read 工具 → 不走钩子
+# 改用
+cat file.rs | head -50          # Bash 走钩子
+rtk read file.rs                # 显式调用
+rtk grep "pattern" .            # 显式调用
+rtk find "*.rs" .               # 显式调用
+```
+
+### 各 Agent 配置命令速查
+
+```bash
+rtk init -g                     # Claude Code / Copilot（默认）
+rtk init -g --gemini            # Gemini CLI
+rtk init -g --codex             # Codex (OpenAI)
+rtk init -g --agent cursor      # Cursor
+rtk init -g --agent windsurf    # Windsurf
+rtk init --agent cline          # Cline / Roo Code
+rtk init --agent hermes         # Hermes
+rtk init --agent kilocode       # Kilo Code
+rtk init --agent antigravity    # Google Antigravity
+rtk init --agent pi             # Pi
+```
+
+执行后重启 AI 工具即可生效。
+
+---
+
+## 五、安装
 
 ### macOS（推荐）
 
@@ -81,7 +232,7 @@ rtk --version
 
 ---
 
-## 四、快速启用
+## 六、快速启用
 
 RTK 需要配合 AI 工具安装钩子：
 
@@ -101,7 +252,7 @@ rtk init --agent hermes      # Hermes
 
 ---
 
-## 五、支持的命令
+## 七、支持的命令
 
 RTK 支持 100+ 命令，按场景分类：
 
@@ -118,7 +269,7 @@ RTK 支持 100+ 命令，按场景分类：
 
 ---
 
-## 六、适用场景
+## 八、适用场景
 
 | 场景 | 说明 |
 |------|------|
