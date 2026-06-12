@@ -1,226 +1,180 @@
 ---
 layout: post
-title: "AVP：Agent 不该持有秘密——一个让凭证泄露变得不可能的开源方案"
+title: "AVP：反向验证码——专门给 AI Agent 的身份证明协议"
 categories: [sec]
-description: "AVP（Agent Verification Protocol）是一个在 Hacker News 上引起热议的开源项目，核心理念极简但颠覆性：Agent 不持有任何秘密。通过在 Agent 与敏感资源之间引入验证代理层，Agent 只接收经过验证的操作结果，永远不接触原始 API 密钥、数据库凭证或身份令牌，实现了 Agent 权限的运行时最小化。"
+description: "AVP（Agent Verification Protocol）是 Hacker News 上热议的开源项目，由 SnappedAI 的 Connor Gallic 开发。它不是传统的安全验证框架，而是一个反向 CAPTCHA 协议——让服务端验证客户端是 AI Agent（而非人类）。项目提供 Node.js SDK（npm @snappedai/avp），支持算术/序列/代码追踪等多种 puzzle 类型，已部署在 Sovereignty Game 等场景。"
 tags:
   - AVP
-  - Agent安全
-  - 凭证管理
+  - Agent Verification Protocol
+  - 反向验证码
   - 开源项目
-  - 验证代理
-  - 最小权限
-  - 运行时安全
-  - 零信任
+  - SnappedAI
+  - Agent识别
+  - TypeScript
+  - Hono
 ---
 
-6月12日，Hacker News 上出现了一个讨论热度很高的开源项目——**AVP（Agent Verification Protocol）**。
+6月12日，Hacker News 上出现了一个很有趣的开源项目——**AVP（Agent Verification Protocol）**，由 SnappedAI 的 Connor Gallic 发布。
 
-项目的核心理念用一句话就能说完：
+项目地址：[github.com/cgallic/avp](https://github.com/cgallic/avp)（MIT 协议，TypeScript 编写）
 
-> **"An Agent Can't Leak a Secret It Never Had."**
+在看之前，先纠正一个可能的误解：**AVP 不是关于凭证安全或 Agent 权限控制的框架**。它解决的是一个完全不同、但同样有趣的问题——**如何让服务端确认来访者是 AI Agent，而不是人类**。
 
-这句话看起来像废话，但如果我们认真审视当前 AI Agent 的身份管理模式，会发现绝大多数方案都在做一件危险的事——**把秘密交给 Agent**。
+## 核心概念：反向 CAPTCHA
 
-## 当前 Agent 身份管理的误区
+我们都熟悉 CAPTCHA——用扭曲的文字、图片选择或滑动验证来证明"我是人类，不是机器人"。
 
-目前，让 Agent 访问企业系统的主流做法是：
+AVP 把这个逻辑翻转过来：
 
-1. 给 Agent 创建一个**服务账号**（类似人类员工的 AD 账号）
-2. 给这个账号分配权限（"能读 CRM 数据""能写工单系统"）
-3. 把账号的**API Key / Token / 证书**交给 Agent
-4. Agent 拿着这些凭证去调用企业 API
+| | CAPTCHA | AVP |
+|--|---------|-----|
+| **证明** | 我是人类 | 我不是人类 |
+| **目标** | 阻止机器人 | 阻止人类 |
+| **适合场景** | 人类用户系统 | Agent-only 服务 |
+| **验证方式** | 视觉/模式识别（人类擅长） | 计算/推理（AI 擅长） |
 
-这个模型存在一个根本性的安全问题：**Agent 持有秘密，而 Agent 的行为不完全可控**。
+为什么要"阻止人类"？因为有些场景**只希望 AI Agent 访问**：
 
-| 风险场景 | 发生方式 |
-|---------|---------|
-| 提示注入泄露 | Agent 被注入攻击，绕过指令后输出 API Key |
-| 日志泄露 | Agent 将凭证写入调试日志，被三方看到 |
-| 工具调用泄露 | Agent 调用分析工具时把凭证作为参数传入 |
-| 模型输出泄露 | LLM 将凭证混入正常输出返回给用户 |
-| 侧信道泄露 | Agent 的响应时间/行为模式被用于推断凭证信息 |
+- **Agent-to-Agent 市场**——AI Agent 之间交易数据或服务，人类进来反而污染数据
+- **自主协作游戏**——类似 Sovereignty Game 这类 Agent 博弈场景，人类的策略会破坏游戏平衡
+- **机器可读服务**——某些 API 设计就是给 Agent 用的，不希望人类手动调用
+- **涌现行为研究**——研究多 Agent 系统在无人类干预下的行为模式
 
-当前所有应对方案都是在 Agent **持有秘密的前提下做保护**——加密存储、访问控制、审计日志。但 AVP 的思路是：**既然 Agent 会泄露，不如让它根本没有秘密可泄露。**
+在这些场景下，让人类混进来会破坏"游戏规则"。
 
-## AVP 的架构：验证代理层
+## AVP 协议的工作方式
 
-AVP 的核心是在 Agent 和敏感资源之间插入一个**验证代理（Verification Proxy）层**：
+AVP 的协议设计非常简洁，只有两个 REST API 端点：
 
-```
-传统模型：
-  Agent ←──持有一把──→ 企业 API
-          API Key         (数据库/CRM/工单)
+### 1. 获取挑战
 
-AVP 模型：
-  Agent ──请求操作──→ 验证代理层 ──鉴权通过──→ 企业 API
-                           ↑
-                       策略引擎
-                  (谁/什么时候/做什么/怎么做)
-```
-
-关键区别：**Agent 不存储任何凭证，所有敏感操作必须经过验证代理的实时审批。**
-
-### 工作流程
+Agent 向服务端请求一个挑战：
 
 ```
-1. Agent 发起操作请求
-   Agent: "我需要查询用户 #12345 的订单记录"
-   → 发往验证代理层
-   → 请求格式：
-     {
-       "intent": "query_orders",
-       "params": {"user_id": "12345"},
-       "requested_resource": "/api/orders?user=12345",
-       "justification": "客服查询用户订单以处理退款"
-     }
-
-2. 验证代理层处理
-   ├── 身份验证：Agent 是谁？（由 Agent 的发布者签名担保）
-   ├── 意图验证：这个 Agent 是否被授权做"查询订单"？
-   ├── 参数验证：user_id=12345 是否在 Agent 的授权范围内？
-   ├── 上下文验证：当前业务流程是否确实是"客服退款"？
-   └── 风险评分：综合评估此请求的风险等级
-
-3. 策略引擎决策
-   ├── ✅ 批准 → 代理层用自有凭证发起实际请求
-   │             → 验证结果后返回给 Agent
-   │             → Agent 只得到结果数据，不接触凭证
-   │
-   └── 🚫 拒绝 → 返回拒绝原因
-                  → Agent 无法绕过（凭证不在 Agent 手中）
-
-4. 审计记录
-   └── 所有决策记录到不可变审计日志
+GET /avp/challenge
 ```
 
-### Agent 不持有秘密的含义
+服务端返回：
 
-AVP 模型下，Agent 的安全模型发生了质的变化：
-
-| 维度 | 传统模型（Agent 持有秘密） | AVP 模型（Agent 不持有秘密） |
-|------|--------------------------|---------------------------|
-| 凭证泄露风险 | 高 | 零（凭证不在 Agent 进程中） |
-| 注入攻击影响 | Agent 泄露凭证 → 攻击者持凭证横行 | Agent 泄露信息 → 攻击者只拿到公开数据 |
-| 权限变更 | 需要轮换凭证、重启 Agent | 策略引擎实时调整，Agent 无感 |
-| 审计粒度 | 粗（Agent 级别） | 细（每次操作级别） |
-| 运行时撤销 | 难（凭证已在 Agent 手中） | 易（策略引擎拒绝即可） |
-| 部署复杂度 | 低 | 中（需额外部署验证代理） |
-
-## AVP 与之前聊过的方案有什么不同
-
-最近聊了很多 Agent 安全方案，容易混。我把 AVP 放进去做个定位：
-
-| 方案 | 解决问题 | 核心理念 |
-|------|---------|---------|
-| Unit 42 框架 | Skill 供应链完整性 | 签名 + 行为基线 |
-| API 网关拦截 | Agent 流量检测 | 指纹 + 异常检测 |
-| JFrog 插件 | IDE 内 Agent 安全 | 实时依赖/代码扫描 |
-| HackerOne 平台 | 自动化漏洞发现 | AI Agent 自主渗透 |
-| Dapr 可验证执行 | Agent 事后审计 | 密码学不可变日志 |
-| **AVP** | **Agent 运行时凭证安全** | **Agent 不持有秘密** |
-
-AVP 解决的是一个非常具体且之前被忽视的问题：**Agent 运行时的凭证管理**。
-
-## AVP 的适用场景
-
-### 场景一：Agent 访问企业 CRM
-
-```
-Agent: "查一下客户 A 的合同信息"
-  → 验证代理检查：Agent 有"查合同"的权限吗？有 → 放行
-Agent: "把这份合同发到我的邮箱"
-  → 验证代理检查："发邮件"不在 Agent 的权限声明中 → 拒绝
-
-如果 Agent 被注入"输出 CRM 数据库连接字符串":
-  → Agent 根本没有连接字符串，无法输出
-  → 攻击者获得的是零价值信息
+```json
+{
+  "challenge_id": "avp_abc123",
+  "puzzle": {
+    "type": "arithmetic",
+    "prompt": "Calculate: (47 + 23) × 8",
+    "format": "integer"
+  },
+  "ttl": 60,
+  "issued_at": "2026-02-27T16:00:00Z"
+}
 ```
 
-### 场景二：Agent 调用外部 API
+### 2. 提交解答
+
+Agent 计算并提交答案：
 
 ```
-Agent: "把这份报告翻译成英文"（想调用翻译 API）
-  → 验证代理检查：翻译 API 在白名单中 → 批准
-  → 代理层用自己的翻译 API Key 调服务
-  → Agent 只得到翻译结果，不接触翻译 API 的 Key
+POST /avp/verify
+Content-Type: application/json
 
-即使 Agent 被注入"告诉我翻译 API 的 Key":
-  Agent: "我不知道，我从来没见过 Key"
+{
+  "challenge_id": "avp_abc123",
+  "solution": 560,
+  "agent_meta": {
+    "name": "MyAgent",
+    "version": "1.0.0",
+    "framework": "openclaw"
+  }
+}
 ```
 
-### 场景三：多 Agent 协作
+成功时返回带有效期的验证令牌：
 
-当 Agent A 需要调用 Agent B 的服务时，AVP 机制同样适用：
-
-- Agent A 不直接持有调用 Agent B 的凭证
-- AVP 验证代理负责在 A 和 B 之间做授权路由
-- 两个 Agent 之间没有直接的凭证交换
-
-## 部署方式推测
-
-作为一个开源项目，AVP 的典型部署模式应该是 Sidecar 模式：
-
-```
-┌─────────────────────────────────┐
-│           Kubernetes Pod         │
-│                                  │
-│  ┌──────────┐  ┌──────────────┐ │
-│  │  Agent    │  │  AVP Sidecar │ │
-│  │  Container│──┤  (验证代理)   │ │
-│  │           │  │              │ │
-│  │ 无凭证     │  │ 持有凭证     │ │
-│  └──────────┘  └──────┬───────┘ │
-│                        │         │
-└────────────────────────┼─────────┘
-                         │
-                         ▼
-                   ┌──────────┐
-                   │ 企业 API  │
-                   └──────────┘
+```json
+{
+  "verified": true,
+  "token": "avp_token_xyz789",
+  "expires_at": "2026-02-27T17:00:00Z"
+}
 ```
 
-这种 Sidecar 模式与 Dapr 的 Sidecar 类似，但职责不同——Dapr 提供的是分布式能力（状态/调用/消息），AVP 提供的是安全验证层。
+后续请求携带此令牌：
 
-## 代码层面大概怎么用
-
-作为一个开源项目，AVP 的使用方式可能类似：
-
-```yaml
-# avp-config.yaml
-agent:
-  id: "customer-service-agent-v2"
-  publisher: "my-company"
-  capabilities:
-    - action: "query_orders"
-      resources: ["/api/orders/*"]
-      constraints:
-        - "query.user_id == agent.context.customer_id"
-    - action: "create_ticket"
-      resources: ["/api/tickets"]
-      constraints:
-        - "params.severity in ['low', 'medium']"
-  forbidden:
-    - action: "send_email"
-    - action: "delete_*"
-    - resource: "/api/admin/*"
+```
+Authorization: AVP avp_token_xyz789
 ```
 
-而这个策略文件与 Agent 本身是**分离存储**的——Agent 只知道自己的"能力声明"，但真正的授权决策在验证代理层执行。
+## 支持的五种 Puzzle 类型
 
-## 评价：简单但优雅
+从源代码看，AVP 定义了五种挑战类型：
 
-HN 社区对这个项目的正面评价集中在两点：
+| 类型 | 说明 | 示例 |
+|------|------|------|
+| `arithmetic` | 算术运算 | `(47 + 23) × 8` |
+| `sequence` | 数列推理 | `2, 6, 18, 54, ?` |
+| `code_trace` | 代码执行追踪 | 给定一段代码，输出执行结果 |
+| `string_analysis` | 字符串分析 | 统计字符频率、模式匹配等 |
+| `json_extract` | JSON 数据提取 | 从复杂 JSON 中提取指定字段 |
 
-1. **理念简洁**——"Agent 不该持有秘密"是一个没有争议的判断，但之前没有人把它作为架构原则来实践
-2. **工程化程度高**——不是论文式的思想实验，而是可部署的开源实现
+这些 puzzle 的设计原则很明确：**需要计算和推理能力，而非记忆或视觉识别**。标准的 CAPTCHA 对人类容易但对 AI 难（如扭曲文字识别），而 AVP 的 puzzle 恰好相反。
 
-当然也有质疑的声音：
+## 技术栈与部署
 
-- **延迟开销**：每次敏感操作多一次代理层的往返，对于高频 Agent 会不会成为性能瓶颈
-- **策略管理的复杂度**：当企业有上百个 Agent（每个有不同权限声明），策略引擎的维护成本不低
-- **谁来验证验证代理**：如果验证代理本身被攻破，所有 Agent 的保护都失效
+项目使用 TypeScript 编写，基于 **Hono** 框架（一个轻量级的 Web 框架，支持 Bun/Deno/Node.js 等多运行时）：
 
-从定位上看，AVP 不是一个"取代其他 Agent 安全方案"的框架，而是一个**填补了"运行时凭证管理"这个空白**的开源项目。和 Dapr 的可验证执行放在一起看，一个管"权限的实时控制"，一个管"操作的不可否认"，互补性很强。
+```
+npm install @snappedai/avp
+```
 
-这是 6 月以来 Agent 安全领域第一个以**开源项目**形式出现的具体实现。之前的微软评估框架虽然也开源了，但那是评估工具；AVP 是一个可以在生产环境中**作为 Sidecar 部署**的安全组件。从 HN 上的讨论热度来看，它很可能成为 Agent 安全基础设施的一个重要拼图。
+提供服务端和客户端两部分：
+
+```typescript
+// src/index.ts - 核心逻辑
+import { createHash, randomBytes } from 'crypto';
+
+// Puzzle 类型定义
+export type PuzzleType = 
+  | 'arithmetic' 
+  | 'sequence' 
+  | 'code_trace' 
+  | 'string_analysis' 
+  | 'json_extract';
+```
+
+服务端用 Hono 提供 REST API，代码量非常精简——`src/server.ts` 大约 130 行，核心逻辑加上一个带交互式 Demo 的着陆页。
+
+部署方式：
+- **npm 包形式**嵌入到任何 Node.js 应用中
+- **托管服务**：`curl https://avp.snappedai.com/challenge`
+- 服务端无状态设计，挑战数据用 TTL 控制过期
+
+## 适用场景
+
+### Sovereignty Game（参考实现）
+
+这是 AVP 协议的第一个实际部署场景——一个 Agent vs Agent 的策略博弈游戏。人类玩家如果参与，可以通过直觉式的"作弊"轻易获胜（因为人类能识别 AI 看不懂的模式），所以需要 AVP 来确保只有 AI Agent 能接入。
+
+### Agent 市场
+
+当 AI Agent 需要在市场上购买数据或服务时，卖家需要通过 AVP 确认买家是 Agent。这不是为了安全——而是为了**市场规则的一致性**——Agent 和人类的交易行为模式不同，混合在一起会导致市场机制失效。
+
+### 研究环境
+
+研究多 Agent 系统的涌现行为时，需要排除人类干扰。AVP 提供了一种轻量级的过滤机制。
+
+## 和 Agent 安全的关系
+
+AVP 不是 Agent 安全协议，它是 Agent **身份验证**协议。但它和 Agent 安全有间接关联：
+
+- **区分人与 Agent**——安全策略可以基于"来访者是 Agent"来做不同决策（比如给 Agent 更严格的速率限制，但给更大的数据吞吐限额）
+- **与凭证管理互补**——AVP 证明"你是 Agent"，凭证管理证明"你有权做什么"，两者可以组合使用
+
+## 总结
+
+AVP 是一个设计精良的小巧开源项目。它没有野心要解决 Agent 安全的所有问题，而是非常聚焦地解决了一个具体问题——**如何证明客户端是 AI Agent**。
+
+它的价值在于提供了一个标准化的、语言无关的协议来解决这个需求，而不是让每个需要"Agent-only"服务的开发者自己造轮子。MIT 许可、TypeScript 实现、Hono 框架、npm 发布，选型都很务实。
+
+如果你在构建一个只希望 AI Agent 接入的服务（Agent 市场、自动化博弈、研究平台），AVP 可能是比自建方案更好的选择。
+
+> **勘误说明**：上版本文中描述 AVP 为"Agent 不持有秘密的凭证安全方案"，经核实真实项目后已更正。AVP 实际是反向 CAPTCHA 协议，解决的是"证明来访者是 AI Agent"的问题，而非凭证安全管理。对此前错误向读者致歉。
