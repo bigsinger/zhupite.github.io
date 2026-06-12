@@ -43,6 +43,7 @@
 
   /* Font */
   --animal-font: 'Nunito', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --article-font: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif;
 
   /* Spacing */
   --animal-gap-xs: 4px;
@@ -1021,7 +1022,7 @@ img { max-width: 100%; height: auto; }
 }
 
 .post-card-excerpt {
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.6;
   color: var(--post-card-muted);
   margin: 0 0 var(--animal-gap-md) 0;
@@ -1841,8 +1842,9 @@ img { max-width: 100%; height: auto; }
 
 /* Article content (markdown body) */
 .article-content.markdown-body {
-  font-family: var(--animal-font);
-  line-height: 1.8;
+  font-family: var(--article-font);
+  font-size: 16px;
+  line-height: 1.9;
   color: var(--animal-text);
 }
 .article-content.markdown-body h1,
