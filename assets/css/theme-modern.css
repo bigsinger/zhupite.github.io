@@ -2842,11 +2842,11 @@ img + em { color: var(--animal-text-muted); display: block; text-align: center; 
 
 /* ===== 26. Article Pinned / Sticky Badge ===== */
 
-/* Compact sticky card — full width, reduced height, vertical layout preserved */
+/* Compact sticky card — full width, moderately compressed, excerpt preserved */
 .post-card.sticky {
   position: relative;
   overflow: hidden;
-  padding: 10px 18px;
+  padding: 12px 18px;
 }
 
 .post-card.sticky::before {
@@ -2855,7 +2855,7 @@ img + em { color: var(--animal-text-muted); display: block; text-align: center; 
 }
 
 .post-card.sticky .post-card-body {
-  gap: 6px;
+  gap: 4px;
 }
 
 .post-card.sticky .post-card-meta {
@@ -2864,17 +2864,25 @@ img + em { color: var(--animal-text-muted); display: block; text-align: center; 
 
 .post-card.sticky .post-card-title {
   font-size: 15px;
-  margin-bottom: 0;
+  margin-bottom: 4px;
   line-height: 1.4;
 }
 
 .post-card.sticky .post-card-excerpt {
-  display: none;
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0 0 0 0;
+  min-height: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: var(--post-card-muted);
 }
 
 .post-card.sticky .post-card-footer {
   padding-top: 6px;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 .post-card.sticky .post-card-footer .post-card-date {
