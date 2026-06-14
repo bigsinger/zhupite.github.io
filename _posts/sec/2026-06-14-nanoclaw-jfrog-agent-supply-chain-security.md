@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "NanoClaw 联手 JFrog：为 AI Agent 引入供应链安全"免疫系统""
+title: "NanoClaw 联手 JFrog：为 AI Agent 引入供应链安全「免疫系统」"
 categories: [sec]
 description: "NanoClaw（OpenClaw 轻量级版本）宣布与 JFrog 集成，在 Agent 安装第三方包/技能前自动扫描依赖树中的已知漏洞和恶意代码。Agent 下载恶意包时返回 403 拦截并自动重定向到安全版本，无需人工干预。"
 tags:
