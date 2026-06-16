@@ -1,11 +1,8 @@
 ---
 layout: post
-title: "VScrollView：一个让CocosCreator虚拟列表"零心智负担"的开源组件""
-categories: [game]
-tags: 
-	- cocos-creator
-	- virtual-list
-	- vscrollview
+title: "VScrollView：一个让 Cocos Creator 虚拟列表零心智负担的开源组件"
+categories: [tool]
+tags: [cocos-creator, virtual-list, vscrollview, open-source, game-dev]
 description: "VScrollView 是一个开源 Cocos Creator 虚拟列表组件，内置 NodePool 池化、5 种滚动风格、刷新加载、多模板支持，自动 Sorting2D 分层 DC 优化。"
 ---
 
