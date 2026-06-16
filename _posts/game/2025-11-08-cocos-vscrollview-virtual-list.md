@@ -1,8 +1,11 @@
 ---
 layout: post
-title: "VScrollView：258 Star 的 Cocos Creator 虚拟列表，源码 2600 行全免费开源"
-categories: [tool]
-tags: [cocos-creator, virtual-list, vscrollview, open-source, UI-component]
+title: "VScrollView：一个让CocosCreator虚拟列表"零心智负担"的开源组件""
+categories: [game]
+tags: 
+	- cocos-creator
+	- virtual-list
+	- vscrollview
 description: "VScrollView 是一个 258 Star 的开源 Cocos Creator 虚拟列表组件。核心源码 VScrollView.ts 共 2616 行，内置 NodePool 池化、5 种滚动风格、刷新加载、多模板支持，自动 Sorting2D 分层 DC 优化。"
 ---
 

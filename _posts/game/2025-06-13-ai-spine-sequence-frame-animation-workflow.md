@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "AI 辅助制作 Spine 序列帧动画工作流：从创意到 Cocos 引擎只需 3 步"
-categories: [tool]
+categories: [game]
 tags: [cocos-creator, spine, ai-animation, game-dev, workflow]
 description: "一套实用的 AI 辅助游戏动画工作流：借助 AI 生成视频、自研工具转为序列帧、再生成 Spine 动画，全程无需打开 Spine 软件即可将创意快速导入 Cocos Creator 等游戏引擎。"
 ---
