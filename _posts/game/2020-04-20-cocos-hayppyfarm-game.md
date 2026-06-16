@@ -1,6 +1,6 @@
 ﻿---
 layout:		post
-category:	"dev"
+category:	"game"
 title:		"cocos2dx及cocos creator编写农场偷菜小游戏的总结"
 tags:		[c++]
 ---

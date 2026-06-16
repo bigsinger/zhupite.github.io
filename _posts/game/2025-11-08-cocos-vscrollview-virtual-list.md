@@ -6,10 +6,10 @@ tags:
 	- cocos-creator
 	- virtual-list
 	- vscrollview
-description: "VScrollView 是一个 258 Star 的开源 Cocos Creator 虚拟列表组件。核心源码 VScrollView.ts 共 2616 行，内置 NodePool 池化、5 种滚动风格、刷新加载、多模板支持，自动 Sorting2D 分层 DC 优化。"
+description: "VScrollView 是一个开源 Cocos Creator 虚拟列表组件，内置 NodePool 池化、5 种滚动风格、刷新加载、多模板支持，自动 Sorting2D 分层 DC 优化。"
 ---
 
-**项目地址**：[github.com/soidaken/VScrollView](https://github.com/soidaken/VScrollView) | 258 ★
+**项目地址**：[github.com/soidaken/VScrollView](https://github.com/soidaken/VScrollView)
 
 在 Cocos Creator 论坛上，用户 **soida（ssice）** 发布了一个新开的滚动列表组件 VScrollView。帖子标题的口气不小——"我宣布，这是使用起来毫无心智负担的滚动虚拟列表"。
 

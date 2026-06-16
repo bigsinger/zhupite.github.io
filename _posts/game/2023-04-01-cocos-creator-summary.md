@@ -1,6 +1,6 @@
 ﻿---
 layout:        post
-category:    "dev"
+category:    "game"
 title:        "Cocos Creator使用汇总备查"
 
 tags:        [c++]

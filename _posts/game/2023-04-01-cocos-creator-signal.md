@@ -1,6 +1,6 @@
 ﻿---
 layout:		post
-category:	"dev"
+category:	"game"
 title:		"Cocos Creator信号处理事件回调"
 
 tags:		[c++]

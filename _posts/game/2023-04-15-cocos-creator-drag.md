@@ -1,6 +1,6 @@
 ﻿---
 layout:		post
-category:	"dev"
+category:	"game"
 title:		"Cocos Creator拖动效果"
 
 tags:		[c++]

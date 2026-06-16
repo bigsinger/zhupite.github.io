@@ -1,6 +1,6 @@
 ﻿---
 layout:		post
-category:	"dev"
+category:	"game"
 title:		"cocos逆向工程汇总"
 
 tags:		[]

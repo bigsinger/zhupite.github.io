@@ -1,6 +1,6 @@
 ﻿---
 layout:		post
-category:	"dev"
+category:	"game"
 title:		"cocos2d-Lua的运行流程与场景"
 tags:		[lua,cocos,cocos2d]
 ---
