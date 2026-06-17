@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Saviynt 为 AI Agent 推出"意图感知的运行时授权"：当身份安全的战场延伸到 Agent 运行时"
+title: "Saviynt 为 AI Agent 推出「意图感知的运行时授权」：当身份安全的战场延伸到 Agent 运行时"
 categories: [sec]
 tags: [saviynt, identity-security, intent-aware, runtime-authorization, agent-access-gateway, agent-security, iam, least-privilege]
 description: "Saviynt 发布 Agent Access Gateway 的重大增强版本，引入 Intent-Aware Runtime Authorization (IARA) 能力——在 Agent 执行具体操作时基于其意图进行动态权限评估。这标志着 IAM 行业正式进入 Agent 运行时安全时代。"
