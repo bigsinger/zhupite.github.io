@@ -1,85 +1,81 @@
 ---
 layout: post
-title: "泰国朱拉隆功大学 LLBel 开放「AI 与法律」课程申请：法律教育加速拥抱 AI"
+title: "泰国朱拉隆功大学法学院 LLBel 开放「AI and the Law」课程，面向校外招生"
 categories: [reads]
-description: "泰国顶级学府朱拉隆功大学（Chulalongkorn University）的 LLBel 项目正式开放「AI 与法律」课程的申请。这不仅是泰国法律教育的一次重要更新，也反映了全球范围内法学院课程体系正在被 AI 技术深刻重塑的趋势。"
+description: "泰国朱拉隆功大学法学院 Chula LLBel 项目开放「AI and the Law」课程，面向校外人士招生。课程由朱拉隆功大学法学院主办，全英文授课，涵盖 AI 在律师事务所和政府机构中的应用、AI 伦理、AI 知识产权法、新兴技术治理与政策设计等主题。学费 30,000 泰铢，已于 2026 年 6 月 10 日开课。"
 tags:
   - AI
   - 法律教育
   - 朱拉隆功大学
   - LLBel
-  - 课程改革
-  - 法律科技
   - 泰国
+  - 法律科技
   - 教育
+  - 法学院
 ---
 
-泰国朱拉隆功大学（Chulalongkorn University）的 **LLBel** 项目近日正式开放 **"AI and the Law"（AI 与法律）** 课程的申请。这所泰国排名第一、亚洲排名前列的大学正在将人工智能深度嵌入法律教育体系。
-
----
-
-## 课程背景
-
-LLBel 是朱拉隆功大学法学院推出的项目。随着 AI 技术在各行业的渗透，法律领域面临的前所未有的新问题：
-
-- AI 生成内容的知识产权归谁？
-- 算法决策的问责机制如何设计？
-- 深度伪造的法律责任如何界定？
-- AI 辅助司法裁决的正当程序问题
-- 数据隐私与 AI 训练数据的法律边界
-
-传统的法律教育体系在这些问题上几乎是空白的。"AI 与法律"课程的目的，就是填补这个空白。
+**泰国朱拉隆功大学（Chulalongkorn University）法学院 Chula LLBel 项目**近日开放 **"AI and the Law"** 课程申请。根据朱拉隆功大学官网公告，该课程面向校外人士、法律工作者、学者、政府及企业从业人员，以及对 AI 与法律感兴趣的人士开放。
 
 ---
 
-## 为什么是现在
+## 官方核实信息
 
-全球范围内，AI 相关法律教育的需求正在快速增长：
-
-| 地区 | 动态 |
+| 项目 | 内容 |
 |------|------|
-| **欧盟** | AI Act 已生效，需要大量懂 AI 的合规律师 |
-| **美国** | 各州立法机构加速 AI 立法，AI 相关诉讼激增 |
-| **中国** | 生成式 AI 管理办法落地，法律科技投资升温 |
-| **东南亚** | 泰国、新加坡、马来西亚等国开始系统性培养 AI 法律人才 |
-
-法律行业对 AI 的需求来自两个方向：
-
-**上行方向**——AI 需要法律约束。随着 AI 系统的自主性增强，各国政府正在加速立法。这些法律的制定、解释和执行都需要既懂法律又懂 AI 的专业人士。
-
-**下行方向**——法律工作正在被 AI 改变。合同审查、法律研究、尽职调查等传统法律工作正在被 AI 工具自动化。法学院毕业生需要理解 AI 的能力和局限，才能有效使用这些工具。
+| **主办方** | 朱拉隆功大学法学院 Chula LLBel Program |
+| **课程名称** | AI and the Law |
+| **授课语言** | 英语 |
+| **上课时间** | 2026 年 6 月 10 日 - 7 月 3 日（周一至周五） |
+| **上课地点** | 朱拉隆功大学法学院 |
+| **注册费用** | 30,000 泰铢 |
+| **申请截止** | 2026 年 6 月 1 日 |
+| **当前状态** | 已截止申请并开始授课 |
 
 ---
 
-## 课程的可能内容
+## 课程内容
 
-虽然没有拿到完整的课程大纲，但结合全球类似课程的通行框架，"AI 与法律"课程很可能覆盖以下领域：
+根据官方公告，课程聚焦以下主题：
 
-- **AI 与知识产权**：AI 生成内容版权、AI 辅助发明的专利问题
-- **AI 与数据保护**：GDPR 与 AI 训练数据、数据主体权利
-- **算法治理**：算法透明度、公平性审计、偏见检测
-- **AI 责任**：自动驾驶事故责任、AI 医疗误诊责任、AI 决策损害
-- **AI 与司法**：AI 辅助判决、电子证据的采信
-- **法律科技**：AI 在法律实务中的应用、法律数据分析
+- **AI 在法律实务中的应用**——AI 在律师事务所和政府机构中的实际应用场景
+- **AI 伦理**——AI 技术带来的伦理挑战
+- **AI 相关知识产权法**——AI 生成内容的知识产权归属问题
+- **新兴技术治理与政策设计**——如何为 AI 等新兴技术设计治理框架
+- **AI 时代的重要法律问题**——技术与法律交叉的前沿议题
+
+官方描述为：*"旨在拓宽视野，加深对 AI 在法律领域多维度影响的理解，并探讨法律职业的未来转型。"*
 
 ---
 
-## 行业意义
+## 官方来源
 
-这则新闻虽然来自泰国一所大学，但它反映的是一个全球性趋势：
+- [朱拉隆功大学官网泰文公告](https://www.chula.ac.th/news/410522/)（2026-05-27）
+- [朱拉隆功大学官网英文公告](https://www.chula.ac.th/en/event-calendar/chula-llbel-opens-applications-for-the-ai-and-the-law-course/)（2026-05-27）
+- [朱拉隆功大学官方 Facebook](https://www.facebook.com/ChulalongkornUniversity/photos/1469275848570581/)
+- [朱拉隆功大学法学院官方 Facebook](https://www.facebook.com/LawChula/photos/chula-llbel-the-future-of-law-is-here-are-you-readyopen-to-the-public-ai-and-the/1403742945130349/)
 
-- **哈佛法学院**已开设 AI 与法律课程多年
-- **剑桥大学**有 AI 伦理与法律研究中心
-- **新加坡国立大学**推出了 AI 与法律交叉项目
-- **朱拉隆功大学**作为东南亚顶尖学府加入这一行列，标志着 AI 法律教育正在从欧美向全球扩散
+---
 
-对于法律行业来说，这是一个信号：**AI 不再是"未来可能影响法律行业的技术"，而是已经在改写法律教育课程表的力量。**
+## 官方公告原文节选（英文）
+
+> *"The Chula LLBel Program at the Faculty of Law, Chulalongkorn University, is inviting external applicants to enroll in the 'AI and the Law' program, a course designed to broaden perspectives and deepen understanding of the role of Artificial Intelligence (AI) in the legal world from multiple dimensions."*
+>
+> *"The course will be taught in English and is suitable for legal professionals, academics, public and private sector practitioners, and anyone interested in developing knowledge and understanding of the relationship between law and AI technology in preparation for future changes in work and regulation."*
+
+---
+
+## 说明
+
+- 该课程由朱拉隆功大学法学院自主开设，非第三方培训项目
+- 授课语言为英语，面向校外人士开放申请
+- 截至 2026 年 6 月 18 日，该课程已截止申请并开始授课
+- 学费 30,000 泰铢，约合 830 美元
 
 ---
 
 **参考资料**
 
-- 朱拉隆功大学官方网站：chula.ac.th
-- LLBel 项目信息
-- Google News 聚合：Chula LLBel Opens Applications for "AI and the Law" Course（2026 年 6 月）
-- 注：大学网站当前访问受限，部分细节基于公开信息和同类课程框架整理
+- 朱拉隆功大学官网泰文公告：https://www.chula.ac.th/news/410522/
+- 朱拉隆功大学官网英文公告：https://www.chula.ac.th/en/event-calendar/chula-llbel-opens-applications-for-the-ai-and-the-law-course/
+- 朱拉隆功大学官方 Facebook
+- 朱拉隆功大学法学院官方 Facebook
