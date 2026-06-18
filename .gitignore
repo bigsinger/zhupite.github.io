@@ -10,3 +10,5 @@ Gemfile.lock
 *.log
 *.vtt
 *_transcript.txt
+\web-articles
+ai_summary_prompt.txt

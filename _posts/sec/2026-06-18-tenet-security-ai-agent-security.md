@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "前 Cisco 团队创立 Tenet Security，600 万美元阻击恶意 AI Agent"
+title: "前 Cisco 团队创立 Tenet Security，专注于 Agent 运行时安全"
 categories: [sec]
 description: "前 Cisco AI Defense 团队的研究人员创立了 Tenet Security，获得 600 万美元种子轮融资，专注于 Agent 运行时安全——实时监控 AI Agent 行为、分析和阻断恶意操作。这是 Agent 安全市场从大公司内部孵化走向独立创业的一个标志性事件。"
 tags:
