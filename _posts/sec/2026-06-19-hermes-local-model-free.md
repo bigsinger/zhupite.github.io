@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "用本地模型免费跑 Hermes Agent——从 Ollama 到 Kanban 的完整实操"
-date: 2026-06-19 14:00:00 +0800
 categories: [sec]
 tags: [hermes-agent, ollama, local-llm, agent, automation]
 ---

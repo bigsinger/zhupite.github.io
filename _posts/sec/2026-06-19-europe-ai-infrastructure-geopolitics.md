@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "欧洲 AI 基建的启示：地缘分散化正在重塑全球算力格局"
-date: 2026-06-19 17:00:00 +0800
 categories: [sec]
 tags: [nvidia, ai-infrastructure, europe, sovereign-ai, geopolitics]
 ---

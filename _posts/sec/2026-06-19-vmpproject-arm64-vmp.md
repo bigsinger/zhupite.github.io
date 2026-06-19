@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "VmpProject：开源 ARM64 .so 虚拟化保护方案解析"
-date: 2026-06-19 10:00:00 +0800
 categories: [sec]
 tags: [vmp, arm64, reverse-engineering, android, obfuscation]
 ---

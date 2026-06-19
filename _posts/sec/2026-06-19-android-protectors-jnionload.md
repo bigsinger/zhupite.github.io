@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "android-protectors：用 300 行 C 代码理解 JNI_OnLoad 入口劫持"
-date: 2026-06-19 10:30:00 +0800
 categories: [sec]
 tags: [android, native, linker, elf, anti-tamper]
 ---

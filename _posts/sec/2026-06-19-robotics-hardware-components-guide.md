@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "机器人硬件组件入门指南：解读 Jennifer Park 的传感器、执行器与控制器综述"
-date: 2026-06-19 16:00:00 +0800
 categories: [sec]
 tags: [robotics, hardware, sensors, actuators, controllers]
 ---
