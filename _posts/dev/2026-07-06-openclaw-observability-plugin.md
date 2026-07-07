@@ -95,6 +95,82 @@ openclaw.request (根 Span)
 | 工具审批追踪 | `openclaw.tool.approval.*` 属性 |
 | Cron & 子 Agent | Cron 任务和子 Agent 编排的 Span 和 Metrics |
 
+## 深度追踪范围总览
+
+插件对以下六大类行为和数据进行全量深度追踪：
+
+### 1. Agent 全生命周期
+
+| 追踪项 | 触发 Hook / 事件 | 采集数据 |
+|--------|-----------------|---------|
+| 消息接收 | `message_received` | 用户输入内容摘要、会话 key |
+| 会话开始/结束 | `session_start` / `session_end` | session_id、时长、结束原因、请求总数 |
+| Session Span | `openclaw.session`（长生命周期） | 持续时间、请求计数、结束原因 |
+| 模型解析 | `before_model_resolve` | 目标模型名、Agent ID |
+| Prompt 构建 | `before_prompt_build` | 系统提示词摘要、上下文窗口大小 |
+| LLM 输入输出 | `llm_input` / `llm_output` | 输入 Token 数、输出 Token 数、内容摘要 |
+| Agent 结束 | `agent_end` | Turn 总耗时、Token 消耗汇总、完成状态 |
+| 重置 | `before_reset` | 会话重置时的上下文快照 |
+
+### 2. 模型调用链
+
+| 追踪项 | Span 名称 / 属性 | 采集数据 |
+|--------|----------------|---------|
+| 根请求 | `openclaw.request`（root span） | 全局 trace_id、请求入口时间 |
+| Agent Turn | `openclaw.agent.turn` | 单轮 Agent 推理的完整耗时 |
+| Dispatch 准备 | `openclaw.dispatch.prepare` | LLM 请求调度准备阶段的耗时 |
+| Dispatch 回复 | `openclaw.dispatch.reply` | LLM 回复调度阶段的耗时 |
+| 模型调用 | `chat {model}`（GenAI CLIENT span） | provider、model、request/response model、finish_reason |
+| Token 明细 | `gen_ai.client.token.usage`（histogram） | `input_tokens`、`output_tokens`、`cache_read_tokens`、`cache_creation_tokens` |
+| 成本追踪 | `openclaw.cost.usd`（metric） | 每次模型调用的估算费用 |
+| 消息发送 | `openclaw.message.sent` | 回复消息大小、长度 |
+
+### 3. 工具调用（核心深度追踪）
+
+| 追踪项 | 触发 Hook / Span | 采集数据 |
+|--------|-----------------|---------|
+| 工具执行 Span | `execute_tool {name}`（每工具独立） | tool_name、tool_source（core/mcp/plugin）、tool_call_id |
+| 工具开始 | `before_tool_call` | 工具名、参数预览、input_preview |
+| 工具完成 | `after_tool_call` | 结果摘要、result_size（字符数）、output_preview |
+| 工具错误 | `after_tool_call`（error 路径） | `error.type`、error_message、stack_trace |
+| 工具耗时 | `openclaw.tool.duration_ms` | 精确的 before→after 时间差 |
+| 审批请求 | `tool_approval_resolution` | `openclaw.tool.approval.requested/resolution/duration_ms` |
+| 结果持久化 | `tool_result_persist` | 存储路径、大小、格式 |
+| 工具频率 | `openclaw.tool.call.count`（metric） | 按 tool_name 聚合的调用次数 |
+| 错误率 | `openclaw.tool.error.total`（metric） | 按 tool_name 聚合的错误计数 |
+
+### 4. 安全检测数据
+
+| 检测项 | 检测方式 | 标记位置 |
+|--------|---------|---------|
+| 提示注入（Prompt Injection） | Span 属性标记 | 在工具调用 Span 上附加 `security.prompt_injection: true` |
+| 危险命令（Dangerous Command） | Shell 工具参数检测 | 在 `execute_tool Bash` span 上标记 |
+| 敏感文件访问（Sensitive File Access） | 文件路径模式匹配 | 在 `execute_tool Read/Write` span 上标记 |
+| 风险等级 | 综合评分 | `risk_level` span attribute |
+
+### 5. Metrics 指标
+
+| 指标名 | 类型 | 维度 |
+|--------|------|------|
+| `openclaw.tokens` | Histogram | type（input/output/cache）、model、agent |
+| `openclaw.cost.usd` | Histogram | model、provider |
+| `openclaw.run.duration_ms` | Histogram | agent_id、session_id |
+| `openclaw.context.tokens` | Gauge | agent_id |
+| `openclaw.webhook.*` | Counter/Histogram | status、webhook_name |
+| `openclaw.message.*` | Counter | direction（in/out）、agent_id |
+| `openclaw.queue.*` | Gauge | queue_name |
+| `openclaw.session.*` | Counter/Histogram | state（active/ended/error） |
+
+### 6. Cron 与子 Agent 调度
+
+| 追踪项 | 触发 Hook | 采集数据 |
+|--------|----------|---------|
+| Cron 变更 | `cron_change` | cron_id、schedule 表达式、变更类型 |
+| Cron 执行 | `cron_execution` | 执行开始/结束时间、状态、耗时 |
+| Cron 错误 | `cron_error` | error_type、error_message |
+| 子 Agent 生成 | `subagent_spawn` | 子 agent_id、parent_agent_id、任务描述 |
+| 子 Agent 结束 | `subagent_ended` | 子 agent 耗时、结果状态、Token 消耗 |
+
 ### 注册的 Hooks（18 个）
 
 | 钩子类型 | 具体钩子 |
