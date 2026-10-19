@@ -1,7 +1,7 @@
 ---
 layout:		post
 category:	"dev"
-title:		"阿里云域名绑定"
+title:		"阿里云域名绑定免费SSL个人证书使用"
 tags:		[web,blog]
 ---
 
@@ -35,7 +35,11 @@ tags:		[web,blog]
 
 可以购买[个人测试证书（免费版）](https://yundun.console.aliyun.com/?p=cas_buy&microFrontVersionName=newInstance#/testSSL/cn-hangzhou)，只不过这个免费证书每一次的证书**有效期是90天**，到期之后要重新申请，相当于每三个月要来处理一次这个SSL证书问题，比较麻烦。
 
-购买的免费版测试证书额度是20次，购买成功后就可以到[SSL证书管理 - 数字证书管理服务管理控制台](https://yundun.console.aliyun.com/?p=cas#/certExtend/buy/cn-hangzhou)选择「**个人测试证书（原免费证书）**」- **创建证书**。
+购买的免费版测试证书额度是**每年20次**，对于个人来说足够了，购买成功后就可以到[SSL证书管理 - 数字证书管理服务管理控制台](https://yundun.console.aliyun.com/?p=cas#/certExtend/buy/cn-hangzhou)选择「**个人测试证书（原免费证书）**」- **创建证书**。
+
+刷新页面的时候在按钮【创建证书】上方会有tip提示剩余的免费证书额度， 直接点【创建证书】，在弹出的侧边栏中可以看到个人测试证书（免费版）的额度，例如：17 / 20
+![](../../images/web/ssl.png)
+
 
 在`创建证书`页面里填写域名名称、勾选「快捷签发」，点击「确定」。之后就会在证书列表里出现一个待审批进度的证书，稍等几分钟就会通过了，然后点击后面的操作「**部署**」，在弹出的页面中勾选出现域名列表，然后点击「**预览并提交**」即可自动免费部署。
 
